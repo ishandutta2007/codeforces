@@ -1,0 +1,86 @@
+//teja349
+#include <bits/stdc++.h>
+#include <vector>
+#include <set>
+#include <map>
+#include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <climits>
+#include <utility>
+#include <algorithm>
+#include <cmath>
+#include <queue>
+#include <stack>
+#include <iomanip> 
+//setbase - cout << setbase (16); cout << 100 << endl; Prints 64
+//setfill -   cout << setfill ('x') << setw (5); cout << 77 << endl; prints xxx77
+//setprecision - cout << setprecision (4) << f << endl; Prints x.xxxx
+
+
+using namespace std;
+#define f(i,a,b) for(i=a;i<b;i++)
+#define rep(i,n) f(i,0,n)
+#define fd(i,a,b) for(i=a;i>=b;i--)
+#define pb push_back
+#define mp make_pair
+#define vi vector< int >
+#define vl vector< ll >
+#define ss second
+#define ff first
+#define ll long long
+#define pii pair< int,int >
+#define pll pair< ll,ll >
+#define sz(a) a.size()
+#define inf (1000*1000*1000+5)
+#define all(a) a.begin(),a.end()
+#define tri pair<int,pii>
+#define vii vector<pii>
+#define vll vector<pll>
+#define viii vector<tri>
+#define mod (1000*1000*1000+7)
+#define pqueue priority_queue< int >
+#define pdqueue priority_queue< int,vi ,greater< int > >
+
+//std::ios::sync_with_stdio(false); 
+int a[123459]={0};
+vi vec;  
+int compute(int n){
+	while(a[n]!=0){
+		vec.pb(a[n]);
+		n/=a[n];
+	}
+	if(n!=1){
+		vec.pb(n);
+	}
+}
+
+int main(){
+    std::ios::sync_with_stdio(false);
+    int i,j;
+    for(i=2;i*i<=123456;i++){
+    	if(a[i])
+    		continue;
+    	for(j=i*i;j<=123456;j+=i){
+    		if(!a[j]){
+    			a[j]=i;
+    		}
+    	}
+    }
+    int n,k;
+    cin>>n>>k;
+    compute(n);
+    if(vec.size()<k){
+    	cout<<-1<<endl;
+    	return 0;
+    }
+    rep(i,k-1){
+    	cout<<vec[i]<<" ";
+    }
+    int ans=1;
+    f(i,k-1,vec.size()){
+    	ans*=vec[i];
+    }
+    cout<<ans<<endl;
+
+}
