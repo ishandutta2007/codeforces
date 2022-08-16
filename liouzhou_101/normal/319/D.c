@@ -1,0 +1,1 @@
+n,k,x,y,z,p;char s[50010];main(){n=strlen(gets(s));for(k=1;k<=n/2;++k)for(x=p=0,y=z=k;x+k-p<=n;++x,++y,++z)if(s[x]==(s[y]=s[z])){if(++p==k)x-=k,y-=k,n-=k,p=0;}else p=0;s[n]=0;puts(s);}
