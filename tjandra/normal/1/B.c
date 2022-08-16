@@ -1,0 +1,1 @@
+char S[99];main(i,c,x,y){for(c=0,gets(S);~scanf("%[A-Z]%u%c",S,&i,&c);){if(c>32){scanf("%u\n",&c);for(x=y=0;26*y+1<=c;x++)y=1+y*26;c-=y;for(S[x]=0;x--;c/=26)S[x]=c%26+'A';printf("%s%u\n",S,i);}else{for(x=c=y=0;S[c];x=x*26+S[c++]-'A')y=1+y*26;printf("R%uC%u\n",i,x+y);}}}
