@@ -1,0 +1,34 @@
+int main()
+{
+    int n,m;
+    
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    array(string) S = Stdio.stdin->gets()/" ";
+    array(int) state = allocate(n+1);
+    for(int i=0;i<n;i++) if(S[i]=="on") state[i+1] = 1;
+    
+    sscanf(Stdio.stdin->gets(),"%d",m);
+    array(string) ar = Stdio.stdin->gets()/" ";
+
+    int flip = 0;
+    for(int i=0;i<m;i++)
+    {
+        int x;
+        sscanf(ar[i],"%d",x);
+        if(x==1) flip = 1 - flip;
+        else
+        {
+            for(int k = x; k <= n; k+=x) state[k] = 1 - state[k];
+        }
+    }
+
+    for(int i=1;i<=n;i++)
+    {
+        if( (state[i]==1&&flip==0) || (state[i]==0&&flip==1) )
+            write("on ");
+        else
+            write("off ");
+    }
+
+        return 0;
+ }

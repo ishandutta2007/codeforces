@@ -1,0 +1,39 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A        PIC 9(10)   VALUE ZEROES.
+       01 B1        PIC 9(1)   VALUE ZEROES.
+       01 B2        PIC 9(2)   VALUE ZEROES.
+       01 B3        PIC 9(3)   VALUE ZEROES.
+       01 B4        PIC 9(4)   VALUE ZEROES.
+       01 B5        PIC 9(5)   VALUE ZEROES.
+       01 B6        PIC 9(6)   VALUE ZEROES.
+       01 STR      PIC X(10).
+       
+       PROCEDURE DIVISION.
+       ACCEPT STR
+       MOVE STR TO A
+       ACCEPT STR
+       MOVE STR TO B6
+       ADD A TO B6
+       IF B6 > 99999
+          DISPLAY B6
+       ELSE IF B6 > 9999
+          MOVE B6 TO B5
+          DISPLAY B5
+       ELSE IF B6 > 999
+          MOVE B6 TO B4
+          DISPLAY B4
+       ELSE IF B6 > 99
+          MOVE B6 TO B3
+          DISPLAY B3
+       ELSE IF B6 > 9
+          MOVE B6 TO B2
+          DISPLAY B2
+       ELSE
+          MOVE B6 TO B1
+          DISPLAY B1
+       END-IF
+       STOP RUN.

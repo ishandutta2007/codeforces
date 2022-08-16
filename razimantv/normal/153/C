@@ -1,0 +1,2105 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 STR      PIC X(20).
+       01 STR2      PIC X(20).
+       01 C      PIC X(1).
+       01 L        PIC 9(3) VALUE ZEROS.
+       01 I        PIC 9(3) VALUE ZEROS.
+       01 A        PIC 9(3) VALUE ZEROS.
+       
+       PROCEDURE DIVISION.
+       ACCEPT STR
+       ACCEPT STR2
+       MOVE STR2 TO A
+       INSPECT FUNCTION REVERSE(STR) TALLYING L FOR LEADING SPACES
+       COMPUTE L = LENGTH OF STR - L 
+       MOVE 1 TO I
+       PERFORM UNTIL I > L
+       MOVE STR(I:1) TO C
+              IF A = 0
+              IF C = 'A'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 1
+              IF C = 'A'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 2
+              IF C = 'A'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 3
+              IF C = 'A'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 4
+              IF C = 'A'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 5
+              IF C = 'A'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 6
+              IF C = 'A'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 7
+              IF C = 'A'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 8
+              IF C = 'A'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 9
+              IF C = 'A'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 10
+              IF C = 'A'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 11
+              IF C = 'A'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 12
+              IF C = 'A'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 13
+              IF C = 'A'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 14
+              IF C = 'A'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 15
+              IF C = 'A'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 16
+              IF C = 'A'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 17
+              IF C = 'A'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 18
+              IF C = 'A'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 19
+              IF C = 'A'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 20
+              IF C = 'A'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 21
+              IF C = 'A'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 22
+              IF C = 'A'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 23
+              IF C = 'A'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 24
+              IF C = 'A'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              END-IF
+              IF A = 25
+              IF C = 'A'
+              DISPLAY 'Z' WITH NO ADVANCING
+              END-IF
+              IF C = 'B'
+              DISPLAY 'A' WITH NO ADVANCING
+              END-IF
+              IF C = 'C'
+              DISPLAY 'B' WITH NO ADVANCING
+              END-IF
+              IF C = 'D'
+              DISPLAY 'C' WITH NO ADVANCING
+              END-IF
+              IF C = 'E'
+              DISPLAY 'D' WITH NO ADVANCING
+              END-IF
+              IF C = 'F'
+              DISPLAY 'E' WITH NO ADVANCING
+              END-IF
+              IF C = 'G'
+              DISPLAY 'F' WITH NO ADVANCING
+              END-IF
+              IF C = 'H'
+              DISPLAY 'G' WITH NO ADVANCING
+              END-IF
+              IF C = 'I'
+              DISPLAY 'H' WITH NO ADVANCING
+              END-IF
+              IF C = 'J'
+              DISPLAY 'I' WITH NO ADVANCING
+              END-IF
+              IF C = 'K'
+              DISPLAY 'J' WITH NO ADVANCING
+              END-IF
+              IF C = 'L'
+              DISPLAY 'K' WITH NO ADVANCING
+              END-IF
+              IF C = 'M'
+              DISPLAY 'L' WITH NO ADVANCING
+              END-IF
+              IF C = 'N'
+              DISPLAY 'M' WITH NO ADVANCING
+              END-IF
+              IF C = 'O'
+              DISPLAY 'N' WITH NO ADVANCING
+              END-IF
+              IF C = 'P'
+              DISPLAY 'O' WITH NO ADVANCING
+              END-IF
+              IF C = 'Q'
+              DISPLAY 'P' WITH NO ADVANCING
+              END-IF
+              IF C = 'R'
+              DISPLAY 'Q' WITH NO ADVANCING
+              END-IF
+              IF C = 'S'
+              DISPLAY 'R' WITH NO ADVANCING
+              END-IF
+              IF C = 'T'
+              DISPLAY 'S' WITH NO ADVANCING
+              END-IF
+              IF C = 'U'
+              DISPLAY 'T' WITH NO ADVANCING
+              END-IF
+              IF C = 'V'
+              DISPLAY 'U' WITH NO ADVANCING
+              END-IF
+              IF C = 'W'
+              DISPLAY 'V' WITH NO ADVANCING
+              END-IF
+              IF C = 'X'
+              DISPLAY 'W' WITH NO ADVANCING
+              END-IF
+              IF C = 'Y'
+              DISPLAY 'X' WITH NO ADVANCING
+              END-IF
+              IF C = 'Z'
+              DISPLAY 'Y' WITH NO ADVANCING
+              END-IF
+              END-IF
+              ADD 1 TO I
+       END-PERFORM
+       DISPLAY ''
+       STOP RUN.

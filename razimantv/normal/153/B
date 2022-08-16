@@ -1,0 +1,107 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A        PIC 9(10)   VALUE ZEROES.
+       01 B        PIC 9(36)   VALUE ZEROES.
+       01 B2        PIC 9(36)   VALUE ZEROES.
+       01 A1       PIC 9(1)       VALUE ZEROES.
+       01 A2       PIC 9(2)       VALUE ZEROES.
+       01 A3       PIC 9(3)       VALUE ZEROES.
+       01 A4       PIC 9(4)       VALUE ZEROES.
+       01 A5       PIC 9(5)       VALUE ZEROES.
+       01 A6       PIC 9(6)       VALUE ZEROES.
+       01 A7       PIC 9(7)       VALUE ZEROES.
+       01 A8       PIC 9(8)       VALUE ZEROES.
+       01 A9       PIC 9(9)       VALUE ZEROES.
+       01 A10       PIC 9(10)       VALUE ZEROES.
+       01 A11       PIC 9(11)       VALUE ZEROES.
+       01 A12       PIC 9(12)       VALUE ZEROES.
+       01 A13       PIC 9(13)       VALUE ZEROES.
+       01 A14       PIC 9(14)       VALUE ZEROES.
+       01 A15       PIC 9(15)       VALUE ZEROES.
+       01 A16       PIC 9(16)       VALUE ZEROES.
+       01 A17       PIC 9(17)       VALUE ZEROES.
+       01 A18       PIC 9(18)       VALUE ZEROES.
+       01 A19       PIC 9(19)       VALUE ZEROES.
+       01 A20       PIC 9(20)       VALUE ZEROES.
+       01 C        PIC 9(2)   VALUE ZEROES.
+       01 C2        PIC 9(1)   VALUE ZEROES.
+       01 STR      PIC X(10).
+       
+       PROCEDURE DIVISION.
+       ACCEPT STR
+       MOVE STR TO A
+       MOVE 1 TO B
+       MOVE 0 TO B2
+       MOVE 10 TO C
+       PERFORM UNTIL A < 1
+              DIVIDE A BY 2 GIVING A REMAINDER C2
+              IF C2 > 0
+                     ADD B TO B2 GIVING B2
+              END-IF
+              MULTIPLY B BY C GIVING B
+       END-PERFORM
+       IF B2 > 9999999999999999999
+              MOVE B2 TO A20
+              DISPLAY A20
+       ELSE IF B2 > 999999999999999999
+              MOVE B2 TO A19
+              DISPLAY A19
+       ELSE IF B2 > 99999999999999999
+              MOVE B2 TO A18
+              DISPLAY A18
+       ELSE IF B2 > 9999999999999999
+              MOVE B2 TO A17
+              DISPLAY A17
+       ELSE IF B2 > 999999999999999
+              MOVE B2 TO A16
+              DISPLAY A16
+       ELSE IF B2 > 99999999999999
+              MOVE B2 TO A15
+              DISPLAY A15
+       ELSE IF B2 > 9999999999999
+              MOVE B2 TO A14
+              DISPLAY A14
+       ELSE IF B2 > 999999999999
+              MOVE B2 TO A13
+              DISPLAY A13
+       ELSE IF B2 > 99999999999
+              MOVE B2 TO A12
+              DISPLAY A12
+       ELSE IF B2 > 9999999999
+              MOVE B2 TO A11
+              DISPLAY A11
+       ELSE IF B2 > 999999999
+              MOVE B2 TO A10
+              DISPLAY A10
+       ELSE IF B2 > 99999999
+              MOVE B2 TO A9
+              DISPLAY A9
+       ELSE IF B2 > 9999999
+              MOVE B2 TO A8
+              DISPLAY A8
+       ELSE IF B2 > 999999
+              MOVE B2 TO A7
+              DISPLAY A7
+       ELSE IF B2 > 99999
+              MOVE B2 TO A6
+              DISPLAY A6
+       ELSE IF B2 > 9999
+              MOVE B2 TO A5
+              DISPLAY A5
+       ELSE IF B2 > 999
+              MOVE B2 TO A4
+              DISPLAY A4
+       ELSE IF B2 > 99
+              MOVE B2 TO A3
+              DISPLAY A3
+       ELSE IF B2 > 9
+              MOVE B2 TO A2
+              DISPLAY A2
+       ELSE IF B2 > 0
+              MOVE B2 TO A1
+              DISPLAY A1
+       END-IF   
+       STOP RUN.
