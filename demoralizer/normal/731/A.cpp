@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define int long long
+#define M 1000000007
+#define MM 998244353
+#define fr first
+#define sc second
+#define vc vector
+#define pii pair<int,int>
+#define msi map<string,int>
+#define mii map<int,int>
+#define psi pair<string,int>
+#define pis pair<int,string>
+#define piii pair<int,pii>
+int gcd(int a,int b){
+    if(b==0)return a;
+    return gcd(b,a%b);
+}
+
+int ans[100005];
+void solve(){
+    char c='a';
+    int z=0;
+    string s;
+    cin>>s;
+    for(char a:s){
+        int x=abs(a-c),y=26-x;
+        z+=min(x,y);
+        c=a;
+    }
+    cout<<z;
+}
+signed main(){
+    ios_base::sync_with_stdio(false);
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
+    int t=1;
+    //cin>>t;
+    while(t--) solve();
+    return 0;
+}
