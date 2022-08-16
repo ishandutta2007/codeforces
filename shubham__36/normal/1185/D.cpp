@@ -1,0 +1,161 @@
+#include <bits/stdc++.h>
+#include <complex>
+#include <queue>
+#include <set>
+#include <list>
+#include <chrono>
+#include <random>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <stack>
+#include <iomanip>
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int,int> p32;
+typedef pair<ll,ll> p64;
+typedef pair<double,double> pdd;
+typedef vector<ll> v64;
+typedef vector<int> v32;
+typedef vector<vector<int> > vv32;
+typedef vector<vector<ll> > vv64;
+typedef vector<vector<p64> > vvp64;
+typedef vector<p64> vp64;
+typedef vector<p32> vp32;
+ll MOD = 1e9+7;
+#define forn(i,e) for(ll i = 0; i < e; i++)
+#define forsn(i,s,e) for(ll i = s; i < e; i++)
+#define rforn(i,s) for(ll i = s; i >= 0; i--)
+#define rforsn(i,s,e) for(ll i = s; i >= e; i--)
+#define ln "\n"
+#define dbg(x) cout<<#x<<" = "<<x<<ln
+#define mp make_pair
+#define pb push_back
+#define fi first
+#define se second
+#define INF LLONG_MAX/2e5
+
+ll mpow(ll a, ll b){
+	if(b==0) return 1;
+	ll t1 = mpow(a,b/2);
+	t1 *= t1;
+	t1 %= MOD;
+	if(b%2) t1 *= a;
+	t1 %= MOD;
+	return t1;
+}
+
+void solve(){
+	ll n;
+	cin >> n;
+	ll a[n],b[n];
+	forn(i,n) {
+		cin >> a[i];
+		b[i]=a[i];
+	}
+	sort(a,a+n);
+	if(n==2) {
+		cout << 1 << ln;
+		return;
+	}
+	ll d = a[2]-a[0];
+	ll cur = a[2];
+	bool bo=1;
+	forsn(i,3,n){
+		if(a[i]!=cur+d){
+			bo=0;
+			break;
+		}
+		cur += d;
+	} 
+	if(bo){
+		ll ans = a[1];
+		forn(i,n){
+			if(b[i]==ans) {
+				cout << i+1 << ln;
+				break;
+			}
+		}
+		return;
+	}
+	d = a[2]-a[1];
+	cur = a[2];
+	bo=1;
+	forsn(i,3,n){
+		if(a[i]!=cur+d){
+			bo=0;
+			break;
+		}
+		cur += d;
+	} 
+	if(bo){
+		ll ans = a[0];
+		forn(i,n){
+			if(b[i]==ans) {
+				cout << i+1 << ln;
+				break;
+			}
+		}
+		return;
+	}
+	d = a[1]-a[0];
+	ll d1=-1,d2=-1,in=-1;
+	forsn(i,2,n){
+		if(d1!=-1 && d2==-1){
+			d2 = a[i]-a[i-1];
+		}
+		else if(a[i]-a[i-1]!=d){
+			if(d1==-1) {
+				d1=a[i]-a[i-1];
+				in = i;
+			}
+			else{
+				cout << -1 << ln;
+				return;
+			}
+		}
+	}
+	if(d1+d2!=d && d2!=-1){
+		cout << -1 << ln;
+		return;
+	}
+	if(in!=-1) {
+		ll ans = a[in];
+		forn(i,n){
+			if(b[i]==ans) {
+				cout << i+1 << ln;
+				break;
+			}
+		}
+	}
+	else {
+		ll ans = a[n-1];
+		forn(i,n){
+			if(b[i]==ans) {
+				cout << i+1 << ln;
+				break;
+			}
+		}
+	}
+}
+
+
+int main()
+{
+	ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    ll t=1;
+    // cin >> t;
+    forn(i,t) {
+    	solve();
+    }
+    return 0;
+}
