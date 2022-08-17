@@ -1,0 +1,16 @@
+set line [gets stdin]
+scan $line "%s" s
+set len [string length $s]
+set a [string first + $s]
+if { $a > -1 } {
+	set a1 [string range $s 0 $a]
+	set a1 [expr $a1 - 0]
+	set a2 [string range $s [expr $a + 1] [expr $len - 1]]
+	puts [expr $a1 + $a2]
+} else {
+	set a [string first - $s]
+	set a1 [string range $s 0 $a]
+	set a1 [expr $a1 - 0]
+	set a2 [string range $s [expr $a + 1] [expr $len - 1]]
+	puts [expr $a1 - $a2]
+}

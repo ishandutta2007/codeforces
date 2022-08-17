@@ -1,0 +1,54 @@
+set line [gets stdin]
+scan $line "%s" str
+
+set len [string length $str]
+
+if { [string range $str [expr $len - 3] [expr $len - 1] ] == "/.." || [string range $str [expr $len - 2] [expr $len - 1] ] == "/." } {
+	append str "/"
+	incr len
+}
+
+
+set str2 ""
+
+for {set i 0} {$i < $len - 1} {incr i} {
+	if { [string range $str $i [expr $i + 2]] == "/./" }	{
+		incr i
+	} else {
+		append str2 [string range $str $i $i]
+	}
+}
+
+append str2 [string range $str [expr $len - 1] [expr $len - 1] ]
+
+set str $str2
+
+set good 0
+
+
+while { $good == 0 } {
+	set pos [string first "/../" $str]
+	if { $pos == -1 } {
+		set good 1
+	} else {
+		set q [string last "/" [string range $str 0 [expr $pos - 1] ] ]
+		if { $q == -1 } {
+			puts "-1"
+			exit 0
+		}
+		set len [string length $str]
+		set len [expr $len - 1]
+		set pos [expr $pos + 4]
+		set str2 ""
+		append str2 [string range $str 0 $q]
+		append str2 [string range $str $pos $len]
+		set str $str2
+	}
+}
+
+set len [string length $str]
+
+if { [string range $str [expr $len - 1] [expr $len - 1] ] == "/" && [string length $str] != 1 } {
+	set str [string range $str 0 [expr $len - 2]]
+}
+puts $str
