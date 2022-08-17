@@ -1,0 +1,28 @@
+      program main
+
+c*********************************************************************72
+c
+cc MAIN is the main program for HELLO.
+c
+c  Discussion:
+c
+c    HELLO is a simple FORTRAN77 program that says "Hello, world!".
+c
+c  Licensing:
+c
+c    This code is distributed under the GNU LGPL license. 
+c
+c  Modified:
+c
+c    03 March 2006
+c
+c  Author:
+c
+c    John Burkardt
+c
+      implicit none
+
+
+      write ( *, '(a)' ) 'FORTRAN 77'
+      stop
+      end
