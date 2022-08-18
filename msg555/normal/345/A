@@ -1,0 +1,26 @@
+with Ada.Text_IO; use Ada.Text_IO;
+WITH Ada.Float_Text_IO;
+WITH Ada.Integer_Text_IO;  
+
+procedure A is
+    s: String(1 .. 100);
+    len: Natural;
+    p: Float;
+    result: Float;
+
+begin
+    get_line(s, len);
+    Ada.Float_Text_IO.get(Item => p);
+
+    result := 0.0;
+    for i in 1 .. len loop
+        if s(i) = '1' then
+          result := result + 1.0;
+        elsif s(i) = '?' then
+          result := result + p;
+        end if;
+    end loop;
+    result := result / Float(len);
+
+    Ada.Float_Text_IO.put(Item => result, Fore => 1, Aft => 5, Exp => 0);
+end A;
