@@ -1,0 +1,1 @@
+print('CIHGANTO RWEI THHI MH!E R !'[len(set(input()))%2::2].strip())

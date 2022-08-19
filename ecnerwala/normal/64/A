@@ -1,0 +1,7 @@
+set out 1
+set i [gets stdin]
+while {$i ne 0} {
+set out [expr {$i * $out}]
+set i [expr {$i - 1}]
+}
+puts $out

@@ -1,0 +1,39 @@
+iin [1]
+co loop
+{
+  lt [3] [2] 1 
+  if [3] ac
+  div [2] [2] 2
+  mul [4] [4] 2
+}
+set [2] [1]
+set [4] 1
+ca loop
+set [7] [4]
+
+co loop2
+{
+  lt [3] [2] 1 
+  if [3] ac
+  div [4] [4] 2
+  mod [5] [2] 2
+  mul [5] [5] [4]
+  add [0] [5] [0]
+  div [2] [2] 2
+}
+set [2] [1]
+ca loop2
+
+co loop3
+{
+  div [7] [7] 2
+  lt [3] [7] 1 
+  if [3] ac
+  mod [5] [2] 2
+  iout [5]
+  div [2] [2] 2
+}
+set [2] [0]
+ca loop3
+
+ac

@@ -1,0 +1,51 @@
+iin [0]
+
+co loop {
+  lt [2] [1] 1
+  if [2] ac
+  dec [1]
+  iin [[3]]
+  inc [3]
+}
+
+set [1] [0]
+set [3] 10
+set [11] 1000
+ca loop
+
+co loop2 {
+  lt [2] [1] 1
+  if [2] ac
+  dec [1]
+  gt [6] [[4]] [[5]]
+  if [6] xor [[4]] [[4]] [[5]]
+  if [6] xor [[5]] [[4]] [[5]]
+  if [6] xor [[4]] [[4]] [[5]]
+  inc [4]
+  inc [5]
+  gt [6] [4] [7]
+  if [6] set [4] 10
+  if [6] set [5] 11
+}
+
+set [4] 10
+set [5] 11
+set [7] 8
+add [7] [0] [7]
+set [1] 10000
+ca loop2
+
+co loop3 {
+  lt [2] [1] 1
+  if [2] ac
+  dec [1]
+  iout [[3]]
+  cout 32
+  inc [3]
+}
+
+set [1] [0]
+set [3] 10
+ca loop3
+
+ac

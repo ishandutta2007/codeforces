@@ -1,0 +1,1 @@
+i=input;print(sum({'T':4,'C':6,'O':8,'D':12,'I':20}[i()[0]]for _ in range(int(i()))))
