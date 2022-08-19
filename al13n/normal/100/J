@@ -1,0 +1,65 @@
+int main(){
+
+int n=(int)Stdio.stdin->gets();
+
+array(int) as=allocate(n),bs=allocate(n);
+array(int) done=allocate(n);
+
+for(int i=0;i<n;++i){
+    string line=Stdio.stdin->gets()-"\r";
+    array(string) ar=(line-")"-"("-"["-"]")/",";
+    int a=(int)ar[0];
+    int b=(int)ar[1];
+    a*=2;
+    b*=2;
+    if(line[0]=='(')
+        ++a;
+    if(line[-1]==')')
+        --b;
+    as[i]=a;
+    bs[i]=b;
+    //write(""+a+" "+b+"\n");
+}
+for(int q=0;q<n+1;++q){
+    for(int i=0;i<n-1;++i)
+        if(as[i]>as[i+1]||(as[i]==as[i+1]&&bs[i]>bs[i+1])){
+            int t=as[i];
+            as[i]=as[i+1];
+            as[i+1]=t;
+            
+            t=bs[i];
+            bs[i]=bs[i+1];
+            bs[i+1]=t;
+        }
+}
+int res=0;
+while(1==1){
+    int anything=0;
+    for(int i=0;i<n;){
+        if(done[i]==0){
+            //write("undone "+i+"\n");
+            anything=1;
+            int j=i;
+            while(j<n&&!done[j]&&as[j]<=bs[i]){
+                done[j]=1;
+                ++j;
+            }
+            //write("ran to "+j+"\n");
+            --j;
+            i=j;
+            while(i<n&&as[i]<=bs[j])
+                ++i;
+            //write("ran to "+i+"\n");
+        }else
+            ++i;
+    }
+    if(anything)
+        ++res;
+    else
+        break;
+}
+
+write(""+res);
+
+return 0;
+}
