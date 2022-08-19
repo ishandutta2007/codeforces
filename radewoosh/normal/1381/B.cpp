@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int t,n,m,i,a[4007];bitset<4007>b;int main(){for(cin>>t;t--;cout<<((b|=b<<(n-m))[n/2]?"YES\n":"NO\n"))for(cin>>n,b.reset(),n<<=b[i=m=0]=1;i<n;cin>>a[i],a[m]<a[i]?(b|=b<<(i-m),m=i):0,i++);}

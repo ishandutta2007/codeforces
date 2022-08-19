@@ -1,0 +1,1 @@
+n=len(input());print(f'3 R {n-1} L {n} L 2')

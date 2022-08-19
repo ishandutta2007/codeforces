@@ -1,0 +1,23 @@
+co loop
+{
+  set [2] 0
+  cin [2]
+  lt [3] [2] 33
+  if [3] ac
+  eq [4] [2] 72
+  add [5] [5] [4]
+  eq [4] [2] 81
+  add [5] [5] [4]
+  eq [4] [2] 57
+  add [5] [5] [4]
+}
+
+ca loop
+gt [6] [5] 0
+if [6] cout 89
+if [6] cout 69
+if [6] cout 83
+lt [6] [5] 1
+if [6] cout 78
+if [6] cout 79
+ac

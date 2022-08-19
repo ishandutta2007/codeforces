@@ -1,0 +1,18 @@
+iin [0]
+iin [1]
+
+co loop
+{
+  mod [3] [2] [0]
+  mod [4] [2] [1]
+  add [5] [3] [4]
+  lt [6] [5] 1
+  if [6] ac
+  inc [2]
+}
+
+inc [2]
+ca loop
+
+iout [2]
+ac

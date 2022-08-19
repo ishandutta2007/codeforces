@@ -1,0 +1,1 @@
+for l in[*open(0)][2::2]:c=__import__('collections').Counter(map(int,l.split()));print(max(sum(min(c[x],c[s-x])for x in range(51))for s in range(101))//2)

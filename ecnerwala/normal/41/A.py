@@ -1,0 +1,1 @@
+print('YNEOS'[input()!=input()[::-1]::2])

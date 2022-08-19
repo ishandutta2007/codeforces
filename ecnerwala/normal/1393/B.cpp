@@ -1,0 +1,2 @@
+#include<iostream>
+using namespace std;int n,a,x,y,c[1<<17];char d='+';void f(int&p=c[cin>>a,a]){x-=p/4,y-=p/2,p+=44-d,x+=p/4,y+=p/2;}main(){for(cin>>n;n--;)f();for(cin>>n;n--;cout<<(x&&y>3?"YES ":"NO "))cin>>d,f();}
