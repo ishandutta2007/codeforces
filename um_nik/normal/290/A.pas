@@ -1,0 +1,46 @@
+var n:integer;
+begin
+readln(n);
+case n of
+  1: writeln('Washington');
+  2: writeln('Adams');
+  3: writeln('Jefferson');
+  4: writeln('Madison');
+  5: writeln('Monroe');
+  6: writeln('Adams');
+  7: writeln('Jackson');
+  8: writeln('Van Buren');
+  9: writeln('Harrison');
+  10: writeln('Tyler');
+  11: writeln('Polk');
+  12: writeln('Taylor');
+  13: writeln('Fillmore');
+  14: writeln('Pierce');
+  15: writeln('Buchanan');
+  16: writeln('Lincoln');
+  17: writeln('Johnson');
+  18: writeln('Grant');
+  19: writeln('Hayes');
+  20: writeln('Garfield');
+  21: writeln('Arthur');
+  22: writeln('Cleveland');
+  23: writeln('Harrison');
+  24: writeln('Cleveland');
+  25: writeln('McKinley');
+  26: writeln('Roosevelt');
+  27: writeln('Taft');
+  28: writeln('Wilson');
+  29: writeln('Harding');
+  30: writeln('Coolidge');
+  31: writeln('Hoover');
+  32: writeln('Roosevelt');
+  33: writeln('Truman');
+  34: writeln('Eisenhower');
+  35: writeln('Kennedy');
+  36: writeln('Johnson');
+  37: writeln('Nixon');
+  38: writeln('Ford');
+  39: writeln('Carter');
+  40: writeln('Reagan');
+end;
+end.
