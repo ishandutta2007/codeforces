@@ -1,0 +1,27 @@
+void main() 
+{
+    string text = lower_case(Stdio.stdin->gets());
+    int a=0, b=0,c=0,lastSpace = 0;
+
+    for (int i=0; i<sizeof(text); i++) 
+    {
+        if (text[i]<'0'||text[i]>'9') 
+        {++lastSpace;}
+        else
+{
+if(lastSpace==1)
+{
+b=b*10+text[i]-48;
+}
+if(lastSpace==0)
+{
+a=a*10+text[i]-48;
+}
+if(lastSpace==2)
+{
+c=c*10+text[i]-48;
+}
+}
+    }
+    if(b>=4||a==c) write("YES"); else write("NO");
+}
