@@ -1,0 +1,21 @@
+co lol{
+eq [2] [0] 0
+eq [3] [1] 0
+if [2] ac
+if [3] ac
+gt [2] [0] [1]
+eq [3] [2] 0
+if [2] mod [0] [0] [1]
+if [3] mod [1] [1] [0]
+}
+
+iin [0]
+iin [1]
+set [4] [0]
+set [5] [1]
+ca lol
+mul [4] [4] [5]
+add [0] [0] [1]
+div [4] [4] [0]
+iout [4]
+ac

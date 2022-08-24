@@ -1,0 +1,42 @@
+int main() {
+    string in;
+    
+    int n, m;
+    array(string) as, bs;
+    
+    in = Stdio.stdin.gets();
+    sscanf(in, "%d", n);
+    as = allocate(n);
+    for (int i = 0; i < n; ++i) {
+        as[i] = Stdio.stdin.gets();
+    }
+    in = Stdio.stdin.gets();
+    sscanf(in, "%d", m);
+    bs = allocate(m);
+    for (int i = 0; i < m; ++i) {
+        bs[i] = Stdio.stdin.gets();
+    }
+    
+    mapping(string:int) year = ([]);
+    for (int i = 0; i < n; ++i) {
+        array(string) a = as[i] / " ";
+        int aa;
+        sscanf(a[1], "%d", aa);
+        if (!zero_type(year[a[0]]) || year[a[0]] < aa) {
+            year[a[0]] = aa;
+        }
+    }
+    
+    string ans = "";
+    int sho = 1001001001;
+    for (int i = 0; i < m; ++i) {
+        int tmp = year[bs[i]];
+        if (sho > tmp || sho == tmp && ans < bs[i]) {
+            sho = tmp;
+            ans = bs[i];
+        }
+    }
+    write(ans + "\n");
+    
+    return 0;
+}

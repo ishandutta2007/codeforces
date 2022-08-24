@@ -1,0 +1,34 @@
+int main() {
+    string in0 = Stdio.stdin.gets();
+    string in1 = Stdio.stdin.gets();
+    int n;
+    sscanf(in0, "%d", n);
+    array(int) as = allocate(n);
+    in1 += ",";
+    int pos = 0;
+    int i, j;
+    for (i = 0; i < n; ++i) {
+        int s = 1;
+        int x = 0;
+        for (; in1[pos] != ','; ++pos) {
+            if (in1[pos] == '-') {
+                s = -1;
+            } else {
+                x = x * 10 + (in1[pos] - '0');
+            }
+        }
+        ++pos;
+        as[i] = s * x;
+    }
+    int ans = 1;
+    for (i = 0; i < n; ++i) for (j = 0; j < n; ++j) {
+        if (as[i] == 0 && as[j] == 0) ans = 0;
+        if (as[i] == 0) continue;
+        if (as[j] == 0) continue;
+        if (as[i] % as[j] == 0) continue;
+        if (as[j] % as[i] == 0) continue;
+        ans = 0;
+    }
+    write(ans ? "FRIENDS\n" : "NOT FRIENDS\n");
+    return 0;
+}

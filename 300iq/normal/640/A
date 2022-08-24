@@ -1,0 +1,12 @@
+print =: 1!:2&2
+read =: 1!:1[3
+in =. (read-.LF)-.CR
+
+pin =. >: ".in
+in =. ".in
+in =. in*pin
+din =. 2
+in =. din%~in
+in =. >: in
+print in
+exit ''
