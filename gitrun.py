@@ -1,7 +1,12 @@
 import subprocess
 
+
+def compact(lst):
+    return list(filter(None, lst))
+
+
 for i in range(1, 100):
-    print("[{}]Initiating git status1".format(i))
+    print("[{}]Initializing git status1".format(i))
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
     outlist1 = out.decode("utf-8").split("\n")
@@ -10,6 +15,9 @@ for i in range(1, 100):
     for idx, elem in enumerate(outlist1):
         if "Untracked files" in elem:
             outlist1 = outlist1[idx + 2 :]
+            outlist1 = compact(outlist1)
+            outlist1 = outlist1[:-1]
+            outlist1 = outlist1[:30]
             trimmed = True
             break
     if trimmed == False:
@@ -19,7 +27,7 @@ for i in range(1, 100):
     print("[{}]Done git status1".format(i))
     print("=====")
 
-    print("[{}]Initiating git add".format(i))
+    print("[{}]Initializing git add".format(i))
     for idx, elem in enumerate(outlist1):
         try:
             elem = elem.strip()
@@ -33,7 +41,7 @@ for i in range(1, 100):
     print("[{}]Done git add".format(i))
     print("=====")
 
-    print("[{}]Initiating git status2".format(i))
+    print("[{}]Initializing git status2".format(i))
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
     outlist = out.decode("utf-8").split("\n")
@@ -64,7 +72,7 @@ for i in range(1, 100):
     print("[{}]Done git status2".format(i))
     print("=====")
 
-    print("[{}]Initiating git commit".format(i))
+    print("[{}]Initializing git commit".format(i))
     p = subprocess.Popen(["git", "commit", "-m", max_key], stdout=subprocess.PIPE)
     out, err = p.communicate()
     print(out.decode("utf-8").split("\n"))
