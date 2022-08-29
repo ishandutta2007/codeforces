@@ -1,12 +1,12 @@
 import subprocess
 
 for i in range(1, 100):
-    print("[{}]Initiating git status1".format(i))
-    p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
-    out, err = p.communicate()
-    print(out.decode("utf-8").split("\n"))
-    print("[{}]Done git status1".format(i))
-    print("=====")
+    # print("[{}]Initiating git status1".format(i))
+    # p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
+    # out, err = p.communicate()
+    # print(out.decode("utf-8").split("\n"))
+    # print("[{}]Done git status1".format(i))
+    # print("=====")
 
     print("[{}]Initiating git add".format(i))
     p = subprocess.Popen(["git", "add", "."], stdout=subprocess.PIPE)
