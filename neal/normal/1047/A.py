@@ -1,0 +1,1 @@
+N=input();X=N%3>1;print 1,X+1,N-2-X

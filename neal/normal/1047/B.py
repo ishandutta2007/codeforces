@@ -1,0 +1,1 @@
+print max(sum(map(int,raw_input().split()))for _ in[0]*input())
