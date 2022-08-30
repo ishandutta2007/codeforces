@@ -78,3 +78,11 @@ for i in range(1, 100):
     print(out.decode("utf-8").split("\n"))
     print("[{}]Done git commit".format(i))
     print("=====")
+
+    if i % 7 == 0 or i % 13 == 0:
+        print("[{}]Initializing git push".format(i))
+        p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        print(out.decode("utf-8").split("\n"))
+        print("[{}]Done git commit".format(i))
+        print("=====")
