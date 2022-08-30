@@ -84,5 +84,5 @@ for i in range(1, 100):
         p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
         out, err = p.communicate()
         print(out.decode("utf-8").split("\n"))
-        print("[{}]Done git commit".format(i))
+        print("[{}]Done git push".format(i))
         print("=====")
