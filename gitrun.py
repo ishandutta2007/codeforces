@@ -1,11 +1,13 @@
 import subprocess
+import time
+import random
 
 
 def compact(lst):
     return list(filter(None, lst))
 
 
-for i in range(1, 100):
+for i in range(1, 900):
     print("[{}]Initializing git status1".format(i))
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
@@ -64,6 +66,11 @@ for i in range(1, 100):
             pass
 
     print(finalfolderlist)
+    if len(finalfolderlist) == 0:
+        r = random.randint(100, 200)
+        print("waiting {} secs....".format(r))
+        time.sleep(r)
+        continue
     freq = {x: finalfolderlist.count(x) for x in finalfolderlist}
     print(freq)
     max_key = max(freq, key=freq.get)
@@ -79,7 +86,7 @@ for i in range(1, 100):
     print("[{}]Done git commit".format(i))
     print("=====")
 
-    if i % 7 == 0 or i % 13 == 0:
+    if i % 5 == 0 or i % 7 == 0:
         print("[{}]Initializing git push".format(i))
         p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
         out, err = p.communicate()
