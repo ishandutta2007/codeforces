@@ -78,7 +78,6 @@ for i in range(1, 900):
     print(max_key)
     try:
         elem = max_key.strip()
-        # if ".cpp" in elem or ".c" in elem or ".py" in elem:
         print("[{}][{}]Running git add {}/downloaded".format(i, idx, elem))
         p = subprocess.Popen(
             ["git", "add", elem + "/downloaded"], stdout=subprocess.PIPE
