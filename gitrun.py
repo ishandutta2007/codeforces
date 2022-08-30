@@ -76,6 +76,23 @@ for i in range(1, 900):
     max_key = max(freq, key=freq.get)
 
     print(max_key)
+    try:
+        elem = max_key.strip()
+        # if ".cpp" in elem or ".c" in elem or ".py" in elem:
+        print("[{}][{}]Running git add {}/downloaded".format(i, idx, elem))
+        p = subprocess.Popen(
+            ["git", "add", elem + "/downloaded"], stdout=subprocess.PIPE
+        )
+        out, err = p.communicate()
+        print(out.decode("utf-8").split("\n"))
+
+        print("[{}][{}]Running git add {}/errors".format(i, idx, elem))
+        p = subprocess.Popen(["git", "add", elem + "/errors"], stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        print(out.decode("utf-8").split("\n"))
+    except:
+        pass
+
     print("[{}]Done git status2".format(i))
     print("=====")
 
