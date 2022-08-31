@@ -1,0 +1,1 @@
+N,A=open(0);A=sorted(map(int,A.split()));print(min(sum(abs(v-c**i)for i,v in enumerate(A))for c in range(2+9**6//len(A)**2)))

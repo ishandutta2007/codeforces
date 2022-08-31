@@ -1,0 +1,20 @@
+co hey{
+cout 42
+sub [2] [2] 1
+eq [7] [2] 0
+if [7] ac
+}
+
+co lol{
+add [1] [1] 1
+set [2] [1]
+ca hey
+eq [7] [0] [1]
+if [7] ac
+cout 10
+}
+
+iin [0]
+set [1] 0
+ca lol
+ac

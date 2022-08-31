@@ -1,0 +1,17 @@
+int main()
+{
+         string s = Stdio.stdin->gets();
+         int n, k, n1;
+         sscanf(s, "%d %d %d", n, k, n1);
+  
+         if(n==n1 || (n>n1 && k>=4) )
+         {
+                 write("YES");
+         }
+         else
+         {
+                 write("NO");
+         }      
+       
+        return 0;
+ }

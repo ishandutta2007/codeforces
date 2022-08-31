@@ -1,0 +1,1 @@
+main(n,m,a){scanf("%u%u%u",&n,&m,&a);printf("%I64u",(n/a+(n%a>0))*1ll*(m/a+(m%a>0)));exit(0);}

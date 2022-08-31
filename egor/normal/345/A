@@ -1,0 +1,33 @@
+with Ada.Text_IO, Ada.Float_Text_IO;
+use Ada.Text_IO, Ada.Float_Text_IO;
+
+procedure Program is
+
+  C           : CHARACTER;
+  Probability : FLOAT;
+  Answer      : FLOAT;
+  Length      : FLOAT;
+  Unknown     : FLOAT;
+
+begin
+
+  Length := 0.0;
+  Answer := 0.0;
+  Unknown := 0.0;
+  
+  loop
+    Get(C);
+    Length := Length + 1.0;
+    if C = '1' then Answer := Answer + 1.0; end if;
+    if C = '?' then Unknown := Unknown + 1.0; end if;
+    exit when End_Of_Line(Standard_Input);
+  end loop;
+
+  Get(Probability);
+
+  Answer := Answer + Unknown * Probability;
+  Answer := Answer / Length;
+  
+  Put(Answer, 0, 5, 0);
+
+end Program;

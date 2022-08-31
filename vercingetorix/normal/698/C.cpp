@@ -1,0 +1,96 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <ctype.h>
+#include <deque>
+#include <queue>
+#include <cstring>
+#include <set>
+#include <list>
+#include <map>
+#include <random>
+#include <unordered_map>
+#include <stdio.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef std::vector<int> vi;
+typedef std::vector<bool> vb;
+typedef std::vector<string> vs;
+typedef std::vector<double> vd;
+typedef std::vector<long long> vll;
+typedef std::vector<std::vector<int> > vvi;
+typedef vector<vvi> vvvi;
+typedef vector<vll> vvll;
+typedef std::vector<std::pair<int, int> > vpi;
+typedef vector<vpi> vvpi;
+typedef std::pair<int, int> pi;
+typedef std::pair<ll, ll> pll;
+typedef std::vector<pll> vpll;
+
+const long long mod = 1000000007;
+
+#define all(c) (c).begin(),(c).end()
+#define sz(c) (int)(c).size()
+#define forn(i, a, b) for(int i = a; i < b; i++)
+
+#define pb push_back
+#define mp make_pair
+
+vector<int> pick;
+vector<long double> p;
+vector<long double> ans;
+vi used;
+int n;
+void select(int left, int pos) {
+    if(left == 0) {
+        long double rp=1;
+        for(auto u : pick) rp*=p[u];
+        for(auto u : pick) ans[u] += rp;
+        return;
+    }
+    if(n - pos < left) return;
+    forn(i,pos,n - left+1) {
+        pick.pb(i);
+        select(left-1, i+1);
+        pick.pop_back();
+    }
+}
+
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "rt", stdin);
+    freopen("output.txt", "wt", stdout);
+#endif
+    int k;
+    cin>>n>>k;
+    p.resize(n);
+    ans.resize(n);
+    forn(i,0,n) ans[i] = 0.;
+    forn(i,0,n) cin>>p[i];
+//    select(k, 0);
+
+    vi d2(1,1);
+    forn(i,0,20) d2.pb(d2.back()*2);
+    vd pmask(1<<n, 0);
+    pmask[0] =  1;
+    forn(mask, 0, (1<<n) - 1) {
+        double ptot = 0;
+        int cnt = 0;
+        forn(i,0,n) {
+            if((mask & d2[i]) == 0) ptot += p[i];
+            else cnt++;
+        }
+        if (cnt >= k) continue;
+        forn(i,0,n) if((mask & d2[i]) == 0) {
+            if(p[i] < 0.0001) continue;
+            double pm = pmask[mask] * p[i] / ptot;
+            ans[i] += pm;
+            pmask[mask|d2[i]] += pm;
+        }
+    }
+    forn(i,0,n) printf("%.10lf ", (double)ans[i]);
+}

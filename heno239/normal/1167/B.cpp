@@ -1,0 +1,90 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+#include<functional>
+#include<iomanip>
+#include<queue>
+#include<ciso646>
+#include<random>
+#include<map>
+#include<set>
+#include<complex>
+#include<bitset>
+#include<stack>
+#include<unordered_map>
+#include<utility>
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ul;
+typedef unsigned int ui;
+const ll mod = 1000000007;
+typedef long double ld;
+typedef complex<ld> Point;
+const ll INF = mod * mod;
+typedef pair<int, int> P;
+#define stop char nyaa;cin>>nyaa;
+#define rep(i,n) for(int i=0;i<n;i++)
+#define per(i,n) for(int i=n-1;i>=0;i--)
+#define Rep(i,sta,n) for(int i=sta;i<n;i++)
+#define rep1(i,n) for(int i=1;i<=n;i++)
+#define per1(i,n) for(int i=n;i>=1;i--)
+#define Rep1(i,sta,n) for(int i=sta;i<=n;i++)
+const ld eps = 1e-6;
+const ld pi = acos(-1.0);
+typedef pair<ld, ld> LDP;
+typedef pair<ll, ll> LP;
+
+vector<int> v = { 4,8,15,16,23,42 };
+map<int, vector<int>> mp;
+void solve() {
+	rep(i, 6) {
+		Rep(j, i + 1, 6) {
+			mp[v[i] * v[j]] = { v[i],v[j] };
+		}
+	}
+	int z[4];
+	cout << "? 1 2" << endl;
+	cin >> z[0];
+	cout << "? 2 3" << endl;
+	cin >> z[1];
+	cout << "? 4 5" << endl;
+	cin >> z[2];
+	cout << "? 5 6" << endl;
+	cin >> z[3];
+	vector<int> u[4];
+	map<int, int> cnt;
+	rep(i, 4) {
+		u[i] = mp[z[i]];
+		rep(j, 2)cnt[u[i][j]]++;
+	}
+	cout << "!";
+	rep(j, 2) {
+		int memo;
+		rep(i, 2) {
+			if (cnt[u[2*j][i]] == 1) {
+				cout << " " << u[2*j][i];
+			}
+			else {
+				memo = u[2 * j][i];
+			}
+		}
+		cout <<" "<< memo;
+		rep(i, 2) {
+			if (cnt[u[2 * j+1][i]] == 1) {
+				cout << " " << u[2 * j+1][i];
+			}
+		}
+	}
+	cout << endl;
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	solve();
+	//stop
+	return 0;
+}

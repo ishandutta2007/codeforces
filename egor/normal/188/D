@@ -1,0 +1,21 @@
+iin [0]
+add [0] [0] 1
+set [1] 1
+co Y {
+cout 42
+add [2] [2] 1
+eq [3] [2] [1]
+if [3]
+ac
+}
+co X {
+set [2] 0
+ca Y
+cout 10
+add [1] [1] 1
+eq [3] [1] [0]
+if [3]
+ac
+}
+ca X
+ac

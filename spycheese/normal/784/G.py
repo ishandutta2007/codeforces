@@ -1,0 +1,1 @@
+print(*["[-]" + "+"*ord(c) + "." for c in str(eval(input()))], sep="")

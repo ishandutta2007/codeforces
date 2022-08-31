@@ -1,0 +1,40 @@
+int main() {
+    string in0 = Stdio.stdin.gets();
+    string in1 = Stdio.stdin.gets();
+    string in2 = Stdio.stdin.gets();
+    string in3 = Stdio.stdin.gets();
+    
+    int n, k;
+    array(string) as;
+    array(string) bs;
+    
+    sscanf(in0, "%d", n);
+    as = in1 / " ";
+    sscanf(in2, "%d", k);
+    bs = in3 / " ";
+    
+    int i, j, jj;
+    array(int) cnt = allocate(n + 1);
+    array(int) cs = allocate(n);
+    
+    for (i = 0; i < k; ++i) {
+        int b;
+        sscanf(bs[i], "%d", b);
+        cnt[b] ^= 1;
+    }
+    for (i = 0; i < n; ++i) {
+        cs[i] = (as[i] == "on") ? 1 : 0;
+    }
+    for (j = 1; j <= n; ++j) if (cnt[j]) {
+        for (jj = j; jj <= n; jj += j) {
+            cs[jj - 1] ^= 1;
+        }
+    }
+    for (i = 0; i < n; ++i) {
+        if (i) write(" ");
+        write(cs[i] ? "on" : "off");
+    }
+    write("\n");
+    
+    return 0;
+}

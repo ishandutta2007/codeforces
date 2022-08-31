@@ -1,0 +1,3 @@
+00000 program program
+00001 print *, "FORTRAN 77"
+00002 end program program

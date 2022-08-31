@@ -1,0 +1,40 @@
+int main()
+{
+    int n,m;
+    mapping year = ([]);
+
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    for(int i=0;i<n;i++)
+    {
+        array(string) A = Stdio.stdin->gets()/" ";
+        string oldName = A[0];
+        int y; sscanf(A[1],"%d",y);
+
+        if(zero_type(year[oldName])) year[oldName]=y;
+        else
+        {
+            int x = year[oldName];
+            if(y>x) year[oldName] = y;
+        }
+    }
+
+    string best = "";
+    int bestOld = 111111;
+
+    sscanf(Stdio.stdin->gets(),"%d",m);
+    for(int i=0;i<m;i++)
+    {
+        string name = Stdio.stdin->gets();
+        int old = 0;
+        if(!zero_type(year[name])) old = year[name];
+        if(best==""){ best = name; bestOld = old; }
+        else
+        {
+            if(old<bestOld || (old==bestOld && best<name) )
+            { bestOld=old;  best=name; }
+        }
+    }
+    
+    write(""+best+"\n");
+        return 0;
+ }

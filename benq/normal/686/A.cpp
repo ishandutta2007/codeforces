@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define ll long long
+#define mp make_pair
+#define pb push_back
+#define pii pair <int, int>
+#define vi vector<int>
+
+#define FOR(i, a, b) for (int i=a; i<b; i++)
+#define F0R(i, a) for (int i=0; i<a; i++)
+ 
+#define f first
+#define s second
+#define lb lower_bound
+#define ub upper_bound
+ 
+const int MOD = 1000000007;
+double PI = 4*atan(1);
+
+int main() {
+	ios_base::sync_with_stdio(0);
+	ll n,x;
+	cin >> n >> x;
+	int dis = 0;
+	F0R(i,n) {
+		char a; int b;
+		cin >> a >> b;
+		if (a == '+') {
+			x += b;
+		} else {
+			if (x >= b) x -= b;
+			else dis++;
+		}
+	}
+	cout << x << " " << dis;
+	return 0;
+}

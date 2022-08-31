@@ -1,0 +1,58 @@
+int main() {
+    string in;
+    
+    int tc;
+    in = Stdio.stdin.gets();
+    sscanf(in, "%d", tc);
+    
+    for (; tc--; ) {
+        int n = 10;
+        array(string) a = allocate(n);
+        
+        for (int x = 0; x < n; ++x) {
+            a[x] = Stdio.stdin.gets();
+        }
+        Stdio.stdin.gets();
+        
+        int ans = 1;
+        array(int) cnt = allocate(5);
+        
+        for (int x = 0; x < n; ++x) for (int y = 0; y < n; ++y) if (a[x][y] == '*') {
+            if (!ans) continue;
+            
+            int dx, dy;
+            for (dx = 0; x + dx < n && a[x + dx][y] == '*'; ++dx);
+            for (dy = 0; y + dy < n && a[x][y + dy] == '*'; ++dy);
+            if (dx > 1 && dy > 1) {
+                ans = 0;
+            }
+            if (dx > 4 || dy > 4) {
+                ans = 0;
+            }
+            
+            for (int xx = x; xx < x + dx; ++xx) for (int yy = y; yy < y + dy; ++yy) {
+                a[xx][yy] = '@';
+            }
+            for (int xxx = 0; xxx < n; ++xxx) for (int yyy = 0; yyy < n; ++yyy) if (a[xxx][yyy] == '*') {
+                for (int xx = x; xx < x + dx; ++xx) for (int yy = y; yy < y + dy; ++yy) {
+                    if (xx - 1 <= xxx && xxx <= xx + 1 && yy - 1 <= yyy && yyy <= yy + 1) {
+                        ans = 0;
+                    }
+                }
+            }
+            
+            if (!ans) continue;
+            ++cnt[max(dx, dy)];
+            
+        }
+        
+        if (cnt[1] != 4) ans = 0;
+        if (cnt[2] != 3) ans = 0;
+        if (cnt[3] != 2) ans = 0;
+        if (cnt[4] != 1) ans = 0;
+        write(ans ? "YES\n" : "NO\n");
+        
+    }
+    
+    return 0;
+}

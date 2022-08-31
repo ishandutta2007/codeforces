@@ -1,0 +1,6 @@
+set n [gets stdin]
+set k 1
+for {set i 1} {$i <= $n} {incr i} {
+    set k [expr $k * $i]
+}
+puts $k

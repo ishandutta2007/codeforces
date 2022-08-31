@@ -1,0 +1,190 @@
+//CF 204D
+#include<iostream>
+#include<cstdio>
+#include<fstream>
+#include<algorithm>
+#include<vector>
+#include<map>
+#include<set>
+#include<queue>
+#include<cmath>
+#include<cstring>
+#include<cstdlib>
+using namespace std;
+typedef long long LL;
+const int mod = 1000*1000*1000+7;
+int a[1111111],dp[1111111][2],s[2],dp2[1111111],f[1111111],ss,bb,ans;
+void print()
+{
+	cout<<endl;
+	int i,j;
+	for(j=0;j<=1;j=j+1){
+		for(i=0;i<=5;i=i+1)
+			cout<<dp[i][j]<<' ';
+		cout<<endl;
+	}
+}
+int main()
+{
+	int n,k,i,j,B,W;
+	cin>>n>>k;
+	char c;
+	cin>>c;
+	j=0;
+	for(i=1;i<=n;i=i+1)
+	{
+		if(i!=1)
+			scanf("%c",&c);
+		if(c=='B'){
+			a[i]=0;
+			B++;
+			W=0;
+		}
+		if(c=='X'){
+			a[i]=2;
+			W=0;
+			B=0;
+		}
+		if(c=='W'){
+			W++;
+			B=0;
+			a[i]=1;
+		}
+		if(B>=k)
+			j=1;
+		if(j==1&&W>=k)
+			j=2;
+	}
+	if(2*k>n){
+		cout<<0<<endl;
+		return 0;
+	}
+	/*if(j==2)
+	{
+		j=1;
+		for(i=1;i<=n;i=i+1)
+			if(a[i]==2)
+				j=(j*2)%mod;
+		cout<<j<<endl;
+		return 0;
+	}*/
+	if(k==1)
+	{
+		i=1;
+		while(i<=n&&a[i]!=0){
+			i++;
+		}
+		j=n;
+		while(j>=1&&a[j]!=1){
+			j--;
+		}
+		if(i<j)
+			ans=0;
+		else
+			ans=i-j;
+		j=1;
+		for(i=1;i<=n;i=i+1)
+			if(a[i]==2)
+				j=(j*2)%mod;
+		ans=j-ans;
+		if(ans<0)
+			ans=(ans+mod)%mod;
+		cout<<ans<<endl;
+		return 0;
+	}
+	W=0;
+	B=0;
+	if(a[1]!=1){
+		dp[1][0]=1;
+		s[0]=1;
+		B=1;
+	}
+	if(a[1]!=0){
+		dp[1][1]=1;
+		s[1]=1;
+		W=1;
+	}
+	for(i=2;i<=n;i=i+1)
+	{
+		if(a[i]==1){
+			W++;
+			B=0;
+			dp[W][1]=s[0];
+			s[1]=(s[1]+dp[W][1])%mod;
+			s[0]=0;
+		}
+		if(a[i]==0){
+			B++;
+			W=0;
+			dp[B][0]=s[1];
+			s[0]=(s[0]+dp[B][0])%mod;
+			s[1]=0;
+			if(B>=k){
+				f[i]=(f[i]+dp[B-k+1][0])%mod;
+				s[0]=(s[0]-dp[B-k+1][0]+mod)%mod;
+				dp[B-k+1][0]=0;
+			}
+		}
+		if(a[i]==2){
+			W++;
+			B++;
+			dp[W][1]=s[0];
+			dp[B][0]=s[1];
+			s[1]=(s[1]+dp[W][1])%mod;
+			s[0]=(s[0]+dp[B][0])%mod;
+			if(B>=k){
+				f[i]=(f[i]+dp[B-k+1][0])%mod;
+				s[0]=(s[0]-dp[B-k+1][0]+mod)%mod;
+				dp[B-k+1][0]=0;
+			}
+		}
+		//print();
+		//cout<<f[i]<<endl;
+	}
+	W=0;
+	ss=0;
+	bb=0;
+	ans=0;
+	for(i=1;i<=n;i=i+1){
+		if(a[i]==0){
+			bb=(bb+ss)%mod;
+			W=0;
+			ss=0;
+			dp2[1]=0;
+		}
+		if(a[i]==1){
+			W++;
+			dp2[W]=bb;
+			bb=0;
+			ss=(ss+dp2[W])%mod;
+			if(W>=k){
+				ans=(ans+dp2[W-k+1])%mod;
+				ss=(ss-dp2[W-k+1]+mod)%mod;
+				dp2[W-k+1]=0;
+			}
+		}
+		if(a[i]==2){
+			ans*=2;
+			ans%=mod;
+			W++;
+			dp2[W]=bb;
+			ss=(ss+dp2[W])%mod;
+			bb=ss;
+			if(W>=k){
+				ans=(ans+dp2[W-k+1])%mod;
+				ss=(ss-dp2[W-k+1]+mod)%mod;
+				dp2[W-k+1]=0;
+			}
+		}
+		bb=(bb+f[i])%mod;
+		//print();
+		//cout<<ss<<' '<<bb<<' '<<W<<' '<<i<<' '<<a[i]<<' '<<ans<<endl;
+	}
+	cout<<ans%mod<<endl;
+	return 0;
+}
+/*
+10 3
+BXBWBWWWWX
+
+*/

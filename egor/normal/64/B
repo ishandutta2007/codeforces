@@ -1,0 +1,3 @@
+set line [gets stdin]
+set result [expr $line]
+puts $result

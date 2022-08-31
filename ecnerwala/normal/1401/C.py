@@ -1,0 +1,1 @@
+for l in[*open(0)][2::2]:a=[*map(int,l.split())];b=sorted(a);print("YNEOS"[any(y%b[0]for x,y in zip(a,b)if x^y)::2])

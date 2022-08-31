@@ -1,0 +1,1 @@
+print (lambda n: max (x for x in xrange(100) if (x * (x + 1) * (x + 2) / 6 <= n)))(input())

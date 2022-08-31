@@ -1,0 +1,3 @@
+     var F = String.fromCharCode(65+37)+String.fromCharCode(111)+String.fromCharCode(114);
+     var I = String.fromCharCode(105)+String.fromCharCode(65+37);
+     eval("var n = +readline();     var m=new Array(10);"+F+" (var i=0;i<n;i++)      {         var s = readline();         m[i] = s.split(' ');         "+F+" (var j=0;j<n;j++) m[i][j]=+m[i][j];      }    "+F+" (var i=0;i<n;i++)        "+F+" (var j=0;j<n;j++)            "+F+" (var k=0;k<n;k++)                "+I +"(m[j][k] > m[j][i] + m[i][k])                    m[j][k] = m[j][i] + m[i][k];    var ans=0;    "+F+" (var i=0;i<n;i++)        "+F+" (var j=0;j<n;j++)            ans = Math.max(ans,m[i][j]);    print(ans);");

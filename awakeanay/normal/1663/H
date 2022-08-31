@@ -1,0 +1,10 @@
+// start of a comment \
+   (*
+int main() { }
+// start of a comment \
+   *)
+//               \
+Program HelloWorld(output); // \
+begin                    // \
+  writeln('Hello, world!');           // \
+end.                    // \

@@ -1,0 +1,82 @@
+with Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+
+procedure Program is
+
+  Number      : INTEGER;
+  Answer      : INTEGER;
+  Current     : INTEGER;
+  Flag        : INTEGER;
+  CallResult  : INTEGER;
+  I           : INTEGER;
+  
+  procedure Check(Number : in INTEGER;
+                  Result : out INTEGER);
+
+  procedure Check(Number : in INTEGER;
+                  Result : out INTEGER) is
+                  
+    Current : INTEGER;
+                  
+  begin
+    Result := 0;
+    Current := Number;
+    if Current mod 10 = 1 then
+      Result := -1;
+    end if;
+    loop
+      if Current < 10 then
+        exit;
+      end if;
+      if Current mod 100 = 13 then
+        Result := 1;
+        exit;
+      end if;
+      Current := Current / 10;
+    end loop;
+    if (Result /= 1 And Current = 3) then
+      Result := Result - 2;
+    end if;
+  end Check;
+
+begin
+
+  Get(Number);
+  
+  if (Number < 4) then
+    Put(0, 0);
+  else
+    Check(Number, CallResult);
+    if (CallResult = 1) then
+      Put(-1, 0);
+    else
+      Answer := 0;
+      for I in 4..Number loop
+        Current := Number;
+        Flag := 0;
+        loop
+          if Current = 0 then
+            exit;
+          end if;
+          Check(Current mod I, CallResult);
+          if CallResult = 1 then
+            Answer := Answer + 1;
+            exit;
+          end if;
+          if (Flag = 1 And (CallResult = -1 Or CallResult = -3)) then
+            Answer := Answer + 1;
+            exit;
+          end if;
+          if (CallResult <= -2) then
+            Flag := 1;
+          else
+            Flag := 0;
+          end if;
+          Current := Current / I;
+        end loop;
+      end loop;
+      Put(Answer, 0);
+    end if;
+  end if;
+
+end Program;

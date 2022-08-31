@@ -1,0 +1,19 @@
+int main()
+{
+    int n;
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    array(string) SA = Stdio.stdin->gets()/",";
+    array(int) A = allocate(n);
+    for(int i=0;i<sizeof(A);i++)
+    {
+        sscanf(SA[i],"%d",A[i]);
+    }
+    int ok = 1;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++) if(A[i]%A[j]!=0 && A[j]%A[i]!=0) ok = 0;
+    }
+    if(ok==1) write("FRIENDS");
+    else write("NOT FRIENDS");
+        return 0;
+ }

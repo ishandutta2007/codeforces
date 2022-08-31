@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+const int S=6e5;__int64 m[S],s,t,p,n,i,j,v[S];main(){for(std::cin>>n;i<n;++i)std::cin>>v[i]>>m[i],s+=v[i];for(;s<0&&i;)v[--i]*=-1;for(;p=i=0,j<62;++j){for(;i<n;++i)if((m[i]>>j)==1)p+=v[i]-__builtin_parityll(m[i]&t)*2*v[i];if(p>0)t^=1LL<<j;}std::cout<<t;}

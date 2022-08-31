@@ -1,0 +1,21 @@
+namespace Solution {
+    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Canon;
+
+    operation Solve (q : Qubit, sign : Int) : ()
+    {
+        body
+        {
+            let r = M(q);
+            if (r == One)
+            {
+                X(q);
+            }
+            if (sign == -1)
+            {
+                X(q);
+            }
+            H(q);
+        }
+    }
+}

@@ -1,0 +1,2 @@
+#include<iostream>
+using std::cin;int n,m,a[300],b[300],i,j,v,x,y,z=9;main(){for(cin>>n>>m,i=n;i--;)cin>>a[i];for(j=m;j--;)cin>>b[j];for(;z--;v-=y<<z)for(i=n,y=0,v+=1<<z;i--;y=y|x)for(j=m,x=1;j--;)x=x&&a[i]&b[j]&v;std::cout<<511-v;}

@@ -1,0 +1,24 @@
+int main(){
+int n=(int)Stdio.stdin->gets();
+array ar=(Stdio.stdin->gets()/" ")[0..(n-1)];
+replace(ar,"on",1);
+replace(ar,"off",0);
+int lim=300;
+array(int) cnt=allocate(n+1);
+int k=(int)Stdio.stdin->gets();
+array(string) inds=(Stdio.stdin->gets()/" ")[0..(k-1)];
+for(int i=0;i<k;++i){
+int p=(int)inds[i];
+cnt[p]=(cnt[p]+1)%2;
+}
+for(int i=1;i<=n;++i){
+if(cnt[i]>0)
+for(int j=i-1;j<n;j+=i)
+ar[j]=1-ar[j];  
+}
+replace(ar,1,"on");
+replace(ar,0,"off");
+for(int i=0;i<n;++i)
+write(""+ar[i]+" ");
+return 0;
+}

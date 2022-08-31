@@ -1,0 +1,1 @@
+for _ in[0]*int(input()):a,b,c,d=input().split();print(b,c,c)

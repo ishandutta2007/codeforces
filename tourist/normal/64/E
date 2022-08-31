@@ -1,0 +1,25 @@
+ set line [gets stdin]
+ scan $line "%d" n
+set a [expr {$n+1}]
+set x 0
+while {$x == 0} {
+  set a [expr {$a-1}]
+  set x 1
+  set k 2
+  while {$k < $a} {
+    if {$a % $k == 0} {set x 0}
+    incr k
+  }
+}
+set b [expr {$n-1}]
+set x 0
+while {$x == 0} {
+  incr b
+  set x 1
+  set k 2
+  while {$k < $b} {
+    if {$b % $k == 0} {set x 0}
+    incr k
+  }
+}
+puts "$a $b"

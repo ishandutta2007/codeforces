@@ -1,0 +1,1 @@
+print(['Malvika','Akshat'][min(map(int,input().split()))%2])

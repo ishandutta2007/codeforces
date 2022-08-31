@@ -1,0 +1,6 @@
+p=lambda k:print('?', *range(k,k*101,k), flush=True)
+p(128)
+p(1)
+i=lambda:int(input())
+a,b=i(),i()
+print('!',(a&127)^b^(b&127))

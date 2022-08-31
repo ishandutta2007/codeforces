@@ -1,0 +1,42 @@
+set line [gets stdin]
+scan $line "%d %d %d" a b c
+
+set a [expr $a * 5]
+set b [expr $b * 5]
+set c [expr $c * 5]
+
+if { $a == $b } {
+	set a [expr $a + 1]
+}
+
+if { $b == $c } {
+	set b [expr $b + 2]
+}
+if { $c == $a } {
+	set c [expr $c + 3]
+}
+
+if { $a > $b && $a > $c } {
+	set p 1
+} elseif { $a > $b || $a > $c } {
+	set p 2
+} else {
+	set p 3
+}
+
+if { $b > $a && $b > $c } {
+	set q 1
+} elseif { $b > $a || $b > $c } {
+	set q 2
+} else {
+	set q 3
+}
+
+if { $c > $a && $c > $b } {
+	set r 1
+} elseif { $c > $a || $c > $b } {
+	set r 2
+} else {
+	set r 3
+}
+puts [format "%d %d %d" $p $q $r]

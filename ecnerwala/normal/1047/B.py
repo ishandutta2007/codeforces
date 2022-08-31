@@ -1,0 +1,1 @@
+i=lambda:map(int,input().split());n,=i();print(max(sum(i())for _ in range(n)))

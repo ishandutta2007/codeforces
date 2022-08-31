@@ -1,0 +1,32 @@
+ set line [gets stdin]
+ scan $line "%d" n
+ if {$n == 1} {
+   puts "1"
+ }
+ if {$n == 2} {
+   puts "2"
+ }
+ if {$n == 3} {
+   puts "6"
+ }
+ if {$n == 4} {
+   puts "24"
+ }
+ if {$n == 5} {
+   puts "120"
+ }
+ if {$n == 6} {
+   puts "720"
+ }
+ if {$n == 7} {
+   puts "5040"
+ }
+ if {$n == 8} {
+   puts "40320"
+ }
+ if {$n == 9} {
+   puts "362880"
+ }
+ if {$n == 10} {
+   puts "3628800"
+ }

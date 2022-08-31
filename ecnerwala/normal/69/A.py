@@ -1,0 +1,1 @@
+print('YNEOS'[any(map(sum,zip(*(map(int,input().split())for i in range(int(input()))))))::2])

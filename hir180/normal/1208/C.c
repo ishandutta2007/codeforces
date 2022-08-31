@@ -1,0 +1,1 @@
+n;main(){scanf("%d",&n);for(int i=0;i<n*n;i++){printf("%d ",((i/n)/4)*4*n+((i%n)/4)*16+4*((i/n)&3)+((i%n)&3));}}

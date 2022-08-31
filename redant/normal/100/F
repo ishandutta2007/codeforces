@@ -1,0 +1,37 @@
+int main()
+{
+    int n;
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    array(int) A = allocate(n);
+    array(int) R = allocate(n+1);
+    for(int i=0;i<n;i++) sscanf(Stdio.stdin->gets(),"%d",A[i]);
+    for(int i=0;i<(1<<n);i++)
+    {
+        int s = 1, p = 0;
+        for(int j=0;j<n;j++) if( (i&(1<<j)) != 0 ){ s *= A[j]; p++; }
+        R[n-p]+=s;
+        //write(" i = "+i+", s = "+s+", p = "+p+"\n");
+    }
+    //for(int i=n;i>=0;i--) write(R[i]+" ");
+    int done = 0;
+    for(int i=n;i>0;i--)
+    {
+        if(R[i]==0) continue;
+        if(done>0 && R[i]>0) write("+");
+        done = done + 1;
+        if(R[i]!=1 && R[i]!=-1) write(""+R[i]+"*");
+        else
+        {
+            if(R[i]==-1) write("-");
+        }
+        if(i!=0)
+        {
+            write("X");
+            if(i>1) write("^"+i);
+        }
+    }
+    if(R[0]>0) write("+");
+    if(R[0]!=0) write(""+R[0]);
+    write("\n");
+        return 0;
+ }

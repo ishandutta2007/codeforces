@@ -1,0 +1,25 @@
+int main(){
+int n=(int)Stdio.stdin->gets();
+mapping(string:int) year=([]);
+for(int i=0;i<n;++i){
+array(string) tmp=Stdio.stdin->gets()/" ";
+string s=tmp[0];
+int y=(int)tmp[1];
+if(y>year[s])
+year[s]=y;
+}
+int miny=100000000;
+string mins="";
+n=(int)Stdio.stdin->gets();
+for(int i=0;i<n;++i){
+string s=Stdio.stdin->gets()-"\r";
+int y=year[s];
+if(y<miny){
+miny=y;
+mins=s;
+}else if(y==miny && s>mins)
+mins=s;
+}
+write(mins);
+return 0;
+}

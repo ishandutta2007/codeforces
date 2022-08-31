@@ -1,0 +1,69 @@
+#ifndef LOCAL
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma,tune=native")
+#endif
+
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <cassert>
+#include <numeric>
+#include <string>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+#ifdef LOCAL
+	#define eprintf(...) fprintf(stderr, __VA_ARGS__)
+#else
+	#define eprintf(...) 42
+#endif
+
+typedef long long int int64;
+
+
+const int LEN = (int) 1e5 + 100;
+const int ALP = 26;
+
+char s[LEN];
+
+long long cnt[ALP];
+
+long long val[ALP][ALP];
+
+
+int main(int,  char **)
+{
+#ifdef LOCAL
+//	freopen("input.txt", "r", stdin);
+//	freopen("output.txt", "w", stdout);
+#endif
+
+
+    scanf("%s", s);
+    int n = strlen(s);
+
+    for (int i = 0; i < n; i++)
+    {
+        int cur = s[i] - 'a';
+        for (int a = 0; a < ALP; a++)
+            val[a][cur] += cnt[a];
+        cnt[cur]++;
+    }
+
+    long long ans = 0;
+    for (int i = 0; i < ALP; i++)
+    {
+        ans = max(ans, cnt[i]);
+        for (int j = 0; j < ALP; j++)
+            ans = max(ans, val[i][j]);
+    }
+
+    printf("%lld\n", ans);
+
+
+	return 0;
+}

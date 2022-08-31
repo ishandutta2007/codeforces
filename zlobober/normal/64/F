@@ -1,0 +1,43 @@
+set line [gets stdin]
+scan $line "%s" str
+
+proc bad { x } {
+	if { [string first $x ".abcdefghijklmnopqrstuvwxyz0123456789"] == -1 } {
+		return 1
+	} else {
+		return 0
+	}
+}
+
+
+set ans YES
+
+if { [string range $str 0 0] == "." } {
+	set ans NO
+}
+
+set len [string length $str]
+set ulen [expr $len - 1]
+
+if { [string range $str $ulen $ulen] == "." } {
+	set ans NO
+}
+
+for {set x 0} {$x < $len} {incr x} {
+	if { [bad [string range $str $x $x]] == 1 } {
+		set ans NO
+	}
+}
+
+for {set x 0} {$x < $ulen} {incr x} {
+	if { [string range $str $x $x] == "." && [string range $str [expr $x + 1] [expr $x + 1]] == "." } {
+		set ans NO
+	}
+}
+
+set dif [expr [expr $len - [string last "." $str]] - 1]
+if { $dif != 2 && $dif != 3 } {
+	set ans NO
+}
+
+puts $ans

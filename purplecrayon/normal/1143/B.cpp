@@ -1,0 +1,38 @@
+#include "bits/stdc++.h"
+using namespace std;
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+#define sz(v) (int)v.size()
+#define ar array
+// #define f first
+// #define s second
+typedef vector<int> vi;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned int ui;
+const int MAXN = 5e2+10, MAXM = 1e5+10, MAXL = 17, ALP = 26, MOD = 1e9+7, MAXK = 5e5+10, INF = 1e9+10, MAXA = 30, MAXB = 11, MAXBB = (1<<MAXB);
+const string no = "NO\n", yes = "YES\n";
+const int hA[4] = {1, 0, -1, 0}, kA[4] = {0, 1, 0, -1};
+
+void solve(){
+    string s; cin >> s;
+    ll ans=1; for (auto& x : s) ans *= ll(x-'0');
+    for (int i = 0; i < sz(s); i++) if (s[i]-'0' > 0){
+        string t=s; t[i]--; for (int j = i+1; j < sz(t); j++) t[j] = '9';
+        ll c=1; 
+        int st=0; while (st < sz(t) && t[st] == '0') st++;
+        for (int j = st; j < sz(t); j++) c *= ll(t[j]-'0');
+        ans = max(c, ans);
+    }
+    cout << ans << '\n';
+}
+int main(){
+    ios::sync_with_stdio(false); cin.tie(0);
+    int t=1;
+    // cin >> t; 
+    while (t--) solve();
+}
