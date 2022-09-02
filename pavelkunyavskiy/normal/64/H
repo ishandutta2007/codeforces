@@ -1,0 +1,62 @@
+proc better {a b} {
+   if {[lindex $a 1] != [lindex $b 1]} {
+      if { [lindex $a 1] > [lindex $b 1] } {
+          return 1
+      }
+      return 0;
+   }
+   if { [lindex $a 0] < [lindex $b 0] } {
+      return 1
+   }
+   return 0;
+}
+ 
+set n [gets stdin]
+set per {}
+set i 0
+while { $i < $n } {
+   set per [linsert $per end [split [gets stdin] " "]]
+   incr i
+}
+ 
+set i 0
+while {$i < $n} {
+   set j [expr "$i+1"]
+   while {$j < $n} {
+      if { [better [lindex $per $j] [lindex $per $i]] } {
+         set t [lindex $per $i]
+         set per [lreplace $per $i $i [lindex $per $j]]
+         set per [lreplace $per $j $j $t]         
+      }
+      incr j
+   }
+   incr i
+}
+ 
+ 
+set i 0
+while {$i < $n} {
+   set j $i
+   set sc1 [lindex [lindex $per $i] 1]
+   while {1} {
+      if {$j == $n} {
+         break
+      }
+      set sc2 [lindex [lindex $per $j] 1]
+      if { $sc1 == $sc2 } { 
+         incr j
+         continue
+      }
+      break
+   }
+   set t $i
+   if {$j == [expr "$i+1"]} {
+       puts "[expr "$i+1"] [lindex [lindex $per $i] 0]"       
+       set i $j
+       continue
+   }
+   while { $i < $j} {
+      puts "[expr "$t+1"]-$j [lindex [lindex $per $i] 0]" 
+      incr i      
+   }
+}

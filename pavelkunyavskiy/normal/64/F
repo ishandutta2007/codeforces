@@ -1,0 +1,41 @@
+proc check {s} {
+  set i 0
+  set l [string length $s]
+  set last -5
+  while { $i < $l} {
+     set c [string index $s $i]
+     if {[string match {[a-z0-9.]} $c] == 0} {
+         return 0
+     }    
+     if {$c == "."} {
+        if {$i == 0} {
+           return 0
+        }
+        if { $i == [expr "$last+1"] } {
+           return 0
+        }
+ 
+        set last $i
+     }
+     incr i
+  }
+  if { $last == -5 } {
+     set last -1
+  }
+  if {[expr "$l-$last"] == 3} {
+     return 1
+  }
+  if {[expr "$l-$last"] == 4} {
+     return 1
+  }
+  return 0
+}
+ 
+set inp [gets stdin]
+set c [check $inp]
+if {$c == 1} {
+  puts "YES"
+}
+if {$c != 1} {
+   puts "NO"
+}

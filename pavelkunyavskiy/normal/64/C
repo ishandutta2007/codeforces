@@ -1,0 +1,11 @@
+set inp [gets stdin]
+set n [lindex [split $inp " "] 0]
+set m [lindex [split $inp " "] 1]
+set k [lindex [split $inp " "] 2]
+set i [expr "$k%$n"]
+set j [expr "$k/$n+1"]
+if { $i == 0 } {
+   set i $n
+   set j [expr "$j-1"]
+}
+puts [expr "($i-1)*$m+$j"]

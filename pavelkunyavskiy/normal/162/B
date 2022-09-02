@@ -1,0 +1,41 @@
+USING: io kernel math math.parser sequences ;
+USING: formatting kernel math ;
+
+IN: solve
+
+: solve ( x -- )         
+    dup
+    0
+    = 
+    [
+      drop
+    ]
+    [     
+       dup
+       dup
+       even?
+       [
+         2
+         /
+         solve
+         0
+         number>string write
+       ]
+       [
+         1
+         -
+         2
+         /
+         solve
+         1
+         number>string write
+       ]
+       if
+       drop
+    ]
+    if
+
+;
+
+readln string>number
+solve

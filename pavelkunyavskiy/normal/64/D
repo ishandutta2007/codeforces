@@ -1,0 +1,18 @@
+set inp [gets stdin]
+set a [lindex [split $inp " "] 0]
+set b [lindex [split $inp " "] 1]
+set c [lindex [split $inp " "] 2]
+set aid 1
+set bid 1
+set cid 1
+ 
+if {$a < $b} { incr aid}
+if {$a < $c} { incr aid}
+ 
+if {$a >= $b} { incr bid}
+if {$b < $c} { incr bid}
+ 
+if {$a >= $c} { incr cid}
+if {$b >= $c} { incr cid}
+ 
+puts "$aid $bid $cid"

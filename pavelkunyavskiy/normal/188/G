@@ -1,0 +1,45 @@
+co insort{
+   eq [118] [126] [0]
+   if [118] ac
+   lt [118] [[126]] [[109]]
+   if [118] set [115] [[109]]
+   if [118] set [[109]] [[126]]
+   if [118] set [[126]] [115]
+   add [126] [126] 1
+}
+
+co sort{
+  eq [118] [127] [0]
+  if [118] ac
+  set [126] [127]
+  set [109] [127]
+  ca insort
+  add [127] [127] 1
+}
+
+co print{
+  eq [118] [127] [0]
+  if [118] ac
+  iout [[127]]
+  cout 32
+  add [127] [127] 1
+}
+
+co read{
+  eq [118] [127] [0]
+  if [118] ac
+  iin [[127]]
+  add [127] [127] 1
+}
+
+
+iin [0]
+add [0] [0] 1
+set [127] 1
+ca read
+set [127] 1
+ca sort
+set [127] 1
+ca print
+cout 10
+ac

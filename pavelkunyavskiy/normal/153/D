@@ -1,0 +1,85 @@
+       IDENTIFICATION DIVISION.
+          PROGRAM-ID. SOLUTION.
+
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01 IN-INT   PIC X(36).
+          01 D        PIC 9(2).
+          01 M        PIC 9(2).
+          01 Y        PIC 9(4).
+          01 SHIFT    PIC 9(4).
+          01 TEMP     PIC 9(4).
+          01 R        PIC 9(4).
+          01 VB-TABLE.
+              02 DAYS     PIC 9(2) OCCURS 12.
+
+
+          PROCEDURE DIVISION.    
+            MOVE 31 TO DAYS(1)
+            MOVE 28 TO DAYS(2)
+            MOVE 31 TO DAYS(3)
+            MOVE 30 TO DAYS(4)
+            MOVE 31 TO DAYS(5)
+            MOVE 30 TO DAYS(6)
+            MOVE 31 TO DAYS(7)
+            MOVE 31 TO DAYS(8)
+            MOVE 30 TO DAYS(9)
+            MOVE 31 TO DAYS(10)
+            MOVE 30 TO DAYS(11)
+            MOVE 31 TO DAYS(12)
+            ACCEPT IN-INT
+            MOVE IN-INT(1:2) TO D
+            MOVE IN-INT(4:2) TO M
+            MOVE IN-INT(7:4) TO Y
+            ACCEPT IN-INT
+            MOVE IN-INT TO SHIFT
+
+            IF IN-INT(1:1) NOT = '-'
+               PERFORM UNTIL SHIFT <= 0
+                   ADD 1 TO D
+                   IF D > DAYS(M)
+                      IF M = 2
+                         DIVIDE Y BY 4 GIVING TEMP REMAINDER R
+                         IF R = 0
+                            IF D = 30
+                               MOVE 1 TO D
+                               MOVE 3 TO M
+                            END-IF
+                         ELSE
+                             MOVE 1 TO D
+                             MOVE 3 TO M
+                         END-IF
+                      ELSE
+                         MOVE 1 TO D
+                         ADD 1 TO M
+                      END-IF                       
+                   END-IF
+
+                   IF M = 13
+                      MOVE 1 TO M
+                      ADD 1 TO Y
+                   END-IF
+                   SUBTRACT 1 FROM SHIFT
+               END-PERFORM
+           ELSE
+               PERFORM UNTIL SHIFT <= 0
+                   SUBTRACT 1 FROM D
+                   IF D = 0
+                      SUBTRACT 1 FROM M
+                      IF M = 0
+                         SUBTRACT 1 FROM Y
+                         MOVE 12 TO M
+                      END-IF
+                      MOVE DAYS(M) TO D
+                      IF M = 2 
+                         DIVIDE Y BY 4 GIVING TEMP REMAINDER R
+                         IF R = 0
+                            ADD 1 TO D
+                         END-IF
+                      END-IF
+                   END-IF
+                   SUBTRACT 1 FROM SHIFT
+               END-PERFORM
+            END-IF
+            DISPLAY D,".",M,".",Y
+            STOP RUN.

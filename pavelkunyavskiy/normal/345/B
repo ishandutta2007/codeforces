@@ -1,0 +1,51 @@
+with Ada.Text_IO,
+     Ada.Characters.Handling,
+     Ada.Float_Text_IO,
+     Ada.Integer_Text_IO,
+     Ada.Strings.Unbounded; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling,
+     Ada.Float_Text_IO,
+     Ada.Integer_Text_IO,
+     Ada.Strings.Unbounded;
+
+
+
+procedure B is
+
+function check(x, b : Integer) return Integer is
+temp : unbounded_string;
+temp2 : unbounded_string;
+y : Integer;
+begin
+   y := x;
+   loop
+   temp2 := To_Unbounded_String(Integer'Image(y mod b)); 
+   temp := Trim(temp2, Ada.Strings.Left) & temp;
+   y := y / b;
+   exit when y = 0;
+   end loop;
+   if Index(Source => temp, Pattern => "13") /= 0 then
+       return 1;
+   else 
+       return 0;
+   end if;
+end;
+
+x, b, ans : Integer;
+
+begin
+   get(x);
+   b := 2;
+   ans := 0;
+   if check(x, x+1) = 1 then
+       Put(-1, Width => 1);
+   else 
+       loop
+          ans := ans + check(x, b);
+          b := b + 1;
+          exit when b > x;
+       end loop;
+       Put(ans, Width => 1);
+   end if;
+end B;

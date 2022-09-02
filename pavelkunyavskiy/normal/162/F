@@ -1,0 +1,43 @@
+USING: io kernel math math.parser sequences ;
+USING: formatting kernel math ;
+USING: io kernel math math.parser ;
+USING: formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+USING: arrays kernel math ;
+USING: byte-arrays ;
+USING: io.encodings.string io.encodings.utf8 prettyprint ;
+USING: sequences.private ;
+USING: strings ;
+
+
+
+IN: solve
+
+
+0
+readln string>number
+
+[
+  dup
+  5 mod
+  0 >
+  [
+    [
+     1 -
+     dup
+     5 mod
+     0 >
+    ]
+    loop
+  ] when
+  5 /
+  swap
+  over
+  +
+  swap
+  dup
+  0 >
+]
+loop
+
+drop
+number>string print
