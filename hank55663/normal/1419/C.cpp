@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+
+/*#pragma GCC optimize("Ofast")
+#pragma GCC optimize ("unroll-loops")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")*/
+#define mp make_pair
+#define pb push_back
+#define pll pair<LL,LL>
+#define pii pair<int,int>
+#define y second
+#define x first
+#define LL long long 
+#define sqr(x) ((x)*(x))
+#define pi acosl(-1)
+#define MEM(x) memset(x,0,sizeof(x))
+#define MEMS(x) memset(x,-1,sizeof(x))
+using namespace std;
+void solve(){
+    int n,x;
+    scanf("%d %d",&n,&x);
+    int a[1005];
+    LL tot=0;
+    int ok=0;
+    for(int i = 0;i<n;i++){
+        scanf("%d",&a[i]);
+        tot+=a[i];
+        if(a[i]==x)ok++;
+    }
+    sort(a,a+n);
+    if(a[0]==a[n-1]&&a[0]==x){
+        printf("0\n");
+    }
+    else if(x*n==tot){
+        printf("1\n");
+    }
+    else if(ok){
+        if(ok>1){
+            printf("1\n");
+            return ;
+        }
+        for(int i = 0;i<n;i++){
+            if((tot-i*x)%n==0){
+                printf("1\n");
+                return ;
+            }
+        }
+        printf("1\n");
+    }
+    else{
+        printf("2\n");
+    }
+}
+int main(){
+    int t=1;
+    scanf("%d",&t);
+    while(t--){
+        solve();
+    }
+}
+/*
+100
+5
+5 4
+4 2
+4 2 3
+5 4 2 3 1
+*/
