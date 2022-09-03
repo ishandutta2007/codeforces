@@ -1,0 +1,131 @@
+//#pragma GCC optimize("O3")
+//#pragma GCC optimize ("unroll-loops")
+//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//defines
+typedef long long ll;
+typedef long double ld;
+#define TIME clock() * 1.0 / CLOCKS_PER_SEC
+#define y0 _y0
+#define kill _kill
+
+//permanent constants
+const ld pi = acosl(-1.0);
+const int day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int digarr[10] = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+const int dx[4] = {0, 1, 0, -1};
+const int dy[4] = {1, 0, -1, 0};
+const int dxo[8] = {-1, -1, -1, 0, 1, 1, 1, 0};
+const int dyo[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+const int alf = 26;
+const ld eps = 1e-8;
+const ll INF = (ll)(2e18) + 239;
+const int BIG = (int)(1e9) + 239;
+const int MOD = 998244353; // 1e9 + 7
+const ll MOD2 = (ll)MOD * (ll)MOD;
+
+namespace math {
+    int sum(int a, int b) {
+        a += b - MOD;
+        a += (a >> 31) & MOD;
+        return a;
+    }
+
+    int sub(int a, int b) {
+        a -= b;
+        a += (a >> 31) & MOD;
+        return a;
+    }
+
+    int mul(int a, int b) {
+        return 1LL * a * b % MOD;
+    }
+
+    int power(int a, int k) {
+        int ans = 1;
+        int pw = a;
+        while (k) {
+            if (k & 1) {
+                ans = mul(ans, pw);
+            }
+            pw = mul(pw, pw);
+            k >>= 1;
+        }
+        return ans;
+    }
+}
+
+//random
+#ifdef ONPC
+mt19937_64 rnd(239);
+#else
+mt19937_64 rnd(chrono::high_resolution_clock::now().time_since_epoch().count());
+#endif
+
+//constants
+const int M = (int)(2e5 + 239);
+const int N = (int)(2e3 + 10);
+const int L = 21;
+const int T = (1 << 18) + 239;
+const int B = 500;
+const int X = 1010;
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    if (k < n - 1) {
+        vector<pair<int, int>> ans;
+        for (int i = 0; i < n / 2; i++) {
+            ans.emplace_back(i, n - 1 - i);
+        }
+        if (k > 0) {
+            if (k < (n / 2)) {
+                swap(ans[0].second, ans[k].second);
+            } else {
+                int i = n - k - 1;
+                swap(ans[i].first, ans[i].second);
+                swap(ans[0].second, ans[i].second);
+            }
+        }
+        for (const auto& t : ans) {
+            cout << t.first << " " << t.second << "\n";
+        }
+        return;
+    }
+    if (n == 4) {
+        cout << "-1\n";
+        return;
+    }
+    vector<pair<int, int>> ans;
+    for (int i = 0; i < n / 2; i++) {
+        if (i != 0 && i != 1 && i != 3) {
+            ans.emplace_back(i, n - 1 - i);
+        }
+    }
+    ans.emplace_back(n - 2, n - 1);
+    ans.emplace_back(1, 3);
+    ans.emplace_back(0, n - 4);
+    for (const auto& t : ans) {
+        cout << t.first << " " << t.second << "\n";
+    }
+}
+
+int32_t main() {
+#ifdef ONPC
+    freopen("input", "r", stdin);
+#endif
+    ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+    //cout << fixed << setprecision(1);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
