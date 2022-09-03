@@ -1,0 +1,113 @@
+#include<cstdio>
+#include<set>
+
+std::multiset<int> S;
+
+int main()
+{
+	int a,b,c;
+	int i,j,n;
+	scanf("%d%d%d%d",&n,&a,&b,&c);
+    if(a>b)a^=b^=a^=b;
+    if(b>c)b^=c^=b^=c;
+    if(a>b)a^=b^=a^=b;
+	for(i=0;i<n;i++)
+	{
+		scanf("%d",&j);
+		S.insert(j);
+	}
+	for(i=0;!S.empty();i++)
+	{
+		std::multiset<int>::iterator it;
+        it = S.end();
+        it--;
+        if(*it>a+b+c)
+		{
+			puts("-1");
+			return 0;
+		}
+		if(*it>b+c)
+		{
+            S.erase(it);
+            continue;
+		}
+		if(*it>a+c)
+		{
+            S.erase(it);
+            it=S.upper_bound(a);
+            if(it!=S.begin())
+			{
+				it--;
+				S.erase(it);
+			}
+			continue;
+		}
+		if(*it<=c)
+		{
+            S.erase(it);
+            it=S.upper_bound(a);
+            if(it!=S.begin())
+			{
+				it--;
+				S.erase(it);
+				it=S.upper_bound(b);
+				if(it!=S.begin())
+				{
+					it--;
+					S.erase(it);
+				}
+			}
+			else
+			{
+				it=S.upper_bound(a+b);
+				if(it!=S.begin())
+				{
+					it--;
+					S.erase(it);
+				}
+			}
+			continue;
+		}
+		if(*it>a+b)
+		{
+			S.erase(it);
+            it=S.upper_bound(b);
+            if(it!=S.begin())
+			{
+				it--;
+				S.erase(it);
+			}
+			continue;
+		}
+		if(*it>c)
+		{
+            S.erase(it);
+            it=S.upper_bound(c);
+            if(it!=S.begin())
+			{
+				it--;
+				S.erase(it);
+			}
+			continue;
+		}
+		it=S.upper_bound(a);
+		if(it!=S.begin())
+		{
+			it--;
+			S.erase(it);
+		}
+		it=S.upper_bound(b);
+		if(it!=S.begin())
+		{
+			it--;
+			S.erase(it);
+		}
+		it=S.upper_bound(c);
+		if(it!=S.begin())
+		{
+			it--;
+			S.erase(it);
+		}
+	}
+	printf("%d",i);
+}
