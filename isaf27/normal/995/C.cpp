@@ -1,0 +1,228 @@
+/*
+    Author: isaf27 (Ivan Safonov)
+*/
+
+#pragma GCC optimize("O3")
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//defines
+typedef long long ll;
+typedef long double ld;
+#define TIME clock() * 1.0 / CLOCKS_PER_SEC
+#define fastIO ios_base::sync_with_stdio(0)
+#define nul point(0, 0)
+#define str_to_int(stroka) atoi(stroka.c_str())
+#define str_to_ll(stroka) atoll(stroka.c_str())
+#define str_to_double(stroka) atof(stroka.c_str())
+#define what_is(x) cerr << #x << " is " << x << endl
+#define solve_system int number; cin >> number; for (int i = 0; i < number; i++) solve()
+#define solve_system_scanf int number; scanf("%d", &number); for (int i = 0; i < number; i++) solve()
+
+//permanent constants
+const ld pi = 3.141592653589793238462643383279;
+const ld log23 = 1.58496250072115618145373894394781;
+const ld eps = 1e-8;
+const ll INF = 1e18 + 239;
+const ll prost = 239;
+const int two = 2;
+const int th = 3;
+const ll MOD = 1e9 + 7;
+const ll MOD2 = MOD * MOD;
+const int BIG = 1e9 + 239;
+const int alf = 26;
+const int dx[4] = {-1, 0, 1, 0};
+const int dy[4] = {0, 1, 0, -1};
+const int dxo[8] = {-1, -1, -1, 0, 1, 1, 1, 0};
+const int dyo[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+const int dig = 10;
+const string str_alf = "abcdefghijklmnopqrstuvwxyz";
+const string str_alf_big = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const int day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int digarr[10] = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+const int bt = 31;
+
+//easy functions
+template< typename T >
+inline T gcd(T a, T b) { return a ? gcd(b % a, a) : b; }
+template< typename T >
+inline T lcm(T a, T b) { return (a / gcd(a, b)) * b; }
+inline bool is_down(char x) { return ('a' <= x && x <= 'z'); }
+inline bool is_upper(char x) { return ('A' <= x && x <= 'Z'); }
+inline bool is_digit(char x) { return ('0' <= x && x <= '9'); }
+ll power(ll a, int k)
+{
+    if (k == 0) return 1;
+    ll t = power(a, k >> 1);
+    t = (t * t) % MOD;
+    if (k & 1) t = (t * a) % MOD;
+    return t;
+}
+
+//random
+mt19937 rnd(239);
+
+//constants
+const int M = 2 * 1e5 + 239;
+const int N = 2 * 1e3 + 239;
+const int L = 20;
+const int T = (1 << 20);
+const int B = trunc(sqrt(M)) + 1;
+const int X = 210;
+const int fr = 4;
+
+int n, x[M], y[M], ans[M], cur;
+vector<int> gt[th];
+vector<int> v[M];
+
+const ll LIM = (ll)(1500000) * (ll)(1500000);
+
+void dfs(int p, int x)
+{
+    ans[p] *= x;
+    for (int i : v[p])
+        dfs(i, ans[p]);
+}
+
+int zone(int i)
+{
+    ld alf = atan2(y[i], x[i]);
+    if (alf <= (pi / 3)) return 0;
+    if (alf >= (2 * pi / 3)) return 2;
+    return 1;
+}
+
+int main()
+{
+    #ifdef ONPC
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+    fastIO;
+    for (int i = 0; i < M; i++)
+        ans[i] = 1;
+    cin >> n;
+    for (int i = 0; i < n; i++)
+        cin >> x[i] >> y[i];
+    for (int i = 0; i < n; i++)
+    {
+        if (y[i] < 0)
+        {
+            x[i] *= -1;
+            y[i] *= -1;
+            ans[i] = -1;
+        }
+        else
+            ans[i] = 1;
+    }
+    cur = 0;
+    for (int i = 0; i < n; i++)
+    {
+        gt[zone(i)].push_back(i);
+        cur++;
+    }
+    cur = n;
+    while (gt[0].size() > 1 || gt[1].size() > 1 || gt[2].size() > 1)
+    {
+        if (gt[0].size() > 1)
+        {
+            int t1 = gt[0].back();
+            gt[0].pop_back();
+            int t2 = gt[0].back();
+            gt[0].pop_back();
+            ans[t1] *= -1;
+            y[t1] *= -1;
+            x[t1] *= -1;
+            x[cur] = x[t1] + x[t2];
+            y[cur] = y[t1] + y[t2];
+            v[cur].push_back(t1);
+            v[cur].push_back(t2);
+            if (y[cur] < 0)
+            {
+                x[cur] *= -1;
+                y[cur] *= -1;
+                ans[cur] *= -1;
+            }
+            gt[zone(cur)].push_back(cur);
+            cur++;
+        }
+        else if (gt[1].size() > 1)
+        {
+            int t1 = gt[1].back();
+            gt[1].pop_back();
+            int t2 = gt[1].back();
+            gt[1].pop_back();
+            ans[t1] *= -1;
+            y[t1] *= -1;
+            x[t1] *= -1;
+            x[cur] = x[t1] + x[t2];
+            y[cur] = y[t1] + y[t2];
+            v[cur].push_back(t1);
+            v[cur].push_back(t2);
+            if (y[cur] < 0)
+            {
+                x[cur] *= -1;
+                y[cur] *= -1;
+                ans[cur] *= -1;
+            }
+            gt[zone(cur)].push_back(cur);
+            cur++;
+        }
+        else
+        {
+            int t1 = gt[2].back();
+            gt[2].pop_back();
+            int t2 = gt[2].back();
+            gt[2].pop_back();
+            ans[t1] *= -1;
+            y[t1] *= -1;
+            x[t1] *= -1;
+            x[cur] = x[t1] + x[t2];
+            y[cur] = y[t1] + y[t2];
+            v[cur].push_back(t1);
+            v[cur].push_back(t2);
+            if (y[cur] < 0)
+            {
+                x[cur] *= -1;
+                y[cur] *= -1;
+                ans[cur] *= -1;
+            }
+            gt[zone(cur)].push_back(cur);
+            cur++;
+        }
+    }
+    vector<int> now;
+    if (gt[0].size() > 0) now.push_back(gt[0].back());
+    if (gt[1].size() > 0) now.push_back(gt[1].back());
+    if (gt[2].size() > 0) now.push_back(gt[2].back());
+    for (int ms = 0; ms < (1 << (int)now.size()); ms++)
+    {
+        ll xx = 0;
+        ll yy = 0;
+        for (int l = 0; l < now.size(); l++)
+        {
+            int cf = 1;
+            if ((ms >> l) & 1) cf = -1;
+            xx += cf * x[now[l]];
+            yy += cf * y[now[l]];
+        }
+        if ((xx * xx + yy * yy) <= LIM)
+        {
+            for (int i = 0; i < now.size(); i++)
+                v[cur].push_back(now[i]);
+            cur++;
+            for (int l = 0; l < now.size(); l++)
+            {
+                int cf = 1;
+                if ((ms >> l) & 1) cf = -1;
+                ans[now[l]] *= cf;
+            }
+            break;
+        }
+    }
+    dfs(cur - 1, 1);
+    for (int i = 0; i < n; i++)
+        cout << ans[i] << " ";
+    return 0;
+}
