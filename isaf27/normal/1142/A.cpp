@@ -1,0 +1,91 @@
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <deque>
+#include <iostream>
+#include <limits>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+#include <random>
+
+using namespace std;
+
+//defines
+typedef long long ll;
+typedef long double ld;
+#define TIME clock() * 1.0 / CLOCKS_PER_SEC
+
+//permanent constants
+const ld pi = acos(-1.0);
+const int day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int digarr[10] = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+const int dx[4] = {-1, 0, 1, 0};
+const int dy[4] = {0, 1, 0, -1};
+const int dxo[8] = {-1, -1, -1, 0, 1, 1, 1, 0};
+const int dyo[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+const int alf = 26;
+const int dig = 10;
+const int two = 2;
+const int th = 3;
+const ll prost = 239;
+const ll bt = 31;
+const ld eps = 1e-8;
+const ll INF = (ll)(1e18 + 239);
+const int BIG = (int)(1e9 + 239);
+const ll MOD = 998244353; //1e9 + 7;
+const ll MOD2 = (ll)MOD * (ll)MOD;
+
+//random
+mt19937_64 rnd(239); //(chrono::high_resolution_clock::now().time_since_epoch().count());
+
+//constants
+const int M = (int)(2e5 + 239);
+const int N = (int)(2e3 + 239);
+const int L = 19;
+const int T = (1 << 18);
+const int B = (int)(trunc(sqrt(M)) + 1);
+const int X = (int)(1e4 + 239);
+
+int main()
+{
+#ifdef ONPC
+    freopen("input.txt", "r", stdin);
+#endif
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    ll n, k, a, b;
+    cin >> n >> k >> a >> b;
+    vector<ll> st = {a, k - a};
+    vector<ll> v;
+    for (int i = 0; i < n; i++)
+    {
+        ll nw = k * i;
+        v.push_back((nw + b) % (n * k));
+        v.push_back((nw - b + n * k) % (n * k));
+    }
+    ll mx = 0;
+    ll mn = (n * k);
+    for (ll x : st)
+        for (ll y : v)
+        {
+            ll go = (y - x);
+            if (go < 0) go += n * k;
+            go = gcd(go, n * k);
+            go = (n * k) / go;
+            mn = min(mn, go);
+            mx = max(mx, go);
+        }
+    cout << mn << " " << mx;
+    return 0;
+}
