@@ -1,0 +1,5 @@
+set line [gets stdin]
+scan $line "%d%d%d" n m k
+set i [expr ($k-1)/$n]
+set j [expr ($k-1-$i*$n)]
+puts [expr ($j*$m+$i+1)]

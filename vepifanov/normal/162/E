@@ -1,0 +1,7 @@
+USING: io kernel regexp ;
+
+readln R/ \S*[HQ9]\S*/ matches?
+[ "YES" ]
+[ "NO" ]
+if
+print

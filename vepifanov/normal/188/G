@@ -1,0 +1,39 @@
+co read {
+	iin [[101]]
+	eq [102] [101] [0]
+	if [102] ac
+	inc [101]
+}
+
+co write {
+	iout [[101]]
+	cout 32
+	eq [102] [101] [0]
+	if [102] ac
+	inc [101]
+}
+
+co sort {
+	gt [105] [104] [0]
+	if [105] inc [103]
+	if [105] set [104] [103]
+	if [105] inc [104]
+	lt [105] [103] [0]
+	sub [105] 1 [105]
+	if [105] ac
+	gt [107] [[103]] [[104]]
+	if [107] set [108] [[103]]
+	if [107] set [[103]] [[104]]
+	if [107] set [[104]] [108]
+	inc [104]
+}
+
+iin [0]         	
+set [101] 1
+ca read
+set [103] 1
+set [104] 2
+ca sort
+set [101] 1
+ca write
+ac

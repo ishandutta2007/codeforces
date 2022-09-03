@@ -1,0 +1,5 @@
+s := File standardInput readLine
+if (s at (0) == 45, "-" print)
+s = s strip ("-0")
+s = s reverse
+s println

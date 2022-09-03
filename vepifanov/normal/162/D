@@ -1,0 +1,2 @@
+USING: math math.parser peg peg.parsers peg.search io kernel formatting locals regexp sequences ;
+readln R/ [0-9]/ re-split "" join print

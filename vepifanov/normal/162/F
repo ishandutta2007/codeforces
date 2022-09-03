@@ -1,0 +1,16 @@
+USING: io formatting kernel locals math math.parser math.functions sequences ;
+
+readln string>number
+
+5 /i dup
+5 /i dup
+5 /i dup
+5 /i dup
+5 /i dup
+5 /i dup
+5 /i dup
+5 /i 
+
++ + + + + + +
+
+number>string print

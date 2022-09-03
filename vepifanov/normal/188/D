@@ -1,0 +1,21 @@
+co drawline {
+	eq [3] [2] 0
+	if [3] ac
+	cout 42
+	sub [2] [2] 1
+}
+
+co draw {
+	gt [2] [1] [0]
+	if [2] ac
+	gt [2] [1] 1
+	if [2] cout 10
+	set [2] [1]
+	ca drawline
+	add [1] [1] 1
+}
+
+iin [0]
+set [1] 1
+ca draw
+ac
