@@ -1,0 +1,8 @@
+      program main
+
+      implicit none
+
+      write ( *, '(a)' ) 'FORTRAN 77'
+
+      stop
+      end
