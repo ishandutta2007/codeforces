@@ -138,107 +138,58 @@ ll C(int a,int b){
 	if(b < 0 || a < b) return 0;
 	return F[a]*R[b]%mod*R[a-b]%mod;
 }
-//kinetic tournament
-
-//query
-//l <= i <= r and x : b_i += a_i * x
-//l <= i <= r : calc min(b_i)
-//i: set a_i and b_i
-
-template<typename T>
-struct kinetic_tournament{
-	int sz;
-	vector<T>seg;
-	vector<T>a, b, min_ch, lazy;
-	const T e;
-	kinetic_tournament(int n, const T e): e(e) {
-		sz = 1;
-		while(sz < n) sz <<= 1;
-		seg.assign(2*sz, e);
-		//think twice about how to initialize
-		a.assign(2*sz, 0);
-		b.assign(2*sz, e);
-		min_ch.assign(2*sz, (T)3e18);
-		lazy.assign(2*sz, 0);
+//
+//2018-19 shenyang regional
+bool Q = 0;
+struct L{
+	//slope, y-intercept, last-optimal x
+	ll k, m, p;
+	bool operator < (const L& l) const{
+		return !Q ? k < l.k : p < l.p;
 	}
-	/*void init(int n){
-		sz = 1;
-		while(sz < n) sz <<= 1;
-		seg.assign(2*sz, e);
-	}*/
-	void push(int k){
-		repn(p, 2){
-			min_ch[k*2+p] -= lazy[k];
-			lazy[k*2+p] += lazy[k];
-			b[k*2+p] += a[k*2+p] * lazy[k];
-		}
-		lazy[k] = 0;
+};
+struct monotone_CHT{
+	vector<L>cht;
+	int it = 0;
+	ll dv(ll a, ll b){
+		assert(b > 0);
+		if(a >= 0) return a / b;
+		else return -((-a + b - 1) / b);
 	}
-	void pull(int k){
-		T a1 = a[k*2+1], b1 = b[k*2+1];
-		T a2 = a[k*2+2], b2 = b[k*2+2];
-		min_ch[k] = min(min_ch[k*2+1], min_ch[k*2+2]);
-		
-		if(min(b1, b2) == b1){
-			a[k] = a1, b[k] = b1;
-			if(a1 > a2){
-				int need = (b2-b1) / (a1-a2) + 1;
-				min_ch[k] = min(min_ch[k], need);
-			}
+	void make(L &b, L &c){
+		if(b.k == c.k){
+			b.p = (b.m > c.m) ? 1e18 : -1e18;
 		}
 		else{
-			a[k] = a2, b[k] = b2;
-			if(a1 < a2){
-				int need = (b1-b2) / (a2-a1) + 1;
-				min_ch[k] = min(min_ch[k], need);
-			}
+			b.p = dv(b.m - c.m, c.k - b.k);
 		}
 	}
-	//point
-	void update(int i, int aa, int bb, int k, int l, int r){
-		if(l == r){
-			seg[k] = bb;
-			a[k] = aa;
-			b[k] = bb;
-			return;
-		}
-		push(k);
-		if(l <= i and i <= (l+r)/2) update(i, aa, bb, k*2+1, l, (l+r)/2);
-		else update(i, aa, bb, k*2+2, 1+(l+r)/2, r);
-		pull(k);
+	//b.p, b
+	bool check(L &a, L &b, L &c){
+		make(b, c);
+		return a.p >= b.p;
 	}
-	void update(int i, int aa, int bb){ update(i, aa, bb, 0, 0, sz-1); }
-	//range add
-	//lb<=i<=ub: b_i += a[i] * v
-	void add(int lb, int ub, int v, int k, int l, int r){
-		if(ub < l or r < lb or lb > ub) return;
-		if(lb <= l and r <= ub and min_ch[k] > v){
-			lazy[k] += v;
-			min_ch[k] -= v;
-			b[k] += a[k] * v;
-			return;
+	void add(L nw){
+		nw.p = 1e18;
+		if(cht.empty()) {
+			cht.pb(nw); return ;
 		}
-		if(lazy[k]) push(k);
-		add(lb, ub, v, k*2+1, l, (l+r)/2);
-		add(lb, ub, v, k*2+2, (l+r)/2+1, r);
-		pull(k);
+		if(cht.back().k == nw.k && cht.back().m >= nw.m) return;
+		
+		while(cht.size() >= 2 && check(cht[cht.size()-2], cht.back(), nw)) cht.pop_back();
+		make(cht.back(), nw); cht.pb(nw);
 	}
-	void add(int lb, int ub, int v){ add(lb, ub, v, 0, 0, sz-1); }
-	//calc min(b_i)
-	//lb<=i<=ub
-	T query(int lb, int ub, int k, int l, int r){
-		if(ub < l or r < lb or lb > ub) return e;
-		if(lb <= l and r <= ub){
-			return b[k];
-		}
-		if(lazy[k]) push(k);
-		return min(query(lb, ub, k*2+1, l, (l+r)/2), query(lb, ub, k*2+2, (l+r)/2+1, r));
+	ll query(ll a){
+		if(cht.empty()) return -1e18;
+		//Q = 1;
+		//auto it = lower_bound(cht.begin(), cht.end(), (L){0, 0, a}) - cht.begin();
+		//Q = 0;
+		while(cht[it].p < a) it ++;
+		return a * cht[it].k + cht[it].m;
 	}
-	T query(int lb, int ub){ return query(lb, ub, 0, 0, sz-1); }
 };
-//e
-/*int e = INF;
-kinetic_tournament<decltype(e)>seg((1<<), e);*/
+
+const int B = 4004;
 int n, q;
 vc<int>edge[200005];
 int sa[200005], sb[200005];
@@ -253,6 +204,8 @@ void dfs(int v, int u, int upa, int upb){
 	}
 	out[v] = id - 1;
 }
+P slp[200005][2];
+int lazy[B*2+5], qu[100005][3], ans[100005];
 void solve(){
 	cin >> n >> q;
 	rep(i, n-1){
@@ -263,22 +216,79 @@ void solve(){
 	repn(i, n) cin >> sb[i];
 	dfs(1, -1, 0, 0);
 	repn(i, n) sb[i] = abs(sb[i]);
-	int e = 1e18;
-	kinetic_tournament<decltype(e)>seg(n*2, e);
-	repn(i, n) {
-		seg.update(in[i]*2, sb[i], sa[i]*sb[i]);
-		seg.update(in[i]*2+1, -sb[i], -sa[i]*sb[i]);
+	repn(i, n){
+		{
+			slp[in[i]][0] = mp(sb[i], sa[i] * sb[i]);
+			slp[in[i]][1] = mp(-sb[i], -sa[i] * sb[i]);
+		}
+	}
+	rep(_, q){
+		cin>>qu[_][0];
+		if(qu[_][0] == 1) cin >> qu[_][1] >> qu[_][2];
+		else cin >> qu[_][1];
+	}
+	vc<int>p(n);
+	rep(i, n) p[i] = i;
+	sort(all(p), [&](int a, int b){
+		return slp[a][0].a > slp[b][0].a;
+	});
+	
+	for(int L=0;L<q;L+=B){
+		int lb = L;
+		int ub = L+B-1; if(ub >= q) ub = q-1;
+		
+		//[lb, ub]
+		vc<int>za;
+		for(int x=lb;x<=ub;x++){
+			za.pb(in[qu[x][1]]);
+			za.pb(out[qu[x][1]]+1);
+		}
+		SORT(za); ERASE(za);
+		vc<monotone_CHT>slps(za.size());
+		vc<int>bel(n, -1);
+		for(int i=1;i<za.size();i++){
+			for(int u=za[i-1];u<za[i];u++) bel[u] = i;
+		}
+		vc<vc<int>>x(za.size(), vc<int>());
+		for(int i=1;i<za.size();i++) x[i].resize(za[i] - za[i-1]);
+		vc<int>ptr(za.size(), 0);
+		for(auto a:p) if(bel[a] >= 1) x[bel[a]][ptr[bel[a]]++] = a;
+		
+		for(int i=1;i<za.size();i++){
+			//za[i-1], za[i]-1
+			for(auto a:x[i]) slps[i-1].add({slp[a][1].a, slp[a][1].b, 0LL});
+			reverse(all(x[i]));
+			for(auto a:x[i]) slps[i-1].add({slp[a][0].a, slp[a][0].b, 0LL});
+		}
+		memset(lazy, 0, sizeof(lazy));
+		
+		for(int x=lb;x<=ub;x++){
+			if(qu[x][0] == 1){
+				int le = in[qu[x][1]], ri = out[qu[x][1]]+1;
+				le = POSL(za, le);
+				ri = POSL(za, ri) - 1;
+				//[le, ri] -> add x
+				for(int i=le;i<=ri;i++) lazy[i] += qu[x][2];
+			}
+			else{
+				int le = in[qu[x][1]], ri = out[qu[x][1]]+1;
+				le = POSL(za, le);
+				ri = POSL(za, ri) - 1;
+				ans[x] = -8e18;
+				for(int i=le;i<=ri;i++){
+					chmax(ans[x], slps[i].query(lazy[i]));
+				}
+			}
+		}
+		
+		for(int i=1;i<za.size();i++){
+			for(int u=za[i-1];u<za[i];u++){
+				rep(j,2)slp[u][j].b += slp[u][j].a * lazy[i-1];
+			}
+		}
 	}
 	rep(i, q){
-		int t; cin >> t;
-		if(t == 1){
-			int v, x; cin >> v >> x;
-			seg.add(in[v]*2, out[v]*2+1, x);
-		}
-		else{
-			int v; cin >> v;
-			o(-seg.query(in[v]*2, out[v]*2+1));
-		}
+		if(qu[i][0] == 2) o(ans[i]);
 	}
 }
 signed main(){
