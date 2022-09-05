@@ -1,0 +1,28 @@
+file:= File standardInput
+line:=file readLine
+lsize := line size
+optCount := 0
+optLine := ""
+for (i,0,lsize-1,
+  for (j,i+1,lsize,
+    len:=j-i
+    count:=0
+    str:=line slice(i,j)
+    for (k,0,lsize - len+1,
+      if (line slice(k,k+len) == str,
+        count = count+1)
+    )
+    if (count > optCount or (
+        count == optCount and(
+          optLine size<str size or(
+          optLine size == str size and (optLine<str))
+        )
+      ),
+      optCount = count
+      optLine = str
+    )
+
+  )
+)
+//writeln(optCount)
+writeln(optLine)

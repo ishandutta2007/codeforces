@@ -1,0 +1,88 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int readInt() {
+  string in;
+  int result;
+  in = trim(Stdio.stdin->gets());
+  sscanf(in,"%d",result);
+  return result;
+}
+array(int) readInts() {
+  string in;
+  array(string) ins;
+  array(int) results;
+  int i;
+  in = trim(Stdio.stdin->gets());
+  ins = in/" ";
+  results = allocate(sizeof(ins));
+  for (i = 0; i<sizeof(ins); i++) {
+    sscanf(ins[i],"%d",results[i]);
+  }
+  return results;
+}
+int main(){
+  int n;
+  n = readInt();
+  array(int) poly;
+  array(int) poly1;
+  poly = allocate(n+1);
+  poly1 = allocate(n+1);
+  poly[0]=1;
+  int i;
+  for (i=0;i<n;i++) {
+    int a;
+    a = readInt();
+    int j;
+    poly1[0]=a*poly[0];
+    for (j=1;j<=n;j++) {
+      poly1[j]=a*poly[j]+poly[j-1];
+    }
+    for (j=0;j<=n;j++) {
+      poly[j]=poly1[j];
+    }
+  }
+  int first;
+  int j;
+  first = 1;
+  for (j=n;j>=1;j--) {
+    if (poly[j]==0) {
+      continue;
+    }
+    if (poly[j] > 0) {
+      if (first == 0) {
+        write("+");
+      }
+      if (poly[j]>1) {
+        write(sprintf("%d*",poly[j]));
+      }
+    } else {
+      if (poly[j]<-1) {
+        write(sprintf("%d*",poly[j]));
+      } else {
+        write("-");
+      }
+    }
+    write("X");
+    if (j>1) {
+      write(sprintf("^%d",j));
+    }
+    first = 0;
+  }
+  if (poly[0]!=0) {
+    if (poly[0]>0) {
+      if (first == 0) {
+        write("+");
+      }
+      write(sprintf("%d",poly[0]));
+    } else {
+      write(sprintf("%d",poly[0]));
+    }
+  }
+  write("\n");
+}

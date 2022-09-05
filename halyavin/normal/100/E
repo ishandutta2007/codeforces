@@ -1,0 +1,74 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int readInt() {
+  string in;
+  int result;
+  in = trim(Stdio.stdin->gets());
+  sscanf(in,"%d",result);
+  return result;
+}
+array(int) readInts() {
+  string in;
+  array(string) ins;
+  array(int) results;
+  int i;
+  in = trim(Stdio.stdin->gets());
+  ins = in/" ";
+  results = allocate(sizeof(ins));
+  for (i = 0; i<sizeof(ins); i++) {
+    sscanf(ins[i],"%d",results[i]);
+  }
+  return results;
+}
+int main(){
+  int n;
+  n = readInt();
+  array(int) start;
+  start = allocate(n+1);
+  string in;
+  in = trim(Stdio.stdin->gets());
+  array(string) ins;
+  ins = in / " ";
+  int i;
+  for (i=0;i<n;i++) {
+    if (ins[i]=="on") {
+      start[i+1]=1;
+    } else {
+      start[i+1]=0;
+    }
+  }
+  int k;
+  k = readInt();
+  array(int) buttons;
+  buttons = readInts();
+  array(int) reduced;
+  reduced=allocate(n+1);
+  for (i=0;i<sizeof(buttons);i++) {
+    reduced[buttons[i]]=1-reduced[buttons[i]];
+  }
+  for (i=1;i<=n;i++) {
+    if (reduced[i]>0) {
+      int j;
+      for (j=i;j<=n;j+=i) {
+        start[j]=1-start[j];
+      }
+    }
+  }
+  for (i=1;i<=n;i++) {
+    if (i>1) {
+      write(" ");
+    }
+    if (start[i]>0) {
+      write("on");
+    } else {
+      write("off");
+    }
+  }
+  write("\n");
+}

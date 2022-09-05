@@ -1,0 +1,114 @@
+file:= File standardInput
+lines:=file readLine asNumber
+Map := Object clone
+Map keys := list()
+Map values := list()
+Map init := method(
+  keys ::= list()
+  values ::= list()
+)
+Map add := method(key,value,
+  for (i,0,keys size - 1,
+    if (keys at(i) == key,
+      values atPut(i,value)
+      return
+    )
+  )
+  keys append(key)
+  values append(value)
+)
+Map get := method(key,
+  for (i,0,keys size-1,
+    if (keys at(i) == key,
+      return values at(i)))
+  return nil
+)
+Map sort := method(
+  for (i,0,keys size-1,
+    for (j,i+1,keys size-1,
+      if (keys at(i)>keys at(j),
+        tk:=keys at(i)
+        keys atPut(i,keys at(j))
+        keys atPut(j,tk)
+        tv:=values at(i)
+        values atPut(i,values at(j))
+        values atPut(j,tv)
+      )
+    )
+  )
+)
+Map print:=method(
+  write("{")
+  for (i,0,keys size-1,
+    write(keys at(i))
+    write("->")
+    write(values at(i))
+    write(",")
+  )
+  write("}")
+)
+Map print2:=method(
+  write("{")
+  for (i,0,keys size-1,
+    write(keys at(i))
+    write("->")
+    values at(i) print
+    write(",")
+  )
+  write("}")
+)
+Map size := method(return keys size)
+sections := Map clone
+//sections init()
+//print sections keys
+//print sections values
+section := Map clone
+//section init()
+sections add("", section)
+for (i,0,lines-1,
+  line:=file readLine asMutable strip()
+  if (line size==0,continue)
+  if (line slice(0,1)==";",continue)
+  if (line slice(0,1)=="[",
+    sname := line slice(1,-1) asMutable strip()
+    section = sections get(sname)
+    if (section==nil, 
+      section=Map clone
+      section init()
+      sections add(sname, section)
+    )
+    continue
+  )
+  eqs:=0-1
+  for (i,0,line size-1,
+    if (line slice(i,i+1)=="=",
+      eqs=i
+      break
+    )
+  )
+  if (eqs<0,continue)
+  //writeln(line)
+  line1 := line slice(0,eqs) asMutable strip()
+  line2 := line slice(eqs+1) asMutable strip()
+  //write(line1)
+  //write(" ")
+  //writeln(line2)
+  section add(line1,line2)
+  //sections print2
+  //writeln()
+)
+sections sort()
+for (i,0, sections keys size - 1,
+  section = sections values at(i)
+  section sort()
+  if (sections keys at(i)!="",
+    write("[")
+    write(sections keys at(i))
+    writeln("]")
+  )
+  for (j,0, section keys size - 1,
+    write(section keys at(j))
+    write("=")
+    writeln(section values at(j))
+  )
+)

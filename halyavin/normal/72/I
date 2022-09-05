@@ -1,0 +1,19 @@
+file:= File standardInput
+line:=file readLine
+line=line asNumber
+copy:=line
+digs := list()
+while (copy>0,
+  digs append (copy%10)
+  copy = (copy-copy%10)/10
+)
+//writeln(digs)
+count:=0
+digs foreach (dig,if (dig>0, if (line%dig==0, count=count+1)))
+if (count==0,
+  writeln("upset"),
+  if (count<digs size,
+    writeln("happy"),
+    writeln("happier")
+  )
+)

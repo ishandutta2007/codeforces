@@ -1,0 +1,8 @@
+file:= File standardInput
+line:=file readLine
+line=line asNumber
+odd:=0
+even:=0
+for (i,1,line,if (line%i==0,
+  if (i%2==0,even=even+1,odd=odd+1)))
+if (odd==even, writeln("yes"), writeln("no"))

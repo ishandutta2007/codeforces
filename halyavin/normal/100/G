@@ -1,0 +1,67 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int readInt() {
+  string in;
+  int result;
+  in = trim(Stdio.stdin->gets());
+  sscanf(in,"%d",result);
+  return result;
+}
+array(int) readInts() {
+  string in;
+  array(string) ins;
+  array(int) results;
+  int i;
+  in = trim(Stdio.stdin->gets());
+  ins = in/" ";
+  results = allocate(sizeof(ins));
+  for (i = 0; i<sizeof(ins); i++) {
+    sscanf(ins[i],"%d",results[i]);
+  }
+  return results;
+}
+int main(){
+  int n;
+  mapping(string:int) m = ([ ]);
+  n = readInt();
+  int i;
+  for (i=0;i<n;i++) {
+    string in;
+    in = trim(Stdio.stdin->gets());
+    array(string) ins;
+    ins = in / " ";
+    int year;
+    sscanf(ins[1],"%d",year);
+    if (zero_type(m[ins[0]]) == 0) {
+      m[ins[0]]=max(m[ins[0]],year);
+    } else {
+      m[ins[0]]=year;
+    }
+  }
+  int minYear = 3000;
+  string best;
+  best="";
+  int k;
+  k = readInt();
+  for (i=0;i<k;i++) {
+    string in;
+    in = trim(Stdio.stdin->gets());
+    int year;
+    if (zero_type(m[in]) != 0) {
+      year = 0;
+    } else {
+      year = m[in];
+    }
+    if (year<minYear || (year==minYear && in>best)){
+      minYear = year;
+      best = in;
+    }
+  }
+  write(best+"\n");
+}

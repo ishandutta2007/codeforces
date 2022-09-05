@@ -1,0 +1,32 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int main(){
+  string in;
+  array(string) data;
+  array(int) idata;
+  in = trim(Stdio.stdin->gets());
+  in = trim(Stdio.stdin->gets());
+  data = in / ",";
+  idata = allocate(sizeof(data));
+  int i;
+  for (i=0;i<sizeof(data);i++) {
+    sscanf(data[i],"%d",idata[i]);
+    if (idata[i]<0) {
+      idata[i]=-idata[i];
+    }
+  }
+  idata = Array.sort_array(idata);
+  for (i=0;i<sizeof(idata)-1;i++) {
+    if (idata[i+1]%idata[i]!=0) {
+      write("NOT FRIENDS\n");
+      return 0;
+    }
+  }
+  write("FRIENDS\n");
+}
