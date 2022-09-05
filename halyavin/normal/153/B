@@ -1,0 +1,178 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A        PIC 9(10)   VALUE ZEROES.
+       01 E        PIC 9(10)   VALUE ZEROES.
+       01 B        PIC 9(20)   VALUE ZEROES.
+       01 C        PIC Z(20)   VALUE ZEROES.
+       01 D        PIC 9(1)    VALUE ZEROES.
+       01 STR      PIC X(10).
+
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO A.
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(20:1)
+         ELSE
+           MOVE 1 TO B(20:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(19:1)
+         ELSE
+           MOVE 1 TO B(19:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(18:1)
+         ELSE
+           MOVE 1 TO B(18:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(17:1)
+         ELSE
+           MOVE 1 TO B(17:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(16:1)
+         ELSE
+           MOVE 1 TO B(16:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(15:1)
+         ELSE
+           MOVE 1 TO B(15:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(14:1)
+         ELSE
+           MOVE 1 TO B(14:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(13:1)
+         ELSE
+           MOVE 1 TO B(13:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(12:1)
+         ELSE
+           MOVE 1 TO B(12:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(11:1)
+         ELSE
+           MOVE 1 TO B(11:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(10:1)
+         ELSE
+           MOVE 1 TO B(10:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(9:1)
+         ELSE
+           MOVE 1 TO B(9:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(8:1)
+         ELSE
+           MOVE 1 TO B(8:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(7:1)
+         ELSE
+           MOVE 1 TO B(7:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(6:1)
+         ELSE
+           MOVE 1 TO B(6:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(5:1)
+         ELSE
+           MOVE 1 TO B(5:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(4:1)
+         ELSE
+           MOVE 1 TO B(4:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(3:1)
+         ELSE
+           MOVE 1 TO B(3:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(2:1)
+         ELSE
+           MOVE 1 TO B(2:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         DIVIDE A BY 2 GIVING E.
+         MULTIPLY E BY 2 GIVING E.
+         IF A=E
+           MOVE 0 TO B(1:1)
+         ELSE
+           MOVE 1 TO B(1:1).
+         DIVIDE A BY 2 GIVING A.
+         
+         MOVE B TO C.
+         DISPLAY C.
+         STOP RUN.

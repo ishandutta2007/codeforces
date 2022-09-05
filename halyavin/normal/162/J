@@ -1,0 +1,39 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence locals ;
+
+IN: template
+
+:: read-p ( sum -- )
+  read1
+  dup
+  32 <=
+  [
+    drop
+    sum 0 =
+    [
+      "YES" print
+    ]
+    [
+      "NO" print
+    ]
+    if
+  ]
+  [
+    40 =
+    [
+      sum 1 + read-p
+    ]
+    [
+      sum 0 =
+      [
+        "NO" print
+      ]
+      [
+        sum 1 - read-p
+      ]
+      if
+    ]
+    if
+  ]
+  if ;
+  
+0 read-p

@@ -1,0 +1,76 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A        PIC 9(10)   VALUE ZEROES.
+       01 B        PIC X(10).
+       01 E        PIC 9(10)   VALUE ZEROES.
+       01 STR      PIC X(10).
+
+       PROCEDURE DIVISION.
+         ACCEPT B.
+         ACCEPT STR.
+         MOVE STR TO A.
+         MOVE FUNCTION ORD(B(1:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(1:1).
+         MOVE FUNCTION ORD(B(2:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(2:1).
+         MOVE FUNCTION ORD(B(3:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(3:1).
+         MOVE FUNCTION ORD(B(4:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(4:1).
+         MOVE FUNCTION ORD(B(5:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(5:1).
+         MOVE FUNCTION ORD(B(6:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(6:1).
+         MOVE FUNCTION ORD(B(7:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(7:1).
+         MOVE FUNCTION ORD(B(8:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(8:1).
+         MOVE FUNCTION ORD(B(9:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(9:1).
+         MOVE FUNCTION ORD(B(10:1)) TO E.
+         IF NOT E=33
+           ADD A TO E.
+         IF E > 91
+           SUBTRACT 26 FROM E.
+         MOVE FUNCTION CHAR(E) TO B(10:1).
+         DISPLAY B.
+         STOP RUN.

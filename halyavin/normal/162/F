@@ -1,0 +1,20 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence locals ;
+
+IN: template
+
+:: f0 ( n -- result )
+ n 0 =
+ [
+   0
+ ]
+ [
+   n 5 /i :> n1
+   n1 f0
+   n1
+   +
+ ]
+ if ; 
+ 
+readln string>number
+f0
+number>string print

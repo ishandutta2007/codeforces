@@ -1,0 +1,61 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence locals ;
+
+IN: template
+
+: tolower ( n -- result )
+  dup
+  65 >=
+  [
+    dup
+    90 <=
+    [
+      32 +
+    ]
+    [
+    ]
+    if
+  ]
+  [
+  ]
+  if ;
+
+: toupper ( n -- result )
+  dup
+  97 >=
+  [
+    dup
+    122 <=
+    [
+      32 -
+    ]
+    [
+    ]
+    if
+  ]
+  [
+  ]
+  if ;
+
+:: read-p ( mode -- )
+  read1
+  dup
+  32 <=
+  [
+    drop
+  ]
+  [
+    mode 0 =
+    [
+      tolower
+    ]
+    [
+      toupper
+    ]
+    if
+    write1
+    1 mode -
+    read-p
+  ]
+  if ;
+  
+1 read-p
