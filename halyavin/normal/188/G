@@ -1,0 +1,36 @@
+co clear {
+  eq [1] [0] 1
+  if [1] ac
+  set [[0]] 0
+  sub [0] [0] 1
+}
+co input {
+  eq [1] [0] 0
+  if [1] ac
+  iin [2]
+  add [2] [2] 10
+  add [[2]] [[2]] 1
+  sub [0] [0] 1
+}
+co output1 {
+  eq [1] [[0]] 0
+  neq [2] [[0]] 0
+  if [2] sub [3] [0] 10
+  if [2] iout [3]
+  if [2] cout 32
+  if [2] sub [[0]] [[0]] 1
+  if [1] ac
+}
+co output {
+  eq [1] [0] 111
+  if [1] ac
+  ca output1
+  add [0] [0] 1
+}
+set [0] 112
+ca clear
+iin [0]
+ca input
+set [0] 10
+ca output
+ac

@@ -1,0 +1,18 @@
+co out {
+  sub [1] [1] 1
+  eq [2] [1] 2
+  if [2] ac
+  iout [[1]]
+}
+co calc {
+  eq [2] [0] 0
+  if [2] ac
+  mod [[1]] [0] 2
+  div [0] [0] 2
+  add [1] [1] 1
+}
+iin [0]
+set [1] 3
+ca calc
+ca out
+ac

@@ -1,0 +1,35 @@
+co digit {
+  add [0] [0] 1
+  sub [2] [1] 48
+  set [[0]] [2]
+  ac
+}
+co plus {
+  set [2] [[0]]
+  sub [0] [0] 1
+  add [[0]] [[0]] [2]
+  ac
+}
+co mult {
+  set [2] [[0]]
+  sub [0] [0] 1
+  mul [[0]] [[0]] [2]
+  ac
+}
+co input {
+  cin [1]
+  eq [2] [1] 10
+  if [2] ac
+  gt [2] [1] 47
+  lt [3] [1] 59
+  and [2] [2] [3]
+  if [2] ca digit
+  eq [2] [1] 43
+  if [2] ca plus
+  eq [2] [1] 42
+  if [2] ca mult
+}
+set [0] 9
+ca input
+iout [[0]]
+ac
