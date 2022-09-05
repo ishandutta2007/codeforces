@@ -1,0 +1,92 @@
+#define _CRT_SECURE_NO_WARNINGS
+#pragma comment(linker, "/stack:16777216")
+#include <string>
+#include <vector>
+#include <map>
+#include <list>
+#include <iterator>
+#include <set>
+#include <queue>
+#include <iostream>
+#include <sstream>
+#include <stack>
+#include <deque>
+#include <cmath>
+#include <memory.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cctype>
+#include <algorithm>
+#include <utility>
+#include <fstream>
+#include <time.h>
+using namespace std;
+
+#define FOR(i, a, b) for(int i = (a); i < (b); ++i)
+#define RFOR(i, b, a) for(int i = (b) - 1; i >= (a); --i)
+#define REP(i, N) FOR(i, 0, N)
+#define RREP(i, N) RFOR(i, N, 0)
+#define FILL(A,value) memset(A,value,sizeof(A))
+#define ALL(V) V.begin(), V.end()
+#define SZ(V) (int)V.size()
+#define PB push_back
+#define MP make_pair
+#define y0 gfdssdfer
+#define y1 wetgwervbwqr
+
+#define distance sgfsdfgs
+
+typedef long long Int;
+typedef unsigned int uint;
+typedef vector<int> VI;
+typedef pair<int,int> PII;
+
+const double PI = acos(-1.0);
+const int INF = 1000000000;
+const int MAX = 2048;
+const int MAX2 = 1000007;
+const int MOD = 1000000007;
+
+bool good(int n,int k){
+    bool used[10];
+    FILL(used,0);
+    while (n){
+        used[n % 10] = 1;
+        n /= 10;
+    }
+    FOR(i,0,k + 1)
+        if (!used[i])
+            return 0;
+    return 1;
+}
+
+int main()
+{
+//#ifndef ONLINE_JUDGE
+//  freopen("in.txt", "r", stdin);
+//#endif
+    int n;
+    cin >> n;
+    int res = 0;
+    vector<int> b;
+    FOR(i,0,n){
+        int x;
+        cin >> x;
+        if (b.size() < 2){
+            b.PB(x);
+        }
+        else{
+            if (x == b[b.size() - 1] + b[b.size() - 2]){
+                b.PB(x);
+            }
+            else{
+                int y = b.back();
+                b.clear();
+                b.PB(y);
+                b.PB(x);
+            }
+        }
+        res = max(res , (int)b.size());
+    }
+    cout << res << endl;
+}
