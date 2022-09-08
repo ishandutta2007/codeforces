@@ -1,0 +1,117 @@
+#include <bits/stdc++.h>
+#define Fast_cin ios::sync_with_stdio(false), cin.tie(0);
+#define rep(i, a, b) for(register int i = a; i <= b; i++)
+#define per(i, a, b) for(register int i = a; i >= b; i--)
+using namespace std;
+
+typedef unsigned long long ull;
+typedef pair <int, int> pii;
+typedef long long ll;
+
+template <typename _T>
+inline void read(_T &f) {
+    f = 0; _T fu = 1; char c = getchar();
+    while(c < '0' || c > '9') { if(c == '-') fu = -1; c = getchar(); }
+    while(c >= '0' && c <= '9') { f = (f << 3) + (f << 1) + (c & 15); c = getchar(); }
+    f *= fu;
+}
+
+template <typename T>
+void print(T x) {
+    if(x < 0) putchar('-'), x = -x;
+    if(x < 10) putchar(x + 48);
+    else print(x / 10), putchar(x % 10 + 48);
+}
+
+template <typename T>
+void print(T x, char t) {
+    print(x); putchar(t);
+}
+
+template <typename T>
+struct hash_map_t {
+    vector <T> v, val, nxt;
+    vector <int> head;
+    int mod, tot, lastv;
+    T lastans;
+    bool have_ans;
+
+    hash_map_t (int md = 0) {
+        head.clear(); v.clear(); val.clear(); nxt.clear(); tot = 0; mod = md;
+        nxt.resize(1); v.resize(1); val.resize(1); head.resize(mod);
+        have_ans = 0;
+    }
+
+    void clear() { *this = hash_map_t(mod); }
+
+    bool count(int x) {
+        int u = x % mod;
+        for(register int i = head[u]; i; i = nxt[i]) {
+            if(v[i] == x) {
+                have_ans = 1;
+                lastv = x;
+                lastans = val[i];
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    void ins(int x, int y) {
+        int u = x % mod;
+        nxt.push_back(head[u]); head[u] = ++tot;
+        v.push_back(x); val.push_back(y);
+    }
+
+    int qry(int x) {
+        if(have_ans && lastv == x) return lastans;
+        count(x);
+        return lastans;
+    }
+};
+
+ll ans;
+int m, a, b, d, last;
+
+int gcd(int a, int b) { return b == 0 ? a : gcd(b, a % b); }
+
+ll calc(int x) { return 1ll * x * (x + 1) / 2; }
+
+ll solve(int n) {
+    ll ans = 1;
+    int now = 0, nowans = 1;
+    for(register int i = 1; i <= n; i++) {
+        while(1) {
+            int tmp = nowans;
+            while(now + a <= i) now += a, ++nowans;
+            while(now >= b) now -= b, ++nowans;
+            if(tmp == nowans) break;
+        }
+        ans += nowans;
+    }
+    last = nowans;
+    return ans;
+}
+
+ll solve(int l, int r) {
+    last = r;
+    return calc(r) - calc(l - 1);
+}
+
+int main() {
+//    freopen("ddjxd.in", "r", stdin);
+//    freopen("ddjxd.out", "w", stdout);
+    cin >> m >> a >> b; d = gcd(a, b); a /= d; b /= d;
+    if(m / d <= a + b - 2) {
+        ans = solve(m / d) * d;
+        ans -= 1ll * (d - (m % d + 1)) * last;
+        print(ans, '\n');
+    } else {
+        ans = (solve(a + b - 2) + solve(a + b, m / d + 1)) * d;
+//        cout << solve(a + b - 2) << " " << solve(a + b, m / d + 1) << endl;
+        last = m / d + 1;
+        ans -= 1ll * (d - (m % d + 1)) * last;
+        print(ans, '\n');
+    }
+    return 0;
+}
