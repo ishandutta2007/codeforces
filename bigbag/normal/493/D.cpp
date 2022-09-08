@@ -1,0 +1,29 @@
+#include <map>
+#include <set>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int n;
+
+int main() {
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
+    cin >> n;
+    if (n % 2 == 1) {
+        cout << "black" << endl;
+        return 0;
+    }
+    cout << "white" << endl;
+    cout << "1 2" << endl;
+    return 0;
+}
