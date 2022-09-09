@@ -1,0 +1,36 @@
+co add {
+set [3] [[2]]
+dec [2]
+add [[2]] [3] [[2]]
+ac
+}
+
+co mul {
+set [3] [[2]]
+dec [2]
+mul [[2]] [3] [[2]]
+ac
+}
+
+co digit {
+inc [2]
+sub [[2]] [0] 48
+ac
+}
+
+co main {
+cin [0]
+eq [1] [0] 10
+if [1] ac
+eq [1] [0] 43
+if [1] ca add
+eq [1] [0] 42
+if [1] ca mul
+gt [1] [0] 47
+if [1] ca digit
+}
+
+set [2] 9
+ca main
+iout [[2]]
+ac

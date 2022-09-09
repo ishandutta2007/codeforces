@@ -1,0 +1,50 @@
+co read {
+eq [1] [2] [0]
+if [1] ac
+add [1] [2] 10
+iin [[1]]
+inc [2]
+}
+
+co peek {
+eq [1] [3] [2]
+if [1] ac
+eq [1] [3] [2]
+if [1] ac
+add [6] [3] 10
+set [6] [[6]]
+lt [1] [6] [5]
+if [1] set [4] [3]
+if [1] set [5] [6]
+inc [3]
+}
+
+co remove {
+set [3] [4]
+inc [4]
+eq [1] [4] [2]
+if [1] ac
+add [5] [3] 10
+add [6] [4] 10
+set [[5]] [[6]]
+}
+
+co sort {
+eq [1] [2] 0
+if [1] ac
+set [3] 1
+set [4] 0
+set [5] [10]
+ca peek
+iout [5]
+cout 32
+ca remove
+dec [2]
+}
+
+iin [0]
+set [2] 0
+ca read
+set [2] [0]
+ca sort
+ac

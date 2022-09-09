@@ -1,0 +1,20 @@
+co loop2 {
+gt [3] [2] [1]
+if [3] ac
+cout 42
+inc [2]
+}
+
+co loop1 {
+gt [2] [1] [0]
+if [2] ac
+set [2] 1
+ca loop2
+cout 10
+inc [1]
+}
+
+iin [0]
+set [1] 1
+ca loop1
+ac

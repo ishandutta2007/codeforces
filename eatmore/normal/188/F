@@ -1,0 +1,22 @@
+co sub1 {
+gt [2] [1] [0]
+if [2] ac
+mul [1] [1] 2
+}
+
+co sub2 {
+eq [2] [1] 0
+if [2] ac
+and [2] [0] [1]
+neq [2] [2] 0
+add [2] [2] 48
+cout [2]
+div [1] [1] 2
+}
+
+iin [0]
+set [1] 1
+ca sub1
+div [1] [1] 2
+ca sub2
+ac
