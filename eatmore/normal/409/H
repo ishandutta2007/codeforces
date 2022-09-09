@@ -1,0 +1,6 @@
+      INTEGER A,B,S
+      READ(5,*) A,B
+      S = A + B
+      WRITE(6,*) S
+      STOP
+      END

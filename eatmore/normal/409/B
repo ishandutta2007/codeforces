@@ -1,0 +1,4 @@
+      WRITE(6,601)
+  601 FORMAT(10HFORTRAN 77)
+      STOP
+      END

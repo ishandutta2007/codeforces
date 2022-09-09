@@ -1,0 +1,44 @@
+with Ada.Strings.Unbounded, Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+use Ada.Strings.Unbounded, Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+	S: Unbounded_String;
+	N, I, J, Ans: Integer;
+begin
+	Get(Item => N);
+	S := To_Unbounded_String(Get_Line);
+	declare
+		Matrix: array (1 .. N, 1 .. N) of Boolean;
+		Have: array (1 .. N) of Boolean;
+		Queue: array (1 .. N) of Integer;
+		Tail: Integer;
+	begin
+		for I in 1 .. N loop
+			S := To_Unbounded_String(Get_Line);
+			for J in 1 .. N loop
+				Matrix(I, J) := Element(S, J) = '1';
+			end loop;
+			Have(I) := False;
+		end loop;
+		Ans := 0;
+		Have(1) := True;
+		Tail := 2;
+		Queue(1) := 1;
+		for I in 1 .. N loop
+			exit when I = Tail;
+			if Queue(I) /= N then
+				if Matrix(Queue(I), N) then
+					Ans := Ans + 1;
+				end if;
+				for J in 1 .. N loop
+					if Matrix(Queue(I), J) and then not Have(J) then
+						Have(J) := True;
+						Queue(Tail) := J;
+						Tail := Tail + 1;
+					end if;
+				end loop;
+			end if;
+		end loop;
+	end;
+	Put(Item => Ans);
+end Solution;

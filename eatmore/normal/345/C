@@ -1,0 +1,35 @@
+with Ada.Strings.Unbounded, Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+use Ada.Strings.Unbounded, Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+	S: Unbounded_String;
+	N, I, J, Ans, Year, Month, Day, Day_Num: Integer;
+	Days_In_Month: array (1 .. 12) of Integer := (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+begin
+	Get(Item => N);
+	S := To_Unbounded_String(Get_Line);
+	Ans := 0;
+	for I in 1 .. N loop
+		S := To_Unbounded_String(Get_Line);
+		Year := Integer'Value(Slice(S, 1, 4));
+		Month := Integer'Value(Slice(S, 6, 7));
+		Day := Integer'Value(Slice(S, 9, 10));
+		Day_Num := Day;
+		for J in 1 .. Month - 1 loop
+			Day_Num := Day_Num + Days_In_Month(J);
+			if Year mod 4 = 0 and then J = 2 then
+				Day_Num := Day_Num + 1;
+			end if;
+		end loop;
+		for J in 1974 .. Year - 1 loop
+			Day_Num := Day_Num + 365;
+			if J mod 4 = 0 then
+				Day_Num := Day_Num + 1;
+			end if;
+		end loop;
+		if Day = 13 and then Day_Num mod 7 = 4 then
+			Ans := Ans + 1;
+		end if;
+	end loop;
+	Put(Item => Ans);
+end Solution;

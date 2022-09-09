@@ -1,0 +1,40 @@
+with Ada.Strings.Unbounded, Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+use Ada.Strings.Unbounded, Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+	N, I, Rema, Digi, Ans, Res: Integer;
+begin
+	Get(Item => N);
+	Ans := 0;
+	for I in 4 .. N loop
+		Rema := N / I;
+		Digi := N mod I;
+		Res := 0;
+		while Rema > 0 or else Digi > 0 loop
+			if Digi > 10 then
+				if Digi mod 100 = 13 then
+					Res := 1;
+				end if;
+			else
+				if Digi = 3 and then Rema mod I mod 10 = 1 then
+					Res := 1;
+				end if;
+			end if;
+			if Digi = 0 then
+				Digi := Rema mod I;
+				Rema := Rema / I;
+			else
+				Digi := Digi / 10;
+			end if;
+		end loop;
+		Ans := Ans + Res;
+		if I = 10 and then Res = 1 then
+			Ans := Ans + N;
+		end if;
+	end loop;
+	if Ans >= N then
+		Put(Item => -1);
+	else
+		Put(Item => Ans);
+	end if;
+end Solution;
