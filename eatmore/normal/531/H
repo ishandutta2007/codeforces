@@ -1,0 +1,11 @@
+main =>
+  N = read_int(),
+  P = [],
+  foreach(I in 1..N)
+    P := P ++ [(read_int(), read_int())]
+  end,
+  R = 20000.0,
+  foreach (A in 1..200, B in 1..200, len([0 : (X, Y) in P, X * B + Y * A > A * B]) == 0)
+    R := min(R, A * B / 2)
+  end,
+  print(R).

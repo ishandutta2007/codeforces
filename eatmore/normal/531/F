@@ -1,0 +1,23 @@
+in_(A, B) => once (select(A, B, C)).
+
+main =>
+  N = read_int(),
+  C = [],
+  foreach (I in 1..N)
+    C := C ++ [(read_int(), read_int())]
+  end,
+  A = 0,
+  foreach (T in 1..10)
+    S = [(0, 0)],
+    SS = [(0, 0)],
+    while (len(S) > 0)
+      [(X, Y) | NS] = S,
+      S := NS,
+      foreach ((NX, NY) in [(X+T, Y), (X-T, Y), (X, Y+T), (X, Y-T)], in_((NX, NY), C), not in_((NX, NY), SS))
+        SS := [(NX, NY) | SS],
+        S := [(NX, NY) | S],
+        A := max(A, abs(NX)+abs(NY))
+      end
+    end
+  end,
+  print(A).

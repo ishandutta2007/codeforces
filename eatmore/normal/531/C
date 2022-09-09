@@ -1,0 +1,14 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  RES = [],
+  foreach(X in 1..C, Y in 1..C, A * X + B * Y = C)
+    RES := RES ++ [[X, Y]]
+  end,
+  println(len(RES)),
+  foreach([X, Y] in RES)
+    print(X),
+    print(" "),
+    println(Y)
+  end.

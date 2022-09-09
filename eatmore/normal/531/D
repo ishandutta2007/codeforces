@@ -1,0 +1,13 @@
+main =>
+  SET = 1..1000,
+  N = read_int(),
+  foreach (I in 1..N)
+    L = read_int(),
+    R = read_int(),
+    SET := [J : J in SET, not (J >= L, J <= R)]
+  end,
+  print(len(SET)),
+  foreach (I in SET)
+    print(" "),
+    print(I)
+  end.

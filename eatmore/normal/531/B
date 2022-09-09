@@ -1,0 +1,5 @@
+main =>
+  A = read_line(),
+  L = len(A) // 2,
+  B = [A[I] : I in L..-1..1] ++ [A[I] : I in 2*L..-1..L+1],
+  println(B).

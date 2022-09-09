@@ -1,0 +1,10 @@
+main =>
+  N = read_int(),
+  D = read_int(),
+  foreach (I in 1..(N-2))
+    print(1),
+    print(" ")
+  end,
+  print(2),
+  print(" "),
+  print(N+D).
