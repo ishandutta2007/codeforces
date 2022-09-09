@@ -2,6 +2,8 @@ import subprocess
 import time
 import random
 
+MIN_WAIT_SEC = 100
+MAX_WAIT_SEC = 300
 MAX_FILES_TO_ADD = 90
 
 
@@ -69,7 +71,7 @@ for i in range(1, 900):
 
     print(finalfolderlist)
     if len(finalfolderlist) == 0:
-        r = random.randint(100, 200)
+        r = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
         print("[{}]Waiting {} secs....".format(i, r))
         time.sleep(r)
         continue
