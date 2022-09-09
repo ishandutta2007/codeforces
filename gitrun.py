@@ -2,6 +2,8 @@ import subprocess
 import time
 import random
 
+MAX_FILES_TO_ADD = 90
+
 
 def compact(lst):
     return list(filter(None, lst))
@@ -19,12 +21,12 @@ for i in range(1, 900):
             outlist1 = outlist1[idx + 2 :]
             outlist1 = compact(outlist1)
             outlist1 = outlist1[:-1]
-            outlist1 = outlist1[:30]
+            outlist1 = outlist1[:MAX_FILES_TO_ADD]
             trimmed = True
             break
     if trimmed == False:
         outlist1 = []
-    print("outlist1 filterd by untracked")
+    print("[{}]outlist1 filterd by untracked".format(i))
     print(outlist1)
     print("[{}]Done git status1".format(i))
     print("=====")
@@ -68,7 +70,7 @@ for i in range(1, 900):
     print(finalfolderlist)
     if len(finalfolderlist) == 0:
         r = random.randint(100, 200)
-        print("waiting {} secs....".format(r))
+        print("[{}]Waiting {} secs....".format(i, r))
         time.sleep(r)
         continue
     freq = {x: finalfolderlist.count(x) for x in finalfolderlist}
