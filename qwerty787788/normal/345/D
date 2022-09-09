@@ -1,0 +1,61 @@
+with Ada.Text_IO;
+use Ada.Text_IO;
+with Ada.Strings;
+use  Ada.Strings;
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+WITH Ada.Float_Text_IO; 
+use Ada.Float_Text_IO;
+
+procedure String1 is
+
+   Line     : ARRAY (1..53) of STRING(1..53);
+   res : STRING(1..53);
+   Last : Integer;
+   n : Integer;
+	result  : Integer;
+begin
+
+   --Line := "This is a test of STRINGS in Ada.";
+   Get(Item => n);
+   Get_Line(Line(1), Last);
+   FOR i IN 1..n LOOP
+		Ada.Text_IO.Get_Line (Line(i), Last);
+   END LOOP;
+   n := n - 1;
+   FOR i IN 1..n LOOP
+   	Line(i)(i) := '1';
+   END LOOP;
+   FOR i IN 1..n LOOP
+		FOR j IN 1..n LOOP
+			FOR k IN 1..n LOOP 
+				IF Line(j)(i) = '1' THEN
+					IF Line(i)(k) = '1' THEN
+						Line(j)(k) := '1';
+					END IF;
+				END IF;
+			END LOOP;
+		END LOOP;
+   END LOOP;
+   
+   result := 0;
+   n := n + 1;
+   FOR i IN 1..n LOOP
+   	IF Line(1)(i) = '1' then
+   		IF Line(n)(i) = '1' then
+   			result := result + 1;
+   		END IF;
+   	END IF;
+   END LOOP;
+	Put(Item => result, Width => 1);
+end String1;
+
+
+
+
+-- Result of execution
+
+-- This is a test of STRINGS in Ada.
+-- John is a Computer Programmer and lives in Anywhere, USA
+--
+-- AnXYhere,John

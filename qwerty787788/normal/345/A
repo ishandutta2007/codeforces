@@ -1,0 +1,52 @@
+with Ada.Text_IO;
+use Ada.Text_IO;
+with Ada.Strings;
+use  Ada.Strings;
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+WITH Ada.Float_Text_IO; 
+use Ada.Float_Text_IO;
+
+procedure String1 is
+
+   Line     : STRING(1..53);
+   Last : Integer;
+   ones    : Float;
+   q: Float;
+   p, res, cnt : Float;
+
+begin
+
+   --Line := "This is a test of STRINGS in Ada.";
+   Ada.Text_IO.Get_Line (Line, Last);
+   --Put(Item => Last, Width => 1);
+   p := 0.0;
+   q := 0.0;
+   ones := 0.0;
+   cnt := 0.0;
+   FOR n IN 1..Last LOOP
+   	--Put(Item => Last, Width => 1);
+   	IF Line(n) = '1' then
+   	 ones := ones + 1.0;
+   	END IF;
+   	if Line(n) = '?' then
+   	 q := q + 1.0;
+   	END IF;
+   	cnt := cnt + 1.0;
+   END LOOP;
+   Ada.Float_Text_IO.get (item => p);
+   res := (q*p+ones)/cnt;
+   Ada.Float_Text_IO.put                        --  Float variable
+         (Item => res, Fore => 5, Aft => 5, Exp => 0);
+   
+end String1;
+
+
+
+
+-- Result of execution
+
+-- This is a test of STRINGS in Ada.
+-- John is a Computer Programmer and lives in Anywhere, USA
+--
+-- AnXYhere,John

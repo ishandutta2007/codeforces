@@ -1,0 +1,25 @@
+import java.util.*
+import java.math.*
+import kotlin.math.*
+
+fun readLn()=readLine()!!
+fun readInt()=readLn().toInt()
+fun readInts()=readLn().split(" ").map{it.toInt()}
+fun readLong()=readLn().toLong()
+fun readLongs()=readLn().split(" ").map{it.toLong()}
+
+val out=mutableListOf<String>()
+fun printLine(s:String){out.add(s)}
+fun output(){println(out.joinToString("\n"))}
+
+fun main(){
+    var n=readInt()
+    var ans=0;var cur=0
+    for(i in 1..n){
+        var (a,b)=readInts()
+        cur-=a;cur+=b
+        ans=max(ans,cur);
+    }
+    printLine("$ans")
+    output()
+}
