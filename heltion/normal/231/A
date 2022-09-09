@@ -1,0 +1,4 @@
+let rec f n =
+    if n = 0 then 0
+    else f(n - 1) + (Scanf.scanf " %d %d %d" (fun x y z-> if x + y + z >= 2 then 1 else 0));;
+print_int(f(read_int()))

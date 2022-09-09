@@ -1,0 +1,2 @@
+let s = read_int();;
+if s mod 2 = 0 && s >= 4 then print_string "YES" else print_string "NO"
