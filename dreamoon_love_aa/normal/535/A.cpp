@@ -1,0 +1,44 @@
+#include<cstdio>
+int main(){
+    int x;
+    scanf("%d",&x);
+    if(x==0)return 0*puts("zero");
+    if(x==1)return 0*puts("one");
+    if(x==2)return 0*puts("two");
+    if(x==3)return 0*puts("three");
+    if(x==4)return 0*puts("four");
+    if(x==5)return 0*puts("five");
+    if(x==6)return 0*puts("six");
+    if(x==7)return 0*puts("seven");
+    if(x==8)return 0*puts("eight");
+    if(x==9)return 0*puts("nine");
+    if(x==10)return 0*puts("ten");
+    if(x==11)return 0*puts("eleven");
+    if(x==12)return 0*puts("twelve");
+    if(x==13)return 0*puts("thirteen");
+    if(x==14)return 0*puts("fourteen");
+    if(x==15)return 0*puts("fifteen");
+    if(x==16)return 0*puts("sixteen");
+    if(x==17)return 0*puts("seventeen");
+    if(x==18)return 0*puts("eighteen");
+    if(x==19)return 0*puts("nineteen");
+    int y=x%10;
+    x-=y;
+    if(x==20)printf("twenty");
+    if(x==30)printf("thirty");
+    if(x==40)printf("forty");
+    if(x==50)printf("fifty");
+    if(x==60)printf("sixty");
+    if(x==70)printf("seventy");
+    if(x==80)printf("eighty");
+    if(x==90)printf("ninety");
+    if(y==1)return 0*puts("-one");
+    if(y==2)return 0*puts("-two");
+    if(y==3)return 0*puts("-three");
+    if(y==4)return 0*puts("-four");
+    if(y==5)return 0*puts("-five");
+    if(y==6)return 0*puts("-six");
+    if(y==7)return 0*puts("-seven");
+    if(y==8)return 0*puts("-eight");
+    if(y==9)return 0*puts("-nine");
+}
