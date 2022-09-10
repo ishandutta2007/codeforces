@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+#define SZ(X) ((int)(X).size())
+#define ALL(X) (X).begin(), (X).end()
+#define REP(I, N) for (int I = 0; I < (N); ++I)
+#define REPP(I, A, B) for (int I = (A); I < (B); ++I)
+#define RI(X) scanf("%d", &(X))
+#define RII(X, Y) scanf("%d%d", &(X), &(Y))
+#define RIII(X, Y, Z) scanf("%d%d%d", &(X), &(Y), &(Z))
+#define DRI(X) int (X); scanf("%d", &X)
+#define DRII(X, Y) int X, Y; scanf("%d%d", &X, &Y)
+#define DRIII(X, Y, Z) int X, Y, Z; scanf("%d%d%d", &X, &Y, &Z)
+#define RS(X) scanf("%s", (X))
+#define CASET int ___T, case_n = 1; scanf("%d ", &___T); while (___T-- > 0)
+#define MP make_pair
+#define PB push_back
+#define MS0(X) memset((X), 0, sizeof((X)))
+#define MS1(X) memset((X), -1, sizeof((X)))
+#define LEN(X) strlen(X)
+#define PII pair<int,int>
+#define VI vector<int>
+#define VPII vector<pair<int,int> >
+#define PLL pair<long long,long long>
+#define VPLL vector<pair<long long,long long> >
+#define F first
+#define S second
+typedef long long LL;
+using namespace std;
+const int MOD = 1e9+7;
+const int SIZE = 1e6+10;
+int a[10];
+int main(){
+    DRI(n);
+    if(!n){
+        puts("YES\n1\n1\n3\n3");
+        return 0;
+    }
+    REP(i,n)RI(a[i]);
+    sort(a,a+n);
+    if(n==4){
+        if(a[3]+a[0]==a[2]+a[1]&&(a[3]-a[0])*2==a[0]+a[3])puts("YES");
+        else puts("NO");
+    }
+    else if(n==1){
+        printf("YES\n%d\n%d\n%d\n",a[0],a[0]*3,a[0]*3);
+    }
+    else if(n==2){
+        if(a[1]>a[0]*3)puts("NO");
+        else printf("YES\n%d\n%d\n",a[0]*3,a[0]*4-a[1]);
+    }
+    else{
+        if(a[1]+a[2]==a[0]*4){
+            printf("YES\n%d\n",a[0]*3);
+            return 0;
+        }
+        if(a[0]*3==a[2]){
+            printf("YES\n%d\n",a[0]*4-a[1]);
+            return 0;
+        }
+        if(a[2]%3==0&&a[0]+a[1]==a[2]/3*4){
+            printf("YES\n%d\n",a[2]/3);
+            return 0;
+        }
+        puts("NO");
+    }
+    return 0;
+}
