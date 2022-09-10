@@ -1,0 +1,29 @@
+co get{
+    cin [0]
+    eq [3] [0] 72
+    if [3]
+       set [2] 1
+    eq [3] [0] 81
+    if [3]
+       set [2] 1
+    eq [3] [0] 57
+    if [3]
+       set [2] 1
+    eq [1] [0] 10
+    if [1]
+        ac
+}
+set [2] 0
+ca get
+if [2] 
+    cout 89
+if [2] 
+    cout 69
+if [2] 
+    cout 83
+eq [2] [2] 0
+if [2] 
+    cout 78
+if [2] 
+    cout 79
+ac

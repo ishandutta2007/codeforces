@@ -1,0 +1,17 @@
+co lcm{
+    inc [0]
+    mod [3] [0] [1]
+    mod [4] [0] [2]
+    add [5] [3] [4]
+    set [6] 1
+    if [5]
+        set [6] 0
+    if [6]
+        ac
+} 
+iin [1]
+iin [2]
+set[0] 0
+ca lcm
+iout [0]
+ac

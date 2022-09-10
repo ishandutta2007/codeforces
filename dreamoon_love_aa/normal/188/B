@@ -1,0 +1,16 @@
+co rev{
+    mod [2] [1] 10
+    mul [3] [3] 10
+    add [3] [3] [2]
+    div [1] [1] 10
+    eq [4] [1] 0
+    if [4]
+        ac
+} 
+iin [0]
+iin [1]
+set [3] 0
+ca rev
+add [0] [0] [3]
+iout [0]
+ac

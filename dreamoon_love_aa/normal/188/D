@@ -1,0 +1,23 @@
+co ff{
+    eq [4] [3] [0]
+    if [4]
+        cout [6]
+    if [4]
+        ac
+    cout [5]
+    inc [3]
+}
+co print{
+    set [3] 0
+    ca ff
+    eq [2] [1] [0]
+    if [2]
+        ac
+    inc [0]
+}
+set [0] 1
+set [6] 10
+set [5] 42
+iin [1]
+ca print
+ac
