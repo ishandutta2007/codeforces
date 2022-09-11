@@ -1,0 +1,25 @@
+s := File standardInput readLine asString
+len := s size
+if(s containsSeq("-"),
+"-" print
+s = s slice(-len+1)
+len = len-1
+)
+i := 0
+while(s at(i) == 48 ,i=i+1)
+if(i==len,"0" print,
+s=s slice(-len+i)
+r := 0
+i = s size()
+i = i-1
+while(i>=0,
+if(s at(i)==48,
+    if(r==1,"0" print),
+    r=1
+    s slice(i,i+1) print
+)
+i=i-1
+)
+if(s size == 0,"0" print)
+}
+"" println

@@ -1,0 +1,17 @@
+set line [gets stdin]
+set a(3) 0
+set a(1) 0
+set a(2) 0
+scan $line "%d%d%d" a(1) a(2) a(3)
+set x 3
+if {$a(1) >= $a(2)} {incr x -1}
+if {$a(1) >= $a(3)} {incr x -1}
+puts -nonewline $x
+set x 3
+if {$a(2) > $a(1)} {incr x -1}
+if {$a(2) >= $a(3)} {incr x -1}
+puts -nonewline " $x"
+set x 3
+if {$a(3) > $a(2)} {incr x -1}
+if {$a(3) > $a(1)} {incr x -1}
+puts " $x"

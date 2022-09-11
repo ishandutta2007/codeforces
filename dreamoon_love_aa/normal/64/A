@@ -1,0 +1,7 @@
+proc fac x {
+    if {$x == 0} {return 1} else {return [expr $x*[fac [incr x -1]]]}
+}
+set n 0
+set line [gets stdin]
+scan $line "%d" n
+puts [fac $n]

@@ -1,0 +1,19 @@
+set line [gets stdin]
+set list [split $line "/"]
+set ::n 0
+foreach {item} $list {
+    if { [string equal $item ""] == "0"} {
+        if { [string equal $item ".."] == "1" } {
+            incr ::n -1
+        } else {
+            if { [string equal $item "."] == "0" } {
+                set ::a($::n) $item        
+                incr ::n 1
+            }
+        }
+    }
+}
+for {set i 0} { $i < $::n } {incr i 1} {
+    puts -nonewline "/$::a($i)"
+}
+if {$::n == 0} { puts "/" } else { puts "" }

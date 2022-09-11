@@ -1,0 +1,6 @@
+set line [gets stdin]
+set a 0
+set b 0
+set c 0
+scan $line "%d%d%d" a b c
+puts [expr ($c-1)%$a*$b+int(($c-1)/$a)+1]
