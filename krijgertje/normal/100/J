@@ -1,0 +1,24 @@
+int main() {
+    sscanf(Stdio.stdin->gets(),"%d",int n);
+    array(int) a=allocate(n,0),b=allocate(n,0);
+    for(int i=0;i<n;++i) {
+        sscanf(Stdio.stdin->gets(),"%s",string s);
+//      write(s+" "+sizeof(s)+" "+s[1..sizeof(s)-2]+"\n");
+        int openstart; if(s[0]=='(') openstart=1; else openstart=0;
+        int openend; if(s[sizeof(s)-1]==')') openend=1; else openend=0;
+        sscanf(s[1..sizeof(s)-2],"%d,%d",int aa,int bb);
+        a[i]=2*aa+openstart;
+        b[i]=2*bb-openend;
+    }
+    for(int i=0;i<n;++i) for(int j=i+1;j<n;++j)  if(a[j]<a[i]) { int aa=a[j]; a[j]=a[i]; a[i]=aa; int bb=b[j]; b[j]=b[i]; b[i]=bb; }
+//  for(int i=0;i<n;++i) write(a[i]+" "+b[i]+"\n");
+    int ok=1;
+    for(int l=0,r=l;l<n;++l) {
+        while(r<n&&b[l]>=a[r]) ++r;
+        if(r>=n) continue;
+        int m=r-1;
+        if(b[m]>=a[r]) ok=0;
+    }
+    if(ok) write("1\n"); else write("2\n");
+    return 0;
+}
