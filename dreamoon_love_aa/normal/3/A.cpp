@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<algorithm>
+#include<stdlib.h>
+using namespace std;
+int f(char s[],int &x,int &y){
+    x=s[0]-'a';
+    y=atoi(s+1);
+}
+main(){
+    char s1[9],s2[9];
+    int x[2],y[2],mi,ma,i;
+    scanf("%s%s",s1,s2);
+    f(s1,x[0],y[0]);
+    f(s2,x[1],y[1]);
+    x[0]=x[1]-x[0];
+    y[0]=y[1]-y[0];
+    if(x[0]>=0&&y[0]>=0){
+        mi=min(x[0],y[0]);
+        ma=max(x[0],y[0]);
+        printf("%d\n",ma);
+        for(i=0;i<mi;i++)
+            puts("RU");
+        if(x[0]>y[0]){
+            for(i=mi;i<ma;i++)
+                puts("R");
+        }
+        else{
+            for(i=mi;i<ma;i++)
+                puts("U");
+        }
+    }
+    else if(x[0]>=0&&y[0]<=0){
+        y[0]=-y[0];
+        mi=min(x[0],y[0]);
+        ma=max(x[0],y[0]);
+        printf("%d\n",ma);
+        for(i=0;i<mi;i++)
+            puts("RD");
+        if(x[0]>y[0]){
+            for(i=mi;i<ma;i++)
+                puts("R");
+        }
+        else{
+            for(i=mi;i<ma;i++)
+                puts("D");
+        }
+    }
+    else if(x[0]<=0&&y[0]<=0){
+        x[0]=-x[0];
+        y[0]=-y[0];
+        mi=min(x[0],y[0]);
+        ma=max(x[0],y[0]);
+        printf("%d\n",ma);
+        for(i=0;i<mi;i++)
+            puts("LD");
+        if(x[0]>y[0]){
+            for(i=mi;i<ma;i++)
+                puts("L");
+        }
+        else{
+            for(i=mi;i<ma;i++)
+                puts("D");
+        }
+    }
+    else{
+        x[0]=-x[0];
+        mi=min(x[0],y[0]);
+        ma=max(x[0],y[0]);
+        printf("%d\n",ma);
+        for(i=0;i<mi;i++)
+            puts("LU");
+        if(x[0]>y[0]){
+            for(i=mi;i<ma;i++)
+                puts("L");
+        }
+        else{
+            for(i=mi;i<ma;i++)
+                puts("U");
+        }
+    }
+}
