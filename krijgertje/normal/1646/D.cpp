@@ -1,0 +1,104 @@
+#include <algorithm>  
+#include <iostream>  
+#include <sstream>  
+#include <string>  
+#include <vector>  
+#include <queue>  
+#include <set>  
+#include <map>  
+#include <cstdio>  
+#include <cstdlib>  
+#include <cctype>  
+#include <cmath>  
+#include <cstring>
+#include <list>  
+#include <cassert>
+#include <climits>
+#include <bitset>
+#include <chrono>
+#include <random>
+#include <functional>
+using namespace std;
+
+#define PB push_back  
+#define MP make_pair  
+#define SZ(v) ((int)(v).size())  
+#define FOR(i,a,b) for(int i=(a);i<(b);++i)  
+#define REP(i,n) FOR(i,0,n)  
+#define FORE(i,a,b) for(int i=(a);i<=(b);++i)  
+#define REPE(i,n) FORE(i,0,n)  
+#define FORSZ(i,a,v) FOR(i,a,SZ(v))  
+#define REPSZ(i,v) REP(i,SZ(v))  
+std::mt19937 rnd((int)std::chrono::steady_clock::now().time_since_epoch().count());
+typedef long long ll;
+ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a % b); }
+
+const int MAXN = 200000;
+
+int n;
+vector<int> adj[MAXN];
+int anscnt, anssum;
+int answ[MAXN];
+
+int par[MAXN];
+
+int dpcnt[MAXN][2], dpsum[MAXN][2];
+int act[MAXN];
+
+void dfsinit(int at) {
+	for (int to : adj[at]) {
+		if (to == par[at]) continue;
+		par[to] = at;
+		dfsinit(to);
+	}
+}
+
+void dfscalc(int at) {
+	dpcnt[at][0] = 0, dpsum[at][0] = 1;
+	dpcnt[at][1] = 1, dpsum[at][1] = SZ(adj[at]);
+	for (int to : adj[at]) {
+		if (to == par[at]) continue;
+		dfscalc(to);
+		dpcnt[at][1] += dpcnt[to][0], dpsum[at][1] += dpsum[to][0];
+		dpcnt[at][0] += dpcnt[to][1], dpsum[at][0] += dpsum[to][1];
+	}
+	act[at] = dpcnt[at][0] > dpcnt[at][1] || dpcnt[at][0] == dpcnt[at][1] && dpsum[at][0] < dpsum[at][1] ? 0 : 1;
+	if (act[at] == 0) dpcnt[at][1] = dpcnt[at][0], dpsum[at][1] = dpsum[at][0];
+	//printf("%d: %d and %d vs %d and %d (%d)\n", at, dpcnt[at][0], dpsum[at][0], dpcnt[at][1], dpsum[at][1], act[at]);
+}
+
+void dfsconstruct(int at, bool usepar) {
+	bool useme = !usepar && act[at] == 1;
+	answ[at] = useme ? SZ(adj[at]) : 1;
+	for (int to : adj[at]) {
+		if (to == par[at]) continue;
+		dfsconstruct(to, useme);
+	}
+}
+
+
+void solve() {
+	if (n <= 2) {
+		anscnt = anssum = n;
+		REP(i, n) answ[i] = 1;
+		return;
+	}
+
+	par[0] = -1; dfsinit(0);
+	dfscalc(0);
+	anscnt = dpcnt[0][1], anssum = dpsum[0][1];
+	dfsconstruct(0, false);
+}
+
+void run() {
+	scanf("%d", &n);
+	REP(i, n - 1) { int a, b; scanf("%d%d", &a, &b); --a, --b; adj[a].PB(b); adj[b].PB(a); }
+	solve();
+	printf("%d %d\n", anscnt, anssum);
+	REP(i, n) { if (i != 0) printf(" "); printf("%d", answ[i]); } puts("");
+}
+
+int main() {
+	run();
+	return 0;
+}
