@@ -1,0 +1,7 @@
+int main() {
+        sscanf(Stdio.stdin->gets(),"%d %d %d",int n,int k,int n1);
+        int side=(n+n1-1)/n1,need=side*side;
+//      write(side+"\n"+need+"\n");
+        if(n>=n1&&k>=need) write("YES"); else write("NO");
+        return 0;
+}

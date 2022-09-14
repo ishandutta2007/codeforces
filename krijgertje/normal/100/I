@@ -1,0 +1,9 @@
+int main() {
+    sscanf(Stdio.stdin->gets(),"%d",int k);
+    sscanf(Stdio.stdin->gets(),"%d %d",int x,int y);
+    float pi=3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679;
+    float ang=k/360.0*2*pi;
+    write(""+(x*cos(ang)-y*sin(ang))+" ");
+    write(""+(x*sin(ang)+y*cos(ang))+"\n");
+    return 0;
+}

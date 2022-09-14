@@ -1,0 +1,33 @@
+void run() {
+    array(string) board=allocate(10,"??????????");
+    for(int i=0;i<10;++i) sscanf(Stdio.stdin->gets(),"%s",board[i]);
+    array(int) have=allocate(5,0); int ok=1;
+    for(int i=0;i<10;++i) for(int j=0;j<10;++j) if(board[i][j]=='*') {
+        int havedir=0;
+        for(int di=-1;di<=1;++di) for(int dj=-1;dj<=1;++dj) if(di!=0||dj!=0) {
+            int ni=i+di,nj=j+dj;
+            if(ni<0||ni>=10||nj<0||nj>=10||board[ni][nj]!='*') continue;
+            if(havedir||di!=0&&dj!=0) { ok=0; break; }
+            havedir=1; int len=1; board[i][j]='0';
+            while(0<=ni&&ni<10&&0<=nj&&nj<10&&board[ni][nj]=='*') {
+                ++len; board[ni][nj]='0';
+                for(int di2=-1;di2<=1;++di2) for(int dj2=-1;dj2<=1;++dj2) if(di2!=0||dj2!=0) {
+                    int ni2=ni+di2,nj2=nj+dj2;
+                    if(ni2<0||ni2>=10||nj2<0||nj2>=10||board[ni2][nj2]!='*') continue;
+                    if(di2!=di||dj2!=dj) { ok=0; break; }
+                }
+                ni+=di; nj+=dj;
+            }
+            if(len>=5) ok=0; else have[len]++;
+        }
+        if(havedir==0) { board[i][j]='0'; ++have[1]; }
+    }
+    for(int i=1;i<=4;++i) if(have[i]!=5-i) ok=0;
+    if(ok) write("YES\n"); else write("NO\n");
+}
+
+int main() {
+    sscanf(Stdio.stdin->gets(),"%d",int n);
+    for(int i=0;i<n;++i) { if(i!=0) Stdio.stdin->gets(); run(); }
+    return 0;
+}
