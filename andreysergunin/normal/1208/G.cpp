@@ -1,0 +1,102 @@
+#include <iostream>
+#include <stdio.h>
+#include <cstring>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
+#include <cmath>
+#include <queue>
+#include <stack>
+#include <map>
+#include <set>
+#include <ctime>
+#include <cassert>
+#include <unordered_map>
+#include <fstream>
+#include <random>
+#include <cstring>
+#include <bitset>
+#include <functional>
+#include <tuple>
+#include <complex>
+#include <chrono>
+#include <climits>
+ 
+#define all(a) (a).begin(), (a).end()
+#define sz(a) (int)(a).size()
+#define pb push_back
+ 
+using namespace std;
+ 
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef unsigned int uint;
+typedef unsigned long long ull;
+ 
+mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
+default_random_engine generator;
+// mt19937 rnd(1);
+
+vector<int> primes;
+vector<int> minPrime;
+
+void sieve(int n) {
+    minPrime.resize(n + 1);
+    for (int i = 2; i <= n; ++i) {
+        minPrime[i] = i;
+    }
+    for (int i = 2; i <= n; ++i) {
+        if (minPrime[i] == i) {
+            primes.push_back(i);
+        }
+        for (int p : primes) {
+            if (p > minPrime[i] || (ll)i * p > n) {
+                break;
+            }
+            minPrime[p * i] = p;
+        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+ 
+#ifdef LOCAL
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);  
+#endif
+    
+    int n, k;
+    cin >> n >> k;
+    sieve(n + 1);
+    vector<int> cost;
+
+    for (int i = 2; i <= n; ++i) {
+        int k = i;
+        int res = i;
+        while (k > 1) {
+            int p = minPrime[k];
+            while (k % p == 0) {
+                k /= p;
+            }
+            res /= p;
+            res *= p - 1;
+        }
+        cost.push_back(res);
+    }
+
+    sort(all(cost));
+    ll res = 1;
+    for (int i = 0; i <= k; ++i) {
+        res += cost[i];
+    }
+    if (k == 1) {
+        --res;
+    }
+
+    cout << res << endl;;
+}
