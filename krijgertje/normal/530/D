@@ -1,0 +1,10 @@
+import cp.
+
+main =>
+	N=read_int(),
+	X :: 1..1001,
+	foreach(I in 1..N) A=read_int(),B=read_int(),X#<A #\/ X#>B end,
+	if(X#<=1000) then S=solve_all([X]) else S=[] end,
+	write(S.length()),
+	foreach([SX] in sort(S)) writef(" %d",SX) end,
+	writef("\n").

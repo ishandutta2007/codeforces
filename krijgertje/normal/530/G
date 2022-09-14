@@ -1,0 +1,10 @@
+table(+,+,min)
+calc(I,J,R) ?=>	a(A),b(B),	(
+	I>length(A),J>length(B),R=0;
+	I<=length(A),calc(I+1,J,NR),R=NR+abs(ord(A[I])-ord('a'))+1;
+	J<=length(B),calc(I,J+1,NR),R=NR+abs(ord('a')-ord(B[J]))+1;
+	I<=length(A),J<=length(B),calc(I+1,J+1,NR),R=NR+abs(ord(A[I])-ord(B[J]))
+).
+main =>	A=read_line(),B=read_line(),main(A,B).
+main([A,B]) => main(A,B).
+main(A,B) => cl_facts([$a(A), $b(B)]),calc(1,1,R),writeln(R).

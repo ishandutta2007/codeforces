@@ -1,0 +1,9 @@
+main =>
+	A=read_int(),B=read_int(),C=read_int(),
+	if A<0 then A := -A, B := -B, C := -C end,
+	D=B*B-4*A*C,
+	if D=0 then
+		writef("%.9f\n",-B/(2*A))
+	elseif D>0 then
+		writef("%.9f %.9f\n",(-B-sqrt(D))/(2*A),(-B+sqrt(D))/(2*A))
+	end.
