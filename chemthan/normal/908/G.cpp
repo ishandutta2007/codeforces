@@ -1,0 +1,147 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ms(s, n) memset(s, n, sizeof(s))
+#define FOR(i, a, b) for (int i = (a); i < (b); i++)
+#define FORd(i, a, b) for (int i = (a) - 1; i >= (b); i--)
+#define FORall(it, a) for (__typeof((a).begin()) it = (a).begin(); it != (a).end(); it++)
+#define sz(a) int((a).size())
+#define pconent(t, x) (t.find(x) != t.end())
+#define all(a) (a).begin(), (a).end()
+#define uni(a) (a).erase(unique(all(a)), (a).end())
+#define pb push_back
+#define pf push_front
+#define mp make_pair
+#define fi first
+#define se second
+#define prec(n) fixed<<setprecision(n)
+#define bit(n, i) (((n) >> (i)) & 1)
+#define bitcount(n) __builtin_popcountll(n)
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+typedef vector<pi> vii;
+const int MOD = (int) 1e9 + 7;
+const int FFTMOD = 1007681537;
+const int INF = (int) 1e9;
+const ll LINF = (ll) 1e18;
+const ld PI = acos((ld) -1);
+const ld EPS = 1e-9;
+inline ll gcd(ll a, ll b) {ll r; while (b) {r = a % b; a = b; b = r;} return a;}
+inline ll lcm(ll a, ll b) {return a / gcd(a, b) * b;}
+inline ll fpow(ll n, ll k, int p = MOD) {ll r = 1; for (; k; k >>= 1) {if (k & 1) r = r * n % p; n = n * n % p;} return r;}
+template<class T> inline int chkmin(T& a, const T& val) {return val < a ? a = val, 1 : 0;}
+template<class T> inline int chkmax(T& a, const T& val) {return a < val ? a = val, 1 : 0;}
+inline ll isqrt(ll k) {ll r = sqrt(k) + 1; while (r * r > k) r--; return r;}
+inline ll icbrt(ll k) {ll r = cbrt(k) + 1; while (r * r * r > k) r--; return r;}
+inline void addmod(int& a, int val, int p = MOD) {if ((a = (a + val)) >= p) a -= p;}
+inline void submod(int& a, int val, int p = MOD) {if ((a = (a - val)) < 0) a += p;}
+inline int mult(int a, int b, int p = MOD) {return (ll) a * b % p;}
+inline int inv(int a, int p = MOD) {return fpow(a, p - 2, p);}
+inline int sign(ld x) {return x < -EPS ? -1 : x > +EPS;}
+inline int sign(ld x, ld y) {return sign(x - y);}
+#define db(x) cerr << #x << " = " << (x) << " ";
+#define endln cerr << "\n";
+
+const int maxn = 777;
+string s;
+int pp[maxn];
+int pw[11][maxn];
+int c[maxn][maxn];
+int dp[10][maxn];
+
+int calc(int k, int len) {
+    int& res = dp[k][len];
+    if (~res) return res;
+    res = 0;
+    int tmp = 0, tmp2 = 0;
+    FOR(i, 0, len + 1) {
+        addmod(tmp, mult(pw[k][i], mult(pw[10 - k][len - i], c[i][len])));
+    }
+    FOR(pos, 0, len) {
+        submod(tmp, mult(pw[k][pos], mult(pw[10 - k][len - pos], c[pos][len])));
+        addmod(tmp2, mult(pw[k + 1][pos], mult(pw[9 - k][len - pos], c[pos][len])));
+        int cnt = pw[10][len];
+        submod(cnt, tmp);
+        submod(cnt, tmp2);
+        addmod(res, mult(cnt, mult(k, pw[10][len - pos - 1])));
+    }
+    return res;
+}
+
+int calc(vi vals, int len) {
+    int add = accumulate(all(vals), 0);
+    int d = add + len;
+    int res = 0, tmp = 0;
+    FOR(i, 0, sz(vals)) if (vals[i]) {
+        FOR(pos, 0, d) {
+            int x = pos;
+            int y = d - x - vals[i];
+            if (x < tmp || y < add - tmp - vals[i]) continue;
+            int xx = x - tmp;
+            int yy = y - (add - tmp - vals[i]);
+            int cnt = mult(pw[i][xx], pw[10 - i][yy]);
+            cnt = mult(cnt, c[xx][xx + yy]);
+            addmod(res, mult(cnt, mult(mult(i, pp[vals[i]]), pw[10][y])));
+        }
+        tmp += vals[i];
+    }
+    FOR(i, 0, 10) {
+        tmp -= vals[i];
+        addmod(res, mult(calc(i, len), pw[10][tmp]));
+    }
+    return res;
+}
+
+void solve() {
+    ms(dp, -1);
+    FOR(i, 0, maxn) {
+        pp[i] = fpow(10, i);
+        submod(pp[i], 1);
+        pp[i] = mult(pp[i], inv(9));
+    }
+    FOR(i, 0, 11) {
+        FOR(j, 0, maxn) {
+            pw[i][j] = fpow(i, j);
+            if (!i && j) pw[i][j] = 0;
+        }
+    }
+    FOR(i, 0, maxn) c[0][i] = 1;
+    FOR(i, 1, maxn) FOR(j, 1, maxn) c[i][j] = (c[i][j - 1] + c[i - 1][j - 1]) % MOD;
+    cin >> s;
+    vi vals(10);
+    int res = 0;
+    FOR(i, 0, sz(s)) {
+        int c = s[i] - '0';
+        FOR(j, 0, c) {
+            vals[j]++;
+            addmod(res, calc(vals, sz(s) - i - 1));
+            vals[j]--;
+        }
+        vals[c]++;
+    }
+    sort(all(s));
+    int tmp = 0;
+    FOR(i, 0, sz(s)) {
+        int c = s[i] - '0';
+        tmp = mult(tmp, 10);
+        addmod(tmp, c);
+    }
+    addmod(res, tmp);
+    cout << res << "\n";
+}
+
+int main(int argc, char* argv[]) {
+    ios_base::sync_with_stdio(0), cin.tie(0);
+    if (argc > 1) {
+        assert(freopen(argv[1], "r", stdin));
+    }
+    if (argc > 2) {
+        assert(freopen(argv[2], "wb", stdout));
+    }
+    solve();
+    cerr << "\nTime elapsed: " << 1000 * clock() / CLOCKS_PER_SEC << "ms\n";
+    return 0;
+}
