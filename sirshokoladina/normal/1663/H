@@ -1,0 +1,10 @@
+const int (*f)();
+
+int main() {} /*
+
+*) = 1;
+
+begin
+end.
+
+// */
