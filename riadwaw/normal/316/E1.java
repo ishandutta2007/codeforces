@@ -1,0 +1,117 @@
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.InputMismatchException;
+import java.io.BufferedReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.StringTokenizer;
+import java.io.InputStream;
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ * @author RiaD
+ */
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        Reader in = new Reader(inputStream);
+        OutputWriter out = new OutputWriter(outputStream);
+        TaskE1 solver = new TaskE1();
+        solver.solve(1, in, out);
+        out.close();
+    }
+}
+
+class TaskE1 {
+    public void solve(int testNumber, Reader in, OutputWriter out) {
+        int n = in.nextInt();
+        int m = in.nextInt();
+        int mod = 1000000000;
+        int[] a = in.nextIntArray(n);
+
+
+        long[] f = new long[n + 1];
+
+        f[0] = f[1] = 1;
+        for(int i = 2; i<= n;++i) {
+            f[i] = f[i - 1] + f[i - 2];
+            f[i] %= mod;
+        }
+
+        for(int i = 0 ; i < m; ++i) {
+            int type = in.nextInt();
+            if(type == 1) {
+                int x = in.nextInt() - 1;
+                int v = in.nextInt();
+                a[x] = v;
+            }
+            else if(type == 2) {
+                long sum = 0;
+                int l = in.nextInt() - 1;
+                int r = in.nextInt() - 1;
+                for(int j = 0; j <= r - l; ++j) {
+                    sum += f[j] * a[l + j];
+                    sum %= mod;
+                }
+                out.println(sum);
+            }
+            else
+                throw new AssertionError();
+        }
+    }
+}
+
+class Reader {
+    private BufferedReader reader;
+    private StringTokenizer tokenizer;
+
+    public Reader(BufferedReader reader) {
+        this.reader = reader;
+    }
+
+    public Reader(InputStream stream) {
+        this(new BufferedReader(new InputStreamReader(stream)));
+    }
+
+    public String nextString() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            tokenizer = new StringTokenizer(readLine());
+        }
+        return tokenizer.nextToken();
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(nextString());
+    }
+
+    public int[] nextIntArray(int size) {
+        int[] array = new int[size];
+        for (int i = 0; i < size; ++i) {
+            array[i] = nextInt();
+        }
+        return array;
+    }
+
+    private String readLine() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+class OutputWriter extends PrintWriter {
+
+    public OutputWriter(OutputStream out) {
+        super(out);
+    }
+
+    public OutputWriter(java.io.Writer writer){
+        super(writer);
+    }
+
+    }

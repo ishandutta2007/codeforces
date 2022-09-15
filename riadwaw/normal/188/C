@@ -1,0 +1,23 @@
+iin [0]
+iin [1]
+
+mul [3] [0] [1]
+
+set [2] 0
+
+co gcd{
+	eq [7] [1] 0
+	if [7] ac
+	mod [0] [0] [1]
+
+	set [5] [0]
+	set [0] [1]
+	set [1] [5]
+}
+
+ca gcd
+
+div [3] [3] [0]
+
+iout [3]
+ac
