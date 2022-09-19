@@ -1,0 +1,12 @@
+let rec isgood x = 
+	if x < 0 then isgood (-x)
+	else if x = 0 then false
+	else x mod 10 = 8 || isgood (x/10);;
+
+let rec nextgood x = 
+	if isgood (x+1)
+	then x+1
+	else nextgood (x+1);;
+
+let a = read_int();;
+Printf.printf "%d\n" (nextgood a - a);;
