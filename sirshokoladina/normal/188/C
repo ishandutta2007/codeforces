@@ -1,0 +1,16 @@
+co nod {
+    eq [3] [1] 0
+    if [3]
+    yi ro
+    set [3] [1]
+    mod [1] [0] [1]
+    set [0] [3]
+}
+
+iin [0]
+iin [1]
+mul [2] [0] [1]
+yi nod
+div [2] [2] [0]
+iout [2]
+ac
