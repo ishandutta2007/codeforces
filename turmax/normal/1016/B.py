@@ -1,0 +1,43 @@
+def ind(r,g,low,up):
+    if(up-low==0):
+        if(r[low]>g):
+            return(low)
+        else:
+            return(low+1)            
+    elif(up-low==1):
+        if(r[low]>g):
+            return(low)
+        elif(r[low+1]>g):
+            return(low+1)
+        else:
+            return(low+2)
+    else:
+        k=((up+low)//2)
+        if(r[k]<g):
+            u=ind(r,g,k,up)
+            return(u)
+        else:
+            u=ind(r,g,low,k)
+            return(u)
+n,m,t=map(int,raw_input().split())
+s1=str(raw_input())
+s2=str(raw_input())
+d=[]
+for i in range(n-m+2):
+    try:
+        if(s1[i:(i+m):1]==s2):
+            d.append(i)
+    except:
+        pass
+r=len(d)
+for i in range(t):
+    a,b=map(int,raw_input().split())
+    low=a-2
+    up=b-m
+    if(up>low):
+        try:
+            print(ind(d,up,0,r-1)-ind(d,low,0,r-1))
+        except:
+            print(0)
+    else:
+        print(0)
