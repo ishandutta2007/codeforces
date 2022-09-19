@@ -1,0 +1,1 @@
+int n,a;char c[256];main(){n||scanf("%d%s",&n,c);a+=!c[c[--n]|160]++;n?main():puts(a-26?"NO":"YES");}

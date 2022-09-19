@@ -1,0 +1,1 @@
+char s[211];main(){int i=-scanf("%s",s);while(s[++i]){int*x=s+i;*x<<8>>8^4347223||(*x=*x&~16777215|2105376);}puts(s);}

@@ -1,0 +1,1 @@
+int n,m,I[10];main(){n||(n+=scanf("%d",&n));m=n;while(m)I[m%10]^n?I[m%10]=n,m/=10:(n++,main());exit(!printf("%d",n));}

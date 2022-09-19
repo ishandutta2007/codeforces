@@ -1,0 +1,1 @@
+int n,m,k,a=2e9,s[1<<20],i,j,J;main(){n||scanf("%d%d%d",&n,&m,&k);i-3*m-k?scanf("%d",s+i++):j-k?s[s[j+++3*m]+3*m+k]=1:(a<s[J+2]||s[s[J+1]+3*m+k]==s[s[J]+3*m+k]||(a=s[J+2]),J+=3);J-3*m?main():printf("%d",a>1e9?-1:a);}
