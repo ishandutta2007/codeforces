@@ -1,0 +1,13 @@
+let read_int () = Scanf.scanf " %d" (fun x -> x) in
+
+let n = read_int() and d = read_int() in
+let a = Array.init n (fun _ -> read_int()) in
+let m = read_int() in
+
+Array.sort (fun x y -> x-y) a;
+for i = 1 to Array.length a - 1 do
+  a.(i) <- a.(i) + a.(i-1);
+done;
+
+if m <= n then Printf.printf "%d\n" a.(m-1)
+else Printf.printf "%d\n" (a.(n-1) - d * (m - n));

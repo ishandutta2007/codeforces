@@ -1,0 +1,44 @@
+
+open Printf
+open Scanf
+
+let (@@) f x = f x;;
+let (@.) f g x = f (g x);;
+
+let read_int () = scanf " %d" (fun x -> x);;
+
+let n = read_int();;
+
+let a = Array.make 1000000 false;;
+module IntSet = Set.Make(struct type t = int;; let compare = Pervasives.compare;; end);;
+
+let () = 
+  for i = 0 to n-1 do
+    a.(read_int() - 1) <- true;
+  done;
+;;
+
+let rec f (i : int) (count : int) (set : IntSet.t) : int * IntSet.t =
+  if i = 500000 then (count, set)
+  else if a.(i) then
+    if a.(1000000-i-1) then f (i+1) (count+1) set
+    else f (i+1) count @@ IntSet.add (1000000-i) set
+  else
+    if a.(1000000-i-1) then f (i+1) count @@ IntSet.add (i+1) set
+    else f (i+1) count set
+;;
+
+let (count, set) = f 0 0 IntSet.empty;;
+
+let rec g (i : int) (count : int) (set : IntSet.t) : int * IntSet.t = 
+  if i = 500000 then (count, set)
+  else if count = 0 then (0, set)
+  else if (not a.(i)) && (not a.(1000000-i-1)) then g (i+1) (count-1) @@ IntSet.add (i+1) @@ IntSet.add (1000000-i) set
+  else g (i+1) count set
+;;
+
+let (count, set) = g 0 count set;;
+
+printf "%d\n" @@ IntSet.cardinal set;
+IntSet.iter (fun x -> printf "%d " x) set;
+print_newline();
