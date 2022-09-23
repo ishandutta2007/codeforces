@@ -2,10 +2,10 @@ import subprocess
 import time
 import random
 
-MIN_WAIT_SEC = 100
-MAX_WAIT_SEC = 300
+MIN_WAIT_SEC = 700
+MAX_WAIT_SEC = 1200
 MAX_FILES_TO_ADD = 90
-MAX_ITERATIONS = 1000
+MAX_ITERATIONS = 10001
 
 
 def compact(lst):
