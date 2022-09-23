@@ -2,16 +2,17 @@ import subprocess
 import time
 import random
 
-MIN_WAIT_SEC = 1000
-MAX_WAIT_SEC = 3000
-MAX_FILES_TO_ADD = 900
+MIN_WAIT_SEC = 100
+MAX_WAIT_SEC = 300
+MAX_FILES_TO_ADD = 90
+MAX_ITERATIONS = 1000
 
 
 def compact(lst):
     return list(filter(None, lst))
 
 
-for i in range(1, 900):
+for i in range(1, 1 + MAX_ITERATIONS):
     print("[{}]Initializing git status1".format(i))
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
