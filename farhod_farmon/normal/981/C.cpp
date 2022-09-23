@@ -1,0 +1,128 @@
+#include <bits/stdc++.h>
+
+#define fi first
+#define se second
+#define fin(s) freopen( s, "r", stdin );
+#define fout(s) freopen( s, "w", stdout );
+
+const long long N = 100100;
+const long long Q = 100000001;
+const long long mod = 1e9 + 7;
+const long long MAGIC = 30;
+
+using namespace std;
+
+int n;
+int c[N];
+int d[N];
+vector < int > v[N];
+
+void dfs(int x, int p)
+{
+        bool ls = true;
+        for(int y: v[x]){
+                if(y == p){
+                        continue;
+                }
+                dfs(y, x);
+                ls = false;
+                c[x] += c[y];
+                d[x] = d[y];
+        }
+        if(ls == true){
+                c[x] = 1;
+                d[x] = x;
+        }
+}
+
+void go(int x, int p, int up)
+{
+        bool can = 1;
+        for(int y: v[x]){
+                if(y == p){
+                        continue;
+                }
+                can &= c[y] == 1;
+        }
+        if(can){
+                cout << "Yes" << "\n";
+                vector < pair < int, int > > g;
+                for(int y: v[x]){
+                        if(y == p){
+                                g.push_back({up, x});
+                        }
+                        else{
+                                g.push_back({x, d[y]});
+                        }
+                }
+                cout << g.size() << "\n";
+                for(auto p: g){
+                        cout << p.fi << " " << p.se << "\n";
+                }
+                exit(0);
+        }
+        if(v[x].size() > 2){
+                return;
+        }
+        vector < int > bad;
+        for(int y: v[x]){
+                if(y == p){
+                        continue;
+                }
+                if(c[y] > 1){
+                        bad.push_back(y);
+                }
+        }
+        for(int y: v[x]){
+                if(y == p){
+                        continue;
+                }
+                bool gg = false;
+                for(int f: bad){
+                        if(f != y){
+                                gg = 1;
+                        }
+                }
+                if(gg){
+                        continue;
+                }
+                if(x == 1){
+                        for(int f: v[x]){
+                                if(f == y){
+                                        continue;
+                                }
+                                up = d[f];
+                        }
+                }
+                go(y, x, up);
+        }
+}
+
+void solve()
+{
+        cin >> n;
+        for(int i = 1; i < n; i++){
+                int x, y;
+                cin >> x >> y;
+                v[x].push_back(y);
+                v[y].push_back(x);
+        }
+        dfs(1, -1);
+        go(1, -1, 1);
+        cout << "No" << "\n";
+}
+
+bool mtest = false; int main()
+{
+        //fin("input.txt");
+        //fout("output.txt");
+        //fin("maze.in");
+        //fout("maze.out");
+        ios_base::sync_with_stdio(0);
+        int TE = 1;
+        if(mtest)
+                cin >> TE;
+        while(TE--)
+                solve();
+        return 0;
+}

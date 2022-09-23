@@ -1,0 +1,8 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  foreach( I in 1..A-2 )
+    print("1 ")
+  end,
+  print("2 "),
+  print(A+B).

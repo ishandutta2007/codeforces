@@ -21,8 +21,7 @@ Now you need to define which files/folders you want to actually check out. This 
 
 ```
 echo "tourist" >> .git/info/sparse-checkout
-echo "some/dir/" >> .git/info/sparse-checkout
-echo "another/sub/tree" >> .git/info/sparse-checkout
+echo "benq" >> .git/info/sparse-checkout
 ```
 
 only pulls root folder:
