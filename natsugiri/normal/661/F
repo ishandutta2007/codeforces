@@ -1,0 +1,7 @@
+read =: 1!:1[3
+in =: read-.CRLF
+tmp =: ". ;.2 (in,' ')
+a =: 0 { tmp
+b =: >: 1 { tmp
+
+echo -/ (p:^:_1) b, a
