@@ -1,0 +1,3 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int M=1e9+7;int s[705],n,f[705][10][705][2];int P(int x,int D,int N,int F){if(x>n)return !N;int &r=f[x][D][N][F];if(~r)return r;r=0;for(int i=0;i<=(F?s[x]:9);i++)r=(r+P(x+1,D,N-(i>=D),F&&i==s[x]))%M;return r;}int main(){memset(f,-1,sizeof(f));char c;while(cin>>c)s[++n]=c-'0';int A=0;for(int i=1,p=1;i<=n;i++,p=(10ll*p+1)%M)for(int j=1;j<=9;j++)A=(A+1ll*P(1,j,i,1)*p)%M;cout<<A;}
