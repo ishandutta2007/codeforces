@@ -1,0 +1,315 @@
+#pragma GCC optimize("Ofast")
+#include <bits/stdc++.h>
+
+using namespace std;
+
+using ll = long long;
+using ld = long double;
+#define X first
+#define Y second
+
+const ll mod = 1000000007;
+
+ll gcd(ll a, ll b)
+{
+    a = abs(a);
+    b = abs(b);
+    if (a==0 or b==0) return a+b;
+    return gcd(b,a%b);
+}
+
+
+ll sum(ll a, ll b)
+{
+    a += b;
+    a %= mod;
+    return a;
+}
+
+ll sub(ll a, ll b)
+{
+    a += mod-b;
+    a %= mod;
+    return a;
+}
+
+inline ll mul(ll a, ll b)
+{
+    if (a*b<mod) return a*b;
+    return a*b%mod;
+}
+
+inline ll pew(ll a, ll b)
+{
+    ll res = 1;
+    while (b)
+    {
+        if (b&1) res = mul(res,a);
+        a = mul(a,a);
+        b /= 2;
+    }
+    return res;
+}
+
+
+
+/*const int MOD = 998244353;
+const int root = 31;
+const int root_1 = 128805723;
+const int root_pw = 1<<23;
+const int root = 31;
+const int MOD = 469762049;
+const int root_1 = 15658735;
+const int root_pw = 1<<26;*/
+
+
+/*void fft (vector<int> & a, bool invert) {
+    int n = (int) a.size();
+
+    for (int i=1, j=0; i<n; ++i) {
+        int bit = n >> 1;
+        for (; j>=bit; bit>>=1)
+            j -= bit;
+        j += bit;
+        if (i < j)
+            swap (a[i], a[j]);
+    }
+
+    for (int len=2; len<=n; len<<=1) {
+        int wlen = invert ? root_1 : root;
+        for (int i=len; i<root_pw; i<<=1)
+            wlen = int (wlen * 1ll * wlen % mod);
+        for (int i=0; i<n; i+=len) {
+            int w = 1;
+            for (int j=0; j<len/2; ++j) {
+                int u = a[i+j],  v = int (a[i+j+len/2] * 1ll * w % mod);
+                a[i+j] = u+v < mod ? u+v : u+v-mod;
+                a[i+j+len/2] = u-v >= 0 ? u-v : u-v+mod;
+                w = int (w * 1ll * wlen % mod);
+            }
+        }
+    }
+    if (invert) {
+        int nrev = pew(n, mod-2);
+        for (int i=0; i<n; ++i)
+            a[i] = int (a[i] * 1ll * nrev % mod);
+    }
+}*/
+
+
+int parent[600001];
+int rnk[600001];
+
+void make_set (int v) {
+    parent[v] = v;
+    rnk[v] = 0;
+}
+
+int find_set (int v) {
+    if (v == parent[v])
+        return v;
+    return parent[v] = find_set(parent[v]);
+}
+
+void union_sets (int a, int b) {
+    a = find_set(a);
+    b = find_set(b);
+    if (a != b) {
+        if (rnk[a] < rnk[b])
+            swap(a, b);
+        parent[b] = a;
+        if (rnk[a] == rnk[b])
+            ++rnk[a];
+    }
+}
+
+//ll t[1200000];
+//ll del[1200000];
+
+/*void build(int n)
+{
+    for (int i=0;i<=4*n;i++)
+    {
+        t[i] = 0;
+        //del[i] = 0;
+    }
+}*/
+
+/*void push(int v)
+{
+    t[2*v].X += del[v];
+    t[2*v+1].X += del[v];
+    del[2*v] += del[v];
+    del[2*v+1] += del[v];
+    del[v] = 0;
+}*/
+
+/*void update (int v, int tl, int tr, int l, int r, ll val) {
+    if (tl==l and tr==r)
+    {
+        //del[v] += val;
+
+        //t[v] += val*(tr-tl+1);
+        return;
+    }
+    int tm = (tl + tr) / 2;
+    //if (del[v]!=0) push(v,tl,tr,tm);
+    if (r<=tm)
+    {
+        update(2*v,tl,tm,l,r,val);
+        t[v] = t[2*v]+t[2*v+1];
+        return;
+    }
+    if (l>tm)
+    {
+        update(2*v+1,tm+1,tr,l,r,val);
+        t[v] = t[2*v]+t[2*v+1];
+        return;
+    }
+    update(2*v,tl,tm,l,tm,val);
+    update(2*v+1,tm+1,tr,tm+1,r,val);
+    t[v] = min(t[2*v],t[2*v+1]);
+}*/
+
+/*void update (int v, int tl, int tr, int l, int r, ll val) {
+    if (tl>=l and tr<=r)
+    {
+        del[v] += val;
+        t[v] += val;
+        return;
+    }
+    int tm = (tl+tr)/2;
+    //if (del[v]!=0) push(v);
+    if (r<=tm)
+    {
+        update(2*v,tl,tm,l,r,val);
+        t[v] = t[2*v]+t[2*v+1];
+        return;
+    }
+    if (l>tm)
+    {
+        update(2*v+1,tm+1,tr,l,r,val);
+        t[v] = t[2*v]+t[2*v+1];
+        return;
+    }
+    update(2*v,tl,tm,l,tm,val);
+    update(2*v+1,tm+1,tr,tm+1,r,val);
+    t[v] = t[2*v]+t[2*v+1];
+}*/
+
+
+/*pair<ll,ll> get (int v, int tl, int tr, int p) {
+    if (tl==tr) return t[v];
+    int tm = (tl+tr)/2;
+    //push(v);
+    if (p<=tm) return t[v]+get(2*v,tl,tm,p);
+    else return t[v]+get(2*v+1,tm+1,tr,p);
+}*/
+
+//ll dp[60][60][20];
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    /*ll k = 7;
+    ll mx = 100;
+    for (int i=0;i<60;i++)
+    {
+        for (int j=0;j<60;j++)
+        {
+            for (int L=0;L<20;L++) dp[i][j][L] = 0;
+        }
+    }
+    ll mxa = 10;
+    for (ll d=0;d<=mxa;d++)
+    {
+        for (ll x=1;x<=k;x++) dp[0][d][x] = 1;
+    }
+    dp[1][0][k] = 1;
+    for (ll a=1;a<=mxa;a++)
+    {
+        for (ll d=1;d<=mxa;d++)
+        {
+            dp[a][d][1] = dp[a][d-1][k];
+            for (ll j=2;j<=k;j++)
+            {
+                dp[a][d][j] = dp[a][d-1][k];
+                for (ll b=0;b<a and b<=d;b++)
+                {
+                    dp[a][d][j] = (dp[a][d][j]+dp[b][d-1][k]*dp[a-b][d-b][j-1])%mod;
+                }
+            }
+        }
+    }
+    cout << dp[1][2][4] << endl;
+    vector<ll> cur(mxa+1);
+    cur[0] = 1;
+    vector<ll> p(mxa+1);
+    p[0] = 1;
+    for (ll j=1;j<=mxa;j++) p[j] = p[j-1]*k;
+    mx++;
+    for (ll j=0;j<=mxa;j++)
+    {
+        ll q = mx/p[j]%k;
+        vector<ll> nxt(mxa+1);
+        for (ll b=0;b<=mxa;b++)
+        {
+
+        }
+    }*/
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        string s;
+        cin >> s;
+        vector<char> ch = {'A','N','T','O'};
+        vector<ll> cnt(4);
+        vector<vector<ll>> kek(4,vector<ll>(4));
+        int n = s.length();
+        for (int i=0;i<n;i++)
+        {
+            for (int j=0;j<4;j++)
+            {
+                if (s[i]==ch[j])
+                {
+                    for (int q=0;q<4;q++)
+                    {
+                        if (q==j) continue;
+                        kek[q][j] += cnt[q];
+                    }
+                    cnt[j]++;
+                }
+            }
+        }
+        vector<ll> a = {0,1,2,3};
+        ll ans = -1;
+        vector<ll> ord;
+        while (true)
+        {
+            ll cur = 0;
+            for (int i=0;i<4;i++)
+            {
+                for (int j=i+1;j<4;j++)
+                {
+                    cur += kek[a[j]][a[i]];
+                }
+            }
+            if (cur>ans)
+            {
+                ord = a;
+                ans = cur;
+            }
+            if (!next_permutation(a.begin(),a.end())) break;
+        }
+        for (int i=0;i<ord.size();i++)
+        {
+            while (cnt[ord[i]]>0)
+            {
+                cout << ch[ord[i]];
+                cnt[ord[i]]--;
+            }
+        }
+        cout << "\n";
+    }
+}
