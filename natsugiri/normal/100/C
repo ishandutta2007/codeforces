@@ -1,0 +1,8 @@
+import Stdio;
+int main(){
+  int s,t;
+  s=(int)stdin->gets();
+  t=(int)stdin->gets();
+  write(s+t+"\n");
+  return 0;
+}

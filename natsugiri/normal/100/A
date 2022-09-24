@@ -1,0 +1,12 @@
+import Stdio;
+int main(){
+  int n,k=0,m;
+  string s=stdin->read();
+  sscanf(s,"%d %d %d",n,k,m);
+  if(k==1){
+    if(n==m)write("YES\n");
+    else write("NO\n");
+  }else if(k>3)write("YES\n");
+  else write("NO\n");
+  return 0;
+}
