@@ -1,0 +1,35 @@
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+
+procedure ProbA is
+    A : String(1..100);
+    Length : Natural;
+    I : Integer := 1;
+    ans, p : Float := 0.0;
+begin
+    Get_Line(A, Length);
+    Get(p);
+    MyLoop:
+    loop
+      if I > Length then
+        exit MyLoop;
+      end if;
+      if A(I) = '1' then
+        ans := ans + 1.0;
+      end if;
+      if A(I) = '?' then
+        ans := ans + p;
+      end if;
+      I := I + 1;
+    end loop MyLoop;
+    ans := ans / Float(Length);
+    Put(Item => ans, Aft => 5, Exp => 0);
+end ProbA;
