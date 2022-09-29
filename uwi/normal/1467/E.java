@@ -1,0 +1,1018 @@
+//package round695;
+
+import java.io.*;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Queue;
+
+public class E {
+	InputStream is;
+	FastWriter out;
+	String INPUT = "";
+	
+	void solve()
+	{
+		int n = ni();
+		int[] a = shrink(na(n));
+		int[] from = new int[n - 1];
+		int[] to = new int[n - 1];
+		for (int i = 0; i < n - 1; i++) {
+			from[i] = ni() - 1;
+			to[i] = ni() - 1;
+		}
+		int[][] g = packU(n, from, to);
+		int[][] pars = parents(g, 0);
+		int[] par = pars[0], dep = pars[2];
+
+		int[][] rights = makeRights(g, par, 0);
+		int[] iord = rights[1], right = rights[2];
+
+		StarrySkyTreeL st = new StarrySkyTreeL(n);
+		StarrySkyTreeL stc = new StarrySkyTreeL(n);
+
+		LCAFast2 lf = LCAFast2.build(g, 0);
+		int[][] b = makeBuckets(a, n);
+		for(int i = 0;i < b.length;i++){
+			if(b[i].length >= 2){
+				int u = lf.lca(b[i][0], b[i][1]);
+				if(b[i].length >= 3) {
+					int v = lf.lca(b[i][1], b[i][2]);
+					if (dep[v] > dep[u]) u = v;
+					v = lf.lca(b[i][2], b[i][0]);
+					if (dep[v] > dep[u]) u = v;
+				}else{
+					if(dep[b[i][0]] > dep[b[i][1]]){
+						u = par[b[i][0]];
+					}else{
+						u = par[b[i][1]];
+					}
+				}
+
+				for(int w : b[i]){
+					if(w == u){
+						out.println(0);
+						return;
+					}
+					if(dep[w] < dep[u] && lf.lca(w, u) == w) {
+						int anc = lf.anc(u, dep[u] - dep[w]-1);
+						st.add(0, n, -1);
+						st.add(iord[anc], right[iord[anc]] + 1, 1);
+					}else{
+						st.add(iord[w], right[iord[w]]+1, -1);
+					}
+				}
+				if(st.min(0, n) < -1){
+					out.println(0);
+					return;
+				}
+				for(int w : b[i]){
+					if(dep[w] < dep[u] && lf.lca(w, u) == w) {
+						int anc = lf.anc(u, dep[u] - dep[w]-1);
+						st.add(0, n, 1);
+						st.add(iord[anc], right[iord[anc]] + 1, -1);
+						stc.add(0, n, 1);
+						stc.add(iord[anc], right[iord[anc]] + 1, -1);
+					}else{
+						st.add(iord[w], right[iord[w]]+1, 1);
+						stc.add(iord[w], right[iord[w]]+1, 1);
+					}
+				}
+			}
+		}
+
+		long[] res = stc.toArray();
+		int ans = 0;
+		for(int i = 0;i < n;i++){
+			if(res[i] == 0){
+				ans++;
+			}
+		}
+		out.println(ans);
+	}
+
+	public static int[] sortByPreorder(int[][] g, int root){
+		int n = g.length;
+		int[] stack = new int[n];
+		int[] ord = new int[n];
+		boolean[] ved = new boolean[n];
+		stack[0] = root;
+		int p = 1;
+		int r = 0;
+		ved[root] = true;
+		while(p > 0){
+			int cur = stack[p-1];
+			ord[r++] = cur;
+			p--;
+			for(int e : g[cur]){
+				if(!ved[e]){
+					ved[e] = true;
+					stack[p++] = e;
+				}
+			}
+		}
+		return ord;
+	}
+
+	public static int[][] makeRights(int[][] g, int[] par, int root)
+	{
+		int n = g.length;
+		int[] ord = sortByPreorder(g, root);
+		int[] iord = new int[n];
+		for(int i = 0;i < n;i++)iord[ord[i]] = i;
+
+		int[] right = new int[n];
+		for(int i = n-1;i >= 1;i--){
+			if(right[i] == 0)right[i] = i;
+			int p = iord[par[ord[i]]];
+			right[p] = Math.max(right[p], right[i]);
+		}
+		return new int[][]{ord, iord, right};
+	}
+
+
+	public static class StarrySkyTreeL {
+		public final int M, H, N, LH;
+		public long[] mins;
+		public long[] plus;
+		public static final long I = Long.MAX_VALUE/4; // I+plus<long
+
+		public StarrySkyTreeL(int n)
+		{
+			N = n;
+			M = Integer.highestOneBit(Math.max(n-1, 1))<<2;
+			H = M>>>1;
+			LH = Integer.numberOfTrailingZeros(H);
+			mins = new long[M];
+			plus = new long[H];
+		}
+
+		public StarrySkyTreeL(long[] a)
+		{
+			this(a.length);
+			for(int i = 0;i < N;i++){
+				mins[H+i] = a[i];
+			}
+			Arrays.fill(mins, H+N, M, I);
+			for(int i = H-1;i >= 1;i--)propagate(i);
+		}
+
+		private void push1(int cur)
+		{
+			if(plus[cur] == 0)return;
+			int L = cur*2, R = L + 1;
+			mins[L] += plus[cur];
+			mins[R] += plus[cur];
+			if(L < H){
+				plus[L] += plus[cur];
+				plus[R] += plus[cur];
+			}
+			plus[cur] = 0;
+		}
+
+		private void propagate(int i)
+		{
+			mins[i] = Math.min(mins[2*i], mins[2*i+1]) + plus[i];
+		}
+
+		private void add1(int cur, long v)
+		{
+			mins[cur] += v;
+			if(cur < H){
+				plus[cur] += v;
+			}
+		}
+
+		private void push(int l, int r)
+		{
+			for(int i = LH;i >= 1;i--) {
+				if (l >>> i << i != l) push1(l >>> i);
+				if (r >>> i << i != r) push1(r >>> i);
+			}
+		}
+
+		public void add(int l, int r, long v)
+		{
+			if(l >= r)return;
+			l += H; r += H;
+			push(l, r);
+			for(int ll = l, rr = r;ll < rr;ll>>>=1,rr>>>=1){
+				if((ll&1) == 1) add1(ll++, v);
+				if((rr&1) == 1) add1(--rr, v);
+			}
+			for(int i = 1;i <= LH;i++){
+				if(l>>>i<<i != l)propagate(l>>>i);
+				if(r>>>i<<i != r)propagate(r>>>i);
+			}
+		}
+
+		public long min(int l, int r){
+			long min = I;
+			if(l >= r)return min;
+			l += H; r += H;
+			push(l, r);
+			for(;l < r;l>>>=1,r>>>=1){
+				if((l&1) == 1)min = Math.min(min, mins[l++]);
+				if((r&1) == 1)min = Math.min(min, mins[--r]);
+			}
+			return min;
+		}
+
+		public int firstle(int l, long v) {
+			if(l >= H)return -1;
+			int cur = H+l;
+			for(int i = 1, j = Integer.numberOfTrailingZeros(H)-1;i <= cur;j--){
+				push1(i);
+				i = i*2|cur>>>j&1;
+			}
+			while(true){
+				push1(cur);
+				if(mins[cur] <= v){
+					if(cur >= H)return cur-H;
+					cur = 2*cur;
+				}else{
+					cur++;
+					if((cur&cur-1) == 0)return -1;
+					cur = cur>>>Integer.numberOfTrailingZeros(cur);
+				}
+			}
+		}
+
+		public int lastle(int l, long v) {
+			if(l < 0)return -1;
+			int cur = H+l;
+			for(int i = 1, j = Integer.numberOfTrailingZeros(H)-1;i <= cur;j--){
+				push1(i);
+				i = i*2|cur>>>j&1;
+			}
+			while(true){
+				push1(cur);
+				if(mins[cur] <= v){
+					if(cur >= H)return cur-H;
+					cur = 2*cur+1;
+				}else{
+					if((cur&cur-1) == 0)return -1;
+					cur = cur>>>Integer.numberOfTrailingZeros(cur);
+					cur--;
+				}
+			}
+		}
+
+		public long[] toArray() { return toArray(1, 0, H, new long[H]); }
+
+		private long[] toArray(int cur, int l, int r, long[] ret)
+		{
+			if(r-l == 1){
+				ret[cur-H] = mins[cur];
+			}else{
+				toArray(2*cur, l, l+r>>>1, ret);
+				toArray(2*cur+1, l+r>>>1, r, ret);
+				for(int i = l;i < r;i++)ret[i] += plus[cur];
+			}
+			return ret;
+		}
+	}
+
+
+	public static int[][] makeBuckets(int[] a, int sup)
+	{
+		int n = a.length;
+		int[][] bucket = new int[sup+1][];
+		int[] bp = new int[sup+1];
+		for(int i = 0;i < n;i++)bp[a[i]]++;
+		for(int i = 0;i <= sup;i++)bucket[i] = new int[bp[i]];
+		for(int i = n-1;i >= 0;i--)bucket[a[i]][--bp[a[i]]] = i;
+		return bucket;
+	}
+
+
+	public static int[] shrink(int[] a) {
+		int n = a.length;
+		long[] b = new long[n];
+		for (int i = 0; i < n; i++) b[i] = (long) a[i] << 32 | i;
+		Arrays.sort(b);
+		int[] ret = new int[n];
+		int p = 0;
+		for (int i = 0; i < n; i++) {
+			if (i > 0 && (b[i] ^ b[i - 1]) >> 32 != 0) p++;
+			ret[(int) b[i]] = p;
+		}
+		return ret;
+	}
+
+
+	public static class LCAFast2 {
+		public int n, h;
+		public int[][] bigst;
+		public int[][] bigind;
+		public long[][] smallb;
+		public int[] vs, first, deps;
+
+		public int lca(int a, int b)
+		{
+			return vs[rmqpos(Math.min(first[a], first[b]), Math.max(first[a], first[b]))];
+		}
+
+		public int pointOnPath(int a, int b, int dfroma)
+		{
+			int lca = lca(a, b);
+			if(dfroma <= dep(a) - dep(lca)){
+				return anc(a, dfroma);
+			}
+			int dfromb = dep(b) - dep(lca) - (dfroma - (dep(a) - dep(lca)));
+			if(dfromb < 0)return -1;
+
+			return anc(b, dfromb);
+		}
+
+		public int anc(int a, int d)
+		{
+			int da = dep(a);
+			if(da < d)return -1;
+			int danc = da - d;
+			int low = 0, high = first[a] + 1;
+			while(high - low > 1){
+				int h = high+low>>1;
+				if(rmqval(h, first[a]) <= danc){
+					low = h;
+				}else {
+					high = h;
+				}
+			}
+			return vs[low];
+		}
+
+		public int d(int a, int b)
+		{
+			return dep(a) + dep(b) - 2 * rmqval(Math.min(first[a], first[b]), Math.max(first[a], first[b]));
+		}
+
+		public int dep(int x)
+		{
+			return deps[first[x]];
+		}
+
+		public int rmqpos(int l, int r)
+		{
+			if(l > r)return -1;
+			int cl = l>>>6;
+			int cr = r>>>6;
+			if(cl == cr){
+				return argmax(smallb[l&63][cl], r-l+1) + l;
+			}else{
+				int min = deps[l] - max(smallb[l&63][cl], 63-(l&63)+1);
+				int pos = argmax(smallb[l&63][cl], 63-(l&63)+1) + l;
+
+				{
+					int can = deps[r>>>6<<6] - max(smallb[0][cr], (r&63)-0+1);
+					if(can < min){
+						min = can;
+						pos = argmax(smallb[0][cr], (r&63)-0+1) + (r>>>6<<6);
+					}
+				}
+
+				if(cl+1 <= cr-1){
+					int len = (cr-1)-(cl+1)+1;
+					int h = 31-Integer.numberOfLeadingZeros(len);
+					{
+						int can = bigst[h][cl+1];
+						if(can < min){
+							min = can;
+							pos = bigind[h][cl+1];
+						}
+					}
+					{
+						int can = bigst[h][cr-1-(1<<h)+1];
+						if(can < min){
+							min = can;
+							pos = bigind[h][cr-1-(1<<h)+1];
+						}
+					}
+				}
+				return pos;
+			}
+		}
+
+		public int rmqval(int l, int r)
+		{
+			if(l > r)return -1;
+			int cl = l>>>6;
+			int cr = r>>>6;
+			if(cl == cr){
+				return deps[l] - max(smallb[l&63][cl], r-l+1);
+			}else{
+				int min = deps[l] - max(smallb[l&63][cl], 63-(l&63)+1);
+				min = Math.min(min, deps[r>>>6<<6] - max(smallb[0][cr], (r&63)-0+1));
+
+				if(cl+1 <= cr-1){
+					int len = (cr-1)-(cl+1)+1;
+					int h = 31-Integer.numberOfLeadingZeros(len);
+					min = Math.min(min, bigst[h][cl+1]);
+					min = Math.min(min, bigst[h][cr-1-(1<<h)+1]);
+				}
+				return min;
+			}
+		}
+
+		public static LCAFast2 build(int[][] g, int root)
+		{
+			LCAFast2 ret = new LCAFast2();
+			int[][] et = eulerTour(g, root);
+			int[] vs = et[0], deps = et[1], first = et[2];
+			ret.vs = vs;
+			ret.first = first;
+			ret.deps = deps;
+
+			int n = deps.length;
+			int u = n+63>>>6;
+			int h = 31-Integer.numberOfLeadingZeros(u) + 1;
+			int[][] bigst = new int[h][];
+			int[][] bigind = new int[h][];
+			int[] cup = new int[u];
+			int[] cupind = new int[u];
+			Arrays.fill(cup, Integer.MAX_VALUE);
+			for(int i = 0;i < n;i++){
+				if(deps[i] < cup[i>>>6]){
+					cup[i>>>6] = deps[i];
+					cupind[i>>>6] = i;
+				}
+			}
+			bigst[0] = cup;
+			bigind[0] = cupind;
+			for(int i = 1;i < h;i++){
+				bigst[i] = new int[u-(1<<i)+1];
+				bigind[i] = new int[u-(1<<i)+1];
+				for(int j = 0;j + (1<<i) <= u;j++){
+					if(bigst[i-1][j] < bigst[i-1][j+(1<<i-1)]){
+						bigst[i][j] = bigst[i-1][j];
+						bigind[i][j] = bigind[i-1][j];
+					}else{
+						bigst[i][j] = bigst[i-1][j+(1<<i-1)];
+						bigind[i][j] = bigind[i-1][j+(1<<i-1)];
+					}
+				}
+			}
+
+			long[][] smallb = new long[64][u];
+			for(int i = 0;i < u;i++){
+				long x = 0;
+				for(int j = 0;j < 63 && (i<<6|j+1) < n;j++){
+					if(deps[i<<6|j] > deps[i<<6|j+1]){
+						x |= 1L<<j;
+					}
+				}
+				long val = 0;
+				for(int j = 63;j >= 0;j--){
+					val <<= 1;
+					if(x<<~j<0){
+						val |= 1L;
+					}else{
+						val &= val - 1;
+					}
+					smallb[j][i] = val;
+				}
+				//
+				//			for(int j = 0;j < 64;j++){
+				//				smallb[j][i] = make(x>>>j);
+				//			}
+			}
+
+			ret.n = n; ret.h = h;
+			ret.bigst = bigst;
+			ret.bigind = bigind;
+			ret.smallb = smallb;
+			return ret;
+		}
+
+		public static int[][] eulerTour(int[][] g, int root)
+		{
+			int n = g.length;
+			int[] vs = new int[2*n-1];
+			int[] deps = new int[2*n-1];
+			int[] first = new int[n];
+			Arrays.fill(first, -1);
+			int p = 0;
+
+			int[] stack = new int[n];
+			int[] inds = new int[n];
+			int sp = 0;
+			stack[sp++] = root;
+			outer:
+			while(sp > 0){
+				int cur = stack[sp-1], ind = inds[sp-1];
+				vs[p] = cur;
+				deps[p] = sp-1;
+				if(first[cur] == -1)first[cur] = p;
+				p++;
+				while(ind < g[cur].length){
+					int nex = g[cur][ind++];
+					if(first[nex] == -1){
+						inds[sp-1] = ind;
+						stack[sp] = nex;
+						inds[sp] = 0;
+						sp++;
+						continue outer;
+					}
+				}
+				inds[sp-1] = ind;
+				if(ind == g[cur].length)sp--;
+			}
+
+			return new int[][]{vs, deps, first};
+		}
+
+		// TinyRMQ
+		public static long make(long x)
+		{
+			int h = 0;
+			int max = 0;
+			long ret = 0;
+			for(int i = 0;i < 64;i++){
+				if(x<<~i<0){
+					h++;
+				}else{
+					h--;
+				}
+				if(h > max){
+					max = h;
+					ret |= 1L<<i;
+				}
+			}
+			return ret;
+		}
+
+		public static int max(long x, int r)
+		{
+			assert r > 0;
+			return Long.bitCount(x&(1L<<r-1)-1);
+		}
+
+		public static int argmax(long x, int r)
+		{
+			assert r > 0;
+			return 64-Long.numberOfLeadingZeros(x&(1L<<r-1)-1);
+		}
+	}
+
+
+	public static int[][] parents(int[][] g, int root) {
+		int n = g.length;
+		int[] par = new int[n];
+		Arrays.fill(par, -1);
+
+		int[] depth = new int[n];
+		depth[0] = 0;
+
+		int[] q = new int[n];
+		q[0] = root;
+		for (int p = 0, r = 1; p < r; p++) {
+			int cur = q[p];
+			for (int nex : g[cur]) {
+				if (par[cur] != nex) {
+					q[r++] = nex;
+					par[nex] = cur;
+					depth[nex] = depth[cur] + 1;
+				}
+			}
+		}
+		return new int[][]{par, q, depth};
+	}
+
+
+	public static int[][] packU(int n, int[] from, int[] to) {
+		return packU(n, from, to, from.length);
+	}
+
+	public static int[][] packU(int n, int[] from, int[] to, int sup) {
+		int[][] g = new int[n][];
+		int[] p = new int[n];
+		for (int i = 0; i < sup; i++) p[from[i]]++;
+		for (int i = 0; i < sup; i++) p[to[i]]++;
+		for (int i = 0; i < n; i++) g[i] = new int[p[i]];
+		for (int i = 0; i < sup; i++) {
+			g[from[i]][--p[from[i]]] = to[i];
+			g[to[i]][--p[to[i]]] = from[i];
+		}
+		return g;
+	}
+
+
+	void run() throws Exception
+	{
+		is = oj ? System.in : new ByteArrayInputStream(INPUT.getBytes());
+		out = new FastWriter(System.out);
+		
+		long s = System.currentTimeMillis();
+		solve();
+		out.flush();
+		tr(System.currentTimeMillis()-s+"ms");
+	}
+	
+	public static void main(String[] args) throws Exception { new E().run(); }
+	
+	private byte[] inbuf = new byte[1024];
+	public int lenbuf = 0, ptrbuf = 0;
+	
+	private int readByte()
+	{
+		if(lenbuf == -1)throw new InputMismatchException();
+		if(ptrbuf >= lenbuf){
+			ptrbuf = 0;
+			try { lenbuf = is.read(inbuf); } catch (IOException e) { throw new InputMismatchException(); }
+			if(lenbuf <= 0)return -1;
+		}
+		return inbuf[ptrbuf++];
+	}
+	
+	private boolean isSpaceChar(int c) { return !(c >= 33 && c <= 126); }
+	private int skip() { int b; while((b = readByte()) != -1 && isSpaceChar(b)); return b; }
+	
+	private double nd() { return Double.parseDouble(ns()); }
+	private char nc() { return (char)skip(); }
+	
+	private String ns()
+	{
+		int b = skip();
+		StringBuilder sb = new StringBuilder();
+		while(!(isSpaceChar(b))){ // when nextLine, (isSpaceChar(b) && b != ' ')
+			sb.appendCodePoint(b);
+			b = readByte();
+		}
+		return sb.toString();
+	}
+	
+	private char[] ns(int n)
+	{
+		char[] buf = new char[n];
+		int b = skip(), p = 0;
+		while(p < n && !(isSpaceChar(b))){
+			buf[p++] = (char)b;
+			b = readByte();
+		}
+		return n == p ? buf : Arrays.copyOf(buf, p);
+	}
+
+	private int[] na(int n)
+	{
+		int[] a = new int[n];
+		for(int i = 0;i < n;i++)a[i] = ni();
+		return a;
+	}
+
+	private long[] nal(int n)
+	{
+		long[] a = new long[n];
+		for(int i = 0;i < n;i++)a[i] = nl();
+		return a;
+	}
+
+	private char[][] nm(int n, int m) {
+		char[][] map = new char[n][];
+		for(int i = 0;i < n;i++)map[i] = ns(m);
+		return map;
+	}
+
+	private int[][] nmi(int n, int m) {
+		int[][] map = new int[n][];
+		for(int i = 0;i < n;i++)map[i] = na(m);
+		return map;
+	}
+
+	private int ni() { return (int)nl(); }
+
+	private long nl()
+	{
+		long num = 0;
+		int b;
+		boolean minus = false;
+		while((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'));
+		if(b == '-'){
+			minus = true;
+			b = readByte();
+		}
+
+		while(true){
+			if(b >= '0' && b <= '9'){
+				num = num * 10 + (b - '0');
+			}else{
+				return minus ? -num : num;
+			}
+			b = readByte();
+		}
+	}
+
+	public static class FastWriter
+	{
+		private static final int BUF_SIZE = 1<<13;
+		private final byte[] buf = new byte[BUF_SIZE];
+		private final OutputStream out;
+		private int ptr = 0;
+
+		private FastWriter(){out = null;}
+
+		public FastWriter(OutputStream os)
+		{
+			this.out = os;
+		}
+
+		public FastWriter(String path)
+		{
+			try {
+				this.out = new FileOutputStream(path);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException("FastWriter");
+			}
+		}
+
+		public FastWriter write(byte b)
+		{
+			buf[ptr++] = b;
+			if(ptr == BUF_SIZE)innerflush();
+			return this;
+		}
+
+		public FastWriter write(char c)
+		{
+			return write((byte)c);
+		}
+
+		public FastWriter write(char[] s)
+		{
+			for(char c : s){
+				buf[ptr++] = (byte)c;
+				if(ptr == BUF_SIZE)innerflush();
+			}
+			return this;
+		}
+
+		public FastWriter write(String s)
+		{
+			s.chars().forEach(c -> {
+				buf[ptr++] = (byte)c;
+				if(ptr == BUF_SIZE)innerflush();
+			});
+			return this;
+		}
+
+		private static int countDigits(int l) {
+			if (l >= 1000000000) return 10;
+			if (l >= 100000000) return 9;
+			if (l >= 10000000) return 8;
+			if (l >= 1000000) return 7;
+			if (l >= 100000) return 6;
+			if (l >= 10000) return 5;
+			if (l >= 1000) return 4;
+			if (l >= 100) return 3;
+			if (l >= 10) return 2;
+			return 1;
+		}
+
+		public FastWriter write(int x)
+		{
+			if(x == Integer.MIN_VALUE){
+				return write((long)x);
+			}
+			if(ptr + 12 >= BUF_SIZE)innerflush();
+			if(x < 0){
+				write((byte)'-');
+				x = -x;
+			}
+			int d = countDigits(x);
+			for(int i = ptr + d - 1;i >= ptr;i--){
+				buf[i] = (byte)('0'+x%10);
+				x /= 10;
+			}
+			ptr += d;
+			return this;
+		}
+
+		private static int countDigits(long l) {
+			if (l >= 1000000000000000000L) return 19;
+			if (l >= 100000000000000000L) return 18;
+			if (l >= 10000000000000000L) return 17;
+			if (l >= 1000000000000000L) return 16;
+			if (l >= 100000000000000L) return 15;
+			if (l >= 10000000000000L) return 14;
+			if (l >= 1000000000000L) return 13;
+			if (l >= 100000000000L) return 12;
+			if (l >= 10000000000L) return 11;
+			if (l >= 1000000000L) return 10;
+			if (l >= 100000000L) return 9;
+			if (l >= 10000000L) return 8;
+			if (l >= 1000000L) return 7;
+			if (l >= 100000L) return 6;
+			if (l >= 10000L) return 5;
+			if (l >= 1000L) return 4;
+			if (l >= 100L) return 3;
+			if (l >= 10L) return 2;
+			return 1;
+		}
+
+		public FastWriter write(long x)
+		{
+			if(x == Long.MIN_VALUE){
+				return write("" + x);
+			}
+			if(ptr + 21 >= BUF_SIZE)innerflush();
+			if(x < 0){
+				write((byte)'-');
+				x = -x;
+			}
+			int d = countDigits(x);
+			for(int i = ptr + d - 1;i >= ptr;i--){
+				buf[i] = (byte)('0'+x%10);
+				x /= 10;
+			}
+			ptr += d;
+			return this;
+		}
+
+		public FastWriter write(double x, int precision)
+		{
+			if(x < 0){
+				write('-');
+				x = -x;
+			}
+			x += Math.pow(10, -precision)/2;
+			//		if(x < 0){ x = 0; }
+			write((long)x).write(".");
+			x -= (long)x;
+			for(int i = 0;i < precision;i++){
+				x *= 10;
+				write((char)('0'+(int)x));
+				x -= (int)x;
+			}
+			return this;
+		}
+
+		public FastWriter writeln(char c){
+			return write(c).writeln();
+		}
+
+		public FastWriter writeln(int x){
+			return write(x).writeln();
+		}
+
+		public FastWriter writeln(long x){
+			return write(x).writeln();
+		}
+
+		public FastWriter writeln(double x, int precision){
+			return write(x, precision).writeln();
+		}
+
+		public FastWriter write(int... xs)
+		{
+			boolean first = true;
+			for(int x : xs) {
+				if (!first) write(' ');
+				first = false;
+				write(x);
+			}
+			return this;
+		}
+
+		public FastWriter write(long... xs)
+		{
+			boolean first = true;
+			for(long x : xs) {
+				if (!first) write(' ');
+				first = false;
+				write(x);
+			}
+			return this;
+		}
+
+		public FastWriter writeln()
+		{
+			return write((byte)'\n');
+		}
+
+		public FastWriter writeln(int... xs)
+		{
+			return write(xs).writeln();
+		}
+
+		public FastWriter writeln(long... xs)
+		{
+			return write(xs).writeln();
+		}
+
+		public FastWriter writeln(char[] line)
+		{
+			return write(line).writeln();
+		}
+
+		public FastWriter writeln(char[]... map)
+		{
+			for(char[] line : map)write(line).writeln();
+			return this;
+		}
+
+		public FastWriter writeln(String s)
+		{
+			return write(s).writeln();
+		}
+
+		private void innerflush()
+		{
+			try {
+				out.write(buf, 0, ptr);
+				ptr = 0;
+			} catch (IOException e) {
+				throw new RuntimeException("innerflush");
+			}
+		}
+
+		public void flush()
+		{
+			innerflush();
+			try {
+				out.flush();
+			} catch (IOException e) {
+				throw new RuntimeException("flush");
+			}
+		}
+
+		public FastWriter print(byte b) { return write(b); }
+		public FastWriter print(char c) { return write(c); }
+		public FastWriter print(char[] s) { return write(s); }
+		public FastWriter print(String s) { return write(s); }
+		public FastWriter print(int x) { return write(x); }
+		public FastWriter print(long x) { return write(x); }
+		public FastWriter print(double x, int precision) { return write(x, precision); }
+		public FastWriter println(char c){ return writeln(c); }
+		public FastWriter println(int x){ return writeln(x); }
+		public FastWriter println(long x){ return writeln(x); }
+		public FastWriter println(double x, int precision){ return writeln(x, precision); }
+		public FastWriter print(int... xs) { return write(xs); }
+		public FastWriter print(long... xs) { return write(xs); }
+		public FastWriter println(int... xs) { return writeln(xs); }
+		public FastWriter println(long... xs) { return writeln(xs); }
+		public FastWriter println(char[] line) { return writeln(line); }
+		public FastWriter println(char[]... map) { return writeln(map); }
+		public FastWriter println(String s) { return writeln(s); }
+		public FastWriter println() { return writeln(); }
+	}
+
+	public void trnz(int... o)
+	{
+		for(int i = 0;i < o.length;i++)if(o[i] != 0)System.out.print(i+":"+o[i]+" ");
+		System.out.println();
+	}
+
+	// print ids which are 1
+	public void trt(long... o)
+	{
+		Queue<Integer> stands = new ArrayDeque<>();
+		for(int i = 0;i < o.length;i++){
+			for(long x = o[i];x != 0;x &= x-1)stands.add(i<<6|Long.numberOfTrailingZeros(x));
+		}
+		System.out.println(stands);
+	}
+
+	public void tf(boolean... r)
+	{
+		for(boolean x : r)System.out.print(x?'#':'.');
+		System.out.println();
+	}
+
+	public void tf(boolean[]... b)
+	{
+		for(boolean[] r : b) {
+			for(boolean x : r)System.out.print(x?'#':'.');
+			System.out.println();
+		}
+		System.out.println();
+	}
+
+	public void tf(long[]... b)
+	{
+		if(INPUT.length() != 0) {
+			for (long[] r : b) {
+				for (long x : r) {
+					for (int i = 0; i < 64; i++) {
+						System.out.print(x << ~i < 0 ? '#' : '.');
+					}
+				}
+				System.out.println();
+			}
+			System.out.println();
+		}
+	}
+
+	public void tf(long... b)
+	{
+		if(INPUT.length() != 0) {
+			for (long x : b) {
+				for (int i = 0; i < 64; i++) {
+					System.out.print(x << ~i < 0 ? '#' : '.');
+				}
+			}
+			System.out.println();
+		}
+	}
+
+	private boolean oj = System.getProperty("ONLINE_JUDGE") != null;
+	private void tr(Object... o) { if(!oj)System.out.println(Arrays.deepToString(o)); }
+}
