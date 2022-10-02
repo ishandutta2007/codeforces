@@ -1,0 +1,43 @@
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with Ada.Text_IO;
+use  Ada.Text_IO;
+with Ada.Integer_Text_IO;
+use  Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;
+use  Ada.Float_Text_IO;
+
+
+procedure Main is
+  n : Integer;
+  s : String(1..10);
+  y, m, d : Integer;
+  ct : Integer := 0;
+
+begin
+	Ada.Integer_Text_IO.Get(n);
+	for i in 1..n loop
+		Ada.Text_IO.Get(s);
+		y := Integer'Value(s(s'First..s'First+3));
+		m := Integer'Value(s(s'First+5..s'First+6));
+		d := Integer'Value(s(s'First+8..s'First+9));
+		
+		if m = 1 then
+			m := m + 12;
+			y := y - 1;
+		end if;
+		if m = 2 then
+			m := m + 12;
+			y := y - 1;
+		end if;
+		
+		y := (y + y/4 - y/100+y/400+(13*m+8)/5+d) mod 7;
+		if y = 5 then
+			if d = 13 then
+				ct := ct + 1;
+			end if;
+		end if;
+	end loop;
+	Ada.Integer_Text_IO.put(ct);
+
+end;
