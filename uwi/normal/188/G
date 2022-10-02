@@ -1,0 +1,30 @@
+co pin {
+eq [202] [201] [200]
+if [202] ac
+iin [203]
+add [[203]] [[203]] 1
+
+add [201] [201] 1
+}
+
+co aha {
+lt [206] [[204]] 1
+if [206] ac
+iout [204]
+cout 32
+sub [[204]] [[204]] 1
+}
+
+co pout {
+eq [205] [204] 101
+if [205] ac
+if [[204]] ca aha
+
+add [204] [204] 1
+}
+
+iin [200]
+ca pin
+
+ca pout
+ac

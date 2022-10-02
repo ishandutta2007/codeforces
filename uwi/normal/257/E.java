@@ -1,0 +1,338 @@
+//package round159;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.InputMismatchException;
+
+public class E {
+	InputStream is;
+	PrintWriter out;
+	String INPUT = "";
+	
+	void ride(int indwait, int[] wp, int[][] wait, int[] ftwait, int[] tp, int[][] togo, int[] fttogo, int[][] per)
+	{
+		while(wp[indwait] > 0){
+			wp[indwait]--;
+			addFenwick(ftwait, indwait, -1);
+			// ride
+			int rider = wait[indwait][wp[indwait]];
+			addFenwick(fttogo, per[rider][2], 1);
+			togo[per[rider][2]][tp[per[rider][2]]++] = rider;
+		}
+	}
+	
+	void end(int indtogo, long time, long[] ret, int[] tp, int[][] togo, int[] fttogo, int[][] per)
+	{
+		while(tp[indtogo] > 0){
+			tp[indtogo]--;
+			addFenwick(fttogo, indtogo, -1);
+			// end
+			int ender = togo[indtogo][tp[indtogo]];
+			ret[ender] = time;
+		}
+	}
+	
+	void solve()
+	{
+		int n = ni(), m = ni();
+		int[][] per = new int[n][];
+		int[][] sper = new int[n][];
+		for(int i = 0;i < n;i++){
+			sper[i] = per[i] = new int[]{ni(), ni(), ni(), i};
+		}
+		Arrays.sort(sper, new Comparator<int[]>() {
+			public int compare(int[] a, int[] b) {
+				return a[0] - b[0];
+			}
+		});
+		
+		int[] wp = new int[m+1];
+		int[] tp = new int[m+1];
+		for(int i = 0;i < n;i++){
+			wp[per[i][1]]++;
+			tp[per[i][2]]++;
+		}
+		
+		int[][] wait = new int[m+1][];
+		for(int i = 1;i <= m;i++){
+			if(wp[i] == 0)continue;
+			wait[i] = new int[wp[i]];
+		}
+		
+		int[][] togo = new int[m+1][];
+		for(int i = 1;i <= m;i++){
+			if(tp[i] == 0)continue;
+			togo[i] = new int[tp[i]];
+		}
+		
+		Arrays.fill(tp, 0);
+		Arrays.fill(wp, 0);
+		
+		long[] ret = new long[n];
+		int[] ftwait = new int[m+2];
+		int[] fttogo = new int[m+2];
+		int el = 1;
+		long time = 0;
+		int numall = 0;
+		for(int i = 0;i < n+1;i++){
+//			tr("i", i);
+			long ntime = i == n ? Long.MAX_VALUE : sper[i][0];
+			while(time <= ntime && numall > 0){
+				if(wp[el] > 0){
+					ride(el, wp, wait, ftwait, tp, togo, fttogo, per);
+				}
+				if(tp[el] > 0){
+					numall -= tp[el];
+					end(el, time, ret, tp, togo, fttogo, per);
+					continue;
+				}
+				
+				int downwait = sumFenwick(ftwait, el);
+				int downtogo = sumFenwick(fttogo, el);
+				int pdown = downwait + downtogo;
+				int pup = numall - pdown;
+//				tr(time, ntime, el, numall);
+//				tr(restoreFenwick(ftwait));
+//				tr(restoreFenwick(fttogo));
+				if(pup >= pdown){
+					int indwait = findGFenwick(ftwait, downwait)+1;
+					int indtogo = findGFenwick(fttogo, downtogo)+1;
+					if(time + (Math.min(indwait, indtogo)-el) > ntime){
+						el += ntime-time;
+						time += ntime-time;
+						break;
+					}
+//					tr("Uindwait", indwait);
+//					tr("Uindtogo", indtogo);
+					if(indwait <= indtogo){
+						time += indwait-el;
+						el = indwait;
+						ride(el, wp, wait, ftwait, tp, togo, fttogo, per);
+					}
+					if(indwait >= indtogo){
+						time += indtogo-el;
+						el = indtogo;
+						numall -= tp[el];
+						end(el, time, ret, tp, togo, fttogo, per);
+					}
+				}else{
+					int indwait = findGFenwick(ftwait, downwait-1);
+					int indtogo = findGFenwick(fttogo, downtogo-1);
+					if(indwait < 0){
+						indwait = -indwait-1;
+					}else{
+						indwait++;
+					}
+					if(indtogo < 0){
+						indtogo = -indtogo-1;
+					}else{
+						indtogo++;
+					}
+					if(time + (el-Math.max(indwait, indtogo)) > ntime){
+						el -= ntime-time;
+						time += ntime-time;
+						break;
+					}
+//					tr("Dindwait", indwait);
+//					tr("Dindtogo", indtogo);
+					if(indwait >= indtogo){
+						time += el-indwait;
+						el = indwait;
+						ride(el, wp, wait, ftwait, tp, togo, fttogo, per);
+					}
+					if(indwait <= indtogo){
+						time += el-indtogo;
+						el = indtogo;
+						numall -= tp[el];
+						end(el, time, ret, tp, togo, fttogo, per);
+					}
+				}
+			}
+			if(i == n)break;
+			
+			if(time < sper[i][0])time = sper[i][0];
+			addFenwick(ftwait, sper[i][1], 1);
+			wait[sper[i][1]][wp[sper[i][1]]++] = sper[i][3];
+			numall++;
+		}
+		
+		for(int i = 0;i < n;i++){
+			out.println(ret[i]);
+		}
+	}
+	
+	public static int sumFenwick(int[] ft, int i)
+	{
+		int sum = 0;
+		for(i++;i > 0;i -= i&-i)sum += ft[i];
+		return sum;
+	}
+	
+	public static void addFenwick(int[] ft, int i, int v)
+	{
+		if(v == 0)return;
+		int n = ft.length;
+		for(i++;i < n;i += i&-i)ft[i] += v;
+	}
+	
+	public static int findGFenwick(int[] ft, int v)
+	{
+		int i = 0;
+		int n = ft.length;
+		for(int b = Integer.highestOneBit(n);b != 0 && i < n;b >>= 1){
+			if(i + b < n){
+				int t = i + b;
+				if(v >= ft[t]){
+					i = t;
+					v -= ft[t];
+				}
+			}
+		}
+		return v != 0 ? -(i+1) : i-1;
+	}
+	
+	public static int valFenwick(int[] ft, int i)
+	{
+		return sumFenwick(ft, i) - sumFenwick(ft, i-1);
+	}
+	
+	public static int[] restoreFenwick(int[] ft)
+	{
+		int n = ft.length-1;
+		int[] ret = new int[n];
+		for(int i = 0;i < n;i++)ret[i] = sumFenwick(ft, i);
+		for(int i = n-1;i >= 1;i--)ret[i] -= ret[i-1];
+		return ret;
+	}
+	
+	public static int before(int[] ft, int x)
+	{
+		int u = sumFenwick(ft, x-1);
+		if(u == 0)return -1;
+		return findGFenwick(ft, u-1)+1;
+	}
+	
+	public static int after(int[] ft, int x)
+	{
+		int u = sumFenwick(ft, x);
+		int f = findGFenwick(ft, u);
+		if(f+1 >= ft.length-1)return -1;
+		return f+1;
+	}
+	
+	void run() throws Exception
+	{
+		is = oj ? System.in : new ByteArrayInputStream(INPUT.getBytes());
+		out = new PrintWriter(System.out);
+		
+		long s = System.currentTimeMillis();
+		solve();
+		out.flush();
+		tr(System.currentTimeMillis()-s+"ms");
+	}
+	
+	public static void main(String[] args) throws Exception { new E().run(); }
+	
+	private byte[] inbuf = new byte[1024];
+	private int lenbuf = 0, ptrbuf = 0;
+	
+	private int readByte()
+	{
+		if(lenbuf == -1)throw new InputMismatchException();
+		if(ptrbuf >= lenbuf){
+			ptrbuf = 0;
+			try { lenbuf = is.read(inbuf); } catch (IOException e) { throw new InputMismatchException(); }
+			if(lenbuf <= 0)return -1;
+		}
+		return inbuf[ptrbuf++];
+	}
+	
+	private boolean isSpaceChar(int c) { return !(c >= 33 && c <= 126); }
+	private int skip() { int b; while((b = readByte()) != -1 && isSpaceChar(b)); return b; }
+	
+	private double nd() { return Double.parseDouble(ns()); }
+	private char nc() { return (char)skip(); }
+	
+	private String ns()
+	{
+		int b = skip();
+		StringBuilder sb = new StringBuilder();
+		while(!(isSpaceChar(b))){ // when nextLine, (isSpaceChar(b) && b != ' ')
+			sb.appendCodePoint(b);
+			b = readByte();
+		}
+		return sb.toString();
+	}
+	
+	private char[] ns(int n)
+	{
+		char[] buf = new char[n];
+		int b = skip(), p = 0;
+		while(p < n && !(isSpaceChar(b))){
+			buf[p++] = (char)b;
+			b = readByte();
+		}
+		return n == p ? buf : Arrays.copyOf(buf, p);
+	}
+	
+	private char[][] nm(int n, int m)
+	{
+		char[][] map = new char[n][];
+		for(int i = 0;i < n;i++)map[i] = ns(m);
+		return map;
+	}
+	
+	private int[] na(int n)
+	{
+		int[] a = new int[n];
+		for(int i = 0;i < n;i++)a[i] = ni();
+		return a;
+	}
+	
+	private int ni()
+	{
+		int num = 0, b;
+		boolean minus = false;
+		while((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'));
+		if(b == '-'){
+			minus = true;
+			b = readByte();
+		}
+		
+		while(true){
+			if(b >= '0' && b <= '9'){
+				num = num * 10 + (b - '0');
+			}else{
+				return minus ? -num : num;
+			}
+			b = readByte();
+		}
+	}
+	
+	private long nl()
+	{
+		long num = 0;
+		int b;
+		boolean minus = false;
+		while((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'));
+		if(b == '-'){
+			minus = true;
+			b = readByte();
+		}
+		
+		while(true){
+			if(b >= '0' && b <= '9'){
+				num = num * 10 + (b - '0');
+			}else{
+				return minus ? -num : num;
+			}
+			b = readByte();
+		}
+	}
+	
+	private boolean oj = System.getProperty("ONLINE_JUDGE") != null;
+	private void tr(Object... o) { if(!oj)System.out.println(Arrays.deepToString(o)); }
+}
