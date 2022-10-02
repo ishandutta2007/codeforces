@@ -1,0 +1,10 @@
+int main(){
+string s = Stdio.stdin->gets();
+Gmp.mpz a = Gmp.mpz(s);
+s = Stdio.stdin->gets();
+Gmp.mpz b = Gmp.mpz(s);
+Gmp.mpz c = a+b;
+string u = c->cast_to_string();
+write(u + "\n");
+return 0;
+}

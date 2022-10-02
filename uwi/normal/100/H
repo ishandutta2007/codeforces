@@ -1,0 +1,75 @@
+int main(){
+    int n;
+    string s;
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",n);
+    for(int i = 0;i < n;i++){
+        array(string) b = allocate(10);
+        
+        for(int j = 0;j < 10;j++){
+            b[j] = Stdio.stdin->gets();
+        }
+        
+        if(check(b)){
+            write("YES\n");
+        }else{
+            write("NO\n");
+        }
+        
+        s = Stdio.stdin->gets();
+    }
+    
+    return 0;
+}
+
+int check(array(string) b)
+{
+        
+array(int) dr = ({-1,1,0,0,1,1,-1,-1});
+array(int) dc = ({0,0,-1,1,1,-1,1,-1});
+array(array(int)) que = allocate(200);
+array(int) count = allocate(5);
+for(int j = 0;j < 10;j++){
+    for(int k = 0;k < 10;k++){
+        if(b[j][k] == '*'){
+            int p = 0;
+            int q = 0;
+            p = 1;
+            b[j][k] = '0';
+            que[0] = ({j,k});
+            while(q < p){
+                array(int) cur = que[q];
+                for(int l = 0;l < 8;l++){
+                    int nr = cur[0] + dr[l];
+                    int nc = cur[1] + dc[l];
+                    if(nr >= 0 && nc >= 0 && nr < 10 && nc < 10 && b[nr][nc] == '*'){
+                        b[nr][nc] = '0';
+                        que[p++] = ({nr, nc});
+                    }
+                }
+                q++;
+            };
+            
+            if(p >= 5){
+                return 0;
+            }
+            if(p > 1){
+                int er = que[1][0] - que[0][0];
+                int ec = que[1][1] - que[0][1];
+                if(abs(er) + abs(ec) != 1){
+                    return 0;
+                }
+                for(int i = 2;i < p;i++){
+                    if(que[i][0] - que[i-1][0] == er && que[i][1] - que[i-1][1] == ec){
+                    }else{
+                    return 0;
+                    }
+                }
+            }
+            count[p]++;
+        }
+    }
+}
+return count[1] == 4 && count[2] == 3 && count[3] == 2 && count[4] == 1;
+
+}

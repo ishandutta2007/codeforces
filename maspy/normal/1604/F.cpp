@@ -1,0 +1,950 @@
+#line 1 "/home/maspy/compro/library/my_template.hpp"
+#include <bits/stdc++.h>
+
+using namespace std;
+
+using ll = long long;
+using pi = pair<ll, ll>;
+using vi = vector<ll>;
+using u32 = unsigned int;
+using u64 = unsigned long long;
+using i128 = __int128;
+
+template <class T>
+using vc = vector<T>;
+template <class T>
+using vvc = vector<vc<T>>;
+template <class T>
+using vvvc = vector<vvc<T>>;
+template <class T>
+using vvvvc = vector<vvvc<T>>;
+template <class T>
+using vvvvvc = vector<vvvvc<T>>;
+template <class T>
+using pq = priority_queue<T>;
+template <class T>
+using pqg = priority_queue<T, vector<T>, greater<T>>;
+
+#define vec(type, name, ...) vector<type> name(__VA_ARGS__)
+#define vv(type, name, h, ...) \
+  vector<vector<type>> name(h, vector<type>(__VA_ARGS__))
+#define vvv(type, name, h, w, ...)   \
+  vector<vector<vector<type>>> name( \
+      h, vector<vector<type>>(w, vector<type>(__VA_ARGS__)))
+#define vvvv(type, name, a, b, c, ...)       \
+  vector<vector<vector<vector<type>>>> name( \
+      a, vector<vector<vector<type>>>(       \
+             b, vector<vector<type>>(c, vector<type>(__VA_ARGS__))))
+
+#define FOR_(n) for (ll _ = 0; (_) < (ll)(n); ++(_))
+#define FOR(i, n) for (ll i = 0; (i) < (ll)(n); ++(i))
+#define FOR3(i, m, n) for (ll i = (m); (i) < (ll)(n); ++(i))
+#define FOR_R(i, n) for (ll i = (ll)(n)-1; (i) >= 0; --(i))
+#define FOR3_R(i, m, n) for (ll i = (ll)(n)-1; (i) >= (ll)(m); --(i))
+#define FOR_subset(t, s) for (ll t = s; t >= 0; t = (t == 0 ? -1 : (t - 1) & s))
+#define all(x) x.begin(), x.end()
+#define len(x) ll(x.size())
+#define elif else if
+
+#define eb emplace_back
+#define mp make_pair
+#define mt make_tuple
+#define fi first
+#define se second
+
+#define stoi stoll
+
+template <typename T>
+T SUM(vector<T> &A) {
+  T sum = T(0);
+  for (auto &&a: A) sum += a;
+  return sum;
+}
+#define MIN(v) *min_element(all(v))
+#define MAX(v) *max_element(all(v))
+#define LB(c, x) distance((c).begin(), lower_bound(all(c), (x)))
+#define UB(c, x) distance((c).begin(), upper_bound(all(c), (x)))
+#define UNIQUE(x) sort(all(x)), x.erase(unique(all(x)), x.end())
+
+int popcnt(int x) { return __builtin_popcount(x); }
+int popcnt(u32 x) { return __builtin_popcount(x); }
+int popcnt(ll x) { return __builtin_popcountll(x); }
+int popcnt(u64 x) { return __builtin_popcountll(x); }
+// (0, 1, 2, 3, 4) -> (-1, 0, 1, 1, 2)
+int topbit(int x) { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
+int topbit(u32 x) { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
+int topbit(ll x) { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+int topbit(u64 x) { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+// (0, 1, 2, 3, 4) -> (-1, 0, 1, 0, 2)
+int lowbit(int x) { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
+int lowbit(u32 x) { return (x == 0 ? -1 : 31 - __builtin_clz(x)); }
+int lowbit(ll x) { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+int lowbit(u64 x) { return (x == 0 ? -1 : 63 - __builtin_clzll(x)); }
+
+template <typename T, typename U>
+T ceil(T x, U y) {
+  return (x > 0 ? (x + y - 1) / y : x / y);
+}
+
+template <typename T, typename U>
+T floor(T x, U y) {
+  return (x > 0 ? x / y : (x - y + 1) / y);
+}
+
+template <typename T, typename U>
+pair<T, T> divmod(T x, U y) {
+  T q = floor(x, y);
+  return {q, x - q * y};
+}
+
+ll binary_search(function<bool(ll)> check, ll ok, ll ng) {
+  assert(check(ok));
+  while (abs(ok - ng) > 1) {
+    auto x = (ng + ok) / 2;
+    if (check(x))
+      ok = x;
+    else
+      ng = x;
+  }
+  return ok;
+}
+
+template <class T, class S>
+inline bool chmax(T &a, const S &b) {
+  return (a < b ? a = b, 1 : 0);
+}
+template <class T, class S>
+inline bool chmin(T &a, const S &b) {
+  return (a > b ? a = b, 1 : 0);
+}
+
+vi s_to_vi(const string& S, char first_char) {
+  vi A(S.size());
+  FOR(i, S.size()) { A[i] = S[i] - first_char; }
+  return A;
+}
+
+template <typename T>
+vector<T> cumsum(vector<T> &A, int off = 1) {
+  int N = A.size();
+  vector<T> B(N + 1);
+  FOR(i, N) { B[i + 1] = B[i] + A[i]; }
+  if (off == 0) B.erase(B.begin());
+  return B;
+}
+
+template <typename CNT, typename T>
+vc<CNT> bincount(const vc<T> &A, int size) {
+  vc<CNT> C(size);
+  for (auto &&x: A) { ++C[x]; }
+  return C;
+}
+
+template <typename T>
+vector<int> argsort(const vector<T> &A) {
+  // stable
+  vector<int> ids(A.size());
+  iota(all(ids), 0);
+  sort(all(ids),
+       [&](int i, int j) { return A[i] < A[j] || (A[i] == A[j] && i < j); });
+  return ids;
+}
+
+// A[I[0]], A[I[1]], ...
+template <typename T>
+vc<T> rearrange(const vc<T> &A, const vc<int> &I) {
+  int n = len(A);
+  assert(len(I) == n);
+  vc<T> B(n);
+  FOR(i, n) B[i] = A[I[i]];
+  return B;
+}
+#line 1 "/home/maspy/compro/library/other/io.hpp"
+// based on yosupo's fastio
+#include <unistd.h>
+
+namespace detail {
+template <typename T, decltype(&T::is_modint) = &T::is_modint>
+std::true_type check_value(int);
+template <typename T>
+std::false_type check_value(long);
+} // namespace detail
+
+template <typename T>
+struct is_modint : decltype(detail::check_value<T>(0)) {};
+template <typename T>
+using is_modint_t = enable_if_t<is_modint<T>::value>;
+template <typename T>
+using is_not_modint_t = enable_if_t<!is_modint<T>::value>;
+
+struct Scanner {
+  FILE *fp;
+  char line[(1 << 15) + 1];
+  size_t st = 0, ed = 0;
+  void reread() {
+    memmove(line, line + st, ed - st);
+    ed -= st;
+    st = 0;
+    ed += fread(line + ed, 1, (1 << 15) - ed, fp);
+    line[ed] = '\0';
+  }
+  bool succ() {
+    while (true) {
+      if (st == ed) {
+        reread();
+        if (st == ed) return false;
+      }
+      while (st != ed && isspace(line[st])) st++;
+      if (st != ed) break;
+    }
+    if (ed - st <= 50) {
+      bool sep = false;
+      for (size_t i = st; i < ed; i++) {
+        if (isspace(line[i])) {
+          sep = true;
+          break;
+        }
+      }
+      if (!sep) reread();
+    }
+    return true;
+  }
+  template <class T, enable_if_t<is_same<T, string>::value, int> = 0>
+  bool read_single(T &ref) {
+    if (!succ()) return false;
+    while (true) {
+      size_t sz = 0;
+      while (st + sz < ed && !isspace(line[st + sz])) sz++;
+      ref.append(line + st, sz);
+      st += sz;
+      if (!sz || st != ed) break;
+      reread();
+    }
+    return true;
+  }
+  template <class T, enable_if_t<is_integral<T>::value, int> = 0>
+  bool read_single(T &ref) {
+    if (!succ()) return false;
+    bool neg = false;
+    if (line[st] == '-') {
+      neg = true;
+      st++;
+    }
+    ref = T(0);
+    while (isdigit(line[st])) { ref = 10 * ref + (line[st++] & 0xf); }
+    if (neg) ref = -ref;
+    return true;
+  }
+  template <class T, is_modint_t<T> * = nullptr>
+  bool read_single(T &ref) {
+    long long val = 0;
+    bool f = read_single(val);
+    ref = T(val);
+    return f;
+  }
+  bool read_single(double &ref) {
+    string s;
+    if (!read_single(s)) return false;
+    ref = std::stod(s);
+    return true;
+  }
+  bool read_single(char &ref) {
+    string s;
+    if (!read_single(s) || s.size() != 1) return false;
+    ref = s[0];
+    return true;
+  }
+  template <class T>
+  bool read_single(vector<T> &ref) {
+    for (auto &d: ref) {
+      if (!read_single(d)) return false;
+    }
+    return true;
+  }
+  template <class T, class U>
+  bool read_single(pair<T, U> &p) {
+    return (read_single(p.first) && read_single(p.second));
+  }
+  template <class A, class B, class C>
+  bool read_single(tuple<A, B, C> &p) {
+    return (read_single(get<0>(p)) && read_single(get<1>(p))
+            && read_single(get<2>(p)));
+  }
+  template <class A, class B, class C, class D>
+  bool read_single(tuple<A, B, C, D> &p) {
+    return (read_single(get<0>(p)) && read_single(get<1>(p))
+            && read_single(get<2>(p)) && read_single(get<3>(p)));
+  }
+  void read() {}
+  template <class H, class... T>
+  void read(H &h, T &... t) {
+    bool f = read_single(h);
+    assert(f);
+    read(t...);
+  }
+  Scanner(FILE *fp) : fp(fp) {}
+};
+
+struct Printer {
+  Printer(FILE *_fp) : fp(_fp) {}
+  ~Printer() { flush(); }
+
+  static constexpr size_t SIZE = 1 << 15;
+  FILE *fp;
+  char line[SIZE], small[50];
+  size_t pos = 0;
+  void flush() {
+    fwrite(line, 1, pos, fp);
+    pos = 0;
+  }
+  void write(const char &val) {
+    if (pos == SIZE) flush();
+    line[pos++] = val;
+  }
+  template <class T, enable_if_t<is_integral<T>::value, int> = 0>
+  void write(T val) {
+    if (pos > (1 << 15) - 50) flush();
+    if (val == 0) {
+      write('0');
+      return;
+    }
+    if (val < 0) {
+      write('-');
+      val = -val; // todo min
+    }
+    size_t len = 0;
+    while (val) {
+      small[len++] = char(0x30 | (val % 10));
+      val /= 10;
+    }
+    for (size_t i = 0; i < len; i++) { line[pos + i] = small[len - 1 - i]; }
+    pos += len;
+  }
+  void write(const string &s) {
+    for (char c: s) write(c);
+  }
+  void write(const char *s) {
+    size_t len = strlen(s);
+    for (size_t i = 0; i < len; i++) write(s[i]);
+  }
+  void write(const double &x) {
+    ostringstream oss;
+    oss << setprecision(15) << x;
+    string s = oss.str();
+    write(s);
+  }
+  void write(const long double &x) {
+    ostringstream oss;
+    oss << setprecision(15) << x;
+    string s = oss.str();
+    write(s);
+  }
+  template <class T, is_modint_t<T> * = nullptr>
+  void write(T &ref) {
+    write(ref.val);
+  }
+  template <class T>
+  void write(const vector<T> &val) {
+    auto n = val.size();
+    for (size_t i = 0; i < n; i++) {
+      if (i) write(' ');
+      write(val[i]);
+    }
+  }
+  template <class T, class U>
+  void write(const pair<T, U> &val) {
+    write(val.first);
+    write(' ');
+    write(val.second);
+  }
+  template <class A, class B, class C>
+  void write(const tuple<A, B, C> &val) {
+    auto &[a, b, c] = val;
+    write(a);
+    write(' ');
+    write(b);
+    write(' ');
+    write(c);
+  }
+  template <class A, class B, class C, class D>
+  void write(const tuple<A, B, C, D> &val) {
+    auto &[a, b, c, d] = val;
+    write(a);
+    write(' ');
+    write(b);
+    write(' ');
+    write(c);
+    write(' ');
+    write(d);
+  }
+  template <class T, size_t S>
+  void write(const array<T, S> &val) {
+    auto n = val.size();
+    for (size_t i = 0; i < n; i++) {
+      if (i) write(' ');
+      write(val[i]);
+    }
+  }
+  void write(i128 val) {
+    string s;
+    bool negative = 0;
+    if(val < 0){
+      negative = 1;
+      val = -val;
+    }
+    while (val) {
+      s += '0' + int(val % 10);
+      val /= 10;
+    }
+    if(negative) s += "-";
+    reverse(all(s));
+    if (len(s) == 0) s = "0";
+    write(s);
+  }
+};
+
+Scanner scanner = Scanner(stdin);
+Printer printer = Printer(stdout);
+
+void flush() { printer.flush(); }
+void print() { printer.write('\n'); }
+template <class Head, class... Tail>
+void print(Head &&head, Tail &&... tail) {
+  printer.write(head);
+  if (sizeof...(Tail)) printer.write(' ');
+  print(forward<Tail>(tail)...);
+}
+
+void read() {}
+template <class Head, class... Tail>
+void read(Head &head, Tail &... tail) {
+  scanner.read(head);
+  read(tail...);
+}
+
+#define INT(...)   \
+  int __VA_ARGS__; \
+  read(__VA_ARGS__)
+#define LL(...)   \
+  ll __VA_ARGS__; \
+  read(__VA_ARGS__)
+#define STR(...)      \
+  string __VA_ARGS__; \
+  read(__VA_ARGS__)
+#define CHAR(...)      \
+  char __VA_ARGS__; \
+  read(__VA_ARGS__)
+#define DBL(...)      \
+  double __VA_ARGS__; \
+  read(__VA_ARGS__)
+
+#define VEC(type, name, size) \
+  vector<type> name(size);    \
+  read(name)
+#define VV(type, name, h, w)                     \
+  vector<vector<type>> name(h, vector<type>(w)); \
+  read(name)
+
+void YES(bool t = 1) { print(t ? "YES" : "NO"); }
+void NO(bool t = 1) { YES(!t); }
+void Yes(bool t = 1) { print(t ? "Yes" : "No"); }
+void No(bool t = 1) { Yes(!t); }
+void yes(bool t = 1) { print(t ? "yes" : "no"); }
+void no(bool t = 1) { yes(!t); }
+#line 2 "/home/maspy/compro/library/nt/primetable.hpp"
+vc<ll> primetable(int LIM) {
+  ++LIM;
+  const int S = 32768;
+  static int done = 2;
+  static vc<ll> primes = {2}, sieve(S + 1);
+
+  if (done < LIM) {
+    done = LIM;
+
+    primes = {2}, sieve.assign(S + 1, 0);
+    const int R = LIM / 2;
+    primes.reserve(int(LIM / log(LIM) * 1.1));
+    vc<pi> cp;
+    for (int i = 3; i <= S; i += 2) {
+      if (!sieve[i]) {
+        cp.eb(i, i * i / 2);
+        for (int j = i * i; j <= S; j += 2 * i) sieve[j] = 1;
+      }
+    }
+    for (int L = 1; L <= R; L += S) {
+      array<bool, S> block{};
+      for (auto& [p, idx]: cp)
+        for (int i = idx; i < S + L; idx = (i += p)) block[i - L] = 1;
+      FOR(i, min(S, R - L)) if (!block[i]) primes.eb((L + i) * 2 + 1);
+    }
+  }
+  int k = LB(primes, LIM + 1);
+  return {primes.begin(), primes.begin() + k};
+}
+#line 3 "/home/maspy/compro/library/nt/zeta.hpp"
+
+template <typename T>
+void divisor_zeta(vc<T>& A) {
+  assert(A[0] == 0);
+  int N = len(A) - 1;
+  auto P = primetable(N);
+  for (auto&& p: P) { FOR3(x, 1, N / p + 1) A[p * x] += A[x]; }
+}
+
+template <typename T>
+void divisor_mobius(vc<T>& A) {
+  assert(A[0] == 0);
+  int N = len(A) - 1;
+  auto P = primetable(N);
+  for (auto&& p: P) { FOR3_R(x, 1, N / p + 1) A[p * x] -= A[x]; }
+}
+
+template <typename T>
+void multiplier_zeta(vc<T>& A) {
+  assert(A[0] == 0);
+  int N = len(A) - 1;
+  auto P = primetable(N);
+  for (auto&& p: P) { FOR3_R(x, 1, N / p + 1) A[x] += A[p * x]; }
+}
+
+template <typename T>
+void multiplier_mobius(vc<T>& A) {
+  assert(A[0] == 0);
+  int N = len(A) - 1;
+  auto P = primetable(N);
+  for (auto&& p: P) { FOR3(x, 1, N / p + 1) A[x] -= A[p * x]; }
+}
+#line 2 "/home/maspy/compro/library/nt/primetest.hpp"
+struct m64 {
+    using i64 = int64_t;
+    using u64 = uint64_t;
+    using u128 = __uint128_t;
+
+    inline static u64 m, r, n2; // r * m = -1 (mod 1<<64), n2 = 1<<128 (mod m)
+    static void set_mod(u64 m) {
+        assert(m < (1ull << 62));
+        assert((m & 1) == 1);
+        m64::m = m;
+        n2 = -u128(m) % m;
+        r = m;
+        FOR (_, 5) r *= 2 - m*r;
+        r = -r;
+        assert(r * m == -1ull);
+    }
+    static u64 reduce(u128 b) { return (b + u128(u64(b) * r) * m) >> 64; }
+
+    u64 x;
+    m64() : x(0) {}
+    m64(u64 x) : x(reduce(u128(x) * n2)){};
+    u64 val() const { u64 y = reduce(x); return y >= m ? y-m : y; }
+    m64 &operator+=(m64 y) {
+        x += y.x - (m << 1);
+        x = (i64(x) < 0 ? x + (m << 1) : x);
+        return *this;
+    }
+    m64 &operator-=(m64 y) {
+        x -= y.x;
+        x = (i64(x) < 0 ? x + (m << 1) : x);
+        return *this;
+    }
+    m64 &operator*=(m64 y) { x = reduce(u128(x) * y.x); return *this; }
+    m64 operator+(m64 y) const { return m64(*this) += y; }
+    m64 operator-(m64 y) const { return m64(*this) -= y; }
+    m64 operator*(m64 y) const { return m64(*this) *= y; }
+    bool operator==(m64 y) const { return (x >= m ? x-m : x) == (y.x >= m ? y.x-m : y.x); }
+    bool operator!=(m64 y) const { return not operator==(y); }
+    m64 pow(u64 n) const {
+        m64 y = 1, z = *this;
+        for ( ; n; n >>= 1, z *= z) if (n & 1) y *= z;
+        return y;
+    }
+};
+
+bool primetest(const uint64_t x) {
+    using u64 = uint64_t;
+    if (x == 2 or x == 3 or x == 5 or x == 7) return true;
+    if (x % 2 == 0 or x % 3 == 0 or x % 5 == 0 or x % 7 == 0) return false;
+    if (x < 121) return x > 1;
+    const u64 d = (x-1) >> __builtin_ctzll(x-1);
+    m64::set_mod(x);
+    const m64 one(1), minus_one(x-1);
+    auto ok = [&](u64 a) {
+        auto y = m64(a).pow(d);
+        u64 t = d;
+        while (y != one and y != minus_one and t != x-1) y *= y, t <<= 1;
+        if (y != minus_one and t % 2 == 0) return false;
+        return true;
+    };
+    if (x < (1ull << 32)) {
+        for (u64 a : { 2, 7, 61 }) if (not ok(a)) return false;
+    } else {
+        for (u64 a : { 2, 325, 9375, 28178, 450775, 9780504, 1795265022 }) {
+            if (x <= a) return true;
+            if (not ok(a)) return false;
+        }
+    }
+    return true;
+}
+#line 3 "/home/maspy/compro/library/nt/factor.hpp"
+
+mt19937_64 rng_mt{random_device{}()};
+ll rnd(ll n) { return uniform_int_distribution<ll>(0, n - 1)(rng_mt); }
+
+ll rho(ll n, ll c) {
+  m64::set_mod(n);
+  assert(n > 1);
+  const m64 cc(c);
+  auto f = [&](m64 x) { return x * x + cc; };
+  m64 x = 1, y = 2, z = 1, q = 1;
+  ll g = 1;
+  const ll m = 1LL << (__lg(n) / 5); // ?
+  for (ll r = 1; g == 1; r <<= 1) {
+    x = y;
+    FOR(_, r) y = f(y);
+    for (ll k = 0; k < r and g == 1; k += m) {
+      z = y;
+      FOR(_, min(m, r - k)) y = f(y), q *= x - y;
+      g = gcd(q.val(), n);
+    }
+  }
+  if (g == n)
+    do {
+      z = f(z);
+      g = gcd((x - z).val(), n);
+    } while (g == 1);
+  return g;
+}
+
+ll find_prime_factor(ll n) {
+  assert(n > 1);
+  if (primetest(n))
+    return n;
+  FOR(_, 100) {
+    ll m = rho(n, rnd(n));
+    if (primetest(m))
+      return m;
+    n = m;
+  }
+  cerr << "failed" << endl;
+  assert(false);
+  return -1;
+}
+
+vc<pi> factor(ll n) {
+  assert(n >= 1);
+  vc<pi> pf;
+  FOR3(p, 2, 100) {
+    if (p * p > n)
+      break;
+    if (n % p == 0) {
+      ll e = 0;
+      do {
+        n /= p, e += 1;
+      } while (n % p == 0);
+      pf.eb(p, e);
+    }
+  }
+  while (n > 1) {
+    ll p = find_prime_factor(n);
+    ll e = 0;
+    do {
+      n /= p, e += 1;
+    } while (n % p == 0);
+    pf.eb(p, e);
+  }
+  sort(all(pf));
+  return pf;
+}
+#line 3 "/home/maspy/compro/library/nt/euler_phi.hpp"
+
+ll euler_phi(ll n) {
+  auto pf = factor(n);
+  for (auto&& [p, e]: pf) n -= n / p;
+  return n;
+}
+
+vi euler_phi_table(ll n) {
+  vi A(n + 1);
+  iota(all(A), 0);
+  divisor_mobius(A);
+  return A;
+}
+#line 2 "/home/maspy/compro/library/ds/larsch.hpp"
+
+// https://noshi91.github.io/Library/algorithm/larsch.cpp.html
+template <class T>
+class LARSCH {
+  struct reduce_row;
+  struct reduce_col;
+
+  struct reduce_row {
+    int n;
+    std::function<T(int, int)> f;
+    int cur_row;
+    int state;
+    std::unique_ptr<reduce_col> rec;
+
+    reduce_row(int n_) : n(n_), f(), cur_row(0), state(0), rec() {
+      const int m = n / 2;
+      if (m != 0) { rec = std::make_unique<reduce_col>(m); }
+    }
+
+    void set_f(std::function<T(int, int)> f_) {
+      f = f_;
+      if (rec) {
+        rec->set_f([&](int i, int j) -> T { return f(2 * i + 1, j); });
+      }
+    }
+
+    int get_argmin() {
+      const int cur_row_ = cur_row;
+      cur_row += 1;
+      if (cur_row_ % 2 == 0) {
+        const int prev_argmin = state;
+        const int next_argmin = [&]() {
+          if (cur_row_ + 1 == n) {
+            return n - 1;
+          } else {
+            return rec->get_argmin();
+          }
+        }();
+        state = next_argmin;
+        int ret = prev_argmin;
+        for (int j = prev_argmin + 1; j <= next_argmin; j += 1) {
+          if (f(cur_row_, ret) > f(cur_row_, j)) { ret = j; }
+        }
+        return ret;
+      } else {
+        if (f(cur_row_, state) <= f(cur_row_, cur_row_)) {
+          return state;
+        } else {
+          return cur_row_;
+        }
+      }
+    }
+  };
+
+  struct reduce_col {
+    int n;
+    std::function<T(int, int)> f;
+    int cur_row;
+    std::vector<int> cols;
+    reduce_row rec;
+
+    reduce_col(int n_) : n(n_), f(), cur_row(0), cols(), rec(n) {}
+
+    void set_f(std::function<T(int, int)> f_) {
+      f = f_;
+      rec.set_f([&](int i, int j) -> T { return f(i, cols[j]); });
+    }
+
+    int get_argmin() {
+      const int cur_row_ = cur_row;
+      cur_row += 1;
+      const auto cs = [&]() -> std::vector<int> {
+        if (cur_row_ == 0) {
+          return {{0}};
+        } else {
+          return {{2 * cur_row_ - 1, 2 * cur_row_}};
+        }
+      }();
+      for (const int j: cs) {
+        while ([&]() {
+          const int size = cols.size();
+          return size != cur_row_ && f(size - 1, cols.back()) > f(size - 1, j);
+        }()) {
+          cols.pop_back();
+        }
+        if (cols.size() != n) { cols.push_back(j); }
+      }
+      return cols[rec.get_argmin()];
+    }
+  };
+
+  std::unique_ptr<reduce_row> base;
+
+public:
+  LARSCH(int n, std::function<T(int, int)> f)
+      : base(std::make_unique<reduce_row>(n)) {
+    base->set_f(f);
+  }
+
+  int get_argmin() { return base->get_argmin(); }
+};
+#line 1 "/home/maspy/compro/library/dp/monotone_minima.hpp"
+/*
+T  2  f(i,j)  monotone 
+ i f  min  j f(i,j) 
+f  O((H+W) logH) 
+*/
+template <typename T, typename F>
+vc<pair<int, T>> monotone_minima(int H, int W, F f) {
+  using P = pair<int, T>;
+  vc<P> dp(H);
+  // closed
+  auto dfs = [&](auto self, int x1, int x2, int y1, int y2) -> void {
+    if (x1 > x2) return;
+    int x = (x1 + x2) / 2;
+    P best = {-1, 0};
+    FOR3(y, y1, y2 + 1) {
+      T cost = f(x, y);
+      if (best.fi == -1 || cost < best.se) best = {y, cost};
+    }
+    dp[x] = best;
+    int y = best.fi;
+    if (x1 <= x - 1) self(self, x1, x - 1, y1, y);
+    if (x + 1 <= x2) self(self, x + 1, x2, y, y2);
+  };
+  dfs(dfs, 0, H - 1, 0, W - 1);
+  return dp;
+}
+#line 3 "/home/maspy/compro/library/dp/monge.hpp"
+
+//  [0, N]  f  monge 
+template <typename F>
+bool check_monge(int N, F f) {
+  FOR(l, N + 1) FOR(k, l) FOR(j, k) FOR(i, j) {
+    ll lhs = f(i, l) + f(j, k);
+    ll rhs = f(i, k) + f(j, l);
+    if (lhs < rhs) return false;
+  }
+  return true;
+}
+
+template <ll INF, typename F>
+vi monge_shortest_path(int N, F f) {
+  vi dp(N + 1, INF);
+  dp[0] = 0;
+  LARSCH<ll> larsch(N, [&](int i, int j) {
+    ++i;
+    if (i <= j) return INF;
+    return dp[j] + f(j, i);
+  });
+  FOR3(r, 1, N + 1) {
+    ll l = larsch.get_argmin();
+    dp[r] = dp[l] + f(l, r);
+  }
+  return dp;
+}
+
+template <typename T, typename F>
+vc<vc<T>> monge_shortest_path_d_edge_dense(int N, F f, T INF, int d_max) {
+  vv(T, DP, d_max + 1, N + 1, INF);
+  DP[0][0] = 0;
+  FOR(d, d_max) {
+    auto& dp = DP[d];
+    auto& newdp = DP[d + 1];
+    auto g = [&](int r, int l) -> T {
+      //      print(l, r);
+      if (r <= l) return INF;
+      return dp[l] + f(l, r);
+    };
+    auto ret = monotone_minima<T>(N + 1, N + 1, g);
+    FOR(j, N + 1) newdp[j] = ret[j].se;
+  }
+  return DP;
+}
+
+/*
+https://dic.kimiyuki.net/d-edge-shortest-path-monge
+ calc_L(lambda) 
+|f|  f_lim 
+*/
+template <ll INF, typename F>
+ll monge_shortest_path_d_edge(ll N, F f, ll d, ll f_lim) {
+  auto calc_L = [&](ll lambda) -> ll {
+    auto cost = [&](int frm, int to) -> ll { return f(frm, to) + lambda; };
+    auto dp = monge_shortest_path<INF>(N, cost);
+    return dp.back() - lambda * d;
+  };
+
+  ll ANS = -INF;
+  ll L = -3 * f_lim - 10;
+  ll R = 3 * f_lim + 10;
+  ll x = binary_search([&](ll x) { return calc_L(x - 1) <= calc_L(x); }, L, R);
+  return calc_L(x);
+}
+#line 5 "main.cpp"
+
+void solve() {
+  ll LIM = 100010;
+  // 001; // '001;
+  auto A = euler_phi_table(LIM);
+  A = cumsum(A, 0);
+
+  /*
+  sum_{1<=i<=k} A[n/i] 
+  k 
+  n/i>=k 
+  */
+
+  // [0, k]
+  ll K = 320;
+  vv(ll, dp1, LIM + 1, K + 1);
+  FOR3(n, 1, LIM + 1) {
+    FOR3(k, 1, K + 1) { dp1[n][k] = dp1[n][k - 1] + A[n / k]; }
+  }
+
+  vv(ll, dp2, LIM + 1, K + 1);
+  FOR3(n, 1, LIM + 1) {
+    dp2[n][K] = dp1[n][n / K];
+    FOR3_R(k, 1, K) {
+      ll cnt = n / k - n / (k + 1);
+      dp2[n][k] = dp2[n][k + 1] + cnt * A[k];
+    }
+  }
+
+  const ll INF = 1LL << 60;
+
+  /*
+  auto C_naive = [&](int l, int r) -> ll {
+    ++l, ++r;
+    ll res = 0;
+    FOR3(i, 1, r) FOR3(j, i, r) res += gcd(i, j) >= l;
+    return res;
+  };
+  */
+
+  auto C = [&](int l, int r) -> ll {
+    ++l;
+    int n = r;
+    // [l, r] A[n/i] 
+    ll x = dp2[n][1];
+    if (l <= K) return x - dp1[n][l - 1];
+    ll q = n / l;
+    x -= dp2[n][q + 1];
+    x -= A[q] * (l - 1 - n / (q + 1));
+    return x;
+  };
+
+  /*
+  FOR(r, 100) FOR(l, r) {
+    assert(C(l, r) == C_naive(l, r));
+  }
+  */
+
+  int LOG = 20;
+
+  auto DP = monge_shortest_path_d_edge_dense<ll>(LIM, C, INF, LOG);
+
+  LL(Q);
+  FOR_(Q) {
+    LL(n, k);
+    if (k >= len(DP))
+      print(n);
+    else
+      print(DP[k][n]);
+  }
+}
+
+signed main() {
+  cin.tie(nullptr);
+  ios::sync_with_stdio(false);
+  cout << setprecision(15);
+
+  ll T = 1;
+  // LL(T);
+  FOR(_, T) solve();
+
+  return 0;
+}

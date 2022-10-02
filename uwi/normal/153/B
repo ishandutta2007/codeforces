@@ -1,0 +1,30 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.  DToB.
+       
+       ENVIRONMENT DIVISION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  I           PIC 99.
+       01  JYU         PIC 9(7).
+       01  OU          PIC 9(2).
+       01  STR         PIC X(10).
+       01  NISINS.
+         02  NISIN OCCURS 21 PIC 9.
+
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO JYU
+         IF JYU = 0
+           DISPLAY "0"
+         END-IF
+           MOVE 0 TO OU
+           PERFORM VARYING I FROM 1 BY 1 UNTIL JYU = 0
+             DIVIDE JYU BY 2 GIVING JYU REMAINDER NISIN(I)
+             COMPUTE OU = OU + 1
+           END-PERFORM.
+
+           PERFORM VARYING I FROM OU BY -1 UNTIL I <= 0
+             DISPLAY NISIN(I) WITH NO ADVANCING
+           END-PERFORM.
+       STOP RUN.

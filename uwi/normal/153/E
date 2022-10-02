@@ -1,0 +1,49 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.  DToB.
+       
+       ENVIRONMENT DIVISION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  STR         PIC X(10).
+       01 N PIC 9(10).
+       01 I PIC 9(02) VALUE 0.
+       01 J PIC 9(02) VALUE 0.
+       01 NYA.
+         03 X PIC S9(10) OCCURS 60.
+       01 MYA.
+         03 Y PIC S9(10) OCCURS 60.
+       01 DIST PIC S99999V999999999.
+       01 MAX PIC S99999V999999999 VALUE 0.
+
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO N
+         PERFORM VARYING I FROM 1 BY 1 UNTIL I > N
+           ACCEPT STR
+           MOVE STR TO X(I)
+           ACCEPT STR
+           MOVE STR TO Y(I)
+        END-PERFORM
+         
+         PERFORM VARYING I FROM 1 BY 1 UNTIL I > N
+           PERFORM VARYING J FROM 1 BY 1 UNTIL J > N
+             COMPUTE DIST = (X(I) - X(J))*(X(I) - X(J))
+             COMPUTE DIST = DIST+(Y(I) - Y(J))*(Y(I)-Y(J))
+             COMPUTE DIST = DIST ** 0.5
+             IF DIST > MAX
+               MOVE DIST TO MAX
+             END-IF
+           END-PERFORM
+         END-PERFORM
+         
+         IF MAX < 10
+           DISPLAY MAX(5:1) "." MAX(6:9)
+         ELSE
+         IF MAX < 100
+           DISPLAY MAX(4:2) "." MAX(6:9)
+         ELSE
+           DISPLAY MAX(3:3) "." MAX(6:9)
+         END-IF
+         END-IF
+       STOP RUN.

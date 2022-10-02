@@ -1,0 +1,34 @@
+int main(){
+    int n;
+    string s = Stdio.stdin->gets();
+    sscanf(s, "%d",n);
+    s = Stdio.stdin->gets();
+    array(string) sp = s / ",";
+    array(int) ya = allocate(n);
+    int u = 0;
+    do{
+        if(u == n)break;
+        int v;
+        sscanf(sp[u], "%d", v);
+        ya[u] = v;
+        u++;
+    }while(u < n);
+    
+    int i = 0;
+    do{
+        if(i == n)break;
+        int j = i+1;
+        do{
+            if(j == n)break;
+            if(ya[j] % ya[i] == 0 || ya[i] % ya[j] == 0){
+            }else{
+                write("NOT FRIENDS\n");
+                return 0;
+            }
+            j++;
+        }while(j < n);
+        i++;
+    }while(i < n);
+    write("FRIENDS\n");
+    return 0;
+}

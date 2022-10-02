@@ -1,0 +1,50 @@
+int main(){
+    int n, m;
+    string s;
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",n);
+    mapping(string:int) ma = ([ ]);
+    int i = 0;
+    do{
+      if(i == n)break;
+        s = Stdio.stdin->gets();
+        string nm;
+        int year;
+    sscanf(s, "%s %d",nm, year);
+        
+        ma[nm] = year;
+    i++;
+    }while(i < n);
+    
+    int q;
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",q);
+    string candi = "";
+    string candi2 = "";
+    int yy = 9999;
+    i = 0;
+    string nam;
+    do{
+      if(i == q)break;
+        nam = Stdio.stdin->gets();
+        if(zero_type(ma[nam])){
+        if(candi < nam){
+            candi = nam;
+            }
+        }
+        if(!zero_type(ma[nam]) && (yy > ma[nam] || (yy == ma[nam] && candi2 < nam))){
+            yy = ma[nam];
+            candi2 = nam;
+        }
+        i++;
+    }while(i < q);
+    
+    
+    if(candi != ""){
+        write(candi + "\n");
+    }else{
+        write(candi2 + "\n");
+    }
+    
+    return 0;
+}
