@@ -1,0 +1,380 @@
+#line 1 "main.cpp"
+#include <bits/stdc++.h>
+#line 3 "/home/maspy/library/my_template.hpp"
+
+using namespace std;
+
+using ll = long long;
+using ld = long double;
+#define int ll
+using pi = pair<int, int>;
+using vi = vector<int>;
+
+#define FOR(i, n) for (int i = 0; (i) < (int)(n); ++(i))
+#define FOR3(i, m, n) for (int i = (m); (i) < (int)(n); ++(i))
+#define FOR_R(i, n) for (int i = (int)(n)-1; (i) >= 0; --(i))
+#define FOR3_R(i, m, n) for (int i = (int)(n)-1; (i) >= (int)(m); --(i))
+#define FORIN(x, A) for (auto&& x : A)
+#define all(x) x.begin(), x.end()
+
+#define elif else if
+
+#define popcnt __builtin_popcount
+
+#define eb emplace_back
+#define mp make_pair
+#define mt make_tuple
+#define fi first
+#define se second
+#define VEC vector
+
+template <typename T>
+struct Matrix {
+  ll H, W;
+  vector<vector<T>> data;
+  pi shape;
+  Matrix(ll H, ll W) : H(H), W(W), data(H, vector<T>(W)), shape({H,W}) {}
+  void fill(T x) {
+    FOR(i, H) { FOR(j, W) data[i][j] = x; }
+  }
+  vector<T>& operator[](ll i) { return data[i]; }
+  bool operator==(Matrix<T>& other){
+    if(H != other.H || W != other.W) return false;
+    FOR(i, H) FOR(j, W){
+      if(data[i][j] != other[i][j]) return false;
+    }
+    return true;
+  }
+  Matrix rot(){
+    auto B = Matrix(W,H);
+    FOR(i, W){
+      FOR(j, H){
+        B[i][j] = (*this)[j][W-1-i];
+      }
+    }
+    return B;
+  }
+};
+
+
+// [
+ll in() {
+  ll i;
+  cin >> i;
+  return i;
+}
+
+pi in2() {
+  ll a, b;
+  cin >> a >> b;
+  return {a, b};
+}
+
+tuple<ll, ll, ll> in3() {
+  ll a, b, c;
+  cin >> a >> b >> c;
+  return {a, b, c};
+}
+
+tuple<ll, ll, ll, ll> in4() {
+  ll a, b, c, d;
+  cin >> a >> b >> c >> d;
+  return {a, b, c, d};
+}
+
+vi vin(int n) {
+  vi A(n);
+  for (auto&& x : A) {
+    cin >> x;
+  }
+  return A;
+}
+
+string sin() {
+  string s;
+  cin >> s;
+  return s;
+}
+
+vi s_to_vi(string S, char first_char='a'){
+  vi A(S.size());
+  FOR(i, S.size()){
+    A[i] = S[i] - first_char;
+  }
+  return A;
+}
+
+Matrix<ll> matrixin(int H, int W){
+  Matrix<ll> A(H, W);
+  FOR(i, H){
+    FOR(j, W){
+      A[i][j] = in();
+    }
+  }
+  return A;
+}
+
+Matrix<char> cmatrixin(int H, int W){
+  Matrix<char> A(H, W);
+  FOR(i, H){
+    string S = sin();
+    FOR(j, W){
+      A[i][j] = S[j];
+    }
+  }
+  return A;
+}
+
+// ]
+
+// [
+template <typename T, typename U>
+ostream& operator<<(ostream& os, pair<T, U>& A) {
+  os << A.fi << " " << A.se;
+  return os;
+}
+
+template <typename T>
+ostream& operator<<(ostream& os, const vector<T>& A) {
+  for (size_t i = 0; i < A.size(); i++) {
+    if(i) os << " ";
+    os << A[i];
+  }
+  return os;
+}
+
+
+void print() {
+  cout << "\n";
+}
+
+template <class Head, class... Tail>
+void print(Head&& head, Tail&&... tail) {
+  cout << head;
+  if (sizeof...(Tail)) cout << " ";
+  print(forward<Tail>(tail)...);
+}
+
+template <typename T>
+string join(vector<T>& v){
+  ostringstream os;
+  for(auto&& x : v){
+    os << x;
+  }
+  return os.str();
+}
+
+void YES() {print("YES");}
+void NO() {print("NO");}
+void Yes() {print("Yes");}
+void No() {print("No");}
+// ]
+
+template <typename T>
+ll sum(T A) {
+  return accumulate(all(A), 0LL);
+}
+
+template <typename T>
+vector<T> cumsum(vector<T> A) {
+  ll N = A.size();
+  vector<T> B(N + 1);
+  B[0] = T(0);
+  FOR(i, N) { B[i + 1] = B[i] + A[i]; }
+  return B;
+}
+
+vi bin_count(vi& A, ll size) {
+  vi C(size);
+  for (auto&& x : A) {
+    ++C[x];
+  }
+  return C;
+}
+
+template <typename T>
+vi argsort(vector<T>& A){
+  vi ids(A.size());
+  iota(all(ids), 0);
+  sort(all(ids), [&](ll i, ll j){return mp(A[i],i)<=mp(A[j],j);});
+  return ids;
+}
+
+template <typename T>
+int argmax(vector<T>& A){
+  return max_element(all(A)) - A.begin();
+}
+
+
+template <typename T>
+ostream& operator<<(ostream& os, Matrix<T>& A) {
+  FOR(i, A.H){
+    if(i) os << "\n";
+    os << A[i];
+  }
+  return os;
+}
+
+template <class T, class U>
+bool chmax(T& a, const U& b) {
+  if (a < b) {
+    a = b;
+    return 1;
+  }
+  return 0;
+}
+template <class T, class U>
+bool chmin(T& a, const U& b) {
+  if (b < a) {
+    a = b;
+    return 1;
+  }
+  return 0;
+}
+#line 3 "/home/maspy/library/ds/fenwick.hpp"
+
+template< typename T >
+struct FenwickTree {
+  vector< T > data;
+
+  FenwickTree(int sz) {
+    data.assign(++sz, 0);
+  }
+
+  T sum(int k) {
+    T ret = 0;
+    for(; k > 0; k -= k & -k) ret += data[k];
+    return (ret);
+  }
+
+  void add(int k, T x) {
+    for(++k; k < data.size(); k += k & -k) data[k] += x;
+  }
+
+  ll find_kth_element(T k){
+    auto N = data.size();
+    ll x = 0;
+    T sx = 0;
+    ll dx = 1;
+    while (2 * dx < N) dx *= 2;
+    while(dx){
+      ll y = x + dx;
+      if(y<N){
+        T sy = sx + data[y];
+        if(sy < k){
+          swap(x, y);
+          swap(sx, sy);
+        }
+      }
+      dx /= 2;
+    }
+    return x;
+  }
+};
+#line 4 "main.cpp"
+
+signed main() {
+  cin.tie(nullptr);
+  ios::sync_with_stdio(false);
+  cout << setprecision(15);
+
+  auto [N, M, K] = in3();
+  const ll MAX = 10010;
+
+  VEC<pi> xx;
+  VEC<pi> ox;
+  VEC<pi> xo;
+  VEC<pi> oo;
+  FOR(i, N) {
+    auto [t, a, b] = in3();
+    if (a == 0 && b == 0) xx.eb(mp(t, i + 1));
+    if (a == 1 && b == 0) ox.eb(mp(t, i + 1));
+    if (a == 0 && b == 1) xo.eb(mp(t, i + 1));
+    if (a == 1 && b == 1) oo.eb(mp(t, i + 1));
+  }
+  sort(all(xx));
+  sort(all(ox));
+  sort(all(xo));
+  sort(all(oo));
+  auto cum = [&](VEC<pi> v) -> vi {
+    vi A(v.size() + 1);
+    FOR(i, v.size()) { A[i + 1] = A[i] + v[i].fi; }
+    return A;
+  };
+  vi ox_cum = cum(ox);
+  vi xo_cum = cum(xo);
+  vi oo_cum = cum(oo);
+
+  ll ANS = -1;
+  ll best_k = -1;
+
+  {
+    FenwickTree<ll> bit_cnt(MAX);
+    FenwickTree<ll> bit_sum(MAX);
+    FORIN(p, xx) {
+      auto x = p.fi;
+      bit_cnt.add(x, 1);
+      bit_sum.add(x, x);
+    }
+    ll rest_ox = ox.size();
+    ll rest_xo = xo.size();
+
+    FOR(k, min(M, ll(oo.size())) + 1) {
+      while (rest_ox > 0 && rest_ox + k > K) {
+        auto x = ox[rest_ox - 1].fi;
+        --rest_ox;
+        bit_cnt.add(x, 1);
+        bit_sum.add(x, x);
+      }
+      while (rest_xo > 0 && rest_xo + k > K) {
+        auto x = xo[rest_xo - 1].fi;
+        --rest_xo;
+        bit_cnt.add(x, 1);
+        bit_sum.add(x, x);
+      }
+      if (rest_ox + k < K) continue;
+      if (rest_xo + k < K) continue;
+      ll n = M - (rest_ox + rest_xo + k);
+      if (0 <= n && n <= bit_cnt.sum(MAX)) {
+        ll sum = 0;
+        if (n) {
+          ll x = bit_cnt.find_kth_element(n);
+          sum += bit_sum.sum(x) + x * (n - bit_cnt.sum(x));
+        }
+        sum += oo_cum[k] + ox_cum[rest_ox] + xo_cum[rest_xo];
+        if (ANS == -1 || ANS > sum) {
+          ANS = sum;
+          best_k = k;
+        }
+      }
+    }
+  }
+  print(ANS);
+  if (ANS == -1) {
+    exit(0);
+  }
+  ll k = best_k;
+  vi IDS;
+  FOR(i, k) { IDS.eb(oo[i].se); }
+  VEC<pi> que;
+  FOR(i, ox.size()) {
+    if (k + i < K) {
+      IDS.eb(ox[i].se);
+    } else {
+      que.eb(ox[i]);
+    }
+  }
+  FOR(i, xo.size()) {
+    if (k + i < K) {
+      IDS.eb(xo[i].se);
+    } else {
+      que.eb(xo[i]);
+    }
+  }
+  FOR(i, xx.size()) que.eb(xx[i]);
+  sort(all(que));
+  ll rest = M - IDS.size();
+  FOR(i, rest) { IDS.eb(que[i].se); }
+  print(IDS);
+  return 0;
+}
