@@ -1,0 +1,4 @@
+set line [gets stdin]
+scan $line "%s" n
+set x [expr $n]
+puts $x
