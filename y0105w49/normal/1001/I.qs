@@ -1,0 +1,88 @@
+namespace Solution {
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Extensions.Diagnostics;
+
+    operation DM() : () {
+        body {
+            DumpMachine("/dev/stdout");
+        }
+    }
+
+    operation Bell (qs: Qubit[], idx: Int) : () {
+        body {
+            if (Length(qs) != 2) { fail "BELL TWO"; }
+            H(qs[0]);
+            CNOT(qs[0],qs[1]);
+            if((idx&&&1)!=0) {Z(qs[1]);}
+            if((idx&&&2)!=0) {X(qs[1]);}
+        }
+    }
+    operation BellM (qs: Qubit[]) : Int {
+        body {
+            mutable z = 0;
+            CNOT(qs[0],qs[1]);
+            H(qs[0]);
+            let m1 = M(qs[0]);
+            let m2 = M(qs[1]);
+            if(m1==One) {set z=z|||1;}
+            if(m2==One) {set z=z|||2;}
+            return z;
+        }
+    }
+    operation UBitSum(x: Qubit[], y: Qubit) : () {
+        body {
+            for(i in 0..Length(x)-1) {
+                CNOT(x[i],y);
+            }
+        }
+    }
+    operation UConstZero(x: Qubit[], y: Qubit) : () {
+        body {
+        }
+    }
+    operation UConstOne(x: Qubit[], y: Qubit) : () {
+        body {
+            X(y);
+        }
+    }
+
+    operation Solve(n: Int, Uf: ((Qubit[],Qubit)=>())) : Bool {
+        body {
+            mutable ans=true;
+            using(qs=Qubit[n+1]) {
+                let y=qs[n];
+                let xs=qs[0..n-1];
+                for(i in 0..n-1) { H(xs[i]); }
+                X(y); H(y);
+                Uf(xs,y);
+                for(i in 0..n-1) { H(xs[i]); }
+                for(i in 0..n-1) {
+                    let z=M(xs[i]);
+                    if(z==One) { set ans=false; }
+                }
+                ResetAll(qs);
+            }
+            return ans;
+        }
+    }
+
+
+
+    operation Tester() : () {
+        body {
+            let uf=UConstZero;
+            let z5=Solve(5,uf);
+            let z6=Solve(6,uf);
+            Message($"{z5} {z6}");
+            using(qs=Qubit[2]) {
+                for(k in 0..3) {
+                    Bell(qs,k);
+                    let z=BellM(qs);
+                    Message($"{k}: {z}");
+                    ResetAll(qs);
+                }
+            }
+        }
+    }
+}
