@@ -1,0 +1,1 @@
+fun main() = println(readLine()!!.count { it in "aeiou13579" })

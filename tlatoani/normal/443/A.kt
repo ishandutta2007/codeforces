@@ -1,0 +1,1 @@
+fun main() = println(readLine()!!.replace(Regex("[{}, ]"), "").toSet().size)

@@ -1,0 +1,1 @@
+fun main() = repeat(readLine()!!.toInt()) { println(if (readLine()!!.split(" ").map { it.toLong() }.let { it[0] != it[2] && it[0] >= (2L * it[1]) - (it[1] % it[2]) }) "nO" else "yEs") }

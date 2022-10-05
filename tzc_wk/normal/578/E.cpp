@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define fi first
+#define se second
+#define fill0(a) memset(a,0,sizeof(a))
+#define fill1(a) memset(a,-1,sizeof(a))
+#define fillbig(a) memset(a,63,sizeof(a))
+#define pb push_back
+#define ppb pop_back
+#define mp make_pair
+#define eprintf(...) fprintf(stderr,__VA_ARGS__)
+template<typename T1,typename T2> void chkmin(T1 &x,T2 y){if(x>y) x=y;}
+template<typename T1,typename T2> void chkmax(T1 &x,T2 y){if(x<y) x=y;}
+typedef pair<int,int> pii;
+typedef long long ll;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+namespace fastio{
+	#define FILE_SIZE 1<<23
+	char rbuf[FILE_SIZE],*p1=rbuf,*p2=rbuf,wbuf[FILE_SIZE],*p3=wbuf;
+	inline char getc(){return p1==p2&&(p2=(p1=rbuf)+fread(rbuf,1,FILE_SIZE,stdin),p1==p2)?-1:*p1++;}
+	inline void putc(char x){(*p3++=x);}
+	template<typename T> void read(T &x){
+		x=0;char c=getchar();T neg=0;
+		while(!isdigit(c)) neg|=!(c^'-'),c=getchar();
+		while(isdigit(c)) x=(x<<3)+(x<<1)+(c^48),c=getchar();
+		if(neg) x=(~x)+1;
+	}
+	template<typename T> void recursive_print(T x){return (!x)?void():(recursive_print(x/10),putc(x%10^48),void());}
+	template<typename T> void print(T x){(!x)&&(putc('0'),0);(x<0)&&(putc('-'),x=~x+1);recursive_print(x);}
+	template<typename T> void print(T x,char c){(!x)&&(putc('0'),0);(x<0)&&(putc('-'),x=~x+1);recursive_print(x);putc(c);}
+	void print_final(){fwrite(wbuf,1,p3-wbuf,stdout);}
+}
+const int MAXN=1e5;
+char s[MAXN+5];int n,cnt;
+vector<int> v[MAXN+5],ed[2],c[2][2];
+void print(int x){for(int y:v[x]) printf("%d ",y);}
+int main(){
+	scanf("%s",s+1);n=strlen(s+1);
+	for(int i=1;i<=n;i++){
+		int id=(s[i]=='R'),x;if(ed[id^1].empty()) ed[id^1].pb(++cnt);
+		x=ed[id^1].back();v[x].pb(i);ed[id^1].pop_back();ed[id].pb(x);
+	}
+	for(int i=1;i<=cnt;i++) c[v[i].size()&1][s[v[i].back()]=='R'].pb(i);
+	if(!c[0][0].empty()&&!c[0][1].empty()&&c[1][0].empty()&&c[1][1].empty()){
+		int a=c[0][0].back(),b=c[0][1].back();
+		int la=v[a].back(),lb=v[b].back();
+		if(la<lb) v[b].pop_back(),v[a].pb(lb);
+		else v[a].pop_back(),v[b].pb(la);
+		c[0][0].pop_back();c[0][1].pop_back();
+		c[1][1].pb(a);c[1][0].pb(b);
+	} int t=(c[1][0].size()!=c[1][1].size())?(c[1][1].size()>c[1][0].size()):0;
+	printf("%d\n",cnt-1);
+	while(!c[0][t^1].empty()) print(c[0][t^1].back()),c[0][t^1].pop_back();
+	while(!c[1][t].empty()){
+		print(c[1][t].back());c[1][t].pop_back();
+		while(!c[0][t].empty()) print(c[0][t].back()),c[0][t].pop_back();
+		t^=1;
+	} while(!c[0][t].empty()) print(c[0][t].back()),c[0][t].pop_back();
+	return 0;
+}

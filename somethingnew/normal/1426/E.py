@@ -1,0 +1,6 @@
+n = int(input())
+t1 = list(map(int,input().split()))
+t2 = list(map(int,input().split()))
+k1 = min(t1[0], t2[1]) + min(t1[1], t2[2]) + min(t1[2], t2[0])
+k2 = min(t1[0], n - t2[1]) + min(t1[1], n - t2[2]) + min(t1[2], n - t2[0])
+print(n - k2, k1)
