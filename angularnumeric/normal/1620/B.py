@@ -1,0 +1,23 @@
+import math
+for _ in range(int(input())):
+    w,h = map(int,input().split())
+    x1 = list(map(int,input().split()))
+    x2 = list(map(int,input().split()))
+    y1 = list(map(int,input().split()))
+    y2 = list(map(int,input().split()))
+    x1.remove(x1[0])
+    x2.remove(x2[0])
+    y1.remove(y1[0])
+    y2.remove(y2[0])
+    area = 0
+    x1 = sorted(x1)
+    x2 = sorted(x2)
+    y1 = sorted(y1)
+    y2 = sorted(y2)
+    x = abs(x1[0]-x1[-1])
+    y = abs(y1[0]-y1[-1])
+    area = max((x*h),(y*w))
+    x = abs(x2[0]-x2[-1])
+    y = abs(y2[0]-y2[-1])
+    area = max(area,(x*h),(y*w))
+    print(area)
