@@ -1,0 +1,141 @@
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+int n,m,k,tot,num[10005];
+char s[10005][5];
+int main()
+{
+	scanf("%d%d%d",&n,&m,&k);
+	if(k>4*n*m-2*n-2*m)
+	{
+		printf("NO\n");
+		return 0;
+	}
+	printf("YES\n");
+	int now=1;
+	n--,m--;
+	while(k)
+	{
+		if(k<=n)
+		{
+			s[++tot][0]='D',s[tot][1]='\0';
+			num[tot]=k;
+			k=0;
+			break;
+		}
+		s[++tot][0]='D',s[tot][1]='\0';
+		num[tot]=n;
+		k-=n;
+		if(k<=n)
+		{
+			s[++tot][0]='U',s[tot][1]='\0';
+			num[tot]=k;
+			k=0;
+			break;
+		}
+		s[++tot][0]='U',s[tot][1]='\0';
+		num[tot]=n;
+		k-=n;
+		if(now==m+1)
+		{
+			s[++tot][0]='L',s[tot][1]='\0';
+			num[tot]=min(m,k);
+			k=0;
+			break;
+		}
+		else
+		{
+			if(k<=3*n)
+			{
+				if(k>=3)
+				{
+					s[++tot][0]='R',s[tot][1]='D',s[tot][2]='L',s[tot][3]='\0';
+					num[tot]=k/3;
+					k%=3;
+				}
+				if(k==1)
+				{
+					s[++tot][0]='R',s[tot][1]='\0';
+					num[tot]=1;
+					k=0;
+				}
+				if(k==2)
+				{
+					s[++tot][0]='R',s[tot][1]='\0';
+					num[tot]=1;
+					s[++tot][0]='D',s[tot][1]='\0';
+					num[tot]=1;
+					k=0;
+				}
+				break;
+			}
+			s[++tot][0]='R',s[tot][1]='D',s[tot][2]='L',s[tot][3]='\0';
+			num[tot]=n;
+			k-=3*n;
+			if(now==m)
+			{
+				s[++tot][0]='R',s[tot][1]='\0';
+				num[tot]=1;
+				k-=1;
+				if(k==0)break;
+				if(k<=n)
+				{
+					s[++tot][0]='U',s[tot][1]='\0';
+					num[tot]=k;
+					k=0;
+					break;
+				}
+				s[++tot][0]='U',s[tot][1]='\0';
+				num[tot]=n;
+				k-=n;
+				s[++tot][0]='L',s[tot][1]='\0';
+				num[tot]=min(m,k);
+				k=0;
+				break;
+			}
+			else
+			{
+				s[++tot][0]='R',s[tot][1]='\0';
+				num[tot]=min(k,2);
+				k-=num[tot];
+				if(k==0)break;
+				if(k<=3*n)
+				{
+					if(k>=3)
+					{
+						s[++tot][0]='L',s[tot][1]='U',s[tot][2]='R',s[tot][3]='\0';
+						num[tot]=k/3;
+						k%=3;
+					}
+					if(k==1)
+					{
+						s[++tot][0]='L',s[tot][1]='\0';
+						num[tot]=1;
+						k=0;
+					}
+					if(k==2)
+					{
+						s[++tot][0]='L',s[tot][1]='\0';
+						num[tot]=1;
+						s[++tot][0]='U',s[tot][1]='\0';
+						num[tot]=1;
+						k=0;
+					}
+					break;
+				}
+				s[++tot][0]='L',s[tot][1]='U',s[tot][2]='R',s[tot][3]='\0';
+				num[tot]=n;
+				k-=3*n;
+				now+=2;
+			}
+		}
+	}
+	int tt=0;
+	for(int i=1;i<=tot;i++)
+	  if(num[i])tt++;
+	printf("%d\n",tt);
+	for(int i=1;i<=tot;i++)
+	  if(num[i])printf("%d %s\n",num[i],s[i]);
+	return 0;
+}
