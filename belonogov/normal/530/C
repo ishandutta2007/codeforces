@@ -1,0 +1,81 @@
+
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    Cnt := 0,
+    X = 1,
+    while (X <= 1000)
+        Y = 1,
+        while (Y <= 1000)
+            if (A * X + B * Y == C) then
+                Cnt := Cnt + 1
+            end,
+            Y := Y + 1 
+        end,     
+        X := X + 1
+    end,  
+
+    println(Cnt),
+    X := 1,
+    while (X <= 1000)
+        Y = 1,
+        while (Y <= 1000)
+            if (A * X + B * Y == C) then
+                print(X),
+                print(" "),
+                println(Y)
+            end,
+            Y := Y + 1 
+        end,     
+        X := X + 1
+    end.
+
+    /*println("-----------------").*/
+
+g =>
+    X = read_line(),
+    Len = X.length,
+    /*println(Len),*/
+    H := Len div 2,
+    I = 1,
+    /*println(Len),*/
+    while (I <= H)
+        /*println(42),*/
+        /*println(H),*/
+        /*println(I),*/
+        print(X[H - I + 1]),
+        /*println(42),*/
+        I := I + 1 
+    end,
+    /*println(Len),*/
+    I := H + 1,
+    while (I <= Len)
+        print(X[Len - I + H + 1]),
+        I := I + 1
+    end.
+
+f =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    /*println(A),*/
+    B := B / A,
+    /*println(A),*/
+    C := C / A,
+    /*println((B / 2) * (B / 2) - C),*/
+    D := sqrt((B / 2) * (B / 2) - C),
+    /*println("D"),*/
+    /*println(D), */
+    if (D < 0.000001) then
+        println(-B / 2)
+    end,
+    if (D > 0.000001) then 
+        print(-B / 2 - D)
+    end,
+    if (D > 0.000001) then 
+        print(" ")
+    end,
+    if (D > 0.000001) then 
+        print(-B / 2 + D)
+    end.
