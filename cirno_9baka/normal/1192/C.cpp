@@ -1,0 +1,119 @@
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#include<map>
+using namespace std;
+typedef long long ll;
+const ll M=998244353;
+int n,k,len[100005],i,j,l,m;
+ll f[65][65][65],g[65][65],ans,h,h2;
+char c[100005][15];
+map<int,int> v[100009];
+int main(){
+	scanf("%d",&n);
+	for(i=1;i<=n;i++)
+	{
+		scanf("%s",c[i]+1);
+		len[i]=strlen(c[i]+1);
+		h=h2=0;
+		for(j=len[i];j>=1;j--)
+		{
+			h=(h*233+c[i][j])%100007;
+			h2=(h2*233+c[i][j])%M;
+		}
+		if(v[h][h2])
+		{
+			i--;
+			n--;
+			continue;
+		}
+		h=h2=0;
+		for(j=1;j<=len[i];j++)
+		{
+			h=(h*233+c[i][j])%100007;
+			h2=(h2*233+c[i][j])%M;
+		}
+		if(v[h][h2])
+		{
+			i--;
+			n--;
+			continue;
+		}
+		v[h][h2]=1;
+	}
+	for(i=3;i<=10;i++)
+	{
+		memset(g,0,sizeof(g));
+		for(j=1;j<=n;j++)
+			if(len[j]==i)
+			{
+				int a,b;
+				if(c[j][1]>='A'&&c[j][1]<='Z')
+					a=c[j][1]-'A';
+				else
+					if(c[j][1]>='a'&&c[j][1]<='z')
+						a=c[j][1]-'a'+26;
+					else
+						a=c[j][1]-'0'+52;
+				if(c[j][i]>='A'&&c[j][i]<='Z')
+					b=c[j][i]-'A';
+				else
+					if(c[j][i]>='a'&&c[j][i]<='z')
+						b=c[j][i]-'a'+26;
+					else
+						b=c[j][i]-'0'+52;
+				g[a][b]++;
+				if(a==b)
+				{
+					for(k=1;k<=len[j];k++)
+						if(c[j][k]!=c[j][len[j]-k+1])
+							break;
+					if(k<=len[j])
+						g[b][a]++;
+				}
+				else
+					g[b][a]++;
+			}
+		memset(f,0,sizeof(f));
+		for(j=0;j<62;j++)
+		{
+			for(k=0;k<62;k++)
+				for(l=k+1;l<62;l++)
+					for(m=l+1;m<62;m++)
+						f[k][l][m]=(f[k][l][m]+g[j][k]*g[j][m]%M*g[j][l])%M;
+			for(k=0;k<62;k++)
+				for(l=k+1;l<62;l++)
+				{
+					f[k][k][l]=(f[k][k][l]+g[j][k]*g[j][k]%M*g[j][l])%M;
+					f[k][l][l]=(f[k][l][l]+g[j][k]*g[j][l]%M*g[j][l])%M;
+				}
+			for(k=0;k<62;k++)
+				f[k][k][k]=(f[k][k][k]+g[j][k]*g[j][k]%M*g[j][k])%M;
+		}
+		for(j=0;j<62;j++)
+			for(k=j+1;k<62;k++)
+				for(l=k+1;l<62;l++)
+					for(m=l+1;m<62;m++)
+						ans=(ans+f[j][k][l]*f[k][l][m]%M*f[j][l][m]%M*f[j][k][m]%M*24)%M;
+		for(j=0;j<62;j++)
+			for(k=j+1;k<62;k++)
+				for(l=k+1;l<62;l++)
+				{
+					ans=(ans+f[j][k][l]*f[k][l][l]%M*f[j][l][l]%M*f[j][k][l]%M*12)%M;
+					ans=(ans+f[j][k][k]*f[k][k][l]%M*f[j][k][l]%M*f[j][k][l]%M*12)%M;
+					ans=(ans+f[j][j][k]*f[j][j][l]%M*f[j][k][l]%M*f[j][k][l]%M*12)%M;
+				}
+		for(j=0;j<62;j++)
+			for(k=j+1;k<62;k++)
+			{
+				ans=(ans+f[j][j][k]*f[j][k][k]%M*f[j][j][k]%M*f[j][k][k]%M*6)%M;
+				ans=(ans+f[j][j][j]*f[j][j][k]%M*f[j][j][k]%M*f[j][j][k]%M*4)%M;
+				ans=(ans+f[k][k][k]*f[j][k][k]%M*f[j][k][k]%M*f[j][k][k]%M*4)%M;
+			}
+		for(j=0;j<62;j++)
+			ans=(ans+f[j][j][j]*f[j][j][j]%M*f[j][j][j]%M*f[j][j][j])%M;
+	}
+	cout<<ans;
+}
