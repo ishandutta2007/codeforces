@@ -1,0 +1,56 @@
+co plu {
+set [2] 0
+dec [3]
+set [4] [[3]]
+dec [3]
+add [[3]] [[3]] [4]
+inc [3]
+ac
+}
+
+co tim {
+set [2] 0
+dec [3]
+set [4] [[3]]
+dec [3]
+mul [[3]] [[3]] [4]
+inc [3]
+ac
+}
+
+co psh {
+sub [0] [0] 48
+set [[3]] [0]
+inc [3]
+ac
+}
+
+co go {
+cin [0]
+lt [1] [0] 42
+if [1]
+ac
+
+set [2] 1
+
+eq [1] [0] 43
+if [1]
+ca plu
+
+eq [1] [0] 42
+if [1]
+ca tim
+
+if [2]
+ca psh
+
+ca go
+ac
+}
+
+set [3] 5
+ca go
+
+dec [3]
+iout [[3]]
+ac
