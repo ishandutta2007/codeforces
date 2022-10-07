@@ -2,9 +2,9 @@ import subprocess
 import time
 import random
 
-MIN_WAIT_SEC = 700
-MAX_WAIT_SEC = 1200
-MAX_FILES_TO_ADD = 90
+MIN_WAIT_SEC = 70
+MAX_WAIT_SEC = 120
+MAX_FILES_TO_ADD = 9
 MAX_ITERATIONS = 10001
 
 

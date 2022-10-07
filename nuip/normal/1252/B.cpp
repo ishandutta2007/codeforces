@@ -46,7 +46,7 @@ template<class T> inline bool MX(T &l,const T &r){return l<r?l=r,1:0;}
 template<class T> inline bool MN(T &l,const T &r){return l>r?l=r,1:0;}
 //#undef NUIP
 #ifdef NUIP
-#include "../benri.h"
+#include "benri.h"
 #else
 #define out(args...)
 #endif
@@ -59,28 +59,23 @@ const ll MOD=1e9+7; //998244353
 int main(){
   ios_base::sync_with_stdio(false); cin.tie(0);
   cout<<fixed<<setprecision(0);
-	int n,m;
-	cin>>n>>m;
-	vector<int> vs(n);
-	rep(i,n) cin>>vs[i];
-	vector<int> hs{-1};
-	rep(i,m){
-		int l,r,y;
-		cin>>l>>r>>y;
-		if(l==1) hs.pb(r);
+	string s;
+	cin>>s;
+	deque<pii> ps;
+	for(auto c:s){
+		if(ps.empty() || ps.back().X!=c) ps.eb(c,0);
+		++ps.back().Y;
 	}
-	sort(rall(vs));
-	sort(all(hs));
-	int rem=0;
-	const int N=1000000000;
-	while(hs.back()==N) hs.pop_back(), ++rem;
-	int vc=n;
-	int re=rem+vc;
-	for(int x:vs){
-		--vc;
-		while(hs.back()>=x) hs.pop_back(), ++rem;
-		MN(re,rem+vc);
+	out(ps,1);
+	auto no=[](){ cout<<0<<endl; exit(0);};
+	if(ps.size()%2==0) no();
+	while(ps.size()>1){
+		if(ps[0].X!=ps.back().X) no();
+		if(ps[0].Y+ps.back().Y<3) no();
+		ps.pop_front();
+		ps.pop_back();
 	}
-	cout<<re<<endl;
+	if(ps[0].Y<2) no();
+	cout<<ps[0].Y+1 NL;
   return 0;
 }

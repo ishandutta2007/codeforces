@@ -52,129 +52,32 @@ using pii=pair<int,int>;
 using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
-const int nax=4400*1007;
+const int nax=1000*1007;
 
 int n, m;
 
-int taba[nax];
-int tabb[nax];
+char wcz[nax];
 
-ll wyn;
-
-int fen[nax];
-int k;
-vector<pii> ska;
-
-int n1;
-int sta[nax];
-pii drz[nax];
-
-int pyt(int v)
-{
-	int ret=0;
-	for (int i=v; i; i-=(i&(-i)))
-		ret+=fen[i];
-	return ret;
-}
-
-void oper(int v, int w)
-{
-	for (int i=v; i<=k; i+=(i&(-i)))
-		fen[i]+=w;
-}
-
-pii scal(pii a, pii b)
-{
-	return {a.first+b.first, min(a.second, a.first+b.second)};
-}
-
-void pisz(int v, int a, int b, int graa, int grab, int w)
-{
-	if (a>=graa && b<=grab)
-	{
-		drz[v].first+=w;
-		drz[v].second=min(drz[v].second, drz[v].first);
-		return;
-	}
-	if (a>grab || b<graa)
-	{
-		return;
-	}
-	drz[2*v]=scal(drz[2*v], drz[v]);
-	drz[2*v+1]=scal(drz[2*v+1], drz[v]);
-	drz[v]={0, 0};
-	pisz((v<<1), a, (a+b)>>1, graa, grab, w);
-	pisz((v<<1)^1, (a+b+2)>>1, b, graa, grab, w);
-}
-
-void test()
-{
-	scanf("%d%d", &n, &m);
-	for (int i=1; i<=n; i++)
-		scanf("%d", &taba[i]);
-	for (int i=1; i<=m; i++)
-		scanf("%d", &tabb[i]);
-	k=0;
-	ska.clear();
-	for (int i=1; i<=n; i++)
-		ska.push_back({taba[i], i});
-	for (int i=1; i<=m; i++)
-		ska.push_back({tabb[i], -i});
-	sort(ska.begin(), ska.end());
-	k=1;
-	for (int i=1; i<(int)ska.size(); i++)
-		if (ska[i].first!=ska[i-1].first)
-			k++;
-	int ter=1;
-	for (int i=0; i<(int)ska.size(); i++)
-	{
-		if (i && ska[i].first!=ska[i-1].first)
-			ter++;
-		if (ska[i].second>0)
-			taba[ska[i].second]=ter;
-		else
-			tabb[-ska[i].second]=ter;
-	}
-	for (int i=1; i<=k; i++)
-		fen[i]=0;
-	wyn=0;
-	for (int i=1; i<=n; i++)
-	{
-		wyn+=pyt(taba[i]);
-		oper(1, 1);
-		oper(taba[i], -1);
-	}
-	for (int i=1; i<=k; i++)
-		sta[i]=pyt(i);
-	//~ debug() << range(sta+1, sta+1+k);
-	n1=1;
-	while(n1<=k)
-		n1<<=1;
-	for (int i=1; i<2*n1; i++)
-	{
-		drz[i]={0, 0};
-	}
-	for (int i=n; i; i--)
-	{
-		pisz(1, 1, n1, 1, taba[i]-1, -1);
-		pisz(1, 1, n1, taba[i]+1, k, 1);
-	}
-	for (int i=1; i<=k; i++)
-	{
-		pisz(1, 1, n1, i, i, 0);
-		sta[i]+=drz[n1-1+i].second;
-	}
-	for (int i=1; i<=m; i++)
-		wyn+=sta[tabb[i]];
-	//~ debug() << range(sta+1, sta+1+k);
-	printf("%lld\n", wyn);
-}
+pair<vi,int> tab[nax];
 
 int main()
 {
-	int t;
-	scanf("%d", &t);
-	while(t--)
-		test();
+	scanf("%d%d", &n, &m);
+	for (int i=1; i<=n; i++)
+	{
+		scanf("%s", wcz+1);
+		for (int j=1; j<=m; j++)
+		{
+			int x=wcz[j]-'0';
+			if (!(j&1))
+				x=-x;
+			tab[i].first.push_back(x);
+		}
+		tab[i].second=i;
+	}
+	sort(tab+1, tab+1+n);
+	for (int i=1; i<=n; i++)
+		printf("%d ", tab[i].second);
+	printf("\n");
 	return 0;
 }
