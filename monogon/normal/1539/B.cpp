@@ -1,0 +1,29 @@
+
+#include <bits/stdc++.h>
+
+#define ll long long
+#define sz(x) ((int) (x).size())
+#define all(x) (x).begin(), (x).end()
+#define vi vector<int>
+#define pii pair<int, int>
+#define rep(i, a, b) for(int i = (a); i < (b); i++)
+using namespace std;
+template<typename T>
+using minpq = priority_queue<T, vector<T>, greater<T>>;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n, q;
+    string s;
+    cin >> n >> q >> s;
+    vi pref(n + 1, 0);
+    rep(i, 1, n + 1) {
+        pref[i] = pref[i - 1] + (s[i - 1] - 'a' + 1);
+    }
+    while(q--) {
+        int l, r;
+        cin >> l >> r;
+        cout << pref[r] - pref[l - 1] << '\n';
+    }
+}
