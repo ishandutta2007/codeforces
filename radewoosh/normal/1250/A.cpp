@@ -51,82 +51,72 @@ using pii=pair<int,int>;
 using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
-const int nax=1007;
-using bn=bitset<nax>;
+const int nax=1000*1007;
 
-int n;
-int tab[nax];
+int n, k, l;
 
-bn wyn[nax];
+int ile[nax];
+char wcz[nax];
 
-void rek(vi wek)
+vector <char> wyn[nax];
+
+char najw()
 {
-	int k=wek.size();
-	if (!k)
-		return;
-	vi naj;
-	for (int i : wek)
-		if (tab[i]==k)
-			naj.push_back(i);
-	//~ debug() << k << " " << naj << " " << wek;
-	if (naj.empty())
-	{
-		//~ debug() << "raz";
-		int x=wek.back();
-		wek.pop_back();
-		rek(wek);
-		for (int i=1; i<=tab[x]; i++)
-			wyn[k+1-i][x]=1;
-		return;
-	}
-	if ((int)naj.size()>1 || 1)
-	{
-		//~ debug() << "dwa";
-		int x=naj[0];
-		for (int &i : wek)
+	for (int i='z'; i>='a'; i--)
+		if (ile[i])
 		{
-			if (i==x)
-			{
-				swap(i, wek.back());
-				wek.pop_back();
-				break;
-			}
+			ile[i]--;
+			return i;
 		}
-		//~ debug() << x << " " << wek;
-		for (int i : naj)
+	assert(0);
+}
+
+char najm()
+{
+	for (int i='a'; i<='z'; i++)
+		if (ile[i])
 		{
-			wyn[k][i]=1;
-			tab[i]--;
+			ile[i]--;
+			return i;
 		}
-		rek(wek);
-		for (int i=k-1; i>=0 && tab[x]; i--)
-		{
-			int czy=1;
-			wyn[i][x]=1;
-			for (int j=i+1; j<=k; j++)
-				if (wyn[j]==wyn[i])
-					czy=0;
-			if (czy)
-				tab[x]--;
-			else
-				wyn[i][x]=0;
-		}
-	}
+	assert(0);
 }
 
 int main()
 {
-	scanf("%d", &n);
-	for (int i=1; i<=n; i++)
-		scanf("%d", &tab[i]);
-	vi wek(n);
-	iota(wek.begin(), wek.end(), 1);
-	rek(wek);
-	printf("%d\n", n+1);
-	for (int i=0; i<=n; i++)
+	scanf("%d%d%d", &n, &l, &k);
+	scanf("%s", wcz+1);
+	for (int i=1; i<=n*l; i++)
+		ile[wcz[i]]++;
+	for (int i=k+1; i<=n; i++)
+		for (int j=1; j<=l; j++)
+			wyn[i].push_back(najw());
+	
+	int p=1;
+	for (int i=1; i<=l; i++)
 	{
-		for (int j=1; j<=n; j++)
-			printf("%d", (int)wyn[i][j]);
+		//~ debug() << i << " " << p;
+		for (int j=p; j<=k; j++)
+		{
+			wyn[j].push_back(najm());
+		}
+		//~ debug() << "e";
+		for (int j=p; j<=k; j++)
+		{
+			if (wyn[j].back()<wyn[k].back())
+			{
+				while((int)wyn[j].size()<l)
+					wyn[j].push_back(najw());
+				p++;
+			}
+		}
+	}
+	sort(wyn+1, wyn+1+n);
+	
+	for (int i=1; i<=n; i++)
+	{
+		for (char j : wyn[i])
+			printf("%c", j);
 		printf("\n");
 	}
 	return 0;
