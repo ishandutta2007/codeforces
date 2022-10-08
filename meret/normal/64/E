@@ -1,0 +1,12 @@
+scan [gets stdin] "%d" n
+proc prime {p} {
+    for {set i 2} {$i < $p} {incr i} {
+        if {[expr $p % $i] == 0} { return 0 }
+    }
+    return 1
+}
+set a $n
+set b $n
+while {[eval prime $a] == 0} {incr a -1}
+while {[eval prime $b] == 0} {incr b}
+puts "$a $b"
