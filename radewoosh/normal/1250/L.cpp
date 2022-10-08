@@ -51,83 +51,39 @@ using pii=pair<int,int>;
 using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
-const int nax=1007;
-using bn=bitset<nax>;
+const int nax=1000*1007;
 
-int n;
-int tab[nax];
-
-bn wyn[nax];
-
-void rek(vi wek)
-{
-	int k=wek.size();
-	if (!k)
-		return;
-	vi naj;
-	for (int i : wek)
-		if (tab[i]==k)
-			naj.push_back(i);
-	//~ debug() << k << " " << naj << " " << wek;
-	if (naj.empty())
-	{
-		//~ debug() << "raz";
-		int x=wek.back();
-		wek.pop_back();
-		rek(wek);
-		for (int i=1; i<=tab[x]; i++)
-			wyn[k+1-i][x]=1;
-		return;
-	}
-	if ((int)naj.size()>1 || 1)
-	{
-		//~ debug() << "dwa";
-		int x=naj[0];
-		for (int &i : wek)
-		{
-			if (i==x)
-			{
-				swap(i, wek.back());
-				wek.pop_back();
-				break;
-			}
-		}
-		//~ debug() << x << " " << wek;
-		for (int i : naj)
-		{
-			wyn[k][i]=1;
-			tab[i]--;
-		}
-		rek(wek);
-		for (int i=k-1; i>=0 && tab[x]; i--)
-		{
-			int czy=1;
-			wyn[i][x]=1;
-			for (int j=i+1; j<=k; j++)
-				if (wyn[j]==wyn[i])
-					czy=0;
-			if (czy)
-				tab[x]--;
-			else
-				wyn[i][x]=0;
-		}
-	}
-}
+ll n;
 
 int main()
 {
-	scanf("%d", &n);
-	for (int i=1; i<=n; i++)
-		scanf("%d", &tab[i]);
-	vi wek(n);
-	iota(wek.begin(), wek.end(), 1);
-	rek(wek);
-	printf("%d\n", n+1);
-	for (int i=0; i<=n; i++)
+	scanf("%lld", &n);
+	ll p=n;
+	set <ll> setel;
+	for (ll i=2; i*i<=n; i++)
 	{
-		for (int j=1; j<=n; j++)
-			printf("%d", (int)wyn[i][j]);
-		printf("\n");
+		if (!(n%i))
+		{
+			setel.insert(i);
+			n/=i;
+			i--;
+		}
 	}
+	if (n>1)
+		setel.insert(n);
+	vll wek;
+	for (ll i : setel)
+		wek.push_back(i);
+	if (setel.empty() || wek[0]==p)
+	{
+		printf("%lld\n", p);
+		return 0;
+	}
+	if ((int)setel.size()==1)
+	{
+		printf("%lld\n", wek[0]);
+		return 0;
+	}
+	printf("%lld\n", 1LL);
 	return 0;
 }
