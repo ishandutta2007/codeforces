@@ -1,0 +1,82 @@
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
+#include <cstdarg>
+#include <cassert>
+#include <climits>
+#include <cstring>
+#include <complex>
+#include <cstdio>
+#include <vector>
+#include <string>
+#include <queue>
+#include <cmath>
+#include <ctime>
+#include <set>
+#include <map>
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int,int> pi;
+typedef vector<int> vi;
+
+
+#define all(c) (c).begin(),(c).end()
+#define sz(c) (int)(c).size()
+
+#define pb push_back
+#define mp make_pair
+#define fs first
+#define sc second
+#define y1 y1_gdssdfjsdgf
+#define y0 y0_fsdjfsdogfs
+#define ws ws_fdfsdfsdgfs
+#define image(a) {sort(all(a)),a.resize(unique(all(a))-a.begin());}
+#define eprintf(...) {fprintf(stderr,__VA_ARGS__),fflush(stderr);}
+
+#define forn(i,n) for( int i = 0 ; i < (n) ; i++ )
+#define forit(it,c) for( __typeof((c).begin()) it = (c).begin() ; it != (c).end() ; it++ )
+
+#ifdef WIN32
+#define INT64 "%I64d"
+#else
+#define INT64 "%lld"
+#endif
+
+int n;
+int a[1000][1000];
+int b[1000][1000];
+
+int main(){
+	#ifdef home
+	assert(freopen("a.out","wt",stdout));
+	assert(freopen("a.in","rt",stdin));
+	#endif 
+	scanf("%d", &n);
+	for (int i = 0; i <= n; i++) {
+		for (int j = 0; j < n; j++) {
+			scanf("%d", &b[i][j]);
+			b[i][j]--;
+			a[i][b[i][j]] = j;
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		int mx = -1;
+		int mxz = n + 1;
+		int vib = -1;
+		for (int j = 0; j < n; j++) {
+			if ((vib == -1 || a[n][vib] > a[n][j]) && j != i) {
+				vib = j;
+			}
+			if (vib != -1 && a[i][vib] < mxz) {
+				mx = j;
+				mxz = a[i][vib];
+			}
+		}
+		printf("%d ", mx + 1);
+	}
+	printf("\n");
+	return 0;
+}
