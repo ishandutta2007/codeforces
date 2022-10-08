@@ -1,0 +1,26 @@
+set channel {stdin}
+
+proc isPrime {n} {
+    set i 2
+    while {$i * $i <= $n} {
+        if {$n % $i == 0} {
+            return FALSE
+        }
+        set i [expr $i + 1]
+    }
+    return TRUE
+}
+
+gets $channel n
+
+set a $n
+while {! [isPrime $a] } {
+    set a [expr $a - 1]
+}
+
+set b $n
+while {! [isPrime $b] } {
+    set b [expr $b + 1]
+}
+
+puts [concat $a " " $b]

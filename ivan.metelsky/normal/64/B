@@ -1,0 +1,15 @@
+set channel {stdin}
+
+gets $channel inp
+
+set a [string index $inp 0]
+set op [string index $inp 1]
+set b [string index $inp 2]
+
+if { [string compare $op "+"] == 0 } {
+    puts [expr $a + $b]
+}
+
+if { [string compare $op "-"] == 0 } {
+    puts [expr $a - $b]
+}

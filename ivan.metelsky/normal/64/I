@@ -1,0 +1,81 @@
+set channel {stdin}
+
+gets $channel colNamesStr
+set colNames [split $colNamesStr]
+
+gets $channel rulesStr
+set rawRules [split $rulesStr ,]
+
+set ruleCnt 0
+foreach rawRule $rawRules {
+    set rawRule [string trim $rawRule]
+    set parts [split $rawRule]
+    set colName [lindex $parts 0]
+    set sortKind($ruleCnt) [lindex $parts 1]
+    
+    set i 0
+    while { [string compare $colName [lindex $colNames $i]] != 0 } {
+        set i [expr $i+1]
+    }
+    set colId($ruleCnt) $i
+    set ruleCnt [expr $ruleCnt+1]
+}
+
+set rowCnt 0
+while {! [eof $channel]} {
+    gets $channel s
+    if {[string length $s] > 0} {
+        set rows($rowCnt) [split $s]
+        set rowCnt [expr $rowCnt + 1]
+    }
+}
+
+set i 0
+while {$i + 1 < $rowCnt} {
+    set j 0
+    while {$j + 1 < $rowCnt} {
+        # compare rows j and j + 1
+        
+        set k 0
+        set needSwap 0
+        while {$k < $ruleCnt} {
+            set cmpRes [string compare [lindex $rows($j) $colId($k)] [lindex $rows([expr $j+1]) $colId($k)]]
+                        
+            if {$cmpRes == -1 && [string compare $sortKind($k) DESC] == 0} {
+                set needSwap 1
+                break
+            }
+            
+            if {$cmpRes == 1 && [string compare $sortKind($k) DESC] == 0} {
+                break
+            }
+            
+            if {$cmpRes == 1 && [string compare $sortKind($k) ASC] == 0} {
+                set needSwap 1
+                break
+            }
+            
+            if {$cmpRes == -1 && [string compare $sortKind($k) ASC] == 0} {
+                break
+            }
+
+            
+            set k [expr $k + 1]
+        }
+        
+        if {$needSwap == 1} {
+            set tmp $rows($j)
+            set rows($j) $rows([expr $j+1])
+            set rows([expr $j+1]) $tmp
+        }
+    
+        set j [expr $j + 1]
+    }
+    set i [expr $i + 1]
+}
+
+set i 0
+while {$i < $rowCnt} {
+    puts $rows($i)
+    set i [expr $i+1]
+}

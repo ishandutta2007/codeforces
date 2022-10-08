@@ -1,0 +1,61 @@
+set channel {stdin}
+
+gets $channel s
+
+set len [string length $s]
+
+set i 0
+while {$i < $len} {
+    set c [string index $s $i]
+    if {! [string match {[0-9a-z.]} $c] } {
+        puts "NO"
+        exit
+    }
+    set i [expr $i + 1]
+}
+
+set i 0
+while {$i + 1 < $len} {
+    set c1 [string index $s $i]
+    set c2 [string index $s [expr $i + 1]]
+    if {[string compare $c1 .] == 0 && [string compare $c2 .] == 0} {
+        puts "NO"
+        exit
+    }
+    set i [expr $i + 1]
+}
+
+set c [string index $s 0]
+if {[string compare $c .] == 0} {
+    puts "NO"
+    exit
+}
+
+set c [string index $s [expr $len - 1]]
+if {[string compare $c .] == 0} {
+    puts "NO"
+    exit
+}
+
+set i [expr $len - 1]
+while {$i >= 0} {
+    set c [string index $s $i]
+    if {[string compare $c .] == 0} {
+        break
+    }
+    set i [expr $i - 1]
+}
+
+if {$i < 0} {
+    if {$len == 2 || $len == 3} {
+        puts "YES"
+    } else {
+        puts "NO"
+    }
+} else {
+    if {$i == [expr $len - 3] || $i == [expr $len - 4]} {
+        puts "YES"
+    } else {
+        puts "NO"
+    }
+}
