@@ -1,0 +1,12 @@
+set channel {stdin}
+
+gets $channel n
+
+set res  1
+
+while { $n > 0 } {
+    set res [expr $res * $n]
+    set n [expr $n - 1]
+}
+
+puts $res
