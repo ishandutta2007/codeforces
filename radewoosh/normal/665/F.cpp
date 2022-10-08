@@ -1,74 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Matheusz
+using ll=long long;
+
+struct Primes
 {
-	vector <long long> pie, w;
-	vector <int> naj;
-	vector < vector <long long> > dp;
-	unordered_map <long long,int> mapa;
-	long long liczdp(int n, int k)
+	vector <ll> w, dp;
+	int gdz(ll v)
 	{
-		if (!k)
-			return w[n];
-		if (!n)
-			return 1;
-		if (k>naj[n])
-			return liczdp(n, naj[n])+naj[n]-k;
-		if ((int)dp[n].size()>k)
-			return dp[n][k];
-		long long ret=liczdp(n, k-1)-liczdp(mapa[w[n]/pie[k-1]], k-1);
-		dp[n].push_back(ret);
-		return ret;
+		if (v<=w.back()/v)
+			return v-1;
+		return w.size()-w.back()/v;
 	}
-	long long pi(long long n)
+	ll pi(ll n)
 	{
-		pie.clear();
-		w.clear();
-		dp.clear();
-		naj.clear();
-		mapa.clear();
-		int d=1;
-		while((long long)d*d<n)
-			d++;
-		int ok=0;
-		while(!ok)
-		{
-			d++;
-			ok=1;
-			for (int i=2; i*i<=d; i++)
-				if (!(d%i))
-					ok=0;
-		}
-		int sito[d+3];
-		memset(sito, 0, sizeof(sito));
-		for (int i=2; i<=d; i++)
-		{
-			if (sito[i])
-				continue;
-			pie.push_back(i);
-			for (int j=i; j<=d; j+=i)
-				sito[j]=1;
-		}
-		for (long long i=1; i<=(n/i); i++)
+		for (ll i=1; i*i<=n; i++)
 		{
 			w.push_back(i);
 			if ((n/i)!=i)
 				w.push_back(n/i);
 		}
 		sort(w.begin(), w.end());
-		naj.resize(w.size(), 0);
-		for (int i=0; i<naj.size(); i++)
+		for (ll i : w)
+			dp.push_back(i-1);
+		for (ll i=1; (i+1)*(i+1)<=n; i++)
 		{
-			if (i)
-				naj[i]=naj[i-1];
-			while(pie[naj[i]]*pie[naj[i]]<=w[i])
-				naj[i]++;
+			if (dp[i]==dp[i-1])
+				continue;
+			for (int j=(int)w.size()-1; w[j]>=(i+1)*(i+1); j--)
+				dp[j]-=dp[gdz(w[j]/(i+1))]-dp[i-1];
 		}
-		dp.resize(w.size(), vector<long long>{0});
-		for (int i=0; i<w.size(); i++)
-			mapa[w[i]]=i;
-		return liczdp((int)w.size()-1, (int)pie.size()-1)+pie.size()-2;
+		return dp.back();
 	}
 };
 
@@ -81,7 +43,7 @@ void brut(long long n)
 	long long ret=0;
 	for (int i=1; i<=lim; i++)
 		sito[i]=0;
-	Matheusz janusz;
+	Primes janusz;
 	janusz.pi(n);
 	vector <long long> pier;
 	for (int i=2; i<=lim; i++)
@@ -118,7 +80,7 @@ void brut(long long n)
 					bsa=bss+1;
 			}
 			odj++;
-			wyn+=janusz.liczdp(janusz.mapa[n/i], bsa)+bsa-1-odj;
+			wyn+=janusz.dp[janusz.gdz(n/i)]-odj;
 		}
 	}
 }
