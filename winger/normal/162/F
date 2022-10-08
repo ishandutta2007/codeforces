@@ -1,0 +1,6 @@
+USING: io kernel math math.parser sequences locals ;
+0
+readln string>number
+[| ans n | ans n 5 /i + n 5 /i dup zero? not ] loop
+drop
+number>string print
