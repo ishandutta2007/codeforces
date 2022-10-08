@@ -1,0 +1,6 @@
+lines := File standardInput readLines
+n := doString(lines at(0))
+if(n mod(4) == 2,
+  "yes" println,
+  "no" println
+)

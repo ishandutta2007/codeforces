@@ -1,0 +1,26 @@
+lines := File standardInput readLines
+n := doString(lines at(0))
+
+isprime := method(p,
+  i:=3
+  while(i*i <= p,
+    if(p mod(i) == 0, return false)
+    i := i+2
+  )
+  return true
+)
+
+primes := list(1,2)
+for(p,3,n,2,
+  if(isprime(p), primes append(p)))
+
+a := n
+i := primes size - 1
+while (a > 0,
+  while(primes at(i) > a, i := i-1)
+  primes at(i) print
+  a := a - (primes at(i))
+  if(a>0, "+" print)
+)
+"=" print
+n println

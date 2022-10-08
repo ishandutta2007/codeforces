@@ -1,0 +1,24 @@
+lines := File standardInput readLines
+line0 := lines at(0) split
+sy := doString(line0 at(0))
+sx := doString(line0 at(1))
+
+calc := method(n, line,
+  elems := line split
+  tab := list(false)
+  for(i,1,n, tab append(true))
+  tab append(false)
+  for(i,1, elems size - 1,
+    x := doString(elems at(i))
+    tab atPut(x, false)
+  )
+  res := 0
+  for(i,0,n,
+    if (tab at(i) and (tab at(i+1) not),
+      res := res + 1)
+  )
+  return res
+)
+
+res := calc(sy, lines at(1)) * calc(sx, lines at(2))
+res println

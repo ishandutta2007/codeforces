@@ -1,0 +1,12 @@
+lines := File standardInput readLines
+n := doString(lines at(0))
+a := 1
+b := 1
+c := 1
+while(n > 0,
+  c := a + b
+  a := b
+  b := c
+  n := n - 1
+)
+a println
