@@ -1,10 +1,34 @@
 import subprocess
 import time
 import random
+import pprint as pp
+from termcolor import colored
 
-MIN_WAIT_SEC = 70
-MAX_WAIT_SEC = 120
-MAX_FILES_TO_ADD = 9
+###################################################################
+
+
+def yellow(text):
+    return colored(text, "yellow", attrs=["bold"])
+
+
+def green(text):
+    return colored(text, "green", attrs=["bold"])
+
+
+def red(text):
+    return colored(text, "red", attrs=["bold"])
+
+
+def cyan(text):
+    return colored(text, "cyan", attrs=["bold"])
+
+
+###################################################################
+
+
+MIN_WAIT_SEC = 11
+MAX_WAIT_SEC = 22
+MAX_FILES_TO_ADD = 4
 MAX_ITERATIONS = 10001
 
 
@@ -17,25 +41,40 @@ for i in range(1, 1 + MAX_ITERATIONS):
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
     outlist1 = out.decode("utf-8").split("\n")
-    print(outlist1)
+    pp.pprint(outlist1)
+
+    modifiedlist = []
+    deletedlist = []
+    for idx, elem in enumerate(outlist1):
+        if "modified:" in elem:
+            modifiedlist.append(elem.replace("modified:", ""))
+        if "deleted:" in elem:
+            deletedlist.append(elem.replace("deleted:", ""))
+    print("[{}]modifiedlist:".format(i))
+    pp.pprint(modifiedlist)
+    print("[{}]deletedlist:".format(i))
+    pp.pprint(deletedlist)
+
     trimmed = False
     for idx, elem in enumerate(outlist1):
         if "Untracked files" in elem:
-            outlist1 = outlist1[idx + 2 :]
-            outlist1 = compact(outlist1)
-            outlist1 = outlist1[:-1]
-            outlist1 = outlist1[:MAX_FILES_TO_ADD]
+            UntrackedList = outlist1[idx + 2 :]
+            UntrackedList = compact(UntrackedList)
+            UntrackedList = UntrackedList[:-1]
+            UntrackedList = UntrackedList[:MAX_FILES_TO_ADD]
             trimmed = True
             break
     if trimmed == False:
-        outlist1 = []
-    print("[{}]outlist1 filterd by untracked".format(i))
-    print(outlist1)
+        UntrackedList = []
+    print("[{}]Untracked List:".format(i))
+    pp.pprint(UntrackedList)
+
     print("[{}]Done git status1".format(i))
     print("=====")
 
-    print("[{}]Initializing git add".format(i))
-    for idx, elem in enumerate(outlist1):
+    print("[{}]Initializing git add for modifiedlist".format(i))
+    modifiedlist = modifiedlist[:MAX_FILES_TO_ADD]
+    for idx, elem in enumerate(modifiedlist):
         try:
             elem = elem.strip()
             # if ".cpp" in elem or ".c" in elem or ".py" in elem:
@@ -45,38 +84,92 @@ for i in range(1, 1 + MAX_ITERATIONS):
             print(out.decode("utf-8").split("\n"))
         except:
             pass
-    print("[{}]Done git add".format(i))
+    print(yellow("[{}]Done git add for modifiedlist".format(i)))
+    print("=====")
+
+
+    print("[{}]Initializing git add for deletedlist".format(i))
+    deletedlist = deletedlist[:MAX_FILES_TO_ADD]
+    for idx, elem in enumerate(deletedlist):
+        try:
+            elem = elem.strip()
+            # if ".cpp" in elem or ".c" in elem or ".py" in elem:
+            print("[{}][{}]Running git add {}".format(i, idx, elem))
+            p = subprocess.Popen(["git", "add", elem], stdout=subprocess.PIPE)
+            out, err = p.communicate()
+            print(out.decode("utf-8").split("\n"))
+        except:
+            pass
+    print(yellow("[{}]Done git add for deletedlist".format(i)))
+    print("=====")
+
+    print("[{}]Initializing git add for UntrackedList".format(i))
+    for idx, elem in enumerate(UntrackedList):
+        try:
+            elem = elem.strip()
+            # if ".cpp" in elem or ".c" in elem or ".py" in elem:
+            print("[{}][{}]Running git add {}".format(i, idx, elem))
+            p = subprocess.Popen(["git", "add", elem], stdout=subprocess.PIPE)
+            out, err = p.communicate()
+            print(out.decode("utf-8").split("\n"))
+        except:
+            pass
+    print(yellow("[{}]Done git add for UntrackedList".format(i)))
     print("=====")
 
     print("[{}]Initializing git status2".format(i))
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
-    outlist = out.decode("utf-8").split("\n")
-    print(outlist)
+    outlist2 = out.decode("utf-8").split("\n")
+    pp.pprint(outlist2)
 
-    finalfilelist = []
-    for elem in outlist:
-        if "\tnew file:" in elem:
-            finalfilelist.append(elem)
+    trimmed = False
+    for idx, elem in enumerate(outlist2):
+        if "Changes to be committed:" in elem:
+            to_be_committed_list = outlist2[idx + 2 :]
+            to_be_committed_list = compact(to_be_committed_list)
+            to_be_committed_list = to_be_committed_list[:MAX_FILES_TO_ADD]
+            trimmed = True
+            break
+    if trimmed == False:
+        to_be_committed_list = []
 
-    print(finalfilelist)
+    trimmed = False
+    for idx, elem in enumerate(to_be_committed_list):
+        if "Changes not staged for commit:" in elem:
+            to_be_committed_list = to_be_committed_list[:idx]
+            to_be_committed_list = compact(to_be_committed_list)
+            to_be_committed_list = to_be_committed_list[:-1]
+            to_be_committed_list = to_be_committed_list[:MAX_FILES_TO_ADD]
+            break
 
-    finalfolderlist = []
-    for elem in finalfilelist:
+    print("[{}]Changes to be committed List:".format(i))
+    pp.pprint(to_be_committed_list)
+
+    # finalfilelist = []
+    # for elem in outlist2:
+    #     if "\tnew file:" in elem:
+    #         finalfilelist.append(elem)
+
+    # print(finalfilelist)
+
+    mesage_selection_list = []
+    for elem in to_be_committed_list:
         try:
-            finalfolderlist.append(
+            mesage_selection_list.append(
                 elem.replace("\tnew file:", "").strip().split("/")[0]
             )
         except Exception as e:
             pass
 
-    print(finalfolderlist)
-    if len(finalfolderlist) == 0:
+    print("[{}]Mesage selection List:".format(i))
+    print(mesage_selection_list)
+    if len(to_be_committed_list) == 0:
         r = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
-        print("[{}]Waiting {} secs....".format(i, r))
+        print(cyan("[{}]Waiting {} secs....".format(i, r)))
         time.sleep(r)
         continue
-    freq = {x: finalfolderlist.count(x) for x in finalfolderlist}
+    freq = { x: mesage_selection_list.count(x) for x in mesage_selection_list }
     print(freq)
     max_key = max(freq, key=freq.get)
 
@@ -104,13 +197,13 @@ for i in range(1, 1 + MAX_ITERATIONS):
     p = subprocess.Popen(["git", "commit", "-m", max_key], stdout=subprocess.PIPE)
     out, err = p.communicate()
     print(out.decode("utf-8").split("\n"))
-    print("[{}]Done git commit".format(i))
+    print(green("[{}]Done git commit".format(i)))
     print("=====")
 
-    if i % 5 == 0 or i % 7 == 0:
-        print("[{}]Initializing git push".format(i))
-        p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
-        out, err = p.communicate()
-        print(out.decode("utf-8").split("\n"))
-        print("[{}]Done git push".format(i))
-        print("=====")
+    # if i % 2 == 0:
+    print("[{}]Initializing git push".format(i))
+    p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    print(out.decode("utf-8").split("\n"))
+    print(green("[{}]Done git push".format(i)))
+    print("=====")
