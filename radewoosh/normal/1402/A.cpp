@@ -54,70 +54,41 @@ using vi=vector<int>;
 using vll=vector<ll>;
 const int nax=1000*1007;
 
-int n, sa, sb, da, db;
+int n;
 
-vi graf[nax];
-
-void ans(int v)
-{
-	if (v)
-		printf("Alice\n");
-	else
-		printf("Bob\n");
-}
-
-int sre;
-int ichodl;
-
-int dfs1(int v, int oj, int cel, int gle)
-{
-	if (v==cel)
-		ichodl=gle;
-	int ret=0;
-	for (int i : graf[v])
-	{
-		if (i==oj)
-			continue;
-		int x=dfs1(i, v, cel, gle+1)+1;
-		sre=max(sre, ret+x);
-		ret=max(ret, x);
-	}
-	return ret;
-}
-
-void test()
-{
-	scanf("%d%d%d%d%d", &n, &sa, &sb, &da, &db);
-	for (int i=1; i<=n; i++)
-		graf[i].clear();
-	for (int i=1; i<n; i++)
-	{
-		int a, b;
-		scanf("%d%d", &a, &b);
-		graf[a].push_back(b);
-		graf[b].push_back(a);
-	}
-	sre=0;
-	dfs1(sa, 0, sb, 0);
-	//~ debug() << sre << " " << da << " " << db << " " << ichodl;
-	if (ichodl<=da)
-	{
-		ans(1);
-	}
-	else
-	{
-		if (2*da>=min(db, sre))
-			ans(1);
-		else
-			ans(0);
-	}
-}
+ll tab[nax];
 
 int main()
 {
-	int t;
-	scanf("%d", &t);
-	while(t--)
-		test();
+	scanf("%d", &n);
+	for (int i=1; i<=n; i++)
+		scanf("%lld", &tab[i]);
+	if (n==1)
+	{
+		for (int h=0; h<3; h++)
+		{
+			printf("1 1\n");
+			printf("%lld\n", -tab[1]);
+			tab[1]=0;
+		}
+		return 0;
+	}
+	printf("%d %d\n", 1, n-1);
+	for (int i=1; i<=n-1; i++)
+	{
+		ll x=(n-1)*tab[i];
+		printf("%lld ", x);
+		tab[i]+=x;
+	}
+	printf("\n");
+	{
+		printf("%d %d\n", n, n);
+		printf("%lld\n", -tab[n]);
+		tab[n]=0;
+	}
+	printf("%d %d\n", 1, n);
+	for (int i=1; i<=n; i++)
+		printf("%lld ", -tab[i]);
+	printf("\n");
 	return 0;
 }

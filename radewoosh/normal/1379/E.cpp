@@ -160,7 +160,7 @@ int zrob(int n, int k)
 	{
 		int lew;
 		
-		if (((1<<h)-1)<n)
+		if (h<=20 && ((1<<h)-1)<n)
 			lew=(1<<h)-1;
 		else
 			lew=los(1, n-1);
