@@ -1,9 +1,11 @@
-//~ while (clock()<=69*CLOCKS_PER_SEC)
-//~ #pragma comment(linker, "/stack:200000000")
-#pragma GCC optimize("O3")
-//~ #pragma GCC optimize("Ofast")
-//~ #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
-//~ #pragma GCC optimize("unroll-loops")
+//PRZEMYSL ASSERTY
+
+//SPRAWDZ CORNER CASE'Y, MINIMALNE I MAKSYMALNE WEJCIE I WYJCIE
+
+//MODULO = 1
+
+//while (clock()<=69*CLOCKS_PER_SEC)
+
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -33,65 +35,37 @@ sim, class b dor(pair < b, c > d) {
   ris << "(" << d.first << ", " << d.second << ")";
 }
 sim dor(rge<c> d) {
-  *this << "[";
-  for (auto it = d.b; it != d.e; ++it)
-    *this << ", " + 2 * (it == d.b) << *it;
+  for (auto it = d.b; it != d.e; ++it) 
+    *this << ", \0[" + 3 * (it == d.b) << *it;
   ris << "]";
 }
 #else
 sim dor(const c&) { ris; }
 #endif
 };
-#define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+
+#define imie(x) "[" << #x ": " << (x) << "] "
 
 #define shandom_ruffle random_shuffle
 
 using ll=long long;
-const int nax=1000*1007;
+const int nax=1007;
 
 int n;
-int sto[nax];
 
-vector <int> lis;
+char wcz[nax];
+
+int ile[2];
 
 int main()
 {
-	scanf("%d", &n);
-	if (n==1)
-	{
-		printf("Yes\n0\n");
-		return 0;
-	}
-	if (n==2)
-	{
-		printf("Yes\n1\n1 2\n");
-		return 0;
-	}
-	for (int i=1; i<n; i++)
-	{
-		int a, b;
-		scanf("%d%d", &a, &b);
-		sto[a]++;
-		sto[b]++;
-	}
-	int ile=0;
-	int naj=1;
+	scanf("%d%s", &n, wcz+1);
 	for (int i=1; i<=n; i++)
-	{
-		if (sto[i]>sto[naj])
-			naj=i;
-		if (sto[i]>2)
-			ile++;
-		if (sto[i]==1)
-			lis.push_back(i);
-	}
-	if (ile>1)
-	{
-		printf("No\n");
-		return 0;
-	}
-	printf("Yes\n%d\n", (int)lis.size());
-	for (int i : lis)
-		printf("%d %d\n", naj, i);
+		ile[wcz[i]-'0']++;
+	if (ile[1])
+		printf("1");
+	for (int i=1; i<=ile[0]; i++)
+		printf("0");
+	printf("\n");
 	return 0;
 }

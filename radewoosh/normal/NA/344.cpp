@@ -51,64 +51,91 @@ using pii=pair<int,int>;
 using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
-const int nax=1007;
-const int vax=1007;
-//~ const int vax=3;
+const int nax=1000*1007;
 
 int n;
 
-vi stos;
+char wcz[nax];
 
-bitset <2*vax> bylo[nax];
+ll a[nax];
+ll b[nax];
 
-const int lim=500*1000;
-//~ const int lim=1e3;
+ll tab[nax];
 
-bool mniej(pair<pii,int> a, pair<pii,int> b)
+ll ile[nax];
+
+void nope()
 {
-	return abs(a.first.second)<abs(b.first.second);
+	printf("-1\n");
+	exit(0);
 }
 
-void rek(int v, int roz, int juz, int gle)
+int jesz=1e5;
+
+void dfs(int v)
 {
-	if (abs(roz)>vax || gle>lim)
+	if (!ile[v] || !v || v==n)
 		return;
-	if (!v && !roz && juz)
+	if (ile[v]>0)
 	{
-		while((int)stos.size()>1 && !stos.back())
-			stos.pop_back();
-		reverse(stos.begin(), stos.end());
-		for (int i : stos)
-			printf("%d", i);
-		printf("\n");
-		exit(0);
+		if (a[v]>(v==1) && a[v+1]>0)
+		{
+			a[v]--;
+			a[v+1]--;
+			ile[v]--;
+			printf("%d -1\n", v);
+			jesz--;
+			if (!jesz)
+				exit(0);
+			dfs(v-1);
+			dfs(v);
+			dfs(v+1);
+		}
 	}
-	if (bylo[v][roz+vax])
-		return;
-	bylo[v][roz+vax]=1;
-	vi szaf(10-(!juz));
-	for (int i=(!juz); i<10; i++)
-		szaf[i-(!juz)]=i;
-	random_shuffle(szaf.begin(), szaf.end());
-	for (int i : szaf)
+	else
 	{
-		int x=(v+i*n);
-		stos.push_back(i);
-		rek(x/10, roz+(x%10)*n-i, 1, gle+1);
-		stos.pop_back();
+		if (a[v]<9 && a[v+1]<9)
+		{
+			ile[v]++;
+			a[v]++;
+			a[v+1]++;
+			printf("%d 1\n", v);
+			jesz--;
+			if (!jesz)
+				exit(0);
+			dfs(v-1);
+			dfs(v);
+			dfs(v+1);
+		}
 	}
 }
 
 int main()
 {
-	//~ srand(time(0));
 	scanf("%d", &n);
-	for (int h=0; h<10; h++)
+	scanf("%s", wcz+1);
+	for (int i=1; i<=n; i++)
+		a[i]=wcz[i]-'0';
+	scanf("%s", wcz+1);
+	for (int i=1; i<=n; i++)
+		b[i]=wcz[i]-'0';
+	for (int i=1; i<=n; i++)
+		tab[i]=a[i];
+	for (int i=1; i<n; i++)
 	{
-		for (int i=0; i<nax; i++)
-			bylo[i].reset();
-		rek(0, 0, 0, 0);
+		ll x=tab[i]-b[i];
+		ile[i]=x;
+		tab[i]-=x;
+		tab[i+1]-=x;
 	}
-	printf("-1\n");
+	//~ debug() << range(ile+1, ile+1+n);
+	if (tab[n]!=b[n])
+		nope();
+	ll wyn=0;
+	for (int i=1; i<n; i++)
+		wyn+=abs(ile[i]);
+	printf("%lld\n", wyn);
+	for (int i=1; i<n; i++)
+		dfs(i);
 	return 0;
 }
