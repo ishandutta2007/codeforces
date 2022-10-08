@@ -1,0 +1,28 @@
+lines := File standardInput readLines
+text := lines at(0)
+
+concat := method(a,b,
+  return a asMutable appendSeq(b)
+)
+
+reverse := method(a, return a asMutable reverse)
+
+substr := method(s, a, b, c,
+  if(c==nil, c:=1)
+  res := "" asMutable
+  for(i,a-1,b-1,c, res append(s at(i)))
+  return res
+)
+
+inside := false
+for(i,0,text size-1,
+  c := text at(i)
+  if(c == "\"" at(0), inside := inside not)
+  if (inside not,
+    c := c asLowercase
+    text atPut(i, c)
+  )
+)
+"\"" print
+doString(text) print
+"\"" println
