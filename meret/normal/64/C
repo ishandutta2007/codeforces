@@ -1,0 +1,6 @@
+scan [gets stdin] "%d%d%d" n m k
+incr k -1
+set row [expr $k % $n]
+set col [expr $k / $n]
+set result [expr $m * $row + $col + 1]
+puts "$result"

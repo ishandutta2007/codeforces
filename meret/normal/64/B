@@ -1,0 +1,4 @@
+scan [gets stdin] "%1d%c%1d" a o b
+if {$o == 45} { set result [expr $a - $b] }
+if {$o == 43} { set result [expr $a + $b] }
+puts "$result"
