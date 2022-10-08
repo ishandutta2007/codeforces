@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,11 +16,34 @@ import java.util.StringTokenizer;
 4
 2 3 4 5
 3 7 2 2
+
+1
+4
+5 2 3 4
+2 3 7 2
+
+1
+2
+10 8
+8 10
+
+1
+3
+100 5 5
+5 5 100
+
+1
+3
+100 5 5
+5 100 5
  */
 public class F {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		FastScanner fs=new FastScanner();
+//		Scanner fs=new Scanner(new File("F.in"));
+//		PrintWriter out=new PrintWriter(new File("FWA.out"));
+		PrintWriter out=new PrintWriter(System.out);
 		int T=fs.nextInt();
 		outer: for (int tt=0; tt<T; tt++) {
 			int n=fs.nextInt();
@@ -30,27 +55,25 @@ public class F {
 			long diffSum=0;
 			for (long l:diffs) diffSum+=l;
 			if (diffSum>0) {
-				System.out.println("NO");
+				out.println("NO");
 				continue;
 			}
 			long[] diffCS=new long[n+n+1];
 			for (int i=1; i<diffCS.length; i++) diffCS[i]=diffs[i-1]+diffCS[i-1];
-//			System.out.println("Differences: "+Arrays.toString(diffs));
-//			System.out.println("DiffCS: "+Arrays.toString(diffCS));
 			RMQLowMemory rmq=new RMQLowMemory(diffCS);
 			for (int l=0; l<n; l++) {
 				long csToSub=diffCS[l+1];
+				//want to query indecies l+1 ... l+n-1
 				long farCS=rmq.query(l+2, l+n);
 				long rangeSum=farCS-csToSub;
-//				System.out.println("At l: "+l+" rangeSum: "+rangeSum);
-//				System.out.println("  toSub: "+csToSub+" farCS: "+farCS);
 				if (rangeSum>b[l]) {
-					System.out.println("NO");
+					out.println("NO");
 					continue outer;
 				}
 			}
-			System.out.println("YES");
+			out.println("YES");
 		}
+		out.close();
 	}
 
 	static void sort(int[] a) {
@@ -91,7 +114,7 @@ public class F {
 			int nn=(n+blockSize-1)>>5;
 			int maxlog = Integer.numberOfTrailingZeros(Integer.highestOneBit(nn)) + 2;
 			lift = new long[maxlog][nn];
-			Arrays.fill(lift[0], Long.MAX_VALUE);
+			Arrays.fill(lift[0], (long)1e18);
 			for (int i = 0; i < n; i++)
 				lift[0][i/blockSize]=Math.min(lift[0][i/blockSize], a[i]);
 
