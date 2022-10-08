@@ -1,0 +1,18 @@
+lines := File standardInput readLines
+arr := lines at(0)
+n := arr size
+a := 0
+if ((arr at(0)) == ("-" at(0)),
+  "-" print
+  a := 1)
+while ((a < n-1) and ((arr at(a)) == ("0" at(0))),
+  a := a + 1)
+b := n - 1
+while ((b > a) and ((arr at(b)) == ("0" at(0))),
+  b := b - 1
+)
+while (b >= a,
+  arr at(b) asCharacter print
+  b := b-1
+)
+"" println
