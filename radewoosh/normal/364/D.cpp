@@ -68,7 +68,7 @@ int main()
 	scanf("%d", &n);
 	for (int i=1; i<=n; i++)
 		scanf("%lld", &tab[i]);
-	while(clock()<=3.5*CLOCKS_PER_SEC)
+	while(clock()<=3.4*CLOCKS_PER_SEC)
 	{
 		x=tab[(rand()*100LL+rand())%n+1];
 		memset(mapa1, 0, sizeof(mapa1));

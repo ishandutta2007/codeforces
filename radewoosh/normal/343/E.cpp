@@ -1,5 +1,6 @@
 //~ while (clock()<=69*CLOCKS_PER_SEC)
 //~ #pragma comment(linker, "/stack:200000000")
+#pragma GCC optimize("O3")
 //~ #pragma GCC optimize("Ofast")
 //~ #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
 //~ #pragma GCC optimize("unroll-loops")
@@ -45,9 +46,15 @@ sim dor(const c&) { ris; }
 
 #define shandom_ruffle random_shuffle
 
-using T = long long;
+using ll=long long;
+using pii=pair<int,int>;
+using pll=pair<ll,ll>;
+using vi=vector<int>;
+using vll=vector<ll>;
+const int nax=1000*1007;
 
-class Flow {
+using T=int;
+struct Flow {
   struct E {
     int dest;
     T orig, *lim, *rev;
@@ -56,18 +63,15 @@ class Flow {
   vector<unique_ptr<T>> ts;
   vector<vector<E>> graf;
   vector<int> ptr, odl;
-
   void vert(int v) {
     n = max(n, v + 1);
     graf.resize(n);
     ptr.resize(n);
     odl.resize(n);
   }
-
   bool iszero(T v) {
     return !v; // Zmieni dla doubli.
   }
-
   void bfs() {
     fill(odl.begin(), odl.end(), 0);
     vector<int> kol = {zr};
@@ -81,7 +85,6 @@ class Flow {
       }
     }
   }
-
   T dfs(int v, T lim) {
     if (v == uj) return lim;
     T ret = 0, wez;
@@ -98,8 +101,6 @@ class Flow {
     }
     return ret;
   }
-
- public:
   void add_edge(int u, int v, T lim, bool bi = false /* bidirectional? */) {
     vert(max(u, v));
     T *a = new T(lim), *b = new T(lim * bi);
@@ -108,7 +109,6 @@ class Flow {
     graf[u].push_back(E{v, lim,      a, b});
     graf[v].push_back(E{u, lim * bi, b, a});
   }
-
   T dinic(int zr_, int uj_) {
     zr = zr_; uj = uj_;
     vert(max(zr, uj));
@@ -122,7 +122,6 @@ class Flow {
     }
     return ret;
   }
-
   vector<int> cut() {
     vector<int> ret;
     bfs();
@@ -131,7 +130,6 @@ class Flow {
         ret.push_back(i);
     return ret;
   }
-
   map<pair<int, int>, T> get_flowing() {  // Tam gdzie plynie 0 moe nie by
     map<pair<int, int>, T> ret;           // krawdzi.
     for (int i = 0; i < n; i++)
@@ -148,7 +146,6 @@ class Flow {
   }
 };
 
-#define int long long
 struct GomoryHu {
   vector<vector< pair<int,int> >> graph, tree;
   vector<vector<int>> nodes;
@@ -224,67 +221,76 @@ struct GomoryHu {
     return res;
   }
 };
-#undef int
-
-using ll=long long;
-const int nax=1007;
 
 int n, m;
-pair <int,int> kra[nax];
-ll wag[nax];
 
-int pie[nax];
-int ost[nax];
-int nast[nax];
-int oj[nax];
+vector <pii> graf[nax];
 
-int fin(int v)
+int czas;
+int ter[nax];
+
+vi zbi;
+
+void dfs(int v, int oj)
 {
-	if (v!=oj[v])
-		oj[v]=fin(oj[v]);
-	return oj[v];
+	if (ter[v]!=czas)
+		return;
+	zbi.push_back(v);
+	for (pii i : graf[v])
+		if (i.first!=oj)
+			dfs(i.first, v);
+}
+
+void rek(vi wek)
+{
+	if ((int)wek.size()==1)
+	{
+		printf("%d ", wek[0]);
+		return;
+	}
+	czas++;
+	for (int i : wek)
+		ter[i]=czas;
+	int mini=1e9;
+	pii x;
+	for (int i : wek)
+		for (pii j : graf[i])
+			if (ter[j.first]==czas && j.second<mini)
+				mini=j.second, x={i, j.first};
+	zbi.clear();
+	dfs(x.first, x.second);
+	vi a=zbi;
+	zbi.clear();
+	dfs(x.second, x.first);
+	vi b=zbi;
+	rek(a);
+	rek(b);
 }
 
 int main()
 {
 	scanf("%d%d", &n, &m);
-	GomoryHu janusz(n);
+	GomoryHu penis=GomoryHu(n);
 	for (int i=0; i<m; i++)
 	{
 		int a, b, c;
 		scanf("%d%d%d", &a, &b, &c);
-		a--;
-		b--;
-		kra[i]={a, b};
-		wag[i]=c;
-		janusz.addEdge(a, b, c);
+		penis.addEdge(a-1, b-1, c);
 	}
-	auto wez=janusz.run();
-	for (int i=0; i<n; i++)
+	auto wez=penis.run();
+	ll wyn=0;
+	for (auto &i : wez)
 	{
-		pie[i]=ost[i]=i;
-		oj[i]=i;
+		i.first.first++;
+		i.first.second++;
+		graf[i.first.first].push_back({i.first.second, i.second});
+		graf[i.first.second].push_back({i.first.first, i.second});
+		wyn+=i.second;
 	}
-	sort(wez.begin(), wez.end(), [&](pair<pair<int,int>,int> a, pair<pair<int,int>,int> b){return a.second>b.second;});
-	int sum=0;
-	for (auto i : wez)
-	{
-		sum+=i.second;
-		int a=i.first.first;
-		int b=i.first.second;
-		a=fin(a);
-		b=fin(b);
-		nast[ost[a]]=pie[b];
-		ost[a]=ost[b];
-		oj[b]=a;
-	}
-	int v=pie[fin(0)];
-	printf("%d\n", sum);
-	for (int i=0; i<n; i++)
-	{
-		printf("%d ", v+1);
-		v=nast[v];
-	}
+	vi wek(n);
+	iota(wek.begin(), wek.end(), 1);
+	printf("%lld\n", wyn);
+	rek(wek);
 	printf("\n");
 	return 0;
 }
