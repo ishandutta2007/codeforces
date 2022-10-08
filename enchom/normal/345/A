@@ -1,0 +1,56 @@
+with Ada.Integer_Text_IO;
+with Ada.Text_IO;
+with Ada.float_Text_IO;
+use Ada.Text_IO;
+use Ada.float_Text_IO;
+use Ada.Integer_Text_IO;
+
+procedure Task1 is
+    type My_Float is digits 5;
+    package F_IO is new Ada.Text_IO.Float_IO(My_Float);
+    
+    A: String(1 .. 51);
+    len: Natural;
+    I: Natural;
+    P: My_Float;
+    Ans: My_Float;
+    Div: My_Float;
+    
+begin
+
+get_line(A,len);
+
+F_IO.Get( Item => P);
+
+I:=1;
+Ans:=0.0;
+Div:=0.0;
+
+While_Loop:
+
+while I<=len loop
+
+Div:=Div+1.0;
+
+if A(I)='?' then
+
+Ans:=Ans+P;
+
+end if;
+
+if A(I)='1' then
+
+Ans:=Ans+1.0;
+
+end if;
+
+I:=I+1;
+
+end loop While_Loop;
+
+Ans:=Ans/Div;
+
+
+F_IO.Put(Ans,5,5,0);
+
+end Task1;
