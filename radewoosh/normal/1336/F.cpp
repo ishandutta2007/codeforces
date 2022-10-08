@@ -8,14 +8,14 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
+ 
 using namespace __gnu_pbds;
 using namespace std;
-
+ 
 template <typename T>
 using ordered_set =
     tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-
+ 
 #define sim template < class c
 #define ris return * this
 #define dor > debug & operator <<
@@ -44,21 +44,21 @@ sim dor(const c&) { ris; }
 #endif
 };
 #define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
-
+ 
 #define shandom_ruffle random_shuffle
-
+ 
 using ll=long long;
 using pii=pair<int,int>;
 using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
 const int nax=1000*1007;
-
+ 
 vector <int> drz[nax];
 int roz[nax], jump[nax], pre[nax], post[nax], fad[nax], czas;
 int gle[nax];
 vi jumppo[nax];
-
+ 
 void dfs_roz(int v, int oj=0) {
 	jumppo[v].push_back(oj);
 	while(jumppo[v].back())
@@ -126,16 +126,16 @@ vector < pair <int,int> > get_path(int v, int u) {
 	}
 	return ret;
 }
-
-
+ 
+ 
 int n, m, k;
-
+ 
 vi graf[nax];
-
+ 
 int kon[nax][2];
-
+ 
 ll wyn;
-
+ 
 int podnies(int v, int ile)
 {
 	for (int i=0; (1<<i)<=ile; i++)
@@ -143,43 +143,42 @@ int podnies(int v, int ile)
 			v=jumppo[v][i];
 	return v;
 }
-
+ 
 int liczodl(int a, int b)
 {
 	return gle[a]+gle[b]-2*gle[lca(a, b)];
 }
-
+ 
 vi sta[nax];
 vi spo[nax];
-using sup=ordered_set<pii>;
-sup *setel[nax];
-
+ordered_set<pii> setel[nax];
+ 
 int wprze(ordered_set<int> &secik, int a, int b)
 {
 	return secik.order_of_key(b+1)-secik.order_of_key(a);
 }
-
+ 
 int wprze(ordered_set<pii> &secik, int a, int b)
 {
 	return secik.order_of_key({b, nax})-secik.order_of_key({a, -nax});
 }
-
+ 
 map <pii, vi> mapka;
-
+ 
 int dziecko(int ma, int du)
 {
 	return pre[ma]>=pre[du] && post[ma]<=post[du];
 }
-
+ 
 bool mniej(int a, int b)
 {
 	return pre[a]<pre[b];
 }
-
+ 
 vi ver;
 vi ndrz[nax];
 int korz;
-
+ 
 void skompresuj(vi wek)
 {
 	sort(wek.begin(), wek.end(), mniej);
@@ -206,9 +205,9 @@ void skompresuj(vi wek)
 		stos.push_back(i);
 	}
 }
-
+ 
 int tmp[nax];
-
+ 
 int dfs2(int v, int conaj)
 {
 	int ret=0;
@@ -228,7 +227,7 @@ int dfs2(int v, int conaj)
 	}
 	return ret;
 }
-
+ 
 void liczmale(vi wek, int kt, int conaj)
 {
 	ll ret=0;
@@ -242,14 +241,14 @@ void liczmale(vi wek, int kt, int conaj)
 		tmp[i]++;
 	dfs2(korz, conaj);
 }
-
+ 
 vi tmpwek[nax];
-
-sup *tmpset[nax];
-
+ 
+ordered_set<pii> tmpset[nax];
+ 
 void dfs3(int v, int koko)
 {
-	tmpset[v]=new sup;
+	tmpset[v].clear();
 	for (int i : tmpwek[v])
 	{
 		int tutaj=gle[v]-gle[koko];
@@ -258,16 +257,16 @@ void dfs3(int v, int koko)
 		if (gle[d]-gle[koko]>=tam)
 		{
 			int gor=podnies(d, gle[d]-gle[koko]-tam);
-			wyn+=wprze(*tmpset[v], pre[gor], post[gor]);
+			wyn+=wprze(tmpset[v], pre[gor], post[gor]);
 		}
-		tmpset[v]->insert({pre[d], i});
+		tmpset[v].insert({pre[d], i});
 	}
 	for (int i : ndrz[v])
 	{
 		dfs3(i, koko);
-		if ((int)tmpset[i]->size()>(int)tmpset[v]->size())
-			swap(tmpset[v], tmpset[i]);
-		for (pii j : *tmpset[i])
+		if ((int)tmpset[i].size()>(int)tmpset[v].size())
+			tmpset[v].swap(tmpset[i]);
+		for (pii j : tmpset[i])
 		{
 			int tutaj=gle[v]-gle[koko];
 			int tam=max(0, k-tutaj);
@@ -275,15 +274,14 @@ void dfs3(int v, int koko)
 			if (gle[d]-gle[koko]>=tam)
 			{
 				int gor=podnies(d, gle[d]-gle[koko]-tam);
-				wyn+=wprze(*tmpset[v], pre[gor], post[gor]);
+				wyn+=wprze(tmpset[v], pre[gor], post[gor]);
 			}
 		}
-		for (pii j : *tmpset[i])
-			tmpset[v]->insert(j);
-		delete tmpset[i];
+		for (pii j : tmpset[i])
+			tmpset[v].insert(j);
 	}
 }
-
+ 
 void solve(vi wek, int v, int lew, int pra)
 {
 	int r=wek.size();
@@ -305,38 +303,35 @@ void solve(vi wek, int v, int lew, int pra)
 		tmpwek[kon[i][0]].push_back(i);
 	dfs3(lew, v);
 }
-
+ 
 void dfs1(int v)
 {
-	setel[v]=new sup;
 	for (int i : sta[v])
-		setel[v]->insert({pre[v], i});
+		setel[v].insert({pre[v], i});
 	for (int i : drz[v])
 	{
 		dfs1(i);
-		if ((int)setel[v]->size()<(int)setel[i]->size())
-			swap(setel[v], setel[i]);
-		for (pii j : *setel[i])
-			(*setel[v]).insert(j);
-		//~ setel[i]={};
-		delete setel[i];
+		if ((int)setel[v].size()<(int)setel[i].size())
+			setel[v].swap(setel[i]);
+		for (pii j : setel[i])
+			setel[v].insert(j);
 	}
 	mapka.clear();
 	for (int i : spo[v])
 	{
 		int a=kon[i][0];
 		int b=kon[i][1];
-		setel[v]->erase({pre[a], i});
-		setel[v]->erase({pre[b], i});
+		setel[v].erase({pre[a], i});
+		setel[v].erase({pre[b], i});
 		if (gle[a]>=gle[v]+k)
 		{
 			int lim=podnies(a, gle[a]-gle[v]-k);
-			wyn+=wprze(*setel[v], pre[lim], post[lim]);
+			wyn+=wprze(setel[v], pre[lim], post[lim]);
 		}
 		if (gle[b]>=gle[v]+k)
 		{
 			int lim=podnies(b, gle[b]-gle[v]-k);
-			wyn+=wprze(*setel[v], pre[lim], post[lim]);
+			wyn+=wprze(setel[v], pre[lim], post[lim]);
 		}
 		if (a==v || b==v)
 			continue;
@@ -349,7 +344,7 @@ void dfs1(int v)
 	for (auto i : mapka)
 		solve(i.second, v, i.first.first, i.first.second);
 }
-
+ 
 int main()
 {
 	scanf("%d%d%d", &n, &m, &k);

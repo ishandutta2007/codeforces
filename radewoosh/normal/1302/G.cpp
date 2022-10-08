@@ -53,35 +53,42 @@ using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
 const int nax=1000*1007;
+const int d=30;
 
 int n;
 
-char wcz[nax];
+int tab[nax];
+
+int ile[nax];
 
 int main()
 {
-	int t;
-	scanf("%d", &t);
-	for (int i=1; i<=t; i++)
+	scanf("%d", &n);
+	for (int i=1; i<=n; i++)
 	{
-		scanf("%s", wcz+1);
-		int ile=0;
-		int a=0;
-		int b=0;
-		for (int i=1; wcz[i]; i++)
-		{
-			if (wcz[i]=='1')
-			{
-				ile++;
-				b=i;
-				if (!a)
-					a=i;
-			}
-		}
-		if (!ile)
-			printf("0\n");
-		else
-			printf("%d\n", b-a-ile+1);
+		scanf("%d", &tab[i]);
+		for (int j=0; j<d; j++)
+			if ((tab[i]&(1<<j)))
+				ile[j]++;
 	}
+	int naj=0;
+	int v=1;
+	for (int i=1; i<=n; i++)
+	{
+		int w=0;
+		for (int j=0; j<d; j++)
+			if ((tab[i]&(1<<j)) && ile[j]==1)
+				w+=(1<<j);
+		if (w>naj)
+		{
+			naj=w;
+			v=i;
+		}
+	}
+	printf("%d", tab[v]);
+	for (int i=1; i<=n; i++)
+		if (i!=v)
+			printf(" %d", tab[i]);
+	printf("\n");
 	return 0;
 }
