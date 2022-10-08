@@ -52,7 +52,7 @@ using pll=pair<ll,ll>;
 using vi=vector<int>;
 using vll=vector<ll>;
 const int nax=1000*1007;
-using ull=unsigned long long;
+using ull=long double;
 int n1;
 
 int n, m;
@@ -129,9 +129,7 @@ inline ll eva(const pll &v, const ll &dzien)
 pii znajdz(const vi &wek, ll dzien, pll *wsp, int start=0)
 {
 	int tsa=start;
-    int tsb=(int)wek.size()-1;
-    if (tsa<tsb && eva(wsp[wek[tsa]], dzien)>=eva(wsp[wek[tsa+1]], dzien))
-        return {wek[tsa], tsa};
+	int tsb=(int)wek.size()-1;
 	int ts1, ts2;
 	while(tsa<tsb)
 	{

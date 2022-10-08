@@ -54,81 +54,68 @@ using vll=vector<ll>;
 const int nax=1000*1007;
 
 int n, q;
-
-vector <int> drz[nax];
-int roz[nax], jump[nax], pre[nax], post[nax], fad[nax];
-int czas;
-
 int gle[nax];
 
-void dfs_roz(int v)
-{
-	roz[v]=1;
-	for (int &i : drz[v])
-	{
-		fad[i]=v;
-		gle[i]=gle[v]+1;
-		dfs_roz(i);
-		roz[v]+=roz[i];
-		if (roz[i]>roz[drz[v][0]])
-			swap(i, drz[v][0]);
-	}
-}
-
-void dfs_pre(int v)
-{
-	if (!jump[v])
-		jump[v]=v;
-	czas++;
-	pre[v]=czas;
-	if (!drz[v].empty())
+vector <int> drz[nax];
+int roz[nax], jump[nax], pre[nax], post[nax], fad[nax], czas;
+void dfs_roz(int v) {
+	roz[v]=1;                        // drz[] ma nie zawiera krawdzi
+	for (int &i : drz[v]) {          // do ojca.
+		fad[i]=v;                    // Init:
+		dfs_roz(i);                  // dfs_roz(root);
+		roz[v]+=roz[i];              // dfs_pre(root);
+		if (roz[i]>roz[drz[v][0]])   // Uycie get_path(v, u) zwrci
+			swap(i, drz[v][0]);      // przedziay odpowiadajce ciece
+	}                                // z v do u. Przedziay odpowiadajce
+}                                    // ciece z v do lca maj
+void dfs_pre(int v)                  // first>=second, za te dla cieki
+{                                    // z lca do u maj first<=second.
+	if (!jump[v])                    // Przedziay s po kolei.
+		jump[v]=v;                   // Lca wystpuje w nich dwa razy,
+	pre[v]=(++czas);                 // najpierw jako second,
+	if (!drz[v].empty())             // a zaraz potem jako first.
 		jump[drz[v][0]]=jump[v];
 	for (int i : drz[v])
+	{
+		gle[i]=gle[v]+1;
 		dfs_pre(i);
+	}
 	post[v]=czas;
 }
-
-int lca(int v, int u)
-{
-	while(jump[v]!=jump[u])
-	{
+int lca(int v, int u) {
+	while(jump[v]!=jump[u]) {
 		if (pre[v]<pre[u])
 			swap(v, u);
 		v=fad[jump[v]];
 	}
 	return (pre[v]<pre[u] ? v : u);
 }
-
-int dys(int a, int b)
-{
-	return gle[a]+gle[b]-2*gle[lca(a, b)];
-}
-
-vector < pair <int,int> > path_up(int v, int u)
-{
+vector < pair <int,int> > path_up(int v, int u) {
 	vector < pair <int,int> > ret;
-	while(jump[v]!=jump[u])
-	{
+	while(jump[v]!=jump[u]) {
 		ret.push_back({pre[jump[v]], pre[v]});
 		v=fad[jump[v]];
 	}
 	ret.push_back({pre[u], pre[v]});
 	return ret;
 }
-
-vector < pair <int,int> > get_path(int v, int u)
-{
+vector < pair <int,int> > get_path(int v, int u) {
 	int w=lca(v, u);
 	auto ret=path_up(v, w);
 	auto pom=path_up(u, w);
 	for (auto &i : ret)
 		swap(i.first, i.second);
-	while(!pom.empty())
-	{
+	while(!pom.empty()) {
 		ret.push_back(pom.back());
 		pom.pop_back();
 	}
 	return ret;
+}
+
+
+int dys(int a, int b)
+{
+	return gle[a]+gle[b]-2*gle[lca(a, b)];
 }
 
 void dfs1(int v, int oj)
