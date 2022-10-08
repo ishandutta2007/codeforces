@@ -1,99 +1,217 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-double PI=3.141592653589793;
+/* FFT dla doubli O(n*log(n))                                                 */
+/* wynik mnozenia dwoch wielomianow                                           */
+/* argumenty to dwa wektory, wynik to jeden wektor                            */
+/* fft() dziala bezpiecznie dla liczb do 35k                                  */
+/* dla wiekszych odpalamy fft_dokladne, dziala wolniej, ale liczy dokladnie   */
+/* mozna je zmodyfikowac do liczenia modulo np. 10^9+7                        */
+/* sprawdzic, czy argumenty nie powinny byc wektorami long longow             */
 
-complex <double> dftn[530007];
-complex <double> dfts[530007];
-complex <double> pom[530007];
-
-inline int potenga(int v)
+struct fft_double
 {
-    for (int i=1; 1; i<<=1)
-    {
-        if (i>=v)
-        {
-            return i;
-        }
-    }
-}
+	double PI=3.141592653589793;
 
-inline void dft(int n, complex <double> omega)
-{
-    vector < complex <double> > wek;
+	vector < complex <double> > dftn; //poczebne
+	vector < complex <double> > dfts; //poczebne
 
-    wek.push_back(omega);
-    for (int i=2; i<n; i<<=1)
-    wek.push_back(wek.back()*wek.back());
+	vector < complex <double> > pom; //do zwyklego
 
-    complex <double> jeden;
-    int n2=n-1;
-    int s=0;
-    int p;
+	vector < complex <double> > a1; //do dokladnego
+	vector < complex <double> > a2; //do dokladnego
+	vector < complex <double> > b1; //do dokladnego
+	vector < complex <double> > b2; //do dokladnego
 
-    for (int i=2; i<=n; i<<=1)
-    {
-        omega=wek.back();
-        wek.pop_back();
+	vector <double> cosi; //poczebne
+	vector < complex <double> > omega; //poczebne
+	fft_double(){}
+	fft_double(int n, int chce_dokladne)
+	{
+		n=potenga(n);
+		dftn.resize(n+1, 0);
+		dfts.resize(n+1, 0);
+		
+		pom.resize(n+1, 0);
+		
+		if (chce_dokladne)
+		{
+			a1.resize(n+1, 0);
+			a2.resize(n+1, 0);
+			b1.resize(n+1, 0);
+			b2.resize(n+1, 0);
+		}
+		
+		cosi.resize(n+1, 0);
+		omega.resize(n+1, 0);
+	}
 
-        for (int j=0; j<n; j++)
-        {
-            dfts[j]=dftn[j];
-            dftn[j]=0;
-        }
+	inline int potenga(int v)
+	{
+		for (int i=1; 1; i<<=1)
+		{
+			if (i>=v)
+			{
+				return i;
+			}
+		}
+	}
 
-        jeden=1;
-        p=n/i;
+	inline void dft(int n, int kier)
+	{
+		int n2=n-1;
+		int s=0;
+		int p;
+		int g;
 
-        for (int j=0; j<n; j++)
-        {
-            dftn[j]=dfts[(2*(j-s)+s)&n2]+jeden*dfts[(2*(j-s)+p+s)&n2];
-            s++;
-            if (s==p)
-            {
-                jeden*=omega;
-                s=0;
-            }
-        }
-    }
-}
+		for (int i=2; i<=n; i<<=1)
+		{
+			dftn.swap(dfts);
 
-vector <int> fft(vector <int> &jed, vector <int> &dwa)
-{
-    int n1=potenga(jed.size()+dwa.size());
-    while(jed.size()<n1)
-    {
-        jed.push_back(0);
-    }
-    while(dwa.size()<n1)
-    {
-        dwa.push_back(0);
-    }
+			p=n/i;
 
-    complex <double> omega(cos(2.0*PI/n1), sin(2.0*PI/n1));
+			if (kier)
+			{
+				g=0;
+				for (int j=0; j<n; j++)
+				{
+					dftn[j]=dfts[(2*(j-s)+s)&n2]+omega[g]*dfts[(2*(j-s)+p+s)&n2];
+					s++;
+					if (s==p)
+					{
+						g=j+1;
+						s=0;
+					}
+				}
+			}
+			else
+			{
+				g=n;
+				for (int j=0; j<n; j++)
+				{
+					dftn[j]=dfts[(2*(j-s)+s)&n2]+omega[g]*dfts[(2*(j-s)+p+s)&n2];
+					s++;
+					if (s==p)
+					{
+						g=n-j-1;
+						s=0;
+					}
+				}
+			}
+		}
+	}
 
-    for (int i=0; i<n1; i++)
-    dftn[i]=jed[i];
-    dft(n1, omega);
-    for (int i=0; i<n1; i++)
-    pom[i]=dftn[i];
+	void licz_omegi(int n1)
+	{
+		double kat=2.0*PI/n1;
+		int n2=n1-1;
+		int dod=3*n1/4;
 
-    for (int i=0; i<n1; i++)
-    dftn[i]=dwa[i];
-    dft(n1, omega);
-    for (int i=0; i<n1; i++)
-    dftn[i]*=pom[i];
+		for (int i=0; i<=n1; i++)
+			cosi[i]=cos(kat*i);
+		for (int i=0; i<=n1; i++)
+			omega[i]=complex <double> (cosi[i], cosi[(i+dod)&n2]);
+	}
 
-    dft(n1, complex <double>(1.0, 0)/omega);
+	vector <int> fft(vector <int> &jed, vector <int> &dwa)
+	{
+		int n1=potenga(jed.size()+dwa.size());
 
-    vector <int> ret;
+		licz_omegi(n1);
 
-    for (int i=0; i<n1; i++)
-    {
-        ret.push_back(llround(dftn[i].real()/n1));
-    }
-    return ret;
-}
+		for (int i=0; i<jed.size(); i++)
+			dftn[i]=jed[i];
+		for (int i=jed.size(); i<n1; i++)
+			dftn[i]=0;
+		dft(n1, 1);
+		for (int i=0; i<n1; i++)
+			pom[i]=dftn[i];
+
+		for (int i=0; i<dwa.size(); i++)
+			dftn[i]=dwa[i];
+		for (int i=dwa.size(); i<n1; i++)
+			dftn[i]=0;
+		dft(n1, 1);
+		for (int i=0; i<n1; i++)
+			dftn[i]*=pom[i];
+
+		dft(n1, 0);
+
+		vector <int> ret;
+
+		for (int i=0; i<n1; i++)
+			ret.push_back(llround(dftn[i].real()/n1));
+		return ret;
+	}
+
+	vector <int> fft_dokladne(vector <int> &jed, vector <int> &dwa)
+	{
+		int n1=potenga(jed.size()+dwa.size());
+
+		licz_omegi(n1);
+
+		long long M=32000;
+
+		for (int i=0; i<jed.size(); i++)
+			dftn[i]=jed[i]/M;
+		for (int i=jed.size(); i<n1; i++)
+			dftn[i]=0;
+		dft(n1, 1);
+		for (int i=0; i<n1; i++)
+			a1[i]=dftn[i];
+
+		for (int i=0; i<jed.size(); i++)
+			dftn[i]=jed[i]%M;
+		for (int i=jed.size(); i<n1; i++)
+			dftn[i]=0;
+		dft(n1, 1);
+		for (int i=0; i<n1; i++)
+			b1[i]=dftn[i];
+
+		for (int i=0; i<dwa.size(); i++)
+			dftn[i]=dwa[i]/M;
+		for (int i=dwa.size(); i<n1; i++)
+			dftn[i]=0;
+		dft(n1, 1);
+		for (int i=0; i<n1; i++)
+			a2[i]=dftn[i];
+
+		for (int i=0; i<dwa.size(); i++)
+			dftn[i]=dwa[i]%M;
+		for (int i=dwa.size(); i<n1; i++)
+			dftn[i]=0;
+		dft(n1, 1);
+		for (int i=0; i<n1; i++)
+		b2[i]=dftn[i];
+
+		vector <int> ret;
+		for (int i=0; i<n1; i++)
+		ret.push_back(0);
+
+		for (int i=0; i<n1; i++)
+			dftn[i]=a1[i]*a2[i];
+		dft(n1, 0);
+		for (int i=0; i<n1; i++)
+			ret[i]+=llround(dftn[i].real()/n1)*M*M;
+
+		for (int i=0; i<n1; i++)
+			dftn[i]=a1[i]*b2[i]+b1[i]*a2[i];
+		dft(n1, 0);
+		for (int i=0; i<n1; i++)
+			ret[i]+=llround(dftn[i].real()/n1)*M;
+
+		for (int i=0; i<n1; i++)
+			dftn[i]=b1[i]*b2[i];
+		dft(n1, 0);
+		for (int i=0; i<n1; i++)
+			ret[i]+=llround(dftn[i].real()/n1);
+
+		return ret;
+	}
+
+};
+
+fft_double janusz=fft_double(400000, 0);
 
 int n, m, k;
 char wcz1[1000007];
@@ -108,24 +226,24 @@ void licz()
 {
     vector <int> jed, dwa, bier;
     for (int i=0; i<n; i++)
-    jed.push_back(0);
+        jed.push_back(0);
     for (int i=0; i<n; i++)
     {
         if (wcz1[i]!=lit)
-        continue;
+            continue;
         jed[max(0, i-k)]++;
         if (i+k+1<n)
-        jed[i+k+1]--;
+            jed[i+k+1]--;
     }
     for (int i=1; i<n; i++)
-    jed[i]+=jed[i-1];
+        jed[i]+=jed[i-1];
     for (int i=0; i<n; i++)
-    jed[i]=min(jed[i], 1);
+        jed[i]=min(jed[i], 1);
     for (int i=0; i<m; i++)
-    dwa.push_back(wcz2[i]==lit);
-    bier=fft(jed, dwa);
+        dwa.push_back(wcz2[i]==lit);
+    bier=janusz.fft(jed, dwa);
     for (int i=m-1; i<n+m-1; i++)
-    sum[i-m+1]+=bier[i];
+        sum[i-m+1]+=bier[i];
 }
 
 int main()

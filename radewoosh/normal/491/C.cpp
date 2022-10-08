@@ -1,166 +1,131 @@
-#include <iostream>
-#include <cstdio>
-#include <algorithm>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-int k, n;
-int n1;
-char slo1[2000007];
-char slo2[2000007];
+/* HUNGARIAN O(n^3)                                                           */
+/* maksymalne najdrozsze skojarzenie w pelnym grafie dwudzielnym o            */
+/* rownolicznych zbiorach wierzcholkow, argumenty to macierz z wagami         */
+/* i liczba wierzcholkow, zwracany wynik to wektor ktory mowi co jest z czym  */
+/* skojarzone.                                                                */
+/* Jak chcemy najtansze to bierzemy wszystko z minusem, jak gdzies nie ma     */
+/* krawedzi to dajemy -INF, przy zalozeniu, ze: n * |waga| < INF              */
 
-vector <int> graf[507];
-int mac[507][507];
-int kosz[507][507];
-
-int p1, p2;
-
-int odl[507];
-int bylo[507];
-int wyn;
-
-int ilep()
+vector <int> hungarian(vector < vector <int> > w, int n)
 {
-    int ret=0;
-    for (int i=n+1; i<n1; i++)
+    int lx[n],ly[n],skojx[n],skojy[n];
+    int markx[n],marky[n],slack[n],par[n],q[n];
+    for (int i=0; i<n; i++)
     {
-        ret+=mac[n1][i];
+        skojx[i]=skojy[i]=-1;
+        ly[i]=0;
+        lx[i]=*max_element(w[i].begin(), w[i].end());
     }
-    return ret;
-}
-
-int dfs(int v)
-{
-    if (v==n1)
-    return 1;
-    bylo[v]=1;
-    for (int i=0; i<graf[v].size(); i++)
+    for (int k=0; k<n; k++)
     {
-        if (!bylo[graf[v][i]] && mac[v][graf[v][i]] && odl[v]+kosz[v][graf[v][i]]==odl[graf[v][i]] && dfs(graf[v][i]))
+        int v=-1,qb=0,qe=0;
+        for (int i=0; i<n; i++)
         {
-                              mac[v][graf[v][i]]--;
-                              mac[graf[v][i]][v]++;
-                              return 1;
+            marky[i]=markx[i]=0;
+            slack[i]=-1;
+            if (skojx[i]==-1)
+				q[qe++]=i;
+        }
+        while (v==-1)
+        {
+            while (qb<qe)
+            {
+                int i=q[qb++];
+                markx[i]=1;
+                for (int j=0; j<n; j++)
+					if (!marky[j] && (slack[j]==-1 || slack[j]>lx[i]+ly[j]-w[i][j]))
+					{
+						if ((slack[j] = lx[ par[j]=i ]+ly[j]-w[i][j]) == 0)
+						{
+							marky[j]=1;
+							if (skojy[j]!=-1)
+								q[qe++]=skojy[j];
+							else
+							{
+								v=j;
+								goto koniec;
+							}
+						}
+					}
+            }
+            int x=-1;
+            for (int i=0; i<n; i++)
+				if (!marky[i] && (x==-1 || slack[i] < x))
+					x=slack[i];
+            for (int i=0; i<n; i++)
+            {
+                if (markx[i])
+					lx[i]-=x;
+                if (marky[i])
+					ly[i]+=x;
+                else
+					if ((slack[i] -= x) == 0)
+					{
+						marky[i]=1;
+						if (skojy[i] != -1)
+							q[qe++]=skojy[i];
+						else
+							v=i;
+					}
+            }
+        }
+        koniec:
+        while (v!=-1)
+        {
+            int y=skojx[par[v]];
+            skojx[par[v]]=v;
+            skojy[v]=par[v];
+            v=y;
         }
     }
-    return 0;
+    return vector <int> (skojx,skojx+n);
 }
 
-void przep()
-{
-     for (int i=1; i<=n1; i++)
-     {
-         odl[i]=1000000000;
-         bylo[i]=0;
-     }
-     odl[1]=0;
-     for (int i=1; i<n1; i++)
-     {
-         for (int j=1; j<=n1; j++)
-         {
-             if (odl[j]==1000000000)
-             continue;
-             for (int l=0; l<graf[j].size(); l++)
-             {
-                 if (mac[j][graf[j][l]])
-                 odl[graf[j][l]]=min(odl[graf[j][l]], odl[j]+kosz[j][graf[j][l]]);
-             }
-         }
-     }
-     //for (int i=1; i<=n1; i++)
-     //{
-     //    printf("%d.%d ", i, odl[i]);
-     //}
-     //printf("\n");
-     dfs(1);
-}
+int n, k;
+
+int num[1007];
+char jak[1007];
+
+vector < vector <int> > tab;
+vector < vector <int> > daj;
+
+vector <int> sko;
+int wyn;
+
+char wcz1[2000007];
+char wcz2[2000007];
 
 int main()
 {
-	scanf("%d%d", &k, &n);
-	scanf("%s", &slo1);
-	scanf("%s", &slo2);
-    n1=((n+1)<<1);
-    for (int i=2; i<=n+1; i++)
-    {
-        for (int j=n+2; j<=(n<<1)+1; j++)
-        {
-            kosz[i][j]=1000000;
-            kosz[j][i]=-1000000;
-            mac[i][j]=1;
-            graf[i].push_back(j);
-            graf[j].push_back(i);
-        }
-    }
-    for (int i=2; i<=n+1; i++)
-    {
-        mac[1][i]=1;
-        graf[1].push_back(i);
-        graf[i].push_back(1);
-    }
-    for (int i=n+2; i<=(n<<1)+1; i++)
-    {
-        mac[i][n1]=1;;
-        graf[n1].push_back(i);
-        graf[i].push_back(n1);
-    }
-    for (int i=0; i<k; i++)
-    {
-        if (slo1[i]<='z' && slo1[i]>='a')
-        {
-                         p1=slo1[i]-'a'+1;
-        }
-        else
-        {
-            p1=slo1[i]-'A'+1+26;
-        }
-        
-        if (slo2[i]<='z' && slo2[i]>='a')
-        {
-                         p2=slo2[i]-'a'+1;
-        }
-        else
-        {
-            p2=slo2[i]-'A'+1+26;
-        }
-        
-        p1++;
-        p2+=n+1;
-        
-        kosz[p1][p2]--;
-        kosz[p2][p1]++;
-    }
-    for (int i=1; i<=n; i++)
-    {
-        przep();
-    }
-    for (int i=2; i<=n+1; i++)
-    {
-        for (int j=n+2; j<n1; j++)
-        {
-            if (mac[j][i]==1)
-            {
-            				 wyn+=1000000-kosz[i][j];
-                             break;
-            }
-        }
-    }
-    printf("%d\n", wyn);
-    for (int i=2; i<=n+1; i++)
-    {
-        for (int j=n+2; j<n1; j++)
-        {
-            if (mac[j][i]==1)
-            {
-            				 p1=j-n-1;
-                             if (p1<=26)
-                             printf("%c", 'a'+p1-1);
-                             else
-                             printf("%c", 'A'+p1-26-1);
-                             break;
-            }
-        }
-    }
-    //system("pause");
-    return 0;
+	scanf("%d%d", &n, &k);
+	for (int i='a'; i<='z'; i++)
+	{
+		num[i]=i-'a';
+		jak[num[i]]=i;
+	}
+	for (int i='A'; i<='Z'; i++)
+	{
+		num[i]=i-'A'+26;
+		jak[num[i]]=i;
+	}
+	tab.push_back(vector <int>{});
+	for (int i=0; i<k; i++)
+		tab[0].push_back(0);
+	for (int i=1; i<k; i++)
+		tab.push_back(tab[0]);
+	scanf("%s%s", wcz1+1, wcz2+1);
+	for (int i=1; i<=n; i++)
+		tab[num[wcz1[i]]][num[wcz2[i]]]++;
+	daj=tab;
+	sko=hungarian(daj, k);
+	for (int i=0; i<k; i++)
+		wyn+=tab[i][sko[i]];
+	printf("%d\n", wyn);
+	for (int i=0; i<k; i++)
+		printf("%c", jak[sko[i]]);
+	printf("\n");
+	return 0;
 }

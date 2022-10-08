@@ -1,138 +1,147 @@
+//~ while (clock()<=69*CLOCKS_PER_SEC)
+//~ #pragma comment(linker, "/stack:200000000")
+#pragma GCC optimize("O3")
+//~ #pragma GCC optimize("Ofast")
+//~ #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+//~ #pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
+using namespace __gnu_pbds;
 using namespace std;
+
+template <typename T>
+using ordered_set =
+    tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+#define sim template < class c
+#define ris return * this
+#define dor > debug & operator <<
+#define eni(x) sim > typename \
+  enable_if<sizeof dud<c>(0) x 1, debug&>::type operator<<(c i) {
+sim > struct rge { c b, e; };
+sim > rge<c> range(c i, c j) { return rge<c>{i, j}; }
+sim > auto dud(c* x) -> decltype(cerr << *x, 0);
+sim > char dud(...);
+struct debug {
+#ifdef LOCAL
+~debug() { cerr << endl; }
+eni(!=) cerr << boolalpha << i; ris; }
+eni(==) ris << range(begin(i), end(i)); }
+sim, class b dor(pair < b, c > d) {
+  ris << "(" << d.first << ", " << d.second << ")";
+}
+sim dor(rge<c> d) {
+  *this << "[";
+  for (auto it = d.b; it != d.e; ++it)
+    *this << ", " + 2 * (it == d.b) << *it;
+  ris << "]";
+}
+#else
+sim dor(const c&) { ris; }
+#endif
+};
+#define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+
+#define shandom_ruffle random_shuffle
+
+using ll=long long;
+const int nax=1000*1007;
+const ll mod=1000*1000*1000+7;
 
 int n, k, q;
 
-int sito[1000007];
+ll sil[nax];
+ll odw[nax];
 
-long long ile[1000007];
-long long mod=1000000007;
+vector <int> dzi[nax];
 
-vector < pair <int,int> > roz;
+int ile[nax];
+ll wyn;
+ll mobius[nax];
 
-vector <int> dzie[1000007];
+int sito[nax];
+int parz[nax];
 
-long long sil[1000007];
-long long odw[1000007];
-
-int zwa[1000007];
-int parz[1000007];
-long long magia[1000007];
-
-long long wyn;
-
-int x, y;
-
-int ilebiere[100007];
-
-void rozl(int v)
+ll kom(int a, int b)
 {
-    roz.clear();
-    while(v>1)
-    {
-        if (roz.empty() || roz.back().first!=sito[v])
-        roz.push_back(make_pair(sito[v], 0));
-        roz.back().second++;
-        v/=sito[v];
-    }
+	if (b<0 || b>a)
+		return 0;
+	return (sil[a]*((odw[b]*odw[a-b])%mod))%mod;
 }
 
-long long dziel(long long a, long long b)
+ll licz(int v)
 {
-    long long wyk=mod-2;
-    while(wyk)
-    {
-        if (wyk&1)
-        {
-            a*=b;
-            a%=mod;
-        }
-        b*=b;
-        b%=mod;
-        wyk>>=1;
-    }
-    return a;
+	ll ret=0;
+	for (int i : dzi[v])
+		ret=(ret+mobius[i]*kom(ile[i], k))%mod;
+	ret+=mod;
+	ret%=mod;
+	return ret;
 }
 
-long long kom(long long a, long long b)
+void dodaj(int v)
 {
-    if (b<0 || b>a)
-    return 0;
-    return (sil[a]*((odw[b]*odw[a-b])%mod))%mod;
+	wyn-=licz(v);
+	for (int i : dzi[v])
+		ile[i]++;
+	wyn+=licz(v);
+	wyn%=mod;
+	wyn+=mod;
+	wyn%=mod;
 }
 
 int main()
 {
-    for (int i=2; i<=1000000; i++)
-    {
-        if (!sito[i])
-        {
-            for (int j=i; j<=1000000; j+=i)
-            {
-                sito[j]=i;
-            }
-        }
-        if (sito[i]==i && i<=1000)
-        {
-            for (int j=i*i; j<=1000000; j+=i*i)
-            {
-                zwa[j]=1;
-            }
-        }
-    }
-    for (int i=1; i<=1000000; i++)
-    {
-        rozl(i);
-        parz[i]=(roz.size()&1);
-    }
-    for (int i=1; i<=1000000; i++)
-    {
-        for (int j=i; j<=1000000; j+=i)
-        {
-            dzie[j].push_back(i);
-            if (!zwa[j/i])
-            {
-                if (!parz[j/i])
-                {
-                    magia[j]+=i;
-                }
-                else
-                {
-                    magia[j]-=i;
-                }
-            }
-        }
-        magia[i]%=mod;
-        magia[i]+=mod;
-        magia[i]%=mod;
-    }
-    sil[0]=1;
-    odw[0]=1;
-    for (int i=1; i<=1000000; i++)
-    {
-        sil[i]=(sil[i-1]*i)%mod;
-    }
-    odw[1000000]=dziel(1, sil[1000000]);
-    for (int i=999999; i; i--)
-    {
-        odw[i]=(odw[i+1]*(i+1))%mod;
-    }
-    //printf("juz\n");
-    scanf("%d%d%d", &n, &k, &q);
-    for (int i=1; i<=n+q; i++)
-    {
-        scanf("%d", &x);
-        for (int j=0; j<dzie[x].size(); j++)
-        {
-            y=dzie[x][j];
-            //printf("mam %d\n", y);
-            wyn+=magia[y]*kom(ile[y], k-1);
-            wyn%=mod;
-            //printf("wyn to %lld    mimo %lld %lld\n", wyn, magia[y], kom(ile[y], k-1));
-            ile[y]++;
-        }
-        if (i>n)
-        printf("%lld\n", wyn);
-    }
-    return 0;
+	scanf("%d%d%d", &n, &k, &q);
+	
+	sil[0]=odw[0]=odw[1]=1;
+	for (int i=1; i<nax; i++)
+		sil[i]=(sil[i-1]*i)%mod;
+	for (int i=2; i<nax; i++)
+		odw[i]=(odw[mod%i]*(mod-mod/i))%mod;
+	for (int i=2; i<nax; i++)
+		odw[i]=(odw[i]*odw[i-1])%mod;
+	
+	debug() << "p";
+	for (int i=1; i<nax; i++)
+		for (int j=i; j<nax; j+=i)
+			dzi[j].push_back(i);
+	debug() << "a";
+	parz[1]=1;
+	for (int i=2; i<nax; i++)
+	{
+		if (!sito[i])
+			for (int j=i; j<nax; j+=i)
+				sito[j]=i;
+		parz[i]=-parz[i/sito[i]];
+		if (!((i/sito[i])%sito[i]))
+			parz[i]=0;
+	}
+	debug() << "b";
+	for (int i=1; i<nax; i++)
+	{
+		for (int j=i; j<nax; j+=i)
+			mobius[j]+=i*parz[j/i];
+		mobius[i]%=mod;
+		mobius[i]+=mod;
+		mobius[i]%=mod;
+	}
+	debug() << "c";
+	for (int i=1; i<=n; i++)
+	{
+		int x;
+		scanf("%d", &x);
+		dodaj(x);
+	}
+	for (int i=1; i<=q; i++)
+	{
+		int x;
+		scanf("%d", &x);
+		dodaj(x);
+		printf("%lld\n", wyn);
+	}
+	
+	return 0;
 }
