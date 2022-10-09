@@ -187,10 +187,14 @@ for i in range(1, 1 + MAX_ITERATIONS):
         else:
             print("[{}][{}]{}/downloaded doesnt exist".format(i, idx, elem))
 
-        print("[{}][{}]Running git add {}/errors".format(i, idx, elem))
-        p = subprocess.Popen(["git", "add", elem + "/errors"], stdout=subprocess.PIPE)
-        out, err = p.communicate()
-        print(out.decode("utf-8").split("\n"))
+        if os.path.exists("{}/errors".format(elem)):
+            print("[{}][{}]Running git add {}/errors".format(i, idx, elem))
+            p = subprocess.Popen(["git", "add", elem + "/errors"], stdout=subprocess.PIPE)
+            out, err = p.communicate()
+            print(out.decode("utf-8").split("\n"))
+        else:
+            print("[{}][{}]{}/errors doesnt exist".format(i, idx, elem))
+
     except:
         pass
 
