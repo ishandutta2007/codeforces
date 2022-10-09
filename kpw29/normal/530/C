@@ -1,0 +1,31 @@
+main =>
+ A = read_int(),
+ B = read_int(),
+ C = read_int(),
+ I = 1,
+WYN = 0,
+ while (I <= 1000)
+ do
+   J = 1,
+   while (J <= 1000)
+   do
+   	if (A * I + B * J == C) then WYN := WYN + 1
+	end,
+   	J := J + 1
+   end,
+   I := I + 1
+end,
+printf("%d\n", WYN),
+I := 1, 
+ while (I <= 1000)
+ do
+   J = 1,
+   while (J <= 1000)
+   do
+   	if (A * I + B * J == C) then printf("%d %d\n", I , J )
+	end,
+   	J := J + 1
+   end,
+   I := I + 1
+end,
+X = A.

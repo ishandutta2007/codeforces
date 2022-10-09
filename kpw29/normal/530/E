@@ -1,0 +1,12 @@
+main =>
+ N = read_int(),
+ D = read_int(),
+ C = N + D,
+ I = 1,
+ POCZ = N - 2,
+ while (I <= POCZ)
+ do
+   printf("1 "), I := I + 1
+ end,
+ printf("2 "),
+ printf("%d", C).

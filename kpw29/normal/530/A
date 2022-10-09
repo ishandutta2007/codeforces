@@ -1,0 +1,18 @@
+main =>
+A := read_real(),
+B := read_real(),
+C := read_real(),
+D2 := (B * B) - (4 * A * C),
+D := sqrt ( D2 ),
+X1 := ((-B) + D ) / (2 * A),
+X2 := ((-B) - D ) / (2 * A),
+if( X1 > X2 ) then
+	X3 := X1,
+	X1 := X2,
+	X2 := X3
+end,
+if (D2 = 0) then
+	printf("%.9lf%n", X1)
+else
+	printf("%.9lf %.9lf%n",X1,X2)
+end.
