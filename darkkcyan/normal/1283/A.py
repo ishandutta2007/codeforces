@@ -1,0 +1,1 @@
+print(*map(lambda line: 60*24 - line[0] * 60 - line[1], (tuple(map(int, input().split())) for i in range(int(input())))), sep='\n')

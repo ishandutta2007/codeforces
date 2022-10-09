@@ -1,0 +1,1 @@
+print(*map(lambda line: (lambda a, b, n, s: 'YES' if s - min(a, s // n) * n <= b else 'NO')(*line), (map(int, input().split()) for i in range(int(input())))), sep='\n')
