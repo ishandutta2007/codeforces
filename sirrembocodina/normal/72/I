@@ -1,0 +1,12 @@
+n := File standardInput readLine asNumber
+x := 0
+l := List clone
+m := n
+while (m != 0,
+    l append(m % 10)
+    m = (m - (m % 10)) / 10
+)
+l foreach(i, a,
+    if ((a != 0) and (n % a == 0), x = x + 1)
+)
+if (x == l size, "happier" print, if(x == 0, "upset" print, "happy" print))
