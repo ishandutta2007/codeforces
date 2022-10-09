@@ -176,7 +176,7 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print(mesage_selection_list)
     if len(to_be_committed_list) == 0:
         print(cyan("[{}]Waiting {} secs....".format(i, WAIT_SEC)))
-        time.sleep(r)
+        time.sleep(WAIT_SEC)
         continue
     freq = { x: mesage_selection_list.count(x) for x in mesage_selection_list }
     print(freq)
