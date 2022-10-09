@@ -1,0 +1,1 @@
+print((lambda n, k: max((lambda f, t: f - max(0, t- k))(*map(int, input().split())) for i in range(n)))(*map(int, input().split())))

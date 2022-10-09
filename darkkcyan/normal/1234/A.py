@@ -1,0 +1,1 @@
+print('\n'.join((lambda n, s: str((s + n - 1) // n))(int(input()), sum(map(int, input().split()))) for _ in range(int(input()))))
