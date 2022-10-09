@@ -1,0 +1,1 @@
+print('YES' if input().strip().replace('144', ' ').replace('14', ' ').replace('1', ' ').replace(' ', '') == '' else 'NO')
