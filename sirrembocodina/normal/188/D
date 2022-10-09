@@ -1,0 +1,24 @@
+iin [0]
+set [5] [0]
+add [5] [5] 1
+
+co print {
+	eq [10] [1] 0
+	if [10]
+		ac
+	cout 42
+	sub [1] [1] 1
+}
+
+co lol {
+	eq [2] [0] 0
+	if [2]
+		ac
+	sub	[1] [5] [0]
+	ca print
+	cout 10
+	sub [0] [0] 1
+}
+
+ca lol
+ac
