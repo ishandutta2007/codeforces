@@ -31,6 +31,7 @@ MIN_WAIT_SEC = 110
 MAX_WAIT_SEC = 220
 MAX_FILES_TO_ADD = 9
 MAX_ITERATIONS = 10001
+SLEEP_BETWEEN_ITERATIONS = 9
 
 
 def compact(lst):
@@ -221,3 +222,4 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print(out.decode("utf-8").split("\n"))
     print(green("[{}]Done git push".format(i)))
     print("=====")
+    time.sleep(SLEEP_BETWEEN_ITERATIONS)
