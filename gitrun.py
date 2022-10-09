@@ -27,9 +27,9 @@ def cyan(text):
 ###################################################################
 
 
-MIN_WAIT_SEC = 11
-MAX_WAIT_SEC = 22
-MAX_FILES_TO_ADD = 4
+MIN_WAIT_SEC = 110
+MAX_WAIT_SEC = 220
+MAX_FILES_TO_ADD = 9
 MAX_ITERATIONS = 10001
 
 
