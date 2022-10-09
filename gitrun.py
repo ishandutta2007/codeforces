@@ -39,7 +39,7 @@ def compact(lst):
 
 for i in range(1, 1 + MAX_ITERATIONS):
     if os.path.exists(".\\datetime(2022"):
-        print("[{}]rm .\\datetime(2022".format(i))
+        print("[{}]Running: rm .\\datetime(2022".format(i))
         p = subprocess.Popen(["rm", "\'.\\datetime(2022\'"], stdout=subprocess.PIPE)
         out, err = p.communicate()
         outlist0 = out.decode("utf-8").split("\n")
