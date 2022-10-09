@@ -222,5 +222,5 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print(out.decode("utf-8").split("\n"))
     print(green("[{}]Done git push".format(i)))
     print("=====")
-    print("Selleping for {}] secs".format(SLEEP_BETWEEN_ITERATIONS))
+    print("Sleeping for {} secs".format(SLEEP_BETWEEN_ITERATIONS))
     time.sleep(SLEEP_BETWEEN_ITERATIONS)
