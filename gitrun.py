@@ -29,9 +29,10 @@ def cyan(text):
 
 MIN_WAIT_SEC = 110
 MAX_WAIT_SEC = 220
+WAIT_SEC = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
 MAX_FILES_TO_ADD = 9
 MAX_ITERATIONS = 10001
-SLEEP_BETWEEN_ITERATIONS = 9
+SLEEP_BETWEEN_ITERATIONS = 19
 
 
 def compact(lst):
@@ -174,8 +175,7 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print("[{}]Mesage selection List:".format(i))
     print(mesage_selection_list)
     if len(to_be_committed_list) == 0:
-        r = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
-        print(cyan("[{}]Waiting {} secs....".format(i, r)))
+        print(cyan("[{}]Waiting {} secs....".format(i, WAIT_SEC)))
         time.sleep(r)
         continue
     freq = { x: mesage_selection_list.count(x) for x in mesage_selection_list }
