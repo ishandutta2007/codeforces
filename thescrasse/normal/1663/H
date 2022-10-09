@@ -1,0 +1,6 @@
+// Hello, World! \
+begin // Hello, World! \
+   writeln('Hello, World!'); // Hello, World! \
+end.
+
+int main() {}
