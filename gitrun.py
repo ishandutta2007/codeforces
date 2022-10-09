@@ -194,7 +194,6 @@ for i in range(1, 1 + MAX_ITERATIONS):
             print(out.decode("utf-8").split("\n"))
         else:
             print("[{}][{}]{}/errors doesnt exist".format(i, idx, elem))
-
     except:
         pass
 
