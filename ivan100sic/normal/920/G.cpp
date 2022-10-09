@@ -1,0 +1,121 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+
+
+const int SITO_MAX = 1000000;
+
+int f[SITO_MAX+1];
+vector<int> prosti;
+
+struct sito {
+	sito() {
+		for (int i=2; i<=SITO_MAX; i++) {
+			if (f[i] == 0) {
+				f[i] = i;
+				prosti.push_back(i);
+			}
+			int j = 0;
+			while (j < (int)prosti.size()) {
+				if (prosti[j] > f[i]) {
+					break;
+				}
+				int x = i * prosti[j];
+				if (x > SITO_MAX) {
+					break;
+				}
+				f[x] = prosti[j];
+				j++;
+			}
+		}
+	}
+} sito_obj_983431;
+
+vector<pair<int, int>> factor_small(int x) {
+	vector<pair<int, int>> v;
+	while (x > 1) {
+		int p = f[x];
+		int c = 0;
+		while (x % p == 0) {
+			x /= p;
+			c++;
+		}
+		v.push_back({p, c});
+	}
+	return v;
+}
+
+vector<pair<int, int>> factor(int x) {
+	vector<pair<int, int>> v;
+	for (int p : prosti) {
+		if (x % p == 0) {
+			int c = 0;
+			while (x % p == 0) {
+				x /= p;
+				c++;
+			}
+			v.push_back({p, c});
+		}			
+	}
+
+	if (x > 1) {
+		v.push_back({x, 1});
+	}
+	return v;
+}
+
+int eulerphi(int x) {
+	auto v = factor_small(x);
+	for (auto q : v) {
+		int p = q.first;
+		x = x / p * (p-1);
+	}
+	return x;
+}
+
+// broj uzajamno prostih koji su 1 <= ? <= x
+int broj_coprime(int x, int mod) {
+	auto v = factor_small(mod);
+	int z = 0;
+	for (int i=0; i<(1 << v.size()); i++) {
+		int p = 1, q = 1;
+		for (int j=0; j<(int)v.size(); j++)
+			if (i & (1 << j)) {
+				p *= v[j].first;
+				q = -q;
+			}
+		z += x / p * q;
+	}
+	return z;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+	cerr.tie(nullptr);
+
+	int t;
+	cin >> t;
+
+	while (t--) {
+		int x, p, k;
+		cin >> x >> p >> k;
+		k += broj_coprime(x, p);
+
+		int l = 0, r = 1e8, o = -1;
+		while (l <= r) {
+			int m = (l+r) >> 1;
+			if (broj_coprime(m, p) >= k) {
+				o = m;
+				r = m - 1;
+			} else {
+				l = m + 1;
+			}
+		}
+		cout << o << '\n';
+	}
+}
