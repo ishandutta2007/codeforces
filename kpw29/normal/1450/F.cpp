@@ -64,43 +64,64 @@ inline void addmod(int &x, int val) {
 	while (x >= mod) x -= mod;
 }
 
-const int maxn = 305;
+const int maxn = 100100;
+int tab[maxn];
 ll n, m, k;
+vector <PII> dwojki;
+ll jkn[maxn];
+ll dkn[maxn];
 
-int tab[maxn][maxn];
-int value[3];
 void solveone() {
 	cin >> n;
-	FOR(i, 1, n+1)
-		FOR(j, 0, n+1) tab[i][j] = 0;
-	FOR(i, 0, 2) value[i] = 0;
+	map <int, int> M;
+	bool possible = true;
+	dwojki.clear();
 	
-	int ka = 0;
-	FOR(i, 1, n) {
-		string s;
-		cin >> s;
-		FOR(j, 1, n) {
-			if (s[j - 1] == '.') tab[i][j] = 0;
-			if (s[j - 1] == 'X') tab[i][j] = 1, ++ka, value[(i + j) % 3]++;
-			if (s[j - 1] == 'O') tab[i][j] = -1, ++ka;
-		}
-	}
-	int mn = 0;
-	if (value[1] < value[mn]) mn = 1;
-	if (value[2] < value[mn]) mn = 2;
+	FOR(i, 1, n) cin >> tab[i], M[tab[i]]++, jkn[i] = 0, dkn[i] = 0;
 	
-	FOR(i, 1, n)
-		FOR(j, 1, n) {
-			if (tab[i][j] == 1 && (i + j) % 3 == mn) tab[i][j] = -1;
+	vector <int> elem = {tab[1]};
+	
+	for (auto&u : M) {
+		if (u.e2 > (n + 1) / 2) possible = false;
 	}
 	
-	FOR(i, 1, n) {
-		FOR(j, 1, n) {
-			if (tab[i][j] == 1) cout << "X";
-			if (tab[i][j] == -1) cout << "O";
-			if (tab[i][j] == 0) cout << ".";
+	FOR(i, 2, n) {
+		if (tab[i] == tab[i-1]) {
+			dwojki.push_back({elem[0], elem.back()});
+			elem = {tab[i]};
 		}
-		cout << "\n";
+		else {
+			elem.push_back(tab[i]);
+		}
+	}
+	
+	dwojki.push_back({elem[0], elem.back()});
+	
+	
+	//debug(dwojki);
+	if (!possible) {
+		cout << "-1\n";
+	}
+	else {
+		for (auto u : dwojki) {
+			if (u.e1 == u.e2) {
+				dkn[u.e1]++;
+			}
+			else {
+				jkn[u.e1]++;
+				jkn[u.e2]++;
+			}
+		}
+		
+		int dodaj = 0;
+		for (int i=1; i<=n; ++i) {
+			int tych = dkn[i];
+			int tamtych = dwojki.size() - dkn[i] - jkn[i];
+			
+			dodaj = max(dodaj, tych - tamtych - 1);
+		}
+		
+		cout << dwojki.size() + dodaj - 1 << "\n";
 	}
 }
 
