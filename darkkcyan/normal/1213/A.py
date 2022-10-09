@@ -1,0 +1,1 @@
+print((lambda n, k: min(n - k, k))(int(input()), sum(map(lambda s: int(s) % 2, input().split()))))
