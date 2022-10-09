@@ -163,22 +163,22 @@ for i in range(1, 1 + MAX_ITERATIONS):
 
     # print(finalfilelist)
 
-    mesage_selection_list = []
+    message_selection_list = []
     for elem in to_be_committed_list:
         try:
-            mesage_selection_list.append(
+            message_selection_list.append(
                 elem.replace("\tnew file:", "").strip().split("/")[0]
             )
         except Exception as e:
             pass
 
-    print("[{}]Mesage selection List:".format(i))
-    print(mesage_selection_list)
+    print("[{}]Message selection List:".format(i))
+    print(message_selection_list)
     if len(to_be_committed_list) == 0:
         print(cyan("[{}]Waiting {} secs....".format(i, WAIT_SEC)))
         time.sleep(WAIT_SEC)
         continue
-    freq = { x: mesage_selection_list.count(x) for x in mesage_selection_list }
+    freq = { x: message_selection_list.count(x) for x in message_selection_list }
     print(freq)
     max_key = max(freq, key=freq.get)
 
