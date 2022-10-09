@@ -38,6 +38,13 @@ def compact(lst):
 
 
 for i in range(1, 1 + MAX_ITERATIONS):
+    print("[{}]rm .\\datetime(2022".format(i))
+    
+    p = subprocess.Popen(["rm", "\'.\\datetime(2022\'"], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    outlist1 = out.decode("utf-8").split("\n")
+    pp.pprint(outlist1)
+
     print("[{}]Initializing git status1".format(i))
     p = subprocess.Popen(["git", "status"], stdout=subprocess.PIPE)
     out, err = p.communicate()
