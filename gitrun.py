@@ -3,6 +3,7 @@ import time
 import random
 import pprint as pp
 from termcolor import colored
+import os
 
 ###################################################################
 
@@ -176,12 +177,15 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print(max_key)
     try:
         elem = max_key.strip()
-        print("[{}][{}]Running git add {}/downloaded".format(i, idx, elem))
-        p = subprocess.Popen(
-            ["git", "add", elem + "/downloaded"], stdout=subprocess.PIPE
-        )
-        out, err = p.communicate()
-        print(out.decode("utf-8").split("\n"))
+        if os.path.exists("{}/downloaded".format(elem)):
+            print("[{}][{}]Running git add {}/downloaded".format(i, idx, elem))
+            p = subprocess.Popen(
+                ["git", "add", elem + "/downloaded"], stdout=subprocess.PIPE
+            )
+            out, err = p.communicate()
+            print(out.decode("utf-8").split("\n"))
+        else:
+            print("[{}][{}]{}/downloaded doesnt exist".format(i, idx, elem))
 
         print("[{}][{}]Running git add {}/errors".format(i, idx, elem))
         p = subprocess.Popen(["git", "add", elem + "/errors"], stdout=subprocess.PIPE)

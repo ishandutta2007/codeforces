@@ -1,0 +1,134 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define e1 first
+#define e2 second
+#define pb push_back
+#define mp make_pair
+#define boost {ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0); }
+#define eb emplace_back
+#define OUT(x) {cout << x; exit(0); }
+#define FOR(i,a,b) for(int i=(a);i<=(b);++i)
+#define scanf(...) scanf(__VA_ARGS__)?:0
+typedef long long int ll;
+typedef unsigned long long ull;
+typedef pair <int, int> PII;
+typedef pair <ll, ll> PLL;
+typedef pair <PLL, int> PLLI;
+typedef pair <PII, PII> PP;
+typedef pair <PII, int> PPI;
+typedef pair <int, PII> PIP;
+typedef pair <ll, int> PLI;
+typedef unsigned int ui;
+const int inf = 1e9+9;
+const ll MOD = 1e9+696969;
+#ifdef DEBUG
+template<class T> int size(T &&x) {
+	return int(x.size());
+}
+template<class A, class B> ostream& operator<<(ostream &out, const pair<A, B> &p) {
+	return out << '(' << p.first << ", " << p.second << ')';
+}
+template<class T> auto operator<<(ostream &out, T &&x) -> decltype(x.begin(), out) {
+	out << '{';
+	for(auto it = x.begin(); it != x.end(); ++it)
+		out << *it << (it == prev(x.end()) ? "" : ", ");
+	return out << '}';
+}
+void dump() {}
+template<class T, class... Args> void dump(T &&x, Args... args) {
+	cerr << x << ";  ";
+	dump(args...);
+}
+#endif
+#ifdef DEBUG
+  struct Nl{~Nl(){cerr << '\n';}};
+# define debug(x...) cerr << (strcmp(#x, "") ? #x ":  " : ""), dump(x), Nl(), cerr << ""
+#else
+# define debug(...) 0 && cerr
+#endif
+mt19937_64 rng(0);
+int random(int l, int r) {
+	return uniform_int_distribution<int>(l, r)(rng);
+}
+
+#define rep(i, a, b) for(int i = a; i < (b); ++i)
+#define trav(a, x) for(auto& a : x)
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+typedef long long LL;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+const LL INF = 1e18;
+const int maxn = 1000100;
+char ans[105][105];
+
+void solve() {
+	int n, m, k;
+	cin >> n >> m >> k;
+	vector <string> v(n+1);
+	
+	FOR(i, 1, n) cin >> v[i];
+	int rice = 0;
+	FOR(i, 1, n) {
+		rep(j, 0, m) if (v[i][j] == 'R') ++rice;
+	}
+	
+	vector <int> ch(k, 0);
+	int each = (rice / k);
+	rep(i, 0, k) ch[i] = each;
+	rice -= k * each;
+	rep(i, 0, k) {
+		if (rice > 0) {
+			ch[i]++;
+			rice--;
+		}
+	}
+	
+	vector <char> co = {};
+	FOR(i, 0, 9) co.pb((char)(i + '0'));
+	FOR(i, 0, 25) co.pb((char)(i + 'a'));
+	FOR(i, 0, 25) co.pb((char)(i + 'A'));
+	int curr = 0;
+	
+	FOR(i, 1, n) {
+		if (i % 2 == 1) {
+			for (int j=0; j<m; ++j) {
+				if (v[i][j] == 'R') {
+					if (ch[curr] == 0) {
+						++curr;
+					}
+					--ch[curr];
+				}
+				ans[i][j] = co[curr];
+			}
+			
+		}
+		else {
+			for (int j=m-1; j>=0; --j) {
+				if (v[i][j] == 'R') {
+					if (ch[curr] == 0) {
+						++curr;
+					}
+					--ch[curr];
+				}
+				ans[i][j] = co[curr];
+			}
+		}
+	}
+	
+	FOR(i, 1, n) {
+		rep(j, 0, m) cout << ans[i][j];
+		cout << "\n";
+	}
+}
+
+int main() {
+	boost;
+	int tests;
+	//tests = 1;
+	cin >> tests;
+	while (tests--) {
+		solve();
+	}
+}
