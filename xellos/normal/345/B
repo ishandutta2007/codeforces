@@ -1,0 +1,45 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO;
+With Ada.Strings; Use Ada.Strings;
+With Ada.Float_Text_IO;
+
+procedure prog is
+
+a,N,x,y,ans,akt : Natural;
+s : array(1..200) of Natural;
+
+begin
+    Ada.Integer_Text_IO.Get(N);
+    ans :=0; a :=200;
+    
+    for b in 2..N LOOP
+        -- preved na string v baze
+        for i in 1..a LOOP
+            s(i) :=0; end LOOP;
+        a :=1; x := N;
+        while x > 0 LOOP
+            y :=x mod b;
+            x :=x/b;
+            IF y = 0 THEN
+                s(a) :=0;
+                a :=a+1;
+                end IF;
+            while y > 0 LOOP
+                s(a) :=y mod 10;
+                y :=y/10;
+                a :=a+1;
+                end LOOP;
+            end LOOP;
+        akt :=0;
+        for i in 2..a-1 LOOP
+            IF (s(i) = 1) AND (s(i-1) = 3) THEN
+                akt := 1; end IF;
+            end LOOP;
+        IF (akt = 1) AND (b = 10) THEN
+            Ada.Integer_Text_IO.Put(-1, width => 0);
+            return;
+            end IF;
+        ans :=ans+akt;
+        end LOOP;
+    Ada.Integer_Text_IO.Put(ans, width => 0);
+end prog;

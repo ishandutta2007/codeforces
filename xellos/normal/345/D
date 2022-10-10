@@ -1,0 +1,48 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO;
+With Ada.Strings; Use Ada.Strings;
+With Ada.Float_Text_IO;
+
+procedure prog is
+
+N,ans,Fk,Fz,M : Natural;
+A : Array(1..100,1..100) of Integer; -- susedia
+B : Array(1..100) of Integer; -- dostalo sa to k nemu?
+Q : Array(1..4247) of Integer; -- 
+s : String(1..100);
+
+begin
+    Ada.Integer_Text_IO.Get(N);
+    Get_Line(s,M);
+    FOR i in 1..N LOOP
+        Get_Line(s,N);
+        FOR j in 1..N LOOP
+            IF s(j) = '0' THEN A(i,j) :=0; end IF;
+            IF s(j) = '1' THEN A(i,j) :=1; end IF;
+        end LOOP;
+    end LOOP;
+    
+    Fk :=1; -- koniec fronty
+    Fz :=1; -- zaciatok fronty
+    Q(1) :=1;
+    FOR i in 1..N LOOP
+        B(i) :=0; end LOOP;
+    B(1) :=1;
+
+    WHILE Fk >= Fz LOOP
+        FOR i in 1..N-1 LOOP
+            IF (A(Q(Fz),i) = 1) AND (B(i) = 0) THEN
+                Fk :=Fk+1;
+                Q(Fk) :=i;
+                B(i) :=1;
+                end IF;
+            end LOOP;
+        Fz :=Fz+1;
+    end LOOP;
+    
+    ans :=0;
+    FOR i in 1..N-1 LOOP
+        IF (A(i,N) = 1) AND (B(i) = 1) THEN ans :=ans+1; end IF;
+        end LOOP;
+    Ada.Integer_Text_IO.Put(ans, width => 0);
+end prog;

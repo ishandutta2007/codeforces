@@ -1,0 +1,41 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO; Use Ada.Integer_Text_IO;
+With Ada.Strings; Use Ada.Strings;
+With Ada.Float_Text_IO;
+
+procedure prog is
+
+s : String (1..50);
+N : Natural;
+p : Float;
+ans : Float;
+A : array (1..51,1..51) of Float;
+
+begin
+	Get_Line(s,N);
+	Ada.Float_Text_IO.get(p);
+	FOR i in 1..N+1 LOOP
+		FOR j in 1..51 LOOP
+			A(i,j) :=0.0;
+			end LOOP;
+		end LOOP;
+	A(1,1) :=1.0;
+	
+	FOR i in 1..N LOOP
+		FOR j in 1..50 LOOP
+			IF s(i) = '1' THEN A(i+1,j+1) :=A(i+1,j+1)+A(i,j); end IF;
+			IF s(i) = '0' THEN A(i+1,j) :=A(i+1,j)+A(i,j); end IF;
+			IF s(i) = '?' THEN 
+				A(i+1,j+1) :=A(i+1,j+1)+p*A(i,j);
+				A(i+1,j) :=A(i+1,j)+(1.0-p)*A(i,j); 
+				end IF;
+			end LOOP;
+		end LOOP;
+	
+	ans :=0.0;
+	FOR i in 1..51 LOOP
+		ans :=ans+float(i-1)*A(N+1,i);
+		end LOOP;
+	ans :=ans/float(N);
+	Ada.Float_Text_IO.put(ans, Fore => 0, Aft => 5, Exp => 0);
+end prog;
