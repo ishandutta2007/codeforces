@@ -1,0 +1,1 @@
+(function(){var a,b,c,d;a=readline().split(" ").map(function(a){return+a});c=a[0];d=a[1];b=readline().split(" ").map(function(a){return+a});a=b[0];b=b[1];a-=c;b-=d;c=d=0;print(Math.max(Math.abs(a),Math.abs(b)))}).call(this);
