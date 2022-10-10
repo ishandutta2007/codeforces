@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+int main(){
+	cin.tie(0)->sync_with_stdio(0);
+	cin.exceptions(ios::badbit | ios::failbit);
+	auto __solve_tc = [&](int __tc_num){
+		int n, m;
+		cin >> n >> m;
+		vector<vector<int>> len(n, vector<int>(m));
+		for(auto i = 0; i < n; ++ i){
+			for(auto j = 0; j < m; ++ j){
+				cin >> len[i][j];
+			}
+		}
+		vector<vector<int>> res(n, vector<int>(m, -1));
+		for(auto ind = 0; ind < m; ++ ind){
+			int mi = -1, mj = -1;
+			for(auto i = 0; i < n; ++ i){
+				for(auto j = 0; j < m; ++ j){
+					if(~len[i][j] && (!~mi || len[mi][mj] > len[i][j])){
+						mi = i, mj = j;
+					}
+				}
+			}
+			res[mi][ind] = len[mi][mj];
+			len[mi][mj] = -1;
+			for(auto i = 0; i < n; ++ i){
+				if(mi != i){
+					res[i][ind] = *max_element(len[i].begin(), len[i].end());
+					*max_element(len[i].begin(), len[i].end()) = -1;
+				}
+			}
+		}
+		for(auto x: res){
+			for(auto y: x){
+				cout << y << " ";
+			}
+			cout << "\n";
+		}
+		cout << "\n";
+		return 0;
+	};
+	int __tc_cnt;
+	cin >> __tc_cnt;
+	for(auto __tc_num = 0; __tc_num < __tc_cnt; ++ __tc_num){
+		__solve_tc(__tc_num);
+	}
+	return 0;
+}
+
+/*
+
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                    //
+//                                   Coded by Aeren                                   //
+//                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////
