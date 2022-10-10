@@ -1,0 +1,30 @@
+co calc
+{
+    cin [1]
+    eq [0] [1] -1
+    gt [5] [9] 0
+    if [5] ac
+    if [0] ac
+    eq [0] [1] 72
+    eq [2] [1] 81
+    eq [3] [1] 57
+    if [0] add [9] [9] 1
+    if [2] add [9] [9] 1
+    if [3] add [9] [9] 1
+}
+
+co calc2
+{
+    eq [0] [9] 0
+    gt [1] [9] 0
+    if [0] cout 78
+    if [0] cout 79
+    if [1] cout 89
+    if [1] cout 69
+    if [1] cout 83
+    ac
+}
+
+ca calc
+ca calc2
+ac
