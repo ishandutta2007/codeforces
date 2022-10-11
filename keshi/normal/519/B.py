@@ -1,0 +1,5 @@
+input()
+s=sum(map(int,input().split()))
+d=sum(map(int,input().split()))
+print(s-d)
+print(d-sum(map(int,input().split())))
