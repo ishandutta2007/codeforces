@@ -1,11 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
+
 const int MX = 32000;
- 
+
 int t, n, chk[MX];
 vector<int> pr;
- 
+
 bool is_prime(int u) {
     for (int &v : pr) {
         if (v < u && u % v == 0) {
@@ -16,7 +16,7 @@ bool is_prime(int u) {
     }
     return true;
 }
- 
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
