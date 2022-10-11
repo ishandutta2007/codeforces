@@ -64,23 +64,23 @@ int main() {
     fill(pot + 1, pot + t + 1, INF);
     for (int i = 1; i <= n; i++) {
         cin >> u;
-        add_edge(s, i, 1, -1);
         if (lm[u % 7] != 0) {
-            add_edge(lm[u % 7] + n, i, 1, -1);
+            add_edge(lm[u % 7] + n, i, 1, 0);
             add_edge(lm[u % 7], i, INF, 0);
         }
         lm[u % 7] = i;
         if (lv[u - 1] != 0) {
-            add_edge(lv[u - 1] + n, i, 1, -1);
+            add_edge(lv[u - 1] + n, i, 1, 0);
         }
         if (lv[u + 1] != 0) {
-            add_edge(lv[u + 1] + n, i, 1, -1);
+            add_edge(lv[u + 1] + n, i, 1, 0);
         }
         if (lv[u] != 0) {
             add_edge(lv[u], i, INF, 0);
         }
         lv[u] = i;
-        add_edge(i, i + n, 1, 0);
+        add_edge(s, i, 1, 0);
+        add_edge(i, i + n, 1, -1);
         add_edge(i + n, t, 1, 0);
     }
     for (int i = 0; i < 4; i++) {
