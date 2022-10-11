@@ -1,0 +1,200 @@
+#include <bits/stdc++.h>
+#include <chrono> 
+ 
+using namespace std;
+using namespace std::chrono; 
+ 
+// #pragma GCC target ("avx2")
+// #pragma GCC optimization ("O3")
+// #pragma GCC optimization ("unroll-loops")
+// #pragma optimization_level 3
+// #pragma GCC optimize("Ofast,no-stack-protector,unroll-loops,fast-math,O3")
+// #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+ 
+#define f0r(a, b) for (long long a = 0; a < (b); a++)
+#define f1r(a, b, c) for (long long a = (b); a < (c); a++)
+#define f0rd(a, b) for (long long a = (b); a >= 0; a--)
+#define f1rd(a, b, c) for (long long a = (b); a >= (c); a--)
+#define ms(arr, v) memset(arr, v, sizeof(arr))
+#define pb push_back
+#define io {ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);}
+#define mp make_pair
+#define f first
+#define s second
+#define presum(p, a, n) {p[0] = a[0]; for (int i = 1; i < (n); i++) p[i] = a[i] + p[i-1];}
+#define all(v) v.begin(), v.end()
+#define getunique(v) {sort(all(v)); v.erase(unique(all(v)), v.end());}
+#define readgraph(list, edges) for (int i = 0; i < edges; i++) {int a, b; cin >> a >> b; a--; b--; list[a].pb(b); list[b].pb(a);}
+#define ai(a, n) for (int ele = 0; ele < n; ele++) cin >> a[ele];
+#define ain(a, lb, rb) for (int ele = lb; ele <= rb; ele++) cin >> a[ele];
+#define ao(a, n) {for (int ele = 0; ele < n; ele++) { if (ele) cout << " "; cout << a[ele]; } cout << '\n';}
+#define aout(a, lb, rb) {for (int ele = lb; ele <= rb; ele++) { if (ele > lb) cout << " "; cout << a[ele]; } cout << '\n';}
+typedef long long ll;
+typedef double ld;
+typedef long double lld;
+typedef unsigned long long ull;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<pii> vpi;
+typedef vector<pll> vpl;
+ 
+template<typename A> ostream& operator<<(ostream &cout, vector<A> const &v);
+template<typename A, typename B> ostream& operator<<(ostream &cout, pair<A, B> const &p) { return cout << "(" << p.f << ", " << p.s << ")"; }
+template<typename A> ostream& operator<<(ostream &cout, vector<A> const &v) {
+  cout << "["; for(int i = 0; i < v.size(); i++) {if (i) cout << ", "; cout << v[i];} return cout << "]";
+}
+template<typename A, typename B> istream& operator>>(istream& cin, pair<A, B> &p) {
+  cin >> p.first;
+  return cin >> p.second;
+}
+ 
+// template<typename A, typename B> ll max(A x, B y) {
+//   return x > y ? x : y;
+// }
+// template<typename A, typename B> ll min(A x, B y) {
+//   return x < y ? x : y;
+// }
+ 
+mt19937 rng(steady_clock::now().time_since_epoch().count());
+/* usage - just do rng() */
+ 
+void usaco(string filename) {
+  // #pragma message("be careful, freopen may be wrong")
+	freopen((filename + ".in").c_str(), "r", stdin);
+	freopen((filename + ".out").c_str(), "w", stdout);
+}
+
+const lld pi = 3.14159265358979323846;
+const ll mod = 1000000007;
+// const ll mod = 998244353;
+
+/* geeksforgeeks */
+const int MAX_VERTEX = 505; 
+  
+// Arr to represent parent of index i 
+int Arr[MAX_VERTEX]; 
+  
+// Size to represent the number of nodes 
+// in subgxrph rooted at index i 
+int size[MAX_VERTEX]; 
+
+int cc;
+  
+// set parent of every node to itself and 
+// size of node to one 
+void initialize(int n) 
+{ 
+    for (int i = 0; i < n; i++) { 
+        Arr[i] = i; 
+        size[i] = 1; 
+    } 
+} 
+  
+// Each time we follow a path, find function 
+// compresses it further until the path length 
+// is greater than or equal to 1. 
+int find(int i) 
+{ 
+    // while we reach a node whose parent is 
+    // equal to itself 
+    while (Arr[i] != i) 
+    { 
+        Arr[i] = Arr[Arr[i]]; // Skip one level 
+        i = Arr[i]; // Move to the new level 
+    } 
+    return i; 
+} 
+  
+// A function that does union of two nodes x and y 
+// where xr is root node  of x and yr is root node of y 
+void _union(int xr, int yr) 
+{ 
+    xr = find(xr);
+    yr = find(yr);
+    if (xr == yr) return;
+    --cc;
+    if (size[xr] < size[yr]) // Make yr parent of xr 
+    { 
+        Arr[xr] = Arr[yr]; 
+        size[yr] += size[xr]; 
+    } 
+    else // Make xr parent of yr 
+    { 
+        Arr[yr] = Arr[xr]; 
+        size[xr] += size[yr]; 
+    } 
+} 
+
+// ll n, m, k, q, Q, T, l, r, x, y, z;
+// ll a[1000005];
+// ll b[1000005];
+// ll c[1000005];
+// string s, t;
+// ll ans = 0;
+
+lld g1, g2, w, x, y, r;
+
+void end(lld ans) {
+  cout << setprecision(13) << fixed << ans << endl;
+  exit(0);
+}
+
+lld dist(lld x1, lld x2, lld y1, lld y2) {
+  return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
+bool toohigh(lld pos) {
+  lld jump = x * (w - y) / (x - pos);
+  if (jump >= w - y) jump = w - y - (jump - (w - y));
+
+  lld yp = y + jump;
+  // cout << yp << endl;
+  if (yp + r > g2) return true;
+  if (yp - r < g1) return false;
+
+  lld l = 0, rr = pos - 1e-9;
+  f0r(it, 100) {
+    lld m1 = l + (rr - l) / 3, m2 = rr - (rr - l) / 3;
+
+    lld d1 = dist(0, m1, g2, w - (pos - m1) * (w - y) / (x - pos));
+    lld d2 = dist(0, m2, g2, w - (pos - m2) * (w - y) / (x - pos));
+    // cout << d1 << " " << m1 << " " << w - (w - y) / (pos - m1) << endl;
+
+    if (d1 < d2) {
+      if (d1 < r) return true;
+      rr = m2;
+    } else {
+      if (d2 < r) return true;
+      l = m1;
+    }
+  }
+
+  end(pos);
+  return true;
+}
+
+int main() {
+  io;
+  // freopen("case", "r", stdin);
+  // freopen("test.txt", "r", stdin);
+  // freopen("case", "w", stdout);
+  // freopen("file.in", "r", stdin);
+ 
+  // usaco("file");
+ 
+  
+  cin >> g1 >> g2 >> w >> x >> y >> r;
+  w -= r;
+
+  lld l = 0, rr = x - 1e-9;
+  f0r(it, 100) {
+    lld m = (l + rr) / 2;
+    // cout << m << " ";
+    if (toohigh(m)) l = m;
+    else rr = m;
+  }
+
+  cout << -1 << endl;
+}
