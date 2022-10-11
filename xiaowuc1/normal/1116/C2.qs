@@ -1,0 +1,127 @@
+namespace Solution {
+    // H rotates zero to (0 + 1) and one to (0 - 1)
+    // X flips value (0 to 1, 1 to 0)
+    // (Controlled X) takes in (control array, qubit) and flips qubit iff all qubits in control array are true - https://codeforces.com/contest/1115/submission/50621387
+    // Z flips sign (0 to 0, 1 to -1)
+    // CNOT(a, b) flips b if a is true (entanglement)
+    // CNOT can be repeated twice to undo the entanglement - https://codeforces.com/contest/1001/submission/50621093
+    // M measures the qubit (collapse)
+    // measuring one qubit in an entangled collection collapses all other qubits
+
+    // Do not corrupt input qubits! https://codeforces.com/contest/1115/submission/50621453
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Extensions.Diagnostics;
+    open Microsoft.Quantum.Extensions.Math;
+    // to get Pi, use PI()
+    open Microsoft.Quantum.Extensions.Testing;
+
+    // this dumps the state of the machine
+    operation DM(): Unit {
+        DumpMachine("");
+    }
+
+    // this sets the given qubit to be equal to the value "desired"
+    // NB: desired must be either zero or one
+    operation Set (desired: Result, q1: Qubit) : Unit {
+        let current = M(q1);
+        if(desired != current) {
+            X(q1);
+        }
+    }
+
+    operation AndOracle(x : Qubit[], y : Qubit) : Unit {
+        // returns 1 iff everything in x is true
+        body (...) {
+            (Controlled X)(x, y);
+        }
+        adjoint auto;
+    }
+
+    operation OrOracle(x : Qubit[], y : Qubit) : Unit {
+        body (...) {
+            let n = Length(x);
+            for(i in 0..n-1) {
+                // negate them
+                X(x[i]);
+            }
+            X(y);
+            (Controlled X)(x, y);
+            for(i in 0..n-1) {
+                // negate them back
+                X(x[i]);
+            }
+        }
+        adjoint auto;
+    }
+
+    operation ComputeAndOracle(x: Qubit[], z : Qubit, k : Int) : Unit {
+        // period k, z
+        body (...) {
+            let n = Length(x);
+            using(qubits = Qubit[n-k]) {
+                for(i in 0..n-k-1) {
+                    X(qubits[i]);
+                    CNOT(x[i], qubits[i]);
+                    CNOT(x[i+k], qubits[i]);
+                }
+                AndOracle(qubits, z);
+                for(i in 0..n-k-1) {
+                    X(qubits[i]);
+                    CNOT(x[i], qubits[i]);
+                    CNOT(x[i+k], qubits[i]);
+                }
+            }
+        }
+        adjoint auto;
+    }
+
+    operation Solve (x : Qubit[], y : Qubit) : Unit {
+        body (...) {
+            let n = Length(x);
+            if(n == 7) {
+                using(qubits = Qubit[3]) {
+                    ComputeAndOracle(x, qubits[0], 4);
+                    ComputeAndOracle(x, qubits[1], 5);
+                    ComputeAndOracle(x, qubits[2], 6);
+                    OrOracle(qubits, y);
+                    ComputeAndOracle(x, qubits[0], 4);
+                    ComputeAndOracle(x, qubits[1], 5);
+                    ComputeAndOracle(x, qubits[2], 6);
+                }
+            }
+            elif(n == 6) {
+                using(qubits = Qubit[3]) {
+                    ComputeAndOracle(x, qubits[0], 3);
+                    ComputeAndOracle(x, qubits[1], 4);
+                    ComputeAndOracle(x, qubits[2], 5);
+                    OrOracle(qubits, y);
+                    ComputeAndOracle(x, qubits[0], 3);
+                    ComputeAndOracle(x, qubits[1], 4);
+                    ComputeAndOracle(x, qubits[2], 5);
+                }
+            }
+            else {
+                using(qubits = Qubit[n-1]) {
+                    for(len in 1..n-1) {
+                        ComputeAndOracle(x, qubits[len-1], len);
+                    }
+                    OrOracle(qubits, y);
+                    for(len in 1..n-1) {
+                        ComputeAndOracle(x, qubits[len-1], len);
+                    }
+                }
+            }
+        }
+        adjoint auto;
+    }
+
+    // Message($"{variable_name_for_debugging}");
+    operation RunQsharp() : Bool {
+
+        using(qubits = Qubit[1]) {
+        }
+        return true;
+    }
+}
