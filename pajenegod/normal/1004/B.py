@@ -1,0 +1,1 @@
+print('01'*500)[:int(raw_input().split()[0])]

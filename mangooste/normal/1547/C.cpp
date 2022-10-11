@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+using ll = long long;
+using ld = long double;
+
+#define all(a) begin(a), end(a)
+#define rall(a) rbegin(a), rend(a)
+#define len(a) ((int)((a).size()))
+
+template<typename A, typename B>
+ostream& operator<<(ostream &out, pair<A, B> p) { return out << '(' << p.first << ", " << p.second << ')'; }
+
+template<typename A, typename B = typename enable_if<!is_same<A, string>::value, typename A::value_type>::type>
+ostream& operator<<(ostream &out, A vec) { out << '{'; string sep; for (B x : vec) out << sep << x, sep = ", "; return out << '}'; }
+
+void dbg_print() { cerr << endl; }
+template<typename A, typename... B> void dbg_print(A a, B... b) { cerr << ' ' << a; dbg_print(b...); }
+
+#ifdef LOCAL
+    #define dbg(...) cerr << '#' << __LINE__ << " [" << #__VA_ARGS__ << "]:", dbg_print(__VA_ARGS__)
+#else
+    #define dbg(...)
+#endif
+
+void solve() {
+    int bal, n, m;
+    cin >> bal >> n >> m;
+    vector<int> a(n);
+    for (auto &x : a)
+        cin >> x;
+
+    vector<int> b(m);
+    for (auto &x : b)
+        cin >> x;
+
+    vector<int> answer;
+    answer.reserve(n + m);
+
+    int pos_a = 0, pos_b = 0;
+    while (pos_a < n || pos_b < m) {
+        if (pos_a != n && a[pos_a] == 0) {
+            answer.push_back(0);
+            pos_a++;
+            bal++;
+            continue;
+        }
+        if (pos_b != m && b[pos_b] == 0) {
+            answer.push_back(0);
+            pos_b++;
+            bal++;
+            continue;
+        }
+
+        if (pos_a != n && (pos_b == m || a[pos_a] < b[pos_b])) {
+            if (a[pos_a] > bal) {
+                cout << "-1\n";
+                return;
+            }
+            answer.push_back(a[pos_a]);
+            pos_a++;
+        } else {
+            if (b[pos_b] > bal) {
+                cout << "-1\n";
+                return;
+            }
+            answer.push_back(b[pos_b]);
+            pos_b++;
+        }
+    }
+
+    for (auto x : answer)
+        cout << x << ' ';
+
+    cout << '\n';
+}
+
+int main() {
+    ios::sync_with_stdio(false), cin.tie(nullptr);
+
+    int tests;
+    cin >> tests;
+    while (tests--)
+        solve();
+}
