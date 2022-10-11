@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define f0r(a, b) for (a = 0; a < b; a++)
+#define f1r(a, b, c) for (a = b; a < c; a++)
+#define ms(arr, v) memset(arr, v, sizeof(arr))
+#define pb push_back
+#define io ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define mp make_pair
+#define f first
+#define s second
+typedef long long ll;
+typedef double ld;
+typedef pair<int, int> pii;
+ll i, j;
+
+ll n, q, Q, T, m, k, r, x;
+ll a[200001];
+ll ans = 0;
+
+int main() {
+  io;
+  cin >> n;
+  f0r(i, n) {cin >> a[i];}
+  ll run = 1e9 + 3;
+  for (int i = n-1; i >= 0; i--) {
+    run = min(run - 1, a[i]);
+    run = max(run, 0LL);
+    ans += run;
+  }
+  cout << ans << endl;
+}
