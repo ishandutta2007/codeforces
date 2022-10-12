@@ -1,0 +1,1 @@
+(lambda R,C:[(lambda N,n:(lambda m:print(sum(C(p,q)for p,q in zip(m,m[1:]))-max((C(p,q)+C(q,r)+C(r,s)-min(C(r+q,s),C(p,q+r))for p,q,r,s in zip(m,m[1:],m[2:],m[3:])),default=0)))([0,*(n[i-1]-k for i,k in enumerate(n)if 0<i),0]))(int(R()),list(map(int,R().split())))for t in range(int(R()))])(__import__('sys').stdin.readline,lambda a,b:a*b<0)
