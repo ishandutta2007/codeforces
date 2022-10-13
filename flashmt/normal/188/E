@@ -1,0 +1,40 @@
+co loop
+{
+	set [0] 0
+	cin [0]
+	gt [1] [0] 126
+	if [1] ac
+	lt [1] [0] 33
+	if [1] ac
+	eq [1] [0] 72
+	eq [2] [0] 81
+	eq [3] [0] 57
+	add [9] [9] [1]
+	add [9] [9] [2]
+	add [9] [9] [3]
+	gt [8] [9] 0
+	if [8] ac
+}
+
+co ok
+{
+	cout 89
+	cout 69
+	cout 83
+	ac
+}
+
+co notok
+{
+	cout 78
+	cout 79
+	ac
+}
+
+set [9] 0
+ca loop
+gt [8] [9] 0
+eq [7] [9] 0
+if [8] ca ok
+if [7] ca notok
+ac
