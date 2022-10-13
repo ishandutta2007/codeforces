@@ -1,0 +1,108 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.io.*;
+import java.math.*;
+import java.text.*; 
+import java.util.*;
+import java.util.regex.*;
+
+/*
+  br = new BufferedReader(new FileReader("input.txt"));
+  pw = new PrintWriter(new BufferedWriter(new FileWriter("output.txt")));
+  br = new BufferedReader(new InputStreamReader(System.in));
+  pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+ */
+
+
+public class Main {
+	private static BufferedReader br;
+	private static StringTokenizer st;
+	private static PrintWriter pw;
+
+	public static void main(String[] args) throws IOException {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+		//int qq = 1;
+		int qq = Integer.MAX_VALUE;
+		//int qq = readInt();
+		for(int casenum = 1; casenum <= qq; casenum++) {
+			TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+			int n = readInt();
+			int maxDiff = readInt();
+			int minSize = readInt();
+			int[] list = new int[n];
+			for(int i = 0; i < n; i++) {
+				list[i] = readInt();
+			}
+			int[] dp = new int[n+1];
+			Arrays.fill(dp, 1 << 25);
+			dp[0] = 0;
+			int left = 0;
+			for(int i = 0; i < n; i++) {
+				change(map, list[i], 1);
+				while(!map.isEmpty() && (map.lastKey() - map.firstKey() > maxDiff || dp[left] == 1 << 25)) {
+					change(map, list[left++], -1);
+				}
+				if(dp[left] == 1 << 25 || map.isEmpty()) {
+					break;
+				}
+				if(i-left+1 >= minSize) {
+					dp[i+1] = dp[left] + 1;
+				}
+			}
+			int ret = dp[n];
+			if(ret == 1 << 25) {
+				ret = -1;
+			}
+			pw.println(ret);
+		}
+		exitImmediately();
+	}
+
+	public static void change(Map<Integer, Integer> map, int key, int value) {
+		if(!map.containsKey(key)) {
+			map.put(key, 0);
+		}
+		Integer next = map.get(key) + value;
+		if(next == 0) 
+			map.remove(key);
+		else
+			map.put(key, next);
+	}
+	
+	private static void exitImmediately() {
+		pw.close();
+		System.exit(0);
+	}
+
+	private static long readLong() throws IOException {
+		return Long.parseLong(nextToken());
+	}
+
+	private static double readDouble() throws IOException {
+		return Double.parseDouble(nextToken());
+	}
+
+	private static int readInt() throws IOException {
+		return Integer.parseInt(nextToken());
+	}
+
+	private static String nextLine() throws IOException  {
+		if(!br.ready()) {
+			exitImmediately();
+		}
+		st = null;
+		return br.readLine();
+	}
+
+	private static String nextToken() throws IOException  {
+		while(st == null || !st.hasMoreTokens())  {
+			if(!br.ready()) {
+				exitImmediately();
+			}
+			st = new StringTokenizer(br.readLine().trim());
+		}
+		return st.nextToken();
+	}
+}
