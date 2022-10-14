@@ -1,0 +1,1 @@
+input();print(max(max(list(map(int,input().split())))-25,0))
