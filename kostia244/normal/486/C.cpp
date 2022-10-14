@@ -1,0 +1,89 @@
+#pragma GCC optimize ("Ofast")
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#define mp make_pair
+#define pb push_back
+#define eb emplace_back
+#define xx first.first
+#define yy first.second
+#define __V vector
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define oit ostream_iterator
+#define mod 1000000007ll
+using namespace __gnu_pbds;
+using namespace std;
+void doin() {
+	cin.tie();
+	cout.tie();
+	ios::sync_with_stdio(0);
+#ifndef ONLINE_JUDGE
+//	freopen("input.txt", "r", stdin);
+//	freopen("output.txt", "w", stdout);
+#endif
+}
+template<typename X, typename Y>
+istream& operator>>(istream& in, pair<X, Y> &a) {
+	in >> a.first >> a.second;
+	return in;
+}
+template<typename T>
+void getv(T& i) {
+	cin >> i;
+}
+template<typename T, typename ... Ns>
+void getv(vector<T>& v, int n, Ns ... ns) {
+	v.resize(n);
+	for (auto& i : v)
+		getv(i, ns...);
+}
+typedef unsigned long long ull;
+typedef long long ll;
+typedef double ld;
+typedef ll _I;
+typedef pair<_I, _I> pi;
+typedef pair<ld, ld> pd;
+typedef map<_I, _I> mii;
+typedef __V <_I> vi;
+typedef __V <char> vc;
+typedef __V <ld> vd;
+typedef __V <vd> vvd;
+typedef __V <pi> vpi;
+typedef __V <__V<_I>> vvi;
+typedef __V <__V<char>> vvc;
+typedef __V <__V<pi>> vvpi;
+using AntonTsypko = void;
+using arsijo = AntonTsypko;
+using bog = arsijo;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+int chd(char a, char b) {
+	int t = abs(a-b);
+	return min(t, 26-t);
+}
+int n, p;
+string s;
+int main() {
+	doin();
+	cin >> n >> p;
+	cin >> s;
+	int e = (n+1)/2;
+	if(p > e)
+		p = n-p+1;
+	p--;
+	int ans = 0;
+	int rd, ld = -1;
+	for(int i = 0; i < e; i++) {
+		ans += chd(s[i], s[n-i-1]);
+		if(s[i] != s[n-i-1]) {
+			if(ld == -1)
+				ld = i;
+			rd = i;
+		}
+	}
+	if(ld != -1) {
+		ans += rd-ld;
+		ans += min(abs(rd-p), abs(p-ld));
+	}
+	cout << ans;
+}
