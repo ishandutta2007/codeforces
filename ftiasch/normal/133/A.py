@@ -1,0 +1,1 @@
+print "YES" if any(map(lambda c: c in ['H', 'Q', '9'], raw_input())) else "NO"
