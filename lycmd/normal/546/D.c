@@ -1,0 +1,12 @@
+t,l,r,i,x,y,N=5000010,c[5000010],s[5000010];
+main(){
+	for(i=2;i<N;i++)
+		if(!c[i])
+			for(x=i;x<N;x+=i)
+				for(y=x;y%i==0;y/=i)
+					c[x]++;
+	for(i=2;i<N;i++)
+		s[i]=s[i-1]+c[i];
+	for(scanf("%d",&t);t--;)
+		scanf("%d%d",&x,&y),printf("%d\n",s[x]-s[y]);
+}
