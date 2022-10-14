@@ -1,0 +1,69 @@
+#line 1 "/home/ftiasch/Documents/shoka/util.h"
+#include <bits/stdc++.h>
+
+template <typename T = int> T read() {
+  T v;
+  std::cin >> v;
+  return v;
+}
+
+template <typename T = int> std::vector<T> read_vector(size_t n) {
+  std::vector<T> v(n);
+  for (size_t i = 0; i < n; ++i) {
+    v[i] = read<T>();
+  }
+  return v;
+}
+
+#define ALL(v) (v).begin(), (v).end()
+
+template <typename T = int>
+std::vector<std::vector<T>> vector_2d(int n, int m) {
+  return std::vector<std::vector<T>>(n, std::vector<T>(m));
+}
+
+template <typename T = int>
+std::vector<std::vector<T>> vector_2d(int n, int m, T d) {
+  return std::vector<std::vector<T>>(n, std::vector<T>(m, d));
+}
+
+using Long = long long;
+using u64 = uint64_t;
+
+template <typename T>
+using MinPQ = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+#line 2 "/tmp/tmp-141040nZCUpRfh0Ziz.cpp"
+
+#line 4 "/tmp/tmp-141040nZCUpRfh0Ziz.cpp"
+
+struct Solve {
+  Solve(int n) : children(n) {
+    for (int i = 1; i < n; ++i) {
+      children[read() - 1].push_back(i);
+    }
+    color = read<std::string>();
+    dfs(0);
+  }
+
+  int dfs(int u) {
+    int sum = color[u] == 'B' ? 1 : -1;
+    for (int v : children[u]) {
+      sum += dfs(v);
+    }
+    result += sum == 0;
+    return sum;
+  }
+
+  int result = 0;
+  std::vector<std::vector<int>> children;
+  std::string color;
+};
+
+int main() {
+  std::ios::sync_with_stdio(false);
+  int T = read();
+  while (T--) {
+    int n = read();
+    std::cout << Solve(n).result << "\n";
+  }
+}
