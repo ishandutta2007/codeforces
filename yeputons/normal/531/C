@@ -1,0 +1,24 @@
+% pical
+
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  X := 1,
+  Ans := 0,
+  while (A * X < C)
+    Y := (C - A * X) // B,
+    if A * X + B * Y == C then
+      Ans := Ans + 1
+    end,
+    X := X + 1
+  end,
+  println(Ans),
+  X := 1,
+  while (A * X < C)
+    Y := (C - A * X) // B,
+    if A * X + B * Y == C then
+      printf("%d %d\n", X, Y)
+    end,
+    X := X + 1
+  end

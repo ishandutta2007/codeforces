@@ -1,0 +1,14 @@
+USING: io kernel math math.parser ;
+
+0
+readln string>number
+dup
+dup
+*
+3
+*
+-
+-
+2
+/
+number>string print

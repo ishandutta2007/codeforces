@@ -1,0 +1,36 @@
+      IDENTIFICATION DIVISION.
+         PROGRAM-ID. SOLUTION.
+
+         DATA DIVISION.
+         WORKING-STORAGE SECTION.
+         01 TXT      PIC X(100).
+         01 RES      PIC X(100).
+         01 K        PIC 9(10) VALUE ZEROES.
+         01 I        PIC 9(10) VALUE ZEROES.
+         01 LLEN     PIC 9(10) VALUE ZEROES.
+         01 CID      PIC 9(10) VALUE ZEROES.
+         01 TMP      PIC 9(10) VALUE ZEROES.
+         01 TMP5     PIC X(10) VALUE ZEROES.
+
+         PROCEDURE DIVISION.
+           ACCEPT TXT
+           ACCEPT TMP5
+           MOVE TMP5 TO K
+
+           MOVE 1 TO I
+           MOVE 0 TO LLEN
+           PERFORM UNTIL TXT(I:1) = TXT(100:1)
+             MOVE FUNCTION ORD(TXT(I:1)) TO CID
+             SUBTRACT FUNCTION ORD("A") FROM CID
+             ADD K TO CID
+             DIVIDE CID BY 26 GIVING TMP REMAINDER CID
+             ADD FUNCTION ORD("A") TO CID
+
+             STRING RES(1:LLEN) FUNCTION CHAR(CID) INTO REs
+
+             ADD 1 TO LLEN
+             ADD 1 TO I
+           END-PERFORM
+
+           DISPLAY RES
+           STOP RUN.

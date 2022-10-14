@@ -1,0 +1,25 @@
+set line [gets stdin]
+scan $line "%d" n
+proc isPrime { x } {
+  for { set i 2 } { $i * $i <= $x } { incr i }  {
+    if { [ expr { $x % $i } ] == 0 } { return $i }
+  } 
+  return -1
+}
+
+set clen 10000000
+set ca 0
+set cb 0
+for { set a 2 } { $a <= $n } { incr a } {
+  if  { [ isPrime $a ] != -1 } { continue }
+  for { set b $n } { True } { incr b } {
+    if  { [ isPrime $b ] != -1 } { continue }
+    set len [ expr { $b - $a + 1} ]
+    if { $len < $clen } {
+      set ca $a
+      set cb $b
+    }
+    break
+  }
+}
+puts [ format "%d %d" $ca $cb ]

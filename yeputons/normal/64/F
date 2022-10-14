@@ -1,0 +1,6 @@
+set line [gets stdin]
+if { [ regexp "^(\[a-z0-9\]+\\\.)*\[a-z0-9\]{2,3}$" $line ] } {
+  puts "YES"
+} else {
+  puts "NO"
+}

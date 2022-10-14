@@ -1,0 +1,13 @@
+USING: io kernel math math.parser sequences ;
+
+""
+readln string>number
+[ dup 0 > ] [
+  dup 2 mod number>string
+  swap
+  [ append ] dip
+
+  2 /i
+] while drop
+reverse
+print

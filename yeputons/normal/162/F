@@ -1,0 +1,50 @@
+USING: io kernel math math.parser sequences math.order ;
+IN: main2
+
+: get2s ( n -- res )
+  dup 0 = [
+    drop
+    0
+  ] [
+    0 swap ! res n
+
+    [ dup 2 mod 0 = ] [
+      swap 1 + swap
+      ! res n 
+      2 /i
+    ] while
+
+    drop
+  ] if
+  ;
+
+: get5s ( n -- res )
+  dup 0 = [
+    drop
+    0
+  ] [
+    0 swap ! res n
+
+    [ dup 5 mod 0 = ] [
+      swap 1 + swap
+      ! res n 
+      5 /i
+    ] while
+
+    drop
+  ] if
+  ;
+
+readln string>number
+0 swap 0 swap
+1 + iota [
+  [
+    get2s
+    [ swap ] dip + swap
+  ] keep
+
+  get5s
+  +
+] each
+min
+number>string print

@@ -1,0 +1,45 @@
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+
+with Ada.Strings.Unbounded.Text_IO;
+use Ada.Strings.Unbounded.Text_IO;
+
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+
+with Ada.Calendar; use Ada.Calendar;
+with Gnat.Calendar; use Gnat.Calendar;
+
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+
+procedure ProbC is
+  S : String(1..100);
+  Len : Integer;
+
+  N : Integer;
+  Ans : Integer := 0;
+  T : Time;
+begin
+  Get(N);
+  Get_Line(S, Len);
+  while N > 0 loop
+    Get_Line(S, Len);
+
+    T := Time_Of(Integer'Value(S(1..4)), Integer'Value(S(6..7)), Integer'Value(S(9..10)));
+    if (Day_of_week(T) = Friday) And (Day(T) = 13) then
+      Ans := Ans + 1;
+    end if;
+
+    N := N - 1;
+  end loop;
+  Put(Ans);
+end ProbC;

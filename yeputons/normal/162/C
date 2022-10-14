@@ -1,0 +1,40 @@
+USING: io kernel math math.parser sequences ;
+IN: main2
+
+: check-multiplier ( s n x -- s2 n2 )
+   [ dup ] dip ! s n n x
+   dup         ! s n n x x
+   [ mod ] dip swap ! s n x (n%x)
+   0 = [
+     ! s2 n2 x
+     dup
+     [ /i ] dip
+
+     [ swap ] dip ! n2 s2 x
+     [
+       dup "" = [
+         "*" append
+       ] unless
+     ] dip
+     number>string
+     append
+     swap
+   ] [ drop ]
+   if
+ ;
+
+""
+readln string>number
+10001 iota swap [
+  dup 1 > [
+    100 iota [ [
+      dup [
+        check-multiplier
+      ] dip
+    ] dip drop ] each
+  ] when
+
+  drop
+] reduce
+drop
+print

@@ -1,0 +1,26 @@
+% pical
+
+main =>
+  N = read_int(),
+  D = read_int(),
+  Val := D + (N - 2),
+  RX := -1,
+  RY := -1,
+  X := 2,
+  while (X <= 2004)
+    Y := (Val + X) // (X - 1),
+    if Y >= 1 then
+      if X * Y - X - Y == Val then
+        RX := X,
+        RY := Y
+      end
+    end,
+    X := X + 1
+  end,
+  I := 2,
+  while (I < N)
+    println(1),
+    I := I + 1
+  end,
+  println(min(RX, RY)),
+  println(max(RX, RY))

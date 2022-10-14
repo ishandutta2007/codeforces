@@ -1,0 +1,29 @@
+set line [gets stdin]
+if { $line == "/" } {
+  puts "/"
+} else {
+  set objs [ split $line "/" ]
+  set curp {}
+  set good 1
+  foreach el $objs {
+    if { $el == "" } { continue }
+    if { $el == "." } { continue }
+    if { $el == ".." } {
+      set len [ expr { [ llength $curp ] - 2 } ]
+      if { $len < -1 } { set good 0 }
+      set curp [ lrange $curp 0 $len ] 
+      continue
+    }
+    lappend curp $el
+  }
+  set res ""
+  foreach el $curp {
+    set res "$res/$el"
+  }
+  if { $res == "" } { set res "/" }
+  if { $good == 1 } {
+    puts $res
+  } else {
+    puts "-1"
+  }
+}

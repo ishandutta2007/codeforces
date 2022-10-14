@@ -1,0 +1,14 @@
+set line [gets stdin]
+scan $line "%d%d%d" a(0) a(1) a(2)
+foreach i { 0 1 2 } {
+  set a($i) [ expr { $a($i) * 3 + $i } ]
+}
+foreach i { 0 1 2 } {
+  set cnt($i) 1
+  foreach i2 { 0 1 2 } {
+    if { $a($i2) > $a($i) } {
+      incr cnt($i) 1
+    }
+  }
+}
+puts [ format "%d %d %d" $cnt(0) $cnt(1) $cnt(2) ]

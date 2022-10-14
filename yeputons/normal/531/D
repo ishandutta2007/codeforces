@@ -1,0 +1,29 @@
+% pical
+import ordset.
+import util.
+
+gen(L, R) = X =>
+  X := new_ordset([]),
+  I = L,
+  while (I <= R)
+    X := insert(X, I),
+    I := I + 1
+  end.
+
+main =>
+  N = read_int(),
+  X = gen(1, 1000),
+  while (N > 0)
+    L := read_int(),
+    R := read_int(),
+    X := subtract(X, gen(L, R)),
+    N := N - 1
+  end,
+  println(length(X)),
+  I := 1,
+  while (I <= 1000)
+    if subset(new_ordset([I]), X) then
+      println(I)
+    end,
+    I := I + 1
+  end.

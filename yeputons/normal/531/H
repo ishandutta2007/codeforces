@@ -1,0 +1,27 @@
+% pical
+import ordset.
+import util.
+
+main =>
+  N = read_int(),
+  P = [],
+  while (N > 0)
+    X = read_int(),
+    Y = read_int(),
+    P := P ++ [(X, Y)],
+    N := N - 1
+  end,
+  Ans = 1000000000,
+  B := 0,
+  foreach ((X, Y) in P)
+    B := max(B, Y + 1)
+  end,
+  while (B <= 11000)
+    A = 0,
+    foreach ((X, Y) in P)
+      A := max(A, (X * B + B - Y - 1) // (B - Y))
+    end,
+    Ans := min(Ans, A * B),
+    B := B + 1
+  end,
+  println(Ans / 2)

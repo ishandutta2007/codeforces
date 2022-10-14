@@ -1,0 +1,21 @@
+% pical
+import ordset.
+import util.
+
+price(X) = ord(X) - ord('a') + 1.
+price(X, Y) = abs(price(X) - price(Y)).
+
+table
+solve([], []) = 0.
+solve([], [B|Bs]) = price(B) + solve([], Bs).
+solve([A|As], []) = price(A) + solve(As, []).
+solve([A|As], [B|Bs]) = min(min(
+    price(A) + solve(As, [B|Bs]),
+    price(B) + solve([A|As], Bs)),
+    price(A, B) + solve(As, Bs)
+).
+
+main =>
+  A = read_line(),
+  B = read_line(),
+  println(solve(A, B))
