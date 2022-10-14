@@ -1,0 +1,1 @@
+print('3\nL 2\nR 2\nR',len(input())*2-1)
