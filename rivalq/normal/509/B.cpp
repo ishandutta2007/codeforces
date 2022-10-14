@@ -1,0 +1,40 @@
+//http://codeforces.com/problemset/problem/509/B
+#include<bits/stdc++.h>
+#define lop(i,n,a) for(int i=0;i<n;i+=a)
+#define rep(i,n,a) for(int i=a;i<n;i++)
+#define ll long long int
+#define pb push_back
+#define all(v) v.begin(),v.end()
+#define endl "\n"
+#define IOS ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+#define ret return 0
+using namespace std;
+int solve(){
+  int n,k;
+  cin>>n>>k;
+  vector<int> v;
+  lop(i,n,1) {int t;cin>>t;v.push_back(t);}
+  if(*max_element(v.begin(),v.end())-*min_element(v.begin(),v.end())>k){
+      cout<<"NO"<<endl;
+  }
+  else{
+      cout<<"YES"<<endl;
+      lop(i,n,1){
+          for(int j=1;j<=v[i];j++){
+              cout<<(j-1)%k+1<<" ";
+          }
+          cout<<endl;
+      }
+  }
+
+  
+
+}
+int main(){
+    IOS;
+    ll t=1;//cin>>t;
+    while(t--){
+        solve();
+    }
+    ret;
+}
