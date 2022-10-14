@@ -1,0 +1,1 @@
+for i in [*open(0)][1:]:print(2**int(i).bit_length()//2-1)

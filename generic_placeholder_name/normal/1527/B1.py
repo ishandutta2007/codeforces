@@ -1,0 +1,1 @@
+for s in[*open(0)][2::2]:n=s.count('0');print('ABLOIBC E'[(n<2)|(n&1<1)::2])
