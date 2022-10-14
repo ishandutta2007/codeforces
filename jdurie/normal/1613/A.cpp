@@ -1,0 +1,53 @@
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+#include <bits/stdc++.h>
+using namespace std;
+template<class T, class S>
+ostream& operator << (ostream &o, const pair<T, S> &p) {
+    return o << '(' << p.first << ", " << p.second << ')';
+}
+template<template<class, class...> class T, class... A>
+typename enable_if<!is_same<T<A...>, string>(), ostream&>::type
+operator << (ostream &o, T<A...> V) {
+	o << '[';
+	for(auto a : V) o << a << ", ";
+	return o << ']';
+}
+
+typedef long long int ll;
+typedef long double ld;
+typedef pair<ll, ll> pl;
+
+#define G(x) ll x; cin >> x;
+#define GD(x) ld x; cin >> x;
+#define GS(s) string s; cin >> s;
+#define F(i, l, r) for(ll i = l; i < (r); ++i)
+#define FD(i, r, l) for(ll i = r; i > (l); --i)
+#define P(a, n) { cout << "{ "; F(_, 0, n) cout << a[_] << " "; cout << "}\n"; }
+#define EX(x) { cout << x << '\n'; exit(0); }
+#define A(a) (a).begin(), (a).end()
+#define K first
+#define V second
+#define M 1000000007 //998244353
+//#define N 100010
+
+ll pw[16];
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    pw[0] = 1;
+    F(i, 1, 16) pw[i] = 10 * pw[i - 1];
+    G(tc) while(tc--) {
+        G(x1) G(p1) G(x2) G(p2)
+        if(p1 - p2 >= 7) cout << ">\n";
+        else if(p2 - p1 >= 7) cout << "<\n";
+        else {
+            if(p1 > p2) x1 *= pw[p1 - p2]; else x2 *= pw[p2 - p1];
+            if(x1 > x2) cout << ">\n";
+            else if(x2 > x1) cout << "<\n";
+            else cout << "=\n";
+        }
+    }
+}
