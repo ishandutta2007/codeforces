@@ -1,0 +1,1 @@
+for _ in range(int(input())): input(); print("".join(sorted(input())))

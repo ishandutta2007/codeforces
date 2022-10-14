@@ -1,0 +1,65 @@
+//https://codeforces.com/contest/750/submission/95361371
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("avx,avx2,sse,sse2")
+#include<bits/stdc++.h>
+#define pow loli
+#define all(x) x.begin(), x.end()
+#define pb push_back
+using namespace std;
+using ll = long long;
+using ld = long double;
+const int maxn = 1<<18, inf = 1<<26;
+struct node {
+	int cst[3][3];
+	node() { for(int i = 0; i < 9; i++) cst[i/3][i%3] = inf; }
+	node(char c) {
+		for(int i = 0; i < 9; i++) cst[i/3][i%3] = inf*((i/3)!=(i%3));
+		if(c == 'a') {
+			cst[0][0] = 1;
+			cst[0][1] = 0;
+			cst[0][2] = 1;
+		}
+		if(c == 'b') {
+			cst[1][1] = 1;
+			cst[1][2] = 0;
+		}
+		if(c == 'c') {
+			cst[2][2] = 1;
+		}
+	}
+	friend node operator+(const node &a, const node &b) {
+		node c;
+		for(int i = 0; i < 3; i++)
+			for(int j = 0; j < 3; j++)
+				for(int k = 0; k < 3; k++)
+					c.cst[i][j] = min(c.cst[i][j], a.cst[i][k] + b.cst[k][j]);
+		return c;
+	}
+};
+node tree[2*maxn];
+int n, m;
+string s;
+int get(int l, int r) {
+	node resl('c'), resr('a');
+	for(l += n, r += n; l < r; l>>=1, r>>=1) {
+		if(l&1) resl = resl + tree[l++];
+		if(r&1) resr = tree[--r] + resr;
+	}
+	resl = resl + resr;
+	return min({resl.cst[0][0], resl.cst[0][1], resl.cst[0][2]});
+}
+int main() {
+	cin.tie(0)->sync_with_stdio(0);
+	cin >> n >> m >> s;
+	char c;
+	for(int i = 0; i < n; i++) tree[n+i] = node(s[i]);
+	for(int i = n; i--;) tree[i] = tree[i*2] + tree[i*2 + 1];
+	for(int l, r; m--;) {
+		cin >> l >> c;--l;
+		for(tree[l += n] = node(c); l/=2;)
+			tree[l] = tree[2*l]+tree[2*l+1];
+		int ans = get(0, n);
+		cout << ans << '\n';
+	}
+	return 0;
+}
