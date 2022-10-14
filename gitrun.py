@@ -27,12 +27,12 @@ def cyan(text):
 ###################################################################
 
 
-MIN_WAIT_SEC = 110
-MAX_WAIT_SEC = 220
+MIN_WAIT_SEC = 60
+MAX_WAIT_SEC = 110
 WAIT_SEC = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
 MAX_FILES_TO_ADD = 9
 MAX_ITERATIONS = 10001
-SLEEP_BETWEEN_ITERATIONS = 19
+SLEEP_BETWEEN_ITERATIONS = 9
 
 
 def compact(lst):
