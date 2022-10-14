@@ -1,0 +1,1 @@
+for _ in range(int(input())):input();a=list(map(int,input().split()));print(['HL','T'][max(a)*2>sum(a)or sum(a)&1])
