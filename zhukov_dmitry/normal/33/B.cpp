@@ -3,7 +3,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -15,9 +14,7 @@
 
 using namespace std;
 
-#define bublic public
 #define clr(x) memset((x), 0, sizeof(x))
-#define all(x) (x).begin(), (x).end()
 #define pb push_back
 #define mp make_pair
 #define sz size()
@@ -26,21 +23,6 @@ using namespace std;
 #define forn(i, n) for(int i=0; i<(int)(n); i++)
 #define ford(i, n) for(int i=(n)-1; i>=0; i--)
 #define fori(it, x) for (__typeof((x).begin()) it = (x).begin(); it != (x).end(); it++)
-
-#ifdef ROOM_311
-time_t et_0;
-
-__attribute__((constructor)) void init_main()
-{
-	et_0 = clock();
-}
-
-__attribute__((destructor)) void fini_main()
-{
-	time_t et_1 = clock();
-	fprintf(stderr, "Execution time = %0.0lf ms\n", (et_1 - et_0) * 1000.0 / CLOCKS_PER_SEC);
-}
-#endif
 
 template <class _T> inline _T sqr(const _T& x) { return x * x; }
 template <class _T> inline string tostr(const _T& a) { ostringstream os(""); os << a; return os.str(); }
@@ -52,70 +34,88 @@ const ld PI = 3.1415926535897932384626433832795;
 const ld EPS = 1e-11;
 
 // Types
-typedef signed   long long i64;
-typedef unsigned long long u64;
+typedef long long i64;
 typedef set < int > SI;
 typedef vector < int > VI;
 typedef map < string, int > MSI;
 typedef pair < int, int > PII;
 
-const int MOD = 1000000007;
+const int INF = 0x3f3f3f3f;
 
 int n, k;
-int a[102400];
+int a[26][26];
+char s1[102400];
+char s2[102400];
 char s[102400];
-int f[102400];
-int rf[102400];
-
-int mypow(int a, int k)
-{
-	if (!k) return 1;
-	int ans = mypow(a, k / 2);
-	ans = ans * (i64)ans % MOD;
-	if (k & 1) ans = ans * (i64)a % MOD;
-	return ans;
-}
-
-int cnk(int n, int k)
-{
-	if (n < k || k < 0) return 0;
-	return f[n] * (i64)rf[n - k] % MOD * rf[k] % MOD;
-}
 
 int main()
 {
 #ifdef ROOM_311
 	freopen("input.txt", "rt", stdin);
-	freopen("output.txt", "wt", stdout);
 #endif
 	cout << setiosflags(ios::fixed) << setprecision(10);
 
-	f[0] = rf[0] = 1;
-	For(i, 1, 100000)
+	memset(a, 0x3f, sizeof(a));
+	scanf("%s%s", s1, s2);
+	n = strlen(s1);
+	if (strlen(s2) != n)
 	{
-		f[i] = f[i - 1] * (i64)i % MOD;
-		rf[i] = rf[i - 1] * (i64)mypow(i, MOD - 2) % MOD;
+		puts("-1");
+		return 0;
 	}
-
-	scanf("%d%d", &n, &k);
-	scanf("%s", s);
-	int sum = 0;
+	scanf("%d", &k);
+	forn(i, k)
+	{
+		char c1, c2;
+		int x, y, z;
+		scanf(" %c %c%d", &c1, &c2, &z);
+		x = c1 - 'a';
+		y = c2 - 'a';
+		a[x][y] = min(a[x][y], z);
+	}
+	forn(i, 26)
+	{
+		a[i][i] = 0;
+	}
+	forn(k, 26)
+	{
+		forn(i, 26)
+		{
+			forn(j, 26)
+			{
+				a[i][j] = min(a[i][j], a[i][k] + a[k][j]);
+			}
+		}
+	}
+	
+	int ans = 0;
 	forn(i, n)
 	{
-		a[i] = s[i] - '0';
-		sum += a[i];
-	}
-	int ans = 0;
-	int p10 = 1;
-	ford(i, n)
-	{
-		ans = (ans + a[i] * (i64)cnk(i, k) % MOD * p10) % MOD;
-		sum -= a[i];
-		if (i > 0 && k >= 0) ans = (ans + sum * (i64)cnk(i - 1, k - 1) % MOD * p10) % MOD;
-		p10 = p10 * 10LL % MOD;
+		int c1 = s1[i] - 'a';
+		int c2 = s2[i] - 'a';
+		s[i] = ' ';
+		int mi = INF;
+		int mj = -1;
+		forn(j, 26)
+		{
+			if (a[c1][j] + a[c2][j] < mi)
+			{
+				mi = a[c1][j] + a[c2][j];
+				mj = j;
+			}
+		}
+		if (mj == -1)
+		{
+			puts("-1");
+			return 0;
+		}
+		ans += mi;
+		s[i] = mj + 'a';
 	}
 
 	printf("%d\n", ans);
+	s[n] = '\0';
+	puts(s);
 
 	return 0;
 }

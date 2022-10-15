@@ -230,12 +230,30 @@ const ld EPS = 1e-9;
 //const int MOD = 998244353;
 //using mint = numeric::modular<MOD>;
 
-struct tp{int x, y, xx, yy, idx;};
+int qq;
+int n, m;
+char a[1024][1024];
+bool u[120][120];
 
-const int m = 200010;
+const int dx[] = {1, 0, -1, 0};
+const int dy[] = {0, -1, 0, 1};
 
-int n;
-tp a[m];
+void dfs(int x, int y, int &xmi, int &xma, int &ymi, int &yma, int &cnt)
+{
+	++cnt;
+	uin(xmi, x);
+	uax(xma, x);
+	uin(ymi, y);
+	uax(yma, y);
+	u[x][y] = true;
+	forn(l, 4)
+	{
+		int xn = x + dx[l];
+		int yn = y + dy[l];
+		if (xn < 0 || xn >= n || yn < 0 || yn >= m || a[xn][yn] != '1' || u[xn][yn]) continue;
+		dfs(xn, yn, xmi, xma, ymi, yma, cnt);
+	}
+}
 
 int main()
 {
@@ -243,56 +261,36 @@ int main()
 	freopen("input.txt", "rt", stdin);
 #endif
 	
-	scanf("%d", &n);
-	forn(i, n)
+	scanf("%d", &qq);
+	while (qq--)
 	{
-		scanf("%d%d", &a[i].x, &a[i].y);
-		a[i].idx = i;
-		a[i].xx = 1000000;
-		a[i].yy = 1000000;
-	}
-	forn(l, 4)
-	{
-		sort(a, a + n, [](const tp &l, const tp &r) {
-			return l.y < r.y || (l.y == r.y && l.x < r.x);
-		});
-		
+		scanf("%d%d", &n, &m);
 		forn(i, n)
 		{
-			if (i == 0 || !(a[i - 1].y == a[i].y && a[i - 1].x + 1 == a[i].x))
+			scanf("%s", a[i]);
+		}
+		bool ok = true;
+		
+		clr(u);
+		forn(i, n)
+		{
+			forn(j, m)
 			{
-				a[i].xx = a[i].x - 1;
-				a[i].yy = a[i].y;
-			}
-			else
-			{
-				int d1 = abs(a[i].x - a[i].xx) + abs(a[i].y - a[i].yy);
-				int d2 = abs(a[i].x - a[i - 1].xx) + abs(a[i].y - a[i - 1].yy);
-				if (d2 < d1)
+				if (u[i][j]) continue;
+				if (a[i][j] != '1') continue;
+				int xmi = i, xma = i, ymi = j, yma = j;
+				int cnt = 0;
+				dfs(i, j, xmi, xma, ymi, yma, cnt);
+				if ((xma - xmi + 1) * (yma - ymi + 1) != cnt)
 				{
-					a[i].xx = a[i - 1].xx;
-					a[i].yy = a[i - 1].yy;
+					ok = false;
+					break;
 				}
 			}
+			if (!ok) break;
 		}
 		
-		forn(i, n)
-		{
-			int yn = a[i].x;
-			int xn = -a[i].y;
-			a[i].x = xn;
-			a[i].y = yn;
-			int yyn = a[i].xx;
-			int xxn = -a[i].yy;
-			a[i].xx = xxn;
-			a[i].yy = yyn;
-		}
-	}
-	
-	sort(a, a + n, [](const tp &l, const tp &r) { return l.idx < r.idx; });
-	forn(i, n)
-	{
-		printf("%d %d\n", a[i].xx, a[i].yy);
+		puts(ok ? "YES" : "NO");
 	}
 	
 	return 0;

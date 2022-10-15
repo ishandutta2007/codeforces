@@ -27,23 +27,9 @@ using namespace std;
 #define ford(i, n) for(int i=(n)-1; i>=0; i--)
 #define fori(it, x) for (__typeof((x).begin()) it = (x).begin(); it != (x).end(); it++)
 
-#ifdef ROOM_311
-time_t et_0;
-
-__attribute__((constructor)) void init_main()
-{
-	et_0 = clock();
-}
-
-__attribute__((destructor)) void fini_main()
-{
-	time_t et_1 = clock();
-	fprintf(stderr, "Execution time = %0.0lf ms\n", (et_1 - et_0) * 1000.0 / CLOCKS_PER_SEC);
-}
-#endif
-
 template <class _T> inline _T sqr(const _T& x) { return x * x; }
 template <class _T> inline string tostr(const _T& a) { ostringstream os(""); os << a; return os.str(); }
+template <class _T> inline istream& operator << (istream& is, const _T& a) { is.putback(a); return is; }
 
 typedef long double ld;
 
@@ -55,67 +41,97 @@ const ld EPS = 1e-11;
 typedef signed   long long i64;
 typedef unsigned long long u64;
 typedef set < int > SI;
+typedef vector < ld > VD;
 typedef vector < int > VI;
+typedef vector < bool > VB;
+typedef vector < string > VS;
 typedef map < string, int > MSI;
 typedef pair < int, int > PII;
 
-const int MOD = 1000000007;
+struct tp{int x,y;};
 
-int n, k;
-int a[102400];
-char s[102400];
-int f[102400];
-int rf[102400];
+int n;
+tp a[202400];
+tp p0;
 
-int mypow(int a, int k)
+inline int vp(tp p, tp p1, tp p2)
 {
-	if (!k) return 1;
-	int ans = mypow(a, k / 2);
-	ans = ans * (i64)ans % MOD;
-	if (k & 1) ans = ans * (i64)a % MOD;
-	return ans;
-}
-
-int cnk(int n, int k)
-{
-	if (n < k || k < 0) return 0;
-	return f[n] * (i64)rf[n - k] % MOD * rf[k] % MOD;
+	p1.x -= p.x;
+	p1.y -= p.y;
+	p2.x -= p.x;
+	p2.y -= p.y;
+	i64 d = (i64)p1.x * p2.y - (i64)p1.y * p2.x;
+	if (d > 0) return 1;
+	if (d < 0) return -1;
+	return 0;
 }
 
 int main()
 {
 #ifdef ROOM_311
+	time_t et_0 = clock();
 	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 #endif
 	cout << setiosflags(ios::fixed) << setprecision(10);
 
-	f[0] = rf[0] = 1;
-	For(i, 1, 100000)
-	{
-		f[i] = f[i - 1] * (i64)i % MOD;
-		rf[i] = rf[i - 1] * (i64)mypow(i, MOD - 2) % MOD;
-	}
-
-	scanf("%d%d", &n, &k);
-	scanf("%s", s);
-	int sum = 0;
+	p0.x = p0.y = 0;
+	scanf("%d", &n);
 	forn(i, n)
 	{
-		a[i] = s[i] - '0';
-		sum += a[i];
+		scanf("%d%d", &a[i].x, &a[i].y);
 	}
-	int ans = 0;
-	int p10 = 1;
-	ford(i, n)
+	forn(i, n)
 	{
-		ans = (ans + a[i] * (i64)cnk(i, k) % MOD * p10) % MOD;
-		sum -= a[i];
-		if (i > 0 && k >= 0) ans = (ans + sum * (i64)cnk(i - 1, k - 1) % MOD * p10) % MOD;
-		p10 = p10 * 10LL % MOD;
+		a[i+n] = a[i];
+	}
+	i64 s = 0;
+	forn(i, n)
+	{
+		s += (i64)a[i].x * a[i+1].y - (i64)a[i].y * a[i+1].x;
+	}
+	if (s < 0)
+	{
+		reverse(a, a+n);
+		reverse(a+n, a+n+n);
 	}
 
-	printf("%d\n", ans);
+	int k;
+	scanf("%d", &k);
+	forn(tt, k)
+	{
+		tp p;
+		scanf("%d%d", &p.x, &p.y);
+		bool bb = false;
+		forn(i, n)
+		{
+			if (vp(a[i], a[i+1], p) <= 0)
+			{
+				bb = true;
+				break;
+			}
+		}
+		if (bb)
+		{
+			puts("0");
+			continue;
+		}
+		i64 ans = (i64)n * (n-1) * (n-2) / 6;
 
+		int r = 0;
+		forn(i, n)
+		{
+			while (vp(a[i], a[r+1], p) > 0) r++;
+			int c = r - i;
+			ans -= (i64)c * (c-1) / 2;
+		}
+
+		printf("%I64d\n", ans);
+	}
+
+#ifdef ROOM_311
+	time_t et_1 = clock();
+	fprintf(stderr, "Execution time = %ld ms\n", (et_1 - et_0) * 1000 / CLOCKS_PER_SEC);
+#endif
 	return 0;
 }

@@ -1,0 +1,27 @@
+set line [gets stdin]
+scan $line "%d%d%d" a0 a1 a2
+set b0 0
+set b1 1
+set b2 2
+set a(0) $a0
+set a(1) $a1
+set a(2) $a2
+if { $a($b0) < $a($b1) } {
+    set tmp $b0
+    set b0 $b1
+    set b1 $tmp
+}
+if { $a($b1) < $a($b2) } {
+    set tmp $b1
+    set b1 $b2
+    set b2 $tmp
+}
+if { $a($b0) < $a($b1) } {
+    set tmp $b0
+    set b0 $b1
+    set b1 $tmp
+}
+set b($b0) 1
+set b($b1) 2
+set b($b2) 3
+puts "$b(0) $b(1) $b(2)"

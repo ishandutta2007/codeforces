@@ -230,12 +230,7 @@ const ld EPS = 1e-9;
 //const int MOD = 998244353;
 //using mint = numeric::modular<MOD>;
 
-struct tp{int x, y, xx, yy, idx;};
-
-const int m = 200010;
-
-int n;
-tp a[m];
+int n, qq;
 
 int main()
 {
@@ -243,56 +238,34 @@ int main()
 	freopen("input.txt", "rt", stdin);
 #endif
 	
-	scanf("%d", &n);
-	forn(i, n)
+	scanf("%d", &qq);
+	while (qq--)
 	{
-		scanf("%d%d", &a[i].x, &a[i].y);
-		a[i].idx = i;
-		a[i].xx = 1000000;
-		a[i].yy = 1000000;
-	}
-	forn(l, 4)
-	{
-		sort(a, a + n, [](const tp &l, const tp &r) {
-			return l.y < r.y || (l.y == r.y && l.x < r.x);
-		});
-		
-		forn(i, n)
+		scanf("%d", &n);
+		if (n % 3 == 0)
 		{
-			if (i == 0 || !(a[i - 1].y == a[i].y && a[i - 1].x + 1 == a[i].x))
+			forn(i, n / 3)
 			{
-				a[i].xx = a[i].x - 1;
-				a[i].yy = a[i].y;
-			}
-			else
-			{
-				int d1 = abs(a[i].x - a[i].xx) + abs(a[i].y - a[i].yy);
-				int d2 = abs(a[i].x - a[i - 1].xx) + abs(a[i].y - a[i - 1].yy);
-				if (d2 < d1)
-				{
-					a[i].xx = a[i - 1].xx;
-					a[i].yy = a[i - 1].yy;
-				}
+				printf("21");
 			}
 		}
-		
-		forn(i, n)
+		else if (n % 3 == 1)
 		{
-			int yn = a[i].x;
-			int xn = -a[i].y;
-			a[i].x = xn;
-			a[i].y = yn;
-			int yyn = a[i].xx;
-			int xxn = -a[i].yy;
-			a[i].xx = xxn;
-			a[i].yy = yyn;
+			putchar('1');
+			forn(i, n / 3)
+			{
+				printf("21");
+			}
 		}
-	}
-	
-	sort(a, a + n, [](const tp &l, const tp &r) { return l.idx < r.idx; });
-	forn(i, n)
-	{
-		printf("%d %d\n", a[i].xx, a[i].yy);
+		else
+		{
+			forn(i, n / 3)
+			{
+				printf("21");
+			}
+			putchar('2');
+		}
+		puts("");
 	}
 	
 	return 0;

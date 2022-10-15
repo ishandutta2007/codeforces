@@ -3,7 +3,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -27,21 +26,6 @@ using namespace std;
 #define ford(i, n) for(int i=(n)-1; i>=0; i--)
 #define fori(it, x) for (__typeof((x).begin()) it = (x).begin(); it != (x).end(); it++)
 
-#ifdef ROOM_311
-time_t et_0;
-
-__attribute__((constructor)) void init_main()
-{
-	et_0 = clock();
-}
-
-__attribute__((destructor)) void fini_main()
-{
-	time_t et_1 = clock();
-	fprintf(stderr, "Execution time = %0.0lf ms\n", (et_1 - et_0) * 1000.0 / CLOCKS_PER_SEC);
-}
-#endif
-
 template <class _T> inline _T sqr(const _T& x) { return x * x; }
 template <class _T> inline string tostr(const _T& a) { ostringstream os(""); os << a; return os.str(); }
 
@@ -49,7 +33,7 @@ typedef long double ld;
 
 // Constants
 const ld PI = 3.1415926535897932384626433832795;
-const ld EPS = 1e-11;
+const ld EPS = 1e-6;
 
 // Types
 typedef signed   long long i64;
@@ -59,28 +43,37 @@ typedef vector < int > VI;
 typedef map < string, int > MSI;
 typedef pair < int, int > PII;
 
-const int MOD = 1000000007;
+struct tp{ld x,y;};
 
-int n, k;
-int a[102400];
-char s[102400];
-int f[102400];
-int rf[102400];
-
-int mypow(int a, int k)
+inline ld dist(tp p1, tp p2)
 {
-	if (!k) return 1;
-	int ans = mypow(a, k / 2);
-	ans = ans * (i64)ans % MOD;
-	if (k & 1) ans = ans * (i64)a % MOD;
-	return ans;
+	return sqrt(sqr(p1.x-p2.x) + sqr(p1.y-p2.y));
 }
 
-int cnk(int n, int k)
+ld vp(tp p, tp p1, tp p2)
 {
-	if (n < k || k < 0) return 0;
-	return f[n] * (i64)rf[n - k] % MOD * rf[k] % MOD;
+	p1.x -= p.x;
+	p1.y -= p.y;
+	p2.x -= p.x;
+	p2.y -= p.y;
+	return p1.x * p2.y - p1.y * p2.x;
 }
+
+ld sp(tp p, tp p1, tp p2)
+{
+	p1.x -= p.x;
+	p1.y -= p.y;
+	p2.x -= p.x;
+	p2.y -= p.y;
+	return p1.x * p2.x + p1.y * p2.y;
+}
+
+istream & operator >> (istream &is, tp &p)
+{
+	is >> p.x >> p.y;
+	return is;
+}
+
 
 int main()
 {
@@ -90,32 +83,30 @@ int main()
 #endif
 	cout << setiosflags(ios::fixed) << setprecision(10);
 
-	f[0] = rf[0] = 1;
-	For(i, 1, 100000)
+	tp a[4];
+
+	forn(i, 3)
 	{
-		f[i] = f[i - 1] * (i64)i % MOD;
-		rf[i] = rf[i - 1] * (i64)mypow(i, MOD - 2) % MOD;
+		cin >> a[i];
 	}
 
-	scanf("%d%d", &n, &k);
-	scanf("%s", s);
-	int sum = 0;
-	forn(i, n)
-	{
-		a[i] = s[i] - '0';
-		sum += a[i];
-	}
-	int ans = 0;
-	int p10 = 1;
-	ford(i, n)
-	{
-		ans = (ans + a[i] * (i64)cnk(i, k) % MOD * p10) % MOD;
-		sum -= a[i];
-		if (i > 0 && k >= 0) ans = (ans + sum * (i64)cnk(i - 1, k - 1) % MOD * p10) % MOD;
-		p10 = p10 * 10LL % MOD;
-	}
+	ld c0 = fabs(atan2(vp(a[0], a[1], a[2]), sp(a[0], a[1], a[2]))) * 2.0;
+	ld c1 = fabs(atan2(vp(a[1], a[0], a[2]), sp(a[1], a[0], a[2]))) * 2.0;
 
-	printf("%d\n", ans);
+	For(ans, 3, 100)
+	{
+		bool b0 = false;
+		bool b1 = false;
+		forn(j, ans+1)
+		{
+			if (fabs(2.0 * PI / ans * j - c0) < EPS) b0 = true;
+			if (fabs(2.0 * PI / ans * j - c1) < EPS) b1 = true;
+		}
+
+		if (!b0 || !b1) continue;
+		printf("%0.10lf\n", (double)(sqr(dist(a[0], a[1]) * dist(a[1], a[2]) * dist(a[2], a[0]) / 2.0 / fabs(vp(a[0], a[1], a[2]))) * sin(2.0 * PI / ans) * 0.5 * ans));
+		return 0;
+	}
 
 	return 0;
 }

@@ -45,7 +45,7 @@ __attribute__((destructor)) void fini_main()
 template <class _T> inline _T sqr(const _T& x) { return x * x; }
 template <class _T> inline string tostr(const _T& a) { ostringstream os(""); os << a; return os.str(); }
 
-typedef long double ld;
+typedef double ld;
 
 // Constants
 const ld PI = 3.1415926535897932384626433832795;
@@ -59,27 +59,55 @@ typedef vector < int > VI;
 typedef map < string, int > MSI;
 typedef pair < int, int > PII;
 
-const int MOD = 1000000007;
+struct tfrac {
+	i64 p, q;
+};
 
-int n, k;
-int a[102400];
-char s[102400];
-int f[102400];
-int rf[102400];
-
-int mypow(int a, int k)
+bool operator < (const tfrac &l, const tfrac &r)
 {
-	if (!k) return 1;
-	int ans = mypow(a, k / 2);
-	ans = ans * (i64)ans % MOD;
-	if (k & 1) ans = ans * (i64)a % MOD;
-	return ans;
+	ld diff = (l.p * (ld)r.q - r.p * (ld)l.q);
+	if (diff < -1e18) return true;
+	if (diff > 1e18) return false;
+	return l.p * r.q - r.p * l.q < 0;
 }
 
-int cnk(int n, int k)
+struct te {
+	int t, num, coef;
+	int idx;
+	int diff;
+	tfrac f;
+};
+
+int n, m, k;
+int a[102400];
+te e[102400];
+int ma[102400];
+VI g[102400];
+
+void calc_f()
 {
-	if (n < k || k < 0) return 0;
-	return f[n] * (i64)rf[n - k] % MOD * rf[k] % MOD;
+	forn(i, n)
+	{
+		if (e[i].t == 3)
+		{
+			e[i].f = { p : e[i].coef, q : 1 };
+		}
+		else
+		{
+			g[e[i].num].pb(i);
+		}
+	}
+	forn(i, k)
+	{
+		sort(g[i].begin(), g[i].end(), [&] (const int &p1, const int &p2) { return e[p1].diff > e[p2].diff; });
+		i64 sum = a[i];
+		forn(j1, g[i].sz)
+		{
+			int j = g[i][j1];
+			e[j].f = { p : sum + e[j].diff, q : sum };
+			sum += e[j].diff;
+		}
+	}
 }
 
 int main()
@@ -90,32 +118,58 @@ int main()
 #endif
 	cout << setiosflags(ios::fixed) << setprecision(10);
 
-	f[0] = rf[0] = 1;
-	For(i, 1, 100000)
+	scanf("%d%d%d", &k, &n, &m);
+	forn(i, k)
 	{
-		f[i] = f[i - 1] * (i64)i % MOD;
-		rf[i] = rf[i - 1] * (i64)mypow(i, MOD - 2) % MOD;
+		scanf("%d", &a[i]);
+		ma[i] = a[i] + 1;
 	}
-
-	scanf("%d%d", &n, &k);
-	scanf("%s", s);
-	int sum = 0;
 	forn(i, n)
 	{
-		a[i] = s[i] - '0';
-		sum += a[i];
+		scanf("%d%d%d", &e[i].t, &e[i].num, &e[i].coef);
+		e[i].num--;
+		e[i].idx = i;
+		e[i].diff = e[i].coef - (e[i].t == 1 ? a[e[i].num] : 0);
+		if (e[i].t == 1 && e[i].coef > ma[e[i].num])
+		{
+			ma[e[i].num] = e[i].coef;
+		}
 	}
-	int ans = 0;
-	int p10 = 1;
-	ford(i, n)
+	forn(i, n)
 	{
-		ans = (ans + a[i] * (i64)cnk(i, k) % MOD * p10) % MOD;
-		sum -= a[i];
-		if (i > 0 && k >= 0) ans = (ans + sum * (i64)cnk(i - 1, k - 1) % MOD * p10) % MOD;
-		p10 = p10 * 10LL % MOD;
+		if (e[i].t == 1)
+		{
+			if (e[i].coef < ma[e[i].num])
+			{
+				swap(e[i], e[n - 1]);
+				n--;
+				i--;
+			}
+			else
+			{
+				ma[e[i].num]++;
+			}
+		}
 	}
+	m = min(m, n);
 
-	printf("%d\n", ans);
+	calc_f();
+
+	nth_element(e, e + m, e + n, [&] (const te &e1, const te &e2) { return e2.f < e1.f; });
+
+	printf("%d\n", m);
+	bool first = true;
+	For(t, 1, 3)
+	{
+		forn(i, m)
+		{
+			if (e[i].t != t) continue;
+			if (first) first = false;
+			else putchar(' ');
+			printf("%d", e[i].idx + 1);
+		}
+	}
+	puts("");
 
 	return 0;
 }

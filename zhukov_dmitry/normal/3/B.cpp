@@ -3,7 +3,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -27,21 +26,6 @@ using namespace std;
 #define ford(i, n) for(int i=(n)-1; i>=0; i--)
 #define fori(it, x) for (__typeof((x).begin()) it = (x).begin(); it != (x).end(); it++)
 
-#ifdef ROOM_311
-time_t et_0;
-
-__attribute__((constructor)) void init_main()
-{
-	et_0 = clock();
-}
-
-__attribute__((destructor)) void fini_main()
-{
-	time_t et_1 = clock();
-	fprintf(stderr, "Execution time = %0.0lf ms\n", (et_1 - et_0) * 1000.0 / CLOCKS_PER_SEC);
-}
-#endif
-
 template <class _T> inline _T sqr(const _T& x) { return x * x; }
 template <class _T> inline string tostr(const _T& a) { ostringstream os(""); os << a; return os.str(); }
 
@@ -59,27 +43,22 @@ typedef vector < int > VI;
 typedef map < string, int > MSI;
 typedef pair < int, int > PII;
 
-const int MOD = 1000000007;
+int n, k, m1, m2;
+int a1[102400];
+int a2[102400];
+int ind1[102400];
+int ind2[102400];
+int b1[102400];
+int b2[102400];
 
-int n, k;
-int a[102400];
-char s[102400];
-int f[102400];
-int rf[102400];
-
-int mypow(int a, int k)
+bool cmp1(int p1, int p2)
 {
-	if (!k) return 1;
-	int ans = mypow(a, k / 2);
-	ans = ans * (i64)ans % MOD;
-	if (k & 1) ans = ans * (i64)a % MOD;
-	return ans;
+	return a1[p1] > a1[p2];
 }
 
-int cnk(int n, int k)
+bool cmp2(int p1, int p2)
 {
-	if (n < k || k < 0) return 0;
-	return f[n] * (i64)rf[n - k] % MOD * rf[k] % MOD;
+	return a2[p1] > a2[p2];
 }
 
 int main()
@@ -90,32 +69,80 @@ int main()
 #endif
 	cout << setiosflags(ios::fixed) << setprecision(10);
 
-	f[0] = rf[0] = 1;
-	For(i, 1, 100000)
-	{
-		f[i] = f[i - 1] * (i64)i % MOD;
-		rf[i] = rf[i - 1] * (i64)mypow(i, MOD - 2) % MOD;
-	}
-
-	scanf("%d%d", &n, &k);
-	scanf("%s", s);
-	int sum = 0;
+	scanf("%d %d", &n, &k);
+	m1 = m2 = 0;
 	forn(i, n)
 	{
-		a[i] = s[i] - '0';
-		sum += a[i];
+		int x, y;
+		scanf("%d %d", &x, &y);
+		if (x == 2)
+		{
+			b1[m1] = i + 1;
+			a1[m1++] = y;
+		}
+		else
+		{
+			b2[m2] = i + 1;
+			a2[m2++] = y;
+		}
 	}
-	int ans = 0;
-	int p10 = 1;
-	ford(i, n)
+	forn(i, m1)
 	{
-		ans = (ans + a[i] * (i64)cnk(i, k) % MOD * p10) % MOD;
-		sum -= a[i];
-		if (i > 0 && k >= 0) ans = (ans + sum * (i64)cnk(i - 1, k - 1) % MOD * p10) % MOD;
-		p10 = p10 * 10LL % MOD;
+		ind1[i] = i;
+	}
+	forn(i, m2)
+	{
+		ind2[i] = i;
 	}
 
-	printf("%d\n", ans);
+	sort(ind1, ind1+m1, cmp1);
+	sort(ind2, ind2+m2, cmp2);
+
+	int l1 = 0;
+	while (l1 < m1 && k >= 2)
+	{
+		k -= 2;
+		l1++;
+	}
+	int l2 = 0;
+	while (k >= 1 && l2 < m2)
+	{
+		k--;
+		l2++;
+	}
+
+	while (l2 < m2 - 1 && l1 > 0 && a2[ind2[l2]] + a2[ind2[l2+1]] > a1[ind1[l1-1]])
+	{
+		l2 += 2;
+		l1--;
+	}
+
+	if (l2 < m2 && l1 > 0 && a2[ind2[l2]] > a1[ind1[l1]])
+	{
+		l2++;
+		l1--;
+	}
+
+	i64 ans = 0;
+	forn(i, l1)
+	{
+		ans += a1[ind1[i]];
+	}
+	forn(i, l2)
+	{
+		ans += a2[ind2[i]];
+	}
+
+	printf("%I64d\n", ans);
+	forn(i, l1)
+	{
+		printf("%d ", b1[ind1[i]]);
+	}
+	forn(i, l2)
+	{
+		printf("%d ", b2[ind2[i]]);
+	}
+	puts("");
 
 	return 0;
 }

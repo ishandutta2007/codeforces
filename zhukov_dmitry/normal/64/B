@@ -1,0 +1,4 @@
+set line [gets stdin]
+scan $line "%d%d" a b
+set res [expr {$a + $b}]
+puts $res
