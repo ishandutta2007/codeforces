@@ -1,0 +1,71 @@
+with Ada.Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Integer_Text_IO;
+
+procedure c is
+    q: String(1 .. 100);
+    qp: Natural;
+    n: Natural;
+    s: String(1 .. 100);
+    sp: Natural;
+    c: Natural;
+    y: Natural;
+    m: Natural;
+    d: Natural;
+    x: Natural;
+    z: Natural;
+    u: Natural;
+    w: Natural;
+
+begin
+    get_line(q, qp);
+    n := Integer'Value(q(1 .. qp));
+    c := 0;
+    for i in 1 .. n loop
+        get_line(s, sp);
+        y := Integer'Value(s(1 .. 4));
+        m := Integer'Value(s(6 .. 7));
+        d := Integer'Value(s(9 .. 10));
+        w := y mod 100;
+        x := 6;
+        if y < 2000 then
+            x := 0;
+        end if;
+        if m = 1 then
+            u := 0;
+        elsif m = 2 then
+            u := 3;
+        elsif m = 3 then
+            u := 3;
+        elsif m = 4 then
+            u := 6;
+        elsif m = 5 then
+            u := 1;
+        elsif m = 6 then
+            u := 4;
+        elsif m = 7 then
+            u := 6;
+        elsif m = 8 then
+            u := 2;
+        elsif m = 9 then
+            u := 5;
+        elsif m = 10 then
+            u := 0;
+        elsif m = 11 then
+            u := 3;
+        elsif m = 12 then
+            u := 5;
+        end if;
+        if (y mod 400 = 0) or (y mod 4 = 0 and y mod 100 /= 0) then
+            if m = 1 then
+                u := 6;
+            elsif m = 2 then
+                u := 2;
+            end if;
+        end if;
+        z := (d+u+w+w/4+x) mod 7;
+        if z = 5 and d = 13 then
+            c := c+1;
+        end if;
+    end loop;
+    put(c, Width => 1);
+end c;
