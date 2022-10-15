@@ -1,0 +1,1 @@
+print((lambda n: ('01'*n)[:n])(int(input().split()[0])))
