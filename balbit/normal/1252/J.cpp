@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+using namespace std;
+#define ll long long
+#define pii pair<int, int>
+#define ull unsigned ll
+#define f first
+#define s second
+#define ALL(x) x.begin(),x.end()
+#define SZ(x) (int)x.size()
+#define SQ(x) (x)*(x)
+#define MN(a,b) a = min(a,(__typeof__(a))(b))
+#define MX(a,b) a = max(a,(__typeof__(a))(b))
+#define pb push_back
+#define SORT_UNIQUE(c) (sort(c.begin(),c.end()), c.resize(distance(c.begin(),unique(c.begin(),c.end()))))
+#ifdef BALBIT
+#define IOS()
+#define bug(...) fprintf(stderr,"#%d (%s) = ",__LINE__,#__VA_ARGS__),_do(__VA_ARGS__);
+template<typename T> void _do(T &&x){cerr<<x<<endl;}
+template<typename T, typename ...S> void _do(T &&x, S &&...y){cerr<<x<<", ";_do(y...);}
+#else
+#define IOS() ios_base::sync_with_stdio(0);cin.tie(0);
+#define endl '\n'
+#define bug(...)
+#endif
+
+const int iinf = 1<<29;
+const ll inf = 1ll<<60;
+const ll mod = 1e9+7 ;
+
+
+void GG(){cout<<"0\n"; exit(0);}
+
+ll mpow(ll a, ll n, ll mo = mod){ // a^n % mod
+    ll re=1;
+    while (n>0){
+        if (n&1) re = re*a %mo;
+        a = a*a %mo;
+        n>>=1;
+    }
+    return re;
+}
+
+ll inv (ll b, ll mo = mod){
+    if (b==1) return b;
+    return (mo-mo/b) * inv(mo%b) % mo;
+}
+
+const int maxn = 1e6+5;
+const int big = 1e9+1;
+
+int a[25];
+int dp[(1<<24)];
+int sum[(1<<24)];
+
+signed main(){
+    IOS();
+    int n; cin>>n;
+    for (int i = 0; i<n; ++i) {
+        cin>>a[i];
+        sum[(1<<i)] = a[i];
+    }
+
+    int k; cin>>k;
+    int X = -1, Y = -1;
+    if (k>0) cin>>X;
+    if (k>1) cin>>Y;
+    dp[0] =  1;
+    for (int msk = 1; msk < (1<<n); ++msk) {
+        int lb = (msk & -msk);
+        sum[msk] = sum[msk ^ lb] + sum[lb];
+        if (sum[msk] > big) sum[msk] = big;
+        if (sum[msk] != X && sum[msk] != Y) {
+            for (int i = 0; i<n; ++i) {
+                if (msk & (1<<i)) {
+                    dp[msk] += dp[msk^(1<<i)];
+                    if (dp[msk] >= mod) dp[msk] -= mod;
+                }
+            }
+        }
+    }
+    cout<<dp[(1<<n)-1]<<endl;
+
+}
