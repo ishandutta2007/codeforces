@@ -1,0 +1,1 @@
+for s in[*open(0)][1:]:n,x,t=map(int,s.split());d=min(n,t//x);print(d*(2*n-d-1)//2)

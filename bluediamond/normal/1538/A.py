@@ -1,0 +1,1 @@
+for s in[*open(0)][2::2]:a=*map(int,s.split()),;i,j=sorted(map(a.index,(1,n:=len(a))));print(min(i+1+n-j,j+1,n-i))
