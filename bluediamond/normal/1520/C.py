@@ -1,0 +1,1 @@
+for s in[*open(0)][1:]:print(*([*range(1,m:=int(s)**2+1,2),*range(2,m,2)],[-1])[m==5])
