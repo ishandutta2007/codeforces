@@ -1,0 +1,230 @@
+{-------------------------------------------------+
+|                   ( alex256 )                   |
+|-------------------------------------------------+
+|            Pascal template v. 1.0.3.            |
++---------+---------------------------------------+
+| Contest | CodeForces Round XXX (Div. ?)         |
+| Task    | ?                                     |
+| Date    | ??.??.201?                            |
++---------+---------------------------------------}
+program TemplatePas;
+
+{$IfNDef ONLINE_JUDGE}
+  {$Define FILE_IO}
+{$EndIf}
+
+{$IfDef LOCAL}
+  {$R+}{$I+}{$Q+}{$S+}
+{$EndIf}
+{$Mode ObjFpc} {$H+} {$B-} {$COperators On} {$Macro On} {$Inline On}
+{$ModeSwitch AdvancedRecords} {$Hints Off}
+
+uses
+  SysUtils, Classes, Math, DateUtils, GArrayUtils, GDeque, GMap, GPriorityQueue,
+  GQueue, GSet, GStack, GUtil, GVector, StrUtils;
+
+const
+  Infinity = 1000000000 + 7;
+  Infinity64 = 1000000000000000000 + 256;
+  Modulo = 1000000000 + 7;
+  Luck = '';
+  ErrorText = 'Error :(';
+
+type
+  generic TPair<T1, T2> = record
+  private
+   class function Compare(const A, B: TPair): Integer; static;
+  public
+    X: T1;
+    Y: T2;
+    class function Make(AX: T1; AY: T2): TPair; inline; static;
+    class operator<(const A, B: TPair): Boolean; inline;
+    class operator<=(const A, B: TPair): Boolean; inline;
+    class operator>(const A, B: TPair): Boolean; inline;
+    class operator>=(const A, B: TPair): Boolean; inline;
+    class operator=(const A, B: TPair): Boolean; inline;
+    class operator<>(const A, B: TPair): Boolean; inline;
+  end;
+
+class function TPair.Compare(const A, B: TPair): Integer;
+begin
+  Result := 0;
+  if A.X < B.X then Exit(-1);
+  if A.X > B.X then Exit(+1);
+  if A.Y < B.Y then Exit(-1);
+  if A.Y > B.Y then Exit(+1);
+end;
+
+class function TPair.Make(AX: T1; AY: T2): TPair; begin Result.X := AX; Result.Y := AY; end;
+class operator TPair.<(const A, B: TPair): Boolean; begin Result := Compare(A, B) < 0; end;
+class operator TPair.<=(const A, B: TPair): Boolean; begin Result := Compare(A, B) <= 0; end;
+class operator TPair.>(const A, B: TPair): Boolean; begin Result := Compare(A, B) > 0; end;
+class operator TPair.>=(const A, B: TPair): Boolean; begin Result := Compare(A, B) >= 0; end;
+class operator TPair.=(const A, B: TPair): Boolean; begin Result := Compare(A, B) = 0; end;
+class operator TPair.<>(const A, B: TPair): Boolean; begin Result := Compare(A, B) <> 0; end;
+
+function ExtGcd(A, B: Int64; var X, Y: Int64): Int64;
+var X1, Y1, G: Int64;
+begin
+  X := 0; Y := 1;
+  if A = 0 then Exit(B);
+  G := ExtGcd(B mod A, A, X1, Y1);
+  X := Y1 - (B div A) * X1;
+  Y := X1;
+  Exit(G);
+end;
+
+function Gcd(A, B: Int64): Int64; begin if B = 0 then Result := A else Result := Gcd(B, A mod B); end;
+procedure Error(Text: string = ErrorText); inline; begin WriteLn(Text); Halt(42); end;
+function AddMod(A, B: Integer; M: Integer = Modulo): Integer; inline; begin Result := (Int64(A) + B) mod M; end;
+function SubMod(A, B: Integer; M: Integer = Modulo): Integer; inline; begin Result := (Int64(A) + M - B) mod M; end;
+function MulMod(A, B: Integer; M: Integer = Modulo): Integer; inline; begin Result := (Int64(A) * B) mod M; end;
+
+function DivMod(A, B: Integer; M: Integer = Modulo): Integer; inline;
+var X, Y, G: Int64;
+begin
+  G := ExtGcd(B, M, X, Y);
+  if G <> 1 then Error('DivMod error');
+  X := (X mod M + M) mod M;
+  Result := MulMod(A, X, M);
+end;
+
+procedure UMin(var A: Int64; B: Int64); inline; begin A := Min(A, B); end;
+procedure UMin(var A: Integer; B: Integer); inline; begin A := Min(A, B); end;
+procedure UMax(var A: Int64; B: Int64); inline; begin A := Max(A, B); end;
+procedure UMax(var A: Integer; B: Integer); inline; begin A := Max(A, B); end;
+
+function ReadChar: Char; inline; begin Read(Result); end;
+function ReadInt: Int64; inline; begin Read(Result); end;
+function ReadLine: String; inline; begin ReadLn(Result); end;
+
+function ReadToken: String; inline;
+var C: Char;
+begin
+  Result := ''; C := #0;
+  while C <= ' ' do C := ReadChar;
+  while not (C <= ' ') do
+  begin
+    Result += C;
+    C := ReadChar;
+  end;
+end;
+
+type
+  TPairIntInt = specialize TPair<Integer, Integer>;
+  TPairI64I64 = specialize TPair<Int64, Int64>;
+
+  TLessInt = specialize TLess<Integer>;
+  TLessI64 = specialize TLess<Int64>;
+  TLessPairIntInt = specialize TLess<TPairIntInt>;
+  TLessPairI64I64 = specialize TLess<TPairI64I64>;
+  TLessString = specialize TLess<String>;
+
+  TGreaterInt = specialize TGreater<Integer>;
+  TGreaterI64 = specialize TGreater<Int64>;
+  TGreaterPairIntInt = specialize TGreater<TPairIntInt>;
+  TGreaterPairI64I64 = specialize TGreater<TPairI64I64>;
+  TGreaterString = specialize TGreater<String>;
+
+  TArrayInt = array of Integer;
+  TArrayInt64 = array of Int64;
+  TArrayPairIntInt = array of TPairIntInt;
+  TArrayPairI64I64 = array of TPairI64I64;
+  TArrayString = array of String;
+
+  TVectorInt = specialize TVector<Integer>;
+  TVectorI64 = specialize TVector<Int64>;
+  TVectorPairIntInt = specialize TVector<TPairIntInt>;
+  TVectorPairI64I64 = specialize TVector<TPairI64I64>;
+  TVectorString = specialize TVector<String>;
+
+  TVectorVectorInt = specialize TVector<TVectorInt>;
+  TVectorVectorPairIntInt = specialize TVector<TVectorPairIntInt>;
+
+  TSetInt = specialize TSet<Integer, TLessInt>;
+  TSetI64 = specialize TSet<Int64, TLessI64>;
+  TSetPairIntInt = specialize TSet<TPairIntInt, TLessPairIntInt>;
+  TSetPairI64I64 = specialize TSet<TPairI64I64, TLessPairI64I64>;
+
+  TQueueInt = specialize TQueue<Integer>;
+  TMinPriorityQueuePairIntInt = specialize TPriorityQueue<TPairIntInt, TGreaterPairIntInt>;
+  TMinPriorityQueuePairI64I64 = specialize TPriorityQueue<TPairI64I64, TGreaterPairI64I64>;
+  TMaxPriorityQueuePairIntInt = specialize TPriorityQueue<TPairIntInt, TLessPairIntInt>;
+  TMaxPriorityQueuePairI64I64 = specialize TPriorityQueue<TPairI64I64, TLessPairI64I64>;
+
+// End of template
+
+procedure Accumulate(A: TVectorInt);
+var
+  I: integer;
+begin
+  if A.Size = 0 then Exit;
+  for I := 1 to A.Size - 1 do begin
+    A[I] := A[I] + A[I-1];
+  end;
+end;
+
+function Compose(A, B: TVectorInt; K: integer): integer;
+var
+  N, M, I, J: integer;
+begin
+  N := A.Size; M := B.Size;
+  Result := -1;
+  for I := 0 to K-2 do
+  begin
+    J := K-2-I;
+    if (I >= N) or (J >= M) then continue;
+    Result := Max(Result, A[I] + B[J]);
+  end;
+end;
+
+function Main: Integer;
+type
+  TIntSort = specialize TOrderingArrayUtils<TVectorInt, integer, TGreaterInt>;
+var
+  Red, White, Orange: TVectorInt;
+  N, K, I: integer;
+  A: array of integer;
+  S: ansistring;
+  Res: int64;
+begin
+  ReadLn(N, K);
+  SetLength(A, N);
+  for I := 0 to N-1 do begin
+    Read(A[I]);
+  end;
+  ReadLn;
+  ReadLn(S);
+  Red := TVectorInt.Create;
+  White := TVectorInt.Create;
+  Orange := TVectorInt.Create;
+  for I := 0 to N-1 do begin
+    case S[I+1] of
+      'R': Red.PushBack(A[I]);
+      'O': Orange.PushBack(A[I]);
+      'W': White.PushBack(A[I]);
+    end;
+  end;
+
+  if Red.Size <> 0 then TIntSort.Sort(Red, Red.Size);
+  if Orange.Size <> 0 then TIntSort.Sort(Orange, Orange.Size);
+  if White.Size <> 0 then TIntSort.Sort(White, White.Size);
+
+  Accumulate(Red);
+  Accumulate(Orange);
+  Accumulate(White);
+  Res := Max(Compose(Red, Orange, K), Compose(White, Orange, K));
+  WriteLn(Res);
+end;
+
+begin
+  RandSeed := $42E256;
+  {$IfDef FILE_IO}
+    AssignFile(Input, 'input.txt'); Reset(Input);
+    //AssignFile(Output, OutFile); Rewite(Output);
+  {$EndIf}
+  ExitCode := Main;
+  {$IfDef FILE_IO}
+    CloseFile(Input); CloseFile(Output);
+  {$EndIf}
+end.
