@@ -1,0 +1,3 @@
+set s [gets stdin] 
+set result [regexp {^([a-z0-9]+\.)*([a-z0-9][a-z0-9]|[a-z0-9][a-z0-9][a-z0-9])$} $s]
+if {$result == 1} { puts "YES" } { puts "NO" }
