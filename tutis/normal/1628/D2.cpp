@@ -1,0 +1,105 @@
+/*input
+7
+3 3 2
+2 1 10
+6 3 10
+6 4 10
+100 1 1
+4 4 0
+69 4 20
+
+*/
+#pragma GCC optimize ("O3")
+#pragma GCC target ("avx2")
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template<typename T, typename X>
+using ordered_map = tree<T, X, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template<typename T, typename X>
+using fast_map = cc_hash_table<T, X>;
+//using ull = __ull128_t;
+using ull = unsigned long long;
+using ll = long long;
+using ld = double;
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+template<typename T>
+void sort_unique(T &x) {sort(x.begin(), x.end()); x.erase(unique(x.begin(), x.end()), x.end());}
+//const ll mod = 998244353;
+const ll mod = 1000000007;
+ll power(ll a, ll b)
+{
+	if (abs(a) >= mod)
+		a %= mod;
+	if (abs(b) >= mod - 1)
+		b %= (mod - 1);
+	if (a < 0)
+		a += mod;
+	if (b < 0)
+		b += mod - 1;
+	ll r = 1;
+	if (b % 2 == 1)
+		r = a;
+	b /= 2;
+	while (b)
+	{
+		a = (a * a) % mod;
+		if (b % 2 == 1)
+			r = (r * a) % mod;
+		b /= 2;
+	}
+	return r;
+}
+ll F[1000008];
+ll iF[1000008];
+ll C(ll n, ll k)
+{
+	return (F[n] * ((iF[k] * iF[n - k] % mod))) % mod;
+}
+int main()
+{
+	F[0] = 1;
+	for (ll i = 1; i < 1000008; i++)
+		F[i] = (F[i - 1] * i) % mod;
+	iF[1000007] = power(F[1000007], -1);
+	for (ll i = 1000006; i >= 0; i--)
+		iF[i] = (iF[i + 1] * (i + 1)) % mod;
+	ios_base::sync_with_stdio(false);
+	cin.tie(0), cout.tie(0);
+	int t;
+	cin >> t;
+	ll dp[2002][2002];
+	for (int n = 0; n < 2002; n++)
+		dp[n][0] = 0;
+	ll i2 = power(2, -1);
+	for (int m = 0; m < 2002; m++)
+		dp[0][m] = (m * power(2, m - 1)) % mod;
+	for (int n = 1; n < 2002; n++)
+		for (int m = 1; m < 2002; m++)
+			dp[n][m] = ((dp[n - 1][m] + dp[n][m - 1])) % mod;
+	auto DP = [&](int n, int m)->ll
+	{
+		if (m == 0)
+			return 0;
+		if (n == 0)
+			return (m * power(2, m - 1)) % mod;
+		ll ret = 0;
+		for (int i = 1; i <= m; i++)
+		{
+			ll x = (i * power(2, i - 1)) % mod;
+			x *= C(n + m - i - 1, n - 1);
+			ret += x;
+			ret %= mod;
+		}
+		return ret;
+	};
+	while (t--)
+	{
+		ll n, m, k;
+		cin >> n >> m >> k;
+		cout << (((DP(n - m, m) * power(i2, n - 1)) % mod) * k) % mod << "\n";
+	}
+}
