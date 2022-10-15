@@ -1,0 +1,31 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+    S: String(1..100);
+    N: Integer;
+    K: Integer;
+    A: Integer;
+    P, ANS: Float;
+begin
+    K := 0;
+    A := 0;
+    Get_Line(S, N);
+    for i in 1..N loop
+        if S(i) = '?' then
+            K := K + 1;
+        end if;
+        if S(i) = '1' then
+            A := A + 1;
+        end if;
+    end loop;
+    Get(P);
+    ANS := (P * Float(K) + Float(A)) / Float(N);
+    Put(Item => ANS, Fore => 0, Aft => 5, Exp => 0);
+end Solution;

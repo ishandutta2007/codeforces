@@ -1,0 +1,40 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+    n, m, x, y: Integer;
+    f, g: Boolean;
+    a: Integer;
+begin
+    a := 0;
+    Get(n);
+    for i in 2..n+1 loop
+        m := 0;
+        x := n;
+        g := false;
+        f := false;
+        while x /= 0 loop
+            y := x mod i;
+            loop
+                f := f or (g and (y mod 10 = 1));
+                g := y mod 10 = 3;
+                y := y / 10;
+                exit when y = 0;
+            end loop;
+            x := x / i;
+        end loop;
+        if f then
+            a := a + 1;
+        end if;
+    end loop;
+    if f then
+        a := -1;
+    end if;
+    Put(Item => a, Width => 1);
+end Solution;
