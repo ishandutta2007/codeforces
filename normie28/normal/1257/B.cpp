@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+struct voter
+{
+    ll p;
+    ll m;
+};
+int cmp(voter a, voter b)
+{
+    if (a.m - b.m)
+        return (a.m < b.m);
+    return (a.p < b.p);
+}
+
+ll a, b, n, m, i, j, k, t;
+ll dp[5010][5010];
+vector<voter> lis;
+voter h;
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> t;
+    vector<long long> odd, even;
+    string s;
+    char c;
+    for (k = 1; k <= t; k++)
+    {
+       cin>>a>>b;
+       if (a>=b) cout<<"YES";
+       else if (a<2) cout<<"NO";
+       else if (a<4) if (b>3) cout<<"NO"; else cout<<"YES";
+       else cout<<"YES";
+       cout<<endl;
+    }
+}
