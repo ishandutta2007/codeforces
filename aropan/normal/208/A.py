@@ -1,0 +1,1 @@
+print " ".join(filter(lambda x: x != "", raw_input().split("WUB")))
