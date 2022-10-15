@@ -1,0 +1,1 @@
+print(("NO", "YES")[(input() == '1') ^ (input().count('0') == 1)])
