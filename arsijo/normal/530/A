@@ -1,0 +1,27 @@
+import cp.
+import math.
+main => 
+	A = read_int(),
+	B = read_int(),
+	C = read_int(),
+	D = B * B - 4 * A * C,
+	if (D == 0) then
+		Ans := -B / (2 * A),
+		println(Ans)
+	end,
+	if (D != 0) then
+		E = sqrt(D),
+		Ans1 = (-B +E) / (2 * A),
+		Ans2 = (-B -E) / (2 * A),
+		if (Ans1 < Ans2) then
+			println(Ans1),
+			println(Ans2)
+		end,
+		if (Ans2 < Ans1) then
+			println(Ans2),
+			println(Ans1)
+		end,
+		if (Ans2 == Ans1) then
+			println(Ans1)
+		end
+	end.

@@ -1,0 +1,10 @@
+import cp.
+import math.
+main => 
+	N = read_int(),
+	D = read_int(),
+	foreach (I in 1 .. N - 2)
+		println(1)
+	end,
+	println(2),
+	println(N + D).
