@@ -1,0 +1,1 @@
+print(("home","contest")[int(input())%2])
