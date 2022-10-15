@@ -1,0 +1,12 @@
+main =>
+  S = read_line(),
+  A = "",
+  B = "",
+  foreach (J in 1 .. length(S))
+    if J <= (length(S) div 2) then
+      A := A ++ [S[J]]
+    else
+      B := B ++ [S[J]]
+    end
+  end,
+  writef("%s%s", reverse(A), reverse(B)).
