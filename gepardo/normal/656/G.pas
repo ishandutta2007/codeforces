@@ -1,0 +1,1 @@
+var n,m,k: longint;a:array [1..10] of string;kitten:longint;i,j,q,res:longint;begin readln(n,m,k); for i:=1 to n do readln(a[i]);for i:=1 to m do begin q:=0;for j:=1 to n do if a[j,i] = 'Y' then inc(q);if(q>=k)then inc(res); end;write(res);end.
