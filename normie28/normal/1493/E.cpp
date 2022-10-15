@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;string a,b;int n,m,i,j;char x=48,y=49;int main(){cin>>n>>a>>b;if(a[0]-b[0]){for(auto g:a)cout<<1;return 0;}if(b[n-1]==y){cout<<b;return 0;}for(j=0;j<2;j++){if(a==b)break;for(i=n-1;i>=0;i--)if(b[i]==x)b[i]=y;else{b[i]=x;break;}}if(j==2)j++;b="0"+b;for (j=j;j;j--){for(i=n;i>=0;i--)if(b[i]==y)b[i]=x;else{b[i]=y;break;}}if(b[0]==x)b.erase(b.begin());cout<<b;}
