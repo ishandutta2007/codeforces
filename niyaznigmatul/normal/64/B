@@ -1,0 +1,9 @@
+
+gets stdin s
+set list1 [split $s '+']
+set list2 [split $s '-']
+if {[llength $list1] == 2} {
+    puts [expr {[lindex $list1 1] + [lindex $list1 0]}]
+} else {
+    puts [expr {[lindex $list2 0] - [lindex $list2 1]}]
+}

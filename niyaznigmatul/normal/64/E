@@ -1,0 +1,33 @@
+
+proc isPrime {p} {
+    if {$p == 1} {
+        return 0
+    }
+    for {set i 2} {[expr {$i * $i}] <= $p} {incr i} {
+        if {[expr {$p % $i}] == 0} {
+            return 0
+        }
+    }
+    return 1
+}
+
+gets stdin n
+
+set a $n
+while {$a > 0} {
+    if {[isPrime $a] == 1} {
+        break
+    }
+    set a [expr {$a - 1}]
+}
+
+set b $n
+
+while {$b > 0} {
+    if {[isPrime $b] == 1} {
+        break
+    }
+    set b [expr {$b + 1}]
+}
+
+puts "$a $b"

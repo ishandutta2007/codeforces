@@ -1,0 +1,11 @@
+
+gets stdin s
+set list [split $s  ]
+set a [lindex $list 0]
+set b [lindex $list 1]
+set c [lindex $list 2]
+set c [expr {$c - 1}]
+set d [expr {$c / $a}]
+set e [expr {$c % $a}]
+set ans [expr {$e * $b + $d + 1}]
+puts $ans

@@ -1,0 +1,7 @@
+
+gets stdin a
+set b 1
+for {set x 1} {$x <= $a} {incr x} {
+    set b  [expr {$b * $x}]
+}
+puts $b
