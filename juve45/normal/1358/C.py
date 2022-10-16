@@ -1,0 +1,1 @@
+for i in range(int(input())):x,y,z,t=map(int,input().split());print(1+(z-x)*(t-y))
