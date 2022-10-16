@@ -1,0 +1,21 @@
+strsplit=: #@[ }.each [ (E. <;.1 ]) ,
+strjoin=: #@[ }. <@[ ;@,. ]
+print =: 1!:2&2
+read =: 1!:1[3
+in =. read-.CR
+in =. ' ' strjoin LF strsplit in
+mx =: 0
+
+t =: 3 : 0
+for_i. i.$y do.
+ if. i > 0 do.
+  a =. (i - 1){y
+  b =. i{y
+  mx =: (a - b) >. (b - a) >. mx
+ end.
+end.
+)
+
+t \. ". in
+
+smoutput mx

@@ -1,0 +1,8 @@
+strsplit=: #@[ }.each [ (E. <;.1 ]) ,
+strjoin=: #@[ }. <@[ ;@,. ]
+print =: 1!:2&2
+read =: 1!:1[3
+in =: read-.CR
+in =: ". ' ' strjoin LF strsplit in
+pi =: p:^:_1
+smoutput (pi >:1{in) - pi 0{in
