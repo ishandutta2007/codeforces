@@ -1,0 +1,181 @@
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4.1,sse4.2,avx,avx2,popcnt,tune=native")
+#pragma GCC optimize(3)
+#include<bits/stdc++.h>
+namespace Fastio{
+struct Reader{
+	template<typename T>Reader&operator>>(T&x){
+		char c=getchar();short f=1;
+		while(c<'0'||c>'9'){if(c=='-')f*=-1;c=getchar();}
+		x=0;while(c>='0'&&c<='9'){
+			x=(x<<1)+(x<<3)+(c^48);
+			c=getchar();
+		}x*=f;return *this;
+	}
+	Reader&operator>>(double&x){
+		char c=getchar();short f=1,s=0;x=0;double t=0;
+		while((c<'0'||c>'9')&&c!='-'&&c!='.'){if(c=='-')f*=-1;c=getchar();}
+		while(c>='0'&&c<='9'&&c!='.')x=x*10+(c^48),c=getchar();
+		if(c=='.')c=getchar();else return x*=f,*this;
+		while(c>='0'&&c<='9')t=t*10+(c^48),s++,c=getchar();
+		while(s--)t/=10.0;x=(x+t)*f;return*this;
+	}
+	Reader&operator>>(long double&x){
+		char c=getchar();short f=1,s=0;x=0;long double t=0;
+		while((c<'0'||c>'9')&&c!='-'&&c!='.'){if(c=='-')f*=-1;c=getchar();}
+		while(c>='0'&&c<='9'&&c!='.')x=x*10+(c^48),c=getchar();
+		if(c=='.')c=getchar();else return x*=f,*this;
+		while(c>='0'&&c<='9')t=t*10+(c^48),s++,c=getchar();
+		while(s--)t/=10.0;x=(x+t)*f;return*this;
+	}
+	Reader&operator>>(__float128&x){
+		char c=getchar();short f=1,s=0;x=0;__float128 t=0;
+		while((c<'0'||c>'9')&&c!='-'&&c!='.'){if(c=='-')f*=-1;c=getchar();}
+		while(c>='0'&&c<='9'&&c!='.')x=x*10+(c^48),c=getchar();
+		if(c=='.')c=getchar();else return x*=f,*this;
+		while(c>='0'&&c<='9')t=t*10+(c^48),s++,c=getchar();
+		while(s--)t/=10.0;x=(x+t)*f;return*this;
+	}
+	Reader&operator>>(char&c){
+		c=getchar();while(c=='\n'||c==' '||c=='\r')c=getchar();
+		return *this;
+	}
+	Reader&operator>>(char*str){
+		int len=0;char c=getchar();
+		while(c=='\n'||c==' '||c=='\r')c=getchar();
+		while(c!='\n'&&c!=' '&&c!='\r')str[len++]=c,c=getchar();
+		str[len]='\0';return*this;
+	}
+	/*Reader&operator>>(string&str){
+		int len=0;char c=getchar();
+		while(c=='\n'||c==' '||c=='\r')c=getchar();
+		while(c!='\n'&&c!=' '&&c!='\r')str.push_back(c),c=getchar();
+		return*this;
+	}*/
+	Reader(){}
+}cin;
+const char endl='\n';
+struct Writer{
+const int Setprecision=6;
+typedef int mxdouble;
+	template<typename T>Writer&operator<<(T x){
+		if(x==0)return putchar('0'),*this;
+		if(x<0)putchar('-'),x=-x;
+		static int sta[45];int top=0;
+		while(x)sta[++top]=x%10,x/=10;
+		while(top)putchar(sta[top]+'0'),--top;
+		return*this;
+	}
+	Writer&operator<<(double x){
+		if(x<0)putchar('-'),x=-x;
+		mxdouble _=x;x-=(double)_;static int sta[45];int top=0;
+		while(_)sta[++top]=_%10,_/=10;if(!top)putchar('0');
+		while(top)putchar(sta[top]+'0'),--top;putchar('.');
+		for(int i=0;i<Setprecision;i++)x*=10;
+		_=x;while(_)sta[++top]=_%10,_/=10;
+		for(int i=0;i<Setprecision-top;i++)putchar('0');
+		while(top)putchar(sta[top]+'0'),--top;
+		return*this;
+	}
+	Writer&operator<<(long double x){
+		if(x<0)putchar('-'),x=-x;
+		mxdouble _=x;x-=(long double)_;static int sta[45];int top=0;
+		while(_)sta[++top]=_%10,_/=10;if(!top)putchar('0');
+		while(top)putchar(sta[top]+'0'),--top;putchar('.');
+		for(int i=0;i<Setprecision;i++)x*=10;
+		_=x;while(_)sta[++top]=_%10,_/=10;
+		for(int i=0;i<Setprecision-top;i++)putchar('0');
+		while(top)putchar(sta[top]+'0'),--top;
+		return*this;
+	}
+	Writer&operator<<(__float128 x){
+		if(x<0)putchar('-'),x=-x;
+		mxdouble _=x;x-=(__float128)_;static int sta[45];int top=0;
+		while(_)sta[++top]=_%10,_/=10;if(!top)putchar('0');
+		while(top)putchar(sta[top]+'0'),--top;putchar('.');
+		for(int i=0;i<Setprecision;i++)x*=10;
+		_=x;while(_)sta[++top]=_%10,_/=10;
+		for(int i=0;i<Setprecision-top;i++)putchar('0');
+		while(top)putchar(sta[top]+'0'),--top;
+		return*this;
+	}
+	Writer&operator<<(char c){putchar(c);return*this;}
+	Writer& operator<<(char*str){
+		int cur=0;while(str[cur])putchar(str[cur++]);
+		return *this;
+	}
+	Writer&operator<<(const char*str){
+		int cur=0;while(str[cur])putchar(str[cur++]);
+		return*this;
+	}
+	/*Writer&operator<<(string str){
+		int st=0,ed=str.size();
+		while(st<ed)putchar(str[st++]);
+		return*this;
+	}*/
+	Writer(){}
+}cout;
+}
+#define cin Fastio :: cin
+#define cout Fastio :: cout
+#define endl Fastio :: endl
+#define string char*
+using namespace std;
+vector<int>v[1000001];
+unordered_set<int>b;
+stack<int>ans;
+int n,k,f[1000010][20],book[1000010],cnt;
+void dfs(int x,int fa){
+    f[x][0]=fa;
+    for(int i=1;i<20;i++) f[x][i]=f[f[x][i-1]][i-1];
+    for(auto u:v[x])if(u!=fa)dfs(u,x);
+}
+bool check(int now,int j,int fa)
+{
+    if(b.find(now)!=b.end())return true;
+    if(j==0)return false;
+    for(auto q:v[now])
+    if(q!=fa)
+    if(check(q,j-1,now)){b.insert(now);k--;return true;}
+    return false;
+}
+main()
+{
+    cin>>n>>k;
+    for(int x=1;x<n;x++)
+    {
+        int y,z;
+        cin>>y>>z;
+        v[y].push_back(z);
+        v[z].push_back(y);
+    }
+    if(n>=500000||k>=500000){
+        dfs(n,0);
+        book[0]=1;
+        for(int i=n;i;i--)if(!book[i]){
+            int p=i,dis=1;
+            for(int j=19;~j;j--)if(!book[f[p][j]])p=f[p][j],dis+=1<<j;
+            if(cnt+dis<=n-k){
+                p=i;
+                while(!book[p]) book[p]=1,p=f[p][0];
+                cnt+=dis;
+            }
+        }
+        for(int i=1;i<=n;i++) if(!book[i]) cout<<i<<' ';
+        return 0;
+    }
+    b.insert(n);
+    int now=n-1;
+    k=n-k-1;
+    while(now){
+        if(check(now,k,0))now--;
+        else ans.push(now),now--;
+    }
+    while(!ans.empty())
+    {
+        cout<<ans.top()<<' ';
+        ans.pop();
+    }
+}
+/*
+B
+*/
