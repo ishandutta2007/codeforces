@@ -1,0 +1,137 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include <stack>
+#include <cassert>
+#include <map>
+#include <numeric>
+#include <cstring>
+#include <set>
+#include <ctime>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#include <iterator>
+#include <unordered_map>
+
+using namespace std;
+
+clock_t timeStart, timeFinish;
+
+void timeBegin() {
+    timeStart = clock();
+}
+
+void timeEnd() {
+    timeFinish = clock();
+}
+
+void timeDuration() {
+    timeEnd();
+    double time_taken = double(timeFinish - timeStart) / double(CLOCKS_PER_SEC);
+    cout << "Time taken by program is : " << fixed << time_taken << setprecision(5);
+    cout << " sec " << endl;
+}
+
+class InputReader {
+public:
+    InputReader() {
+        input_file = stdin;
+        cursor = 0;
+        fread(buffer, SIZE, 1, input_file);
+    }
+    InputReader(const char *file_name) {
+        input_file = fopen(file_name, "r");
+        cursor = 0;
+        fread(buffer, SIZE, 1, input_file);
+    }
+    inline InputReader &operator >>(int &n) {
+        while((buffer[cursor] < '0' || buffer[cursor] > '9') && buffer[cursor] != '-') {
+            advance();
+        }
+        int sign = 1;
+        if (buffer[cursor] == '-') {
+            sign = -1;
+            advance();
+        }
+        n = 0;
+        while('0' <= buffer[cursor] && buffer[cursor] <= '9') {
+            n = n * 10 + buffer[cursor] - '0';
+            advance();
+        }
+        n *= sign;
+        return *this;
+    }
+private:
+    FILE *input_file;
+    static const int SIZE = 1 << 17;
+    int cursor;
+    char buffer[SIZE];
+    inline void advance() {
+        ++ cursor;
+        if(cursor == SIZE) {
+            cursor = 0;
+            fread(buffer, SIZE, 1, input_file);
+        }
+    }
+};
+
+const int MAXN = 1000;
+
+int a[MAXN][MAXN];
+const int pattern[4][4] = {
+        {8, 9, 1, 13},
+        {3, 12, 7, 5},
+        {0, 2, 4, 11},
+        {6, 10, 15, 14}
+};
+
+void check(int n) {
+    int target = 0;
+    for (int i = 0; i < n; i++) {
+        target ^= a[i][0];
+    }
+    for (int i = 0; i < n; i++) {
+        int current = 0;
+        for (int j = 0; j < n; j++) {
+            current ^= a[i][j];
+        }
+        assert(current == target);
+    }
+    for (int j = 0; j < n; j++) {
+        int current = 0;
+        for (int i = 0; i < n; i++) {
+            current ^= a[i][j];
+        }
+        assert(current == target);
+    }
+}
+
+int main() {
+    timeBegin();
+    //ifstream cin("input.in");
+    //ofstream fout("input.in");
+    int n;
+    cin >> n;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            for (int x = 0; x < n / 4; x++) {
+                for (int y = 0; y < n / 4; y++) {
+                    int val = ((x * (n / 4) + y) << 4) ^ pattern[i][j];
+                    int r = i * n / 4 + x, c = j * n / 4 + y;
+                    a[r][c] = val;
+                }
+            }
+        }
+    }
+    check(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << a[i][j] << " ";
+        }
+        cout << "\n";
+    }
+    //timeDuration();
+    return 0;
+}
