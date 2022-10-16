@@ -1,0 +1,9 @@
+set line [gets stdin]
+scan $line "%d%c%d" n m k
+if {$m == 45} {
+    incr n [expr -1*$k]
+}
+if {$m == 43} {
+    incr n $k
+}
+puts $n

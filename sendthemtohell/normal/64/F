@@ -1,0 +1,35 @@
+set line [gets stdin]
+scan $line "%s" s
+set len [string length $s]
+set i 0
+set fl 1
+set pt 1
+set lst 0
+set pat {[a-z0-9.]}
+while {[expr $i < $len]} {
+    set kek [string index $s $i]
+    #puts $kek
+    if {![string match $pat $kek]} {
+        set fl 0
+        break
+    }
+    if {[string equal $kek "."]} {
+        set lst 0
+        if {$pt == 1} {
+            set fl 0
+            break
+        }
+        set pt 1
+    }
+    if {![string equal $kek "."]} {
+        set pt 0
+        incr lst 1
+    }
+    incr i 1
+}
+if {[expr !$fl || $lst > 3 || $lst < 2]} {
+    puts "NO"
+}
+if {[expr $fl && $lst <= 3 && $lst >= 2]} {
+    puts "YES"
+}
