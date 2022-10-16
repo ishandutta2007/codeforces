@@ -1,0 +1,1 @@
+print(float(input()) / (1 + 1 / float(input()) * float(input())))
