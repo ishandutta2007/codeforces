@@ -1,0 +1,69 @@
+co read {
+    gt [550] [1000] [0]
+    if [550]
+    ac
+
+    iin [[1000]]
+    inc [1000]
+}
+
+co swap {
+    set [1002] [[1000]]
+    set [[1000]] [[1001]]
+    set [[1001]] [1002]
+    ac
+}
+
+co pass {
+    add [1100] [1000] 1
+    gt [550] [1100] [0]
+    if [550]
+    ac
+
+    add [1001] [1000] 1
+
+    gt [550] [[1000]] [[1001]]
+    if [550]
+    ca swap
+
+    inc [1000]
+}
+
+co sort {
+    gt [550] [998] [0]
+    if [550]
+    ac
+
+    set [1000] 1
+    ca pass
+    inc [998]
+}
+
+
+
+
+
+co print {
+    set [1091] 1
+    gt [550] [1000] [0]
+    if [550]
+    ac
+
+    iout [[1000]]
+    cout 32
+    inc [1000]
+}
+
+
+iin [0]
+
+set [1000] 1
+ca read
+
+eq [1090] [0] 1
+
+set [998] 1
+ca sort
+set [1000] 1
+ca print
+ac
