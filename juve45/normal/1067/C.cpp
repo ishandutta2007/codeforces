@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+
+#define dbg(x) cerr<<#x": "<<x<<"\n"
+#define dbg_v(x, n) do{cerr<<#x"[]: ";for(int _=0;_<n;++_)cerr<<x[_]<<" ";cerr<<'\n';}while(0)
+#define dbg_ok cerr<<"OK!\n"
+
+#define st first
+#define nd second
+
+using namespace std;
+
+template<class T>
+ostream& operator<<(ostream& out, vector<T> v) {
+	out << v.size() << '\n';
+	for(auto e : v) out << e << ' ';
+	return out;
+}
+
+template<class T1, class T2>
+ostream& operator<<(ostream& out, pair<T1, T2> p) {
+	return out << '(' << p.st << ' ' << p.nd << ')';  
+}
+
+int n, k, m;
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin >> n;
+
+	for(int i = 0; i < n / 4; i++)
+		cout << i + 1 << " 0\n";
+	for(int i = n / 4; i < 2 * n / 4; i++)
+		cout << "0 " << i - n / 4 + 1 << "\n";
+	for(int i = 2 * n / 4; i < 3 * n / 4; i++)
+		cout << -(i - 2 * n / 4 + 1)<< " 0\n";
+	for(int i = 3 * n / 4; i < n; i++)
+		cout << "0 " << -(i - 3 * n / 4) << "\n";
+
+
+}
