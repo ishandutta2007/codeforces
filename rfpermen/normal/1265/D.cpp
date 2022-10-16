@@ -1,0 +1,162 @@
+#include <bits/stdc++.h>
+ 
+#pragma GCC optimize("O3")
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define rep(i,n,N) for(int i=n;i<=N;++i)
+#define rap(i,n,N) for(int i=n;i>=N;--i)
+#define mp make_pair
+#define pb push_back
+#define pob pop_back
+#define pf push_front
+#define pof pop_front
+#define fi first
+#define se second
+#define ff fi.fi
+#define fs fi.se
+#define sf se.fi
+#define ss se.se
+#define lc (id<<1)
+#define rc ((id<<1)|1)
+#define db(x) cerr << ">>>>>> " << #x << " -> " << x << endl
+#define nani(x) cerr <<  "Line " << __LINE__ << ": " << #x << " is " << x << endl
+#define all(x) x.begin(),x.end()
+#define pii pair<int,int> 
+#define pll pair<ll,ll>
+#define plll pair<ll,pll>
+#define pllll pair<pll,pll>
+#define piii pair<int,pii>
+#define piiii pair<pii,pii>
+#define psi pair<string,int>
+#define endl '\n'
+const int MAX = 5e5+10;
+const ll MAX2 = 11;
+const ll MOD = 998244353;
+const ll MOD2 = 1000000006;
+const ll INF = 2e18;
+const int dr[]={1,0,-1,0,1,1,-1,-1,0};
+const int dc[]={0,1,0,-1,1,-1,1,-1,0};
+const double pi = acos(-1);
+const double EPS = 1e-9;
+const int block = 2000;
+ 
+int x[4],y[4],nw;
+vector<int> v;
+bool st;
+
+inline void ab(){
+	if(nw!=0&&nw!=1)return;
+	while(1){
+		if(nw==0){
+			if(!y[1])return;
+			nw = 1, v.pb(nw), --y[nw];
+		}
+		else {
+			if(!y[0])return;
+			nw = 0, v.pb(nw), --y[nw];
+		}
+	}
+}
+
+inline void bc(){
+	if(nw!=2&&nw!=1)return;
+	while(1){
+		if(nw==2){
+			if(!y[1])return;
+			nw = 1, v.pb(nw), --y[nw];
+		}
+		else {
+			if(!y[2])return;
+			nw = 2, v.pb(nw), --y[nw];
+		}
+	}
+}
+
+inline void cd(){
+	if(nw!=2&&nw!=3)return;
+	while(1){
+		if(nw==2){
+			if(!y[3])return;
+			nw = 3, v.pb(nw), --y[nw];
+		}
+		else {
+			if(!y[2])return;
+			nw = 2, v.pb(nw), --y[nw];
+		}
+	}
+}
+ 
+int main(){
+//	cout<<fixed<<setprecision(10);
+//    freopen("input.txt", "r", stdin);
+//	freopen("output.txt","w",stdout);
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    rep(i,0,3)cin>>x[i];
+    //start 0;
+    if(x[0]){
+    	v.clear();
+    	rep(i,0,3)y[i] = x[i];
+    	nw = 1;
+    	ab();
+    	bc();
+    	cd();
+    	st = 1;
+    	rep(i,0,3)st&=(!y[i]);
+    	if(st){
+    		cout<<"YES\n";
+    		for(auto i:v)cout<<i<<' ';
+    		return 0;
+		}
+	}
+    //start 1;
+    if(x[1]){
+    	v.clear();
+    	rep(i,0,3)y[i] = x[i];
+    	nw = 0;
+    	ab();
+    	bc();
+    	cd();
+    	st = 1;
+    	rep(i,0,3)st&=(!y[i]);
+    	if(st){
+    		cout<<"YES\n";
+    		for(auto i:v)cout<<i<<' ';
+    		return 0;
+		}
+	}
+    //start 2;
+    if(x[2]){
+    	v.clear();
+    	rep(i,0,3)y[i] = x[i];
+    	nw = 3;
+    	cd();
+    	bc();
+    	ab();
+    	st = 1;
+    	rep(i,0,3)st&=(!y[i]);
+    	if(st){
+    		cout<<"YES\n";
+    		for(auto i:v)cout<<i<<' ';
+    		return 0;
+		}
+	}
+    //start 2;
+    if(x[3]){
+    	v.clear();
+    	rep(i,0,3)y[i] = x[i];
+    	nw = 2;
+    	cd();
+    	bc();
+    	ab();
+    	st = 1;
+    	rep(i,0,3)st&=(!y[i]);
+    	if(st){
+    		cout<<"YES\n";
+    		for(auto i:v)cout<<i<<' ';
+    		return 0;
+		}
+	}
+	cout<<"NO\n";
+    return 0;
+}
