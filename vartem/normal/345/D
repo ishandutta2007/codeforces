@@ -1,0 +1,53 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO;
+
+procedure ProblemD is
+	Result: Integer;
+	N : Integer;
+	Val: Character;
+	type Matrix_Type is array(Positive range <>, Positive range <>) of Integer;
+	type Array_Type is array(Positive range <>) of Integer;
+begin
+	declare
+		NN : String := Get_Line;
+	begin
+	N := Integer'value(NN);
+	declare 
+		A : Matrix_Type(1..N, 1..N);
+		B : Array_Type(1..N);
+	begin
+		for I in 1..N loop
+			declare
+				Line : String := Get_Line;
+			begin
+				for J in 1..N loop
+					Val := Line(J);
+					A(I, J) := Character'Pos(Val) - 48;
+				end loop;
+			end;
+		end loop;
+		
+		B(1) := 1;
+		for K in 1..N loop
+			for I in 1..(N-1) loop
+				if (B(I) = 1) then
+					for J in 1..N loop
+						if (A(I, J) = 1) then
+							B(J) := 1;
+						end if;
+					end loop;
+				end if;
+			end loop;
+		end loop;
+		
+		Result := 0;
+		for K in 1..(N-1) loop
+			if (A(K, N) = 1 and B(K) = 1) then
+				Result := Result + 1;
+			end if;
+		end loop;
+		
+		Ada.Integer_Text_IO.Put(Result);
+	end;
+	end;
+end ProblemD;
