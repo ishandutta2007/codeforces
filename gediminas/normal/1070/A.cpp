@@ -1,0 +1,321 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+
+using namespace __gnu_pbds;
+using namespace std;
+
+template<typename T>
+struct seti : public tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update> {
+	seti(): tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>() {}
+	explicit seti(initializer_list<T> o): tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>() {
+		for (const T &x : o)
+			this->insert(x);
+	}
+	inline T operator[](int i) {
+		return *this->find_by_order(i);
+	}
+};
+
+#ifdef LOCAL
+template<typename T>
+ostream &operator<<(ostream &out, const vector<T> &arr) {
+	out << "[";
+	bool buv = false;
+
+	for (auto && x : arr) {
+		if (buv)
+			out << ", ";
+
+		out << x;
+		buv = true;
+	}
+
+	out << "]";
+	return out;
+}
+
+template<typename T, typename P>
+ostream &operator<<(ostream &out, const map<T, P> &arr) {
+	out << "{";
+	bool buv = false;
+
+	for (auto && x : arr) {
+		if (buv)
+			out << ", ";
+
+		out << x.first << " => " << x.second;
+		buv = true;
+	}
+
+	out << "}";
+	return out;
+}
+
+template<typename T, typename P>
+ostream &operator<<(ostream &out, const set<T, P> &arr) {
+	out << "{";
+	bool buv = false;
+
+	for (auto && x : arr) {
+		if (buv)
+			out << ", ";
+
+		out << x;
+		buv = true;
+	}
+
+	out << "}";
+	return out;
+}
+
+template<typename T>
+ostream &operator<<(ostream &out, const seti<T> &arr) {
+	out << "{";
+	bool buv = false;
+
+	for (auto && x : arr) {
+		if (buv)
+			out << ", ";
+
+		out << x;
+		buv = true;
+	}
+
+	out << "}";
+	return out;
+}
+
+#define debug(...) __debugg(#__VA_ARGS__, __VA_ARGS__)
+template <typename Arg1>
+void __debugg(const char *name, Arg1 &&arg1) {
+	cout << name << " : " << arg1 << std::endl;
+}
+template <typename Arg1, typename... Args>
+void __debugg(const char *names, Arg1 &&arg1, Args &&... args) {
+	const char *comma = strchr(names + 1, ',');
+	cout.write(names, comma - names) << " : " << arg1 << " | ";
+
+	if (*(comma + 1) == ' ')
+		comma++;
+
+	__debugg(comma + 1, args...);
+}
+#else
+#define debug(...)
+#endif
+
+template<typename X, typename Y>
+struct Pair {
+	X x;
+	Y y;
+	template<typename X1, typename Y1>
+	Pair(const X1 &x, const Y1 &y): x(x), y(y) {}
+	Pair() {}
+	template<typename X1>
+	explicit Pair(const X1 &x): x(x), y(Y()) {}
+	template<typename X1, typename Y1>
+	Pair<X, Y> operator+(const Pair<X1, Y1> &o)const {
+		return Pair<X1, Y1>(x + o.x, y + o.y);
+	}
+	template<typename X1, typename Y1>
+	Pair<X, Y> operator-(const Pair<X1, Y1> &o)const {
+		return Pair<X1, Y1>(x - o.x, y - o.y);
+	}
+	template<typename X1, typename Y1>
+	Pair<X, Y> operator*(const Pair<X1, Y1> &o)const {
+		return Pair<X1, Y1>(x * o.x, y * o.y);
+	}
+	template<typename X1, typename Y1>
+	Pair<X, Y> operator/(const Pair<X1, Y1> &o)const {
+		return Pair<X1, Y1>(x / o.x, y / o.y);
+	}
+	template<typename X1, typename Y1>
+	void operator+=(const Pair<X1, Y1> &o) {
+		x += o.x;
+		y += o.y;
+	}
+	template<typename X1, typename Y1>
+	void operator-=(const Pair<X1, Y1> &o) {
+		x -= o.x;
+		y -= o.y;
+	}
+	template<typename X1, typename Y1>
+	void operator*=(const Pair<X1, Y1> &o) {
+		x *= o.x;
+		y *= o.y;
+	}
+	template<typename X1, typename Y1>
+	void operator/=(const Pair<X1, Y1> &o) {
+		x /= o.x;
+		y /= o.y;
+	}
+	template<typename X1, typename Y1>
+	bool operator<(const Pair<X1, Y1> &o)const {
+		if (x == o.x)
+			return y < o.y;
+
+		return x < o.x;
+	}
+	template<typename X1, typename Y1>
+	bool operator<=(const Pair<X1, Y1> &o)const {
+		if (x == o.x)
+			return y <= o.y;
+
+		return x <= o.x;
+	}
+	template<typename X1, typename Y1>
+	bool operator>(const Pair<X1, Y1> &o)const {
+		if (x == o.x)
+			return y > o.y;
+
+		return x > o.x;
+	}
+	template<typename X1, typename Y1>
+	bool operator>=(const Pair<X1, Y1> &o)const {
+		if (x == o.x)
+			return y >= o.y;
+
+		return x >= o.x;
+	}
+	template<typename X1, typename Y1>
+	bool operator==(const Pair<X1, Y1> &o)const {
+		return x == o.x and y == o.y;
+	}
+	template<typename X1, typename Y1>
+	bool operator!=(const Pair<X1, Y1> &o)const {
+		return x != o.x or y != o.y;
+	}
+	template<typename X1, typename Y1>
+	void swap(Pair<X1, Y1> &o) {
+		swap(x, o.x);
+		swap(y, o.y);
+	}
+};
+
+template<typename X, typename Y>
+Pair<X, Y> makep(const X &x, const Y &y) {
+	return Pair<X, Y>(x, y);
+}
+
+template<typename X, typename Y>
+ostream &operator<<(ostream &out, const Pair<X, Y> &p) {
+	out << "(" << p.x << ", " << p.y << ")";
+	return out;
+}
+
+template<typename X, typename Y>
+istream &operator>>(istream &in, Pair<X, Y> &p) {
+	in >> p.x >> p.y;
+	return in;
+}
+
+#define pair Pair
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef Pair<int, int> pii;
+typedef Pair<ll, ll> pll;
+typedef vector<pll> vpll;
+
+template<typename T>
+istream &operator>>(istream &in, vector<T> &arr) {
+	for (auto && x : arr) {
+		in >> x;
+	}
+
+	return in;
+}
+
+template<typename X, typename Y>
+inline X mini(X &a, const Y &b) __attribute__((always_inline));
+template<typename X, typename Y>
+inline X mini(X &a, const Y &b) {
+	if (a > b)
+		a = b;
+
+	return a;
+}
+template<typename X, typename Y>
+inline X maxi(X &a, const Y &b) __attribute__((always_inline));
+template<typename X, typename Y>
+inline X maxi(X &a, const Y &b) {
+	if (a < b)
+		a = b;
+
+	return a;
+}
+
+
+/*input
+13 50
+*/
+/*input
+61 2
+*/
+/*input
+15 50
+*/
+/*input
+61 5000
+*/
+/*input
+499 5000
+*/
+bool a[510][5011];
+struct optima {
+	char t;
+	optima *tol;
+	optima(char t, optima *tol) : t(t), tol(tol) {}
+};
+
+int main () {
+	ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+	ll d, s;
+	cin >> d >> s;
+	queue<optima *> str;
+	queue<ll> suma, liekana;
+
+	str.push(new optima(0, 0));
+	suma.push(0);
+	liekana.push(0);
+	a[0][0] = true;
+
+	while (!suma.empty()) {
+		int i = liekana.front();
+		int j = suma.front();
+
+		if (i == 0 and j == s) {
+			optima *dab = str.front();
+			string ats = "";
+
+			while (dab->t != 0) {
+				ats.push_back(dab->t);
+				dab = dab->tol;
+			}
+
+			reverse(ats.begin(), ats.end());
+			cout << ats;
+			exit(0);
+		}
+
+		for (int k = 0; k < 10 and j + k <= s; k++) {
+			int ni = (i * 10 + k) % d;
+
+			if (!a[ni][j + k]) {
+				a[ni][j + k] = true;
+				str.push(new optima('0' + k, str.front()));
+				suma.push(j + k);
+				liekana.push(ni);
+			}
+		}
+
+		liekana.pop();
+		suma.pop();
+		str.pop();
+	}
+
+	cout << -1;
+}
