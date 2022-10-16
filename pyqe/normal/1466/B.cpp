@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long n,fq[200069];
+
+int main()
+{
+	long long t,rr,i,k,z;
+	bool ca=0;
+	
+	scanf("%lld",&t);
+	for(rr=0;rr<t;rr++)
+	{
+		scanf("%lld",&n);
+		for(i=1;i<=n*2+1;i++)
+		{
+			fq[i]=0;
+		}
+		for(i=0;i<n;i++)
+		{
+			scanf("%lld",&k);
+			fq[k]++;
+		}
+		z=0;
+		for(i=1;i<=n*2+1;i++)
+		{
+			z+=fq[i]||ca;
+			ca=fq[i]+ca>1;
+		}
+		printf("%lld\n",z);
+	}
+}
