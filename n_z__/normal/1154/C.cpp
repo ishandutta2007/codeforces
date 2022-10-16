@@ -1,0 +1,2 @@
+#import<bits/stdc++.h>
+using namespace std;main(){int q[7]={0,1,2,0,2,1,0},w=0,a,b,c,d;cin>>a>>b>>c;for(d=0;d<7;d++)for(int i=0,r=min({a/3,b/2,c/2}),A[3]={a-r*3,b-r*2,c-r*2};i<7;i++)if((w=max(w,r*7+i),!A[q[(d+i)%7]]--))break;cout<<w<<endl;}
