@@ -1,0 +1,149 @@
+#include<bits/stdc++.h>
+using namespace std;
+void order(long long a,long long b,long long c,long long&mx,long long&middle,long long&mn)
+{
+    if(max({a,b,c})==c)
+    {
+        mx=c;
+        if(max(a,b)==a)
+        {
+            middle=a;
+            mn=b;
+        }
+        else
+        {
+            middle=b;
+            mn=a;
+        }
+    }
+    else if(max({a,b,c})==b)
+    {
+        mx=b;
+        if(max(a,c)==a)
+        {
+            middle=a;
+            mn=c;
+        }
+        else
+        {
+            middle=c;
+            mn=a;
+        }
+    }
+    else
+    {
+        mx=a;
+        if(max(c,b)==c)
+        {
+            middle=c;
+            mn=b;
+        }
+        else
+        {
+            middle=b;
+            mn=c;
+        }
+    }
+}
+int main()
+{
+    long long a,b,c;
+    cin>>a>>b>>c;
+    cout<<"First"<<'\n';
+    cout.flush();
+    long long mx,middle,mn;
+    order(a,b,c,mx,middle,mn);
+    
+    cout<<2*mx-middle-mn<<'\n';
+    cout.flush();
+    int y;
+    cin>>y;
+    if(y==1)
+    {
+        if(mx==a)
+        {
+            a+=2*mx-middle-mn;
+            cout<<2*a-b-c<<'\n';
+            cout.flush();
+            int h;
+            cin>>h;
+            if(h==2)
+            {
+                b+=2*a-b-c;
+                cout<<b-a<<'\n';
+                cout.flush();
+            }
+            else
+            {
+                c+=2*a-b-c;
+                cout<<c-a<<'\n';
+                cout.flush();
+            }
+        }
+        else
+        {
+            a+=2*mx-middle-mn;
+            cout<<a-mx<<'\n';
+            cout.flush();
+        }
+    }
+    else if(y==2)
+    {
+        if(mx==b)
+        {
+            b+=2*mx-middle-mn;
+            cout<<2*b-a-c<<'\n';
+            cout.flush();
+            int h;
+            cin>>h;
+            if(h==1)
+            {
+                a+=2*b-a-c;
+                cout<<a-b<<'\n';
+                cout.flush();
+            }
+            else
+            {
+                c+=2*b-a-c;
+                cout<<c-b<<'\n';
+                cout.flush();
+            }
+        }
+        else
+        {
+            b+=2*mx-middle-mn;
+            cout<<b-mx<<'\n';
+            cout.flush();
+        }
+    }
+    else if(y==3)
+    {
+        if(mx==c)
+        {
+            c+=2*mx-middle-mn;
+            cout<<2*c-b-a<<'\n';
+            cout.flush();
+            int h;
+            cin>>h;
+            if(h==2)
+            {
+                b+=2*c-b-a;
+                cout<<b-c<<'\n';
+                cout.flush();
+            }
+            else
+            {
+                a+=2*c-b-a;
+                cout<<a-c<<'\n';
+                cout.flush();
+            }
+        }
+        else
+        {
+            c+=2*mx-middle-mn;
+            cout<<c-mx<<'\n';
+            cout.flush();
+        }
+    }
+
+}
