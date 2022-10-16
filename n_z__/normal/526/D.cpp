@@ -1,0 +1,2 @@
+#include<iostream>
+long long a[1000001];main(){int n,k;std::string c;std::cin>>n>>k>>c,c=' '+c;for(int x=2,y=0;x<=n;a[x]=(c[y+1]==c[x])*(y+1),x++)for(y=a[x-1];y&&c[y+1]!=c[x];y=a[y]);for(int x=1;x<=n;x++)std::cout<<((x/(x-a[x])-(x/(x-a[x])%k)*(k+1))>=k*(x%(x-a[x])!=0));}
