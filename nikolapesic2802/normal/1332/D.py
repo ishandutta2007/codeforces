@@ -1,0 +1,1 @@
+k=input();p=2**17;print 2,3,'\n',p+k,p,0,'\n',k,p+k,k
