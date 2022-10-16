@@ -1,0 +1,52 @@
+/*
+Though leaves are many , the root is one.
+Through all the lying days of my youth
+I swayed my leaves and flowers in the sun.
+Now I may wither into the truth.
+	  	  	- William Butler Yeats
+*/
+//#pragma GCC optimize("Ofast,no-stack-protector")
+//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx")
+//#pragma GCC target("avx,tune=native")
+#include<bits/stdc++.h>
+#pragma comment("-Wl,--stack=1024000000")
+//#include<ext/pb_ds/assoc_container.hpp>
+using namespace std;
+//using namespace __gnu_pbds;
+const int inf=0x3f3f3f3f;
+const double eps=1e-6;
+const int mod=1000000007;
+typedef long long ll;
+#ifndef LOCAL
+#define cerr if(0)cout
+#define eprintf(...) 0
+#else
+#define eprintf(...) fprintf(stderr, __VA_ARGS__)
+#endif
+inline string getstr(string &s,int l,int r){string ret="";for(int i=l;i<=r;i++)ret.push_back(s[i]);return ret;}
+int modpow(int x,int y,int md=mod){int ret=1;do{if(y&1)ret=(ll)ret*x%md;x=(ll)x*x%md;}while(y>>=1);return ret;}
+inline int Rand(){return rand()*32768+rand();}
+string s;
+int main(){
+	cin>>s;
+	int cnt=0;
+	string ans="";
+	for(int i=0;i<s.size();i++){
+		if(s[i]!='1')ans+=s[i];
+		else cnt++;
+	}
+	for(int i=0;i<ans.size();i++){
+		if(ans[i]=='2'){
+			while(cnt){
+				cnt--;
+				putchar('1');
+			}
+		}
+		putchar(ans[i]);
+	}
+	while(cnt){
+		cnt--;
+		putchar('1');
+	}
+	return 0;
+}
