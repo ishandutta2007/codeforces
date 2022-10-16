@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<string.h>
+using namespace std;
+char s[1000],s0[1000],col[1000],vc[30];
+int main(){
+    //freopen("spread.in","r",stdin);
+    //freopen("spread.out","w",stdout);
+    int n,i,k=0,r,elem,nr,q,c,p=1;
+    scanf("%d",&n);
+    vc[0]='Z';
+    for(i=1;i<=25;i++)
+        vc[i]='A'+i-1;
+    for(q=1;q<=n;q++){
+        scanf("%s",&s);
+        r=0;
+        c=0;
+        k=0;
+        while(s[k]>='A'&&s[k]<='Z'){
+            s0[k]=s[k];
+            k++;
+        }
+        s0[k]=NULL;
+        while(s[k]>='0'&&s[k]<='9'){
+            r=r*10+s[k]-'0';
+            k++;
+        }
+        if(s[k]==NULL){
+            p=1;
+            i=strlen(s0)-1;
+            for(;i>=0;i--){
+                if(s0[i]=='Z')
+                    c=c+p*26;
+                else
+                    c=c+p*(s0[i]-'A'+1);
+                p*=26;
+            }
+            printf("R%dC%d\n",r,c);
+        }
+        else{
+            while(s[k]>='A'&&s[k]<='Z')
+                k++;
+            while(s[k]>='0'&&s[k]<='9'){
+                c=c*10+s[k]-'0';
+                k++;
+            }
+            nr=0;
+            while(c!=0){
+                elem=c%26;
+                c/=26;
+                if(elem==0)
+                    c--;
+                col[nr]=vc[elem];
+                nr++;
+            }
+            nr--;
+            for(i=nr;i>=0;i--)
+                printf("%c",col[i]);
+            printf("%d\n",r);
+        }
+    }
+    return 0;
+}
