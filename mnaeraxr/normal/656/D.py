@@ -1,0 +1,1 @@
+print(sum(x == '1' for x in str(oct(int(input())))))

@@ -1,0 +1,111 @@
+#include <algorithm>
+#include <array>
+#include <assert.h>
+#include <bitset>
+#include <chrono>
+#include <cmath>
+#include <complex>
+#include <cstring>
+#include <functional>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <istream>
+
+#include <map>
+#include <math.h>
+#include <numeric>
+#include <ostream>
+#include <queue>
+#include <set>
+#include <stack>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
+#include <stdint.h>
+
+namespace asl
+{
+    template <typename T>
+    using vec = std::vector<T>;
+
+    template <typename T>
+    std::istream &operator>>(std::istream &is, std::vector<T> &vec)
+    {
+        for (auto &value : vec)
+            is >> value;
+        return is;
+    }
+
+} 
+
+#include <experimental/optional>
+
+#include <tuple>
+
+namespace asl
+{
+    typedef long long i64;
+    
+} 
+
+#include <random>
+
+#include <utility>
+
+#define endl '\n'
+
+using namespace std;
+using namespace asl;
+
+void solve()
+{
+    int n;
+    i64 k;
+    cin >> n >> k;
+
+    vec<i64> a(n);
+    cin >> a;
+
+    sort(a.begin(), a.end());
+
+    i64 lo = a[n / 2], hi = lo + k + 1;
+
+    auto ok = [&](i64 m) {
+        i64 need = 0;
+
+        for (int i = n / 2; i < n && need <= k; ++i)
+            need += max(0LL, m - a[i]);
+
+        return need <= k;
+    };
+
+    while (lo + 1 < hi)
+    {
+        i64 mid = (lo + hi) >> 1;
+
+        if (ok(mid))
+            lo = mid;
+        else
+            hi = mid;
+    }
+
+    cout << lo << endl;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+
+    int t = 1;
+
+    for (int i = 1; i <= t; ++i)
+    {
+        solve();
+    }
+
+    return 0;
+}
