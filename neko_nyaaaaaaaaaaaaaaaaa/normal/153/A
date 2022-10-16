@@ -1,0 +1,14 @@
+       PROGRAM-ID.AB.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       77 STR PIC X(10).
+       77 A PIC 9(10) VALUES ZEROES.
+       77 B PIC 9(10) VALUES ZEROES.
+       PROCEDURE DIVISION.
+       ACCEPT STR.
+       MOVE STR TO A.
+       ACCEPT STR.
+       MOVE STR TO B.
+       ADD A TO B.
+       DISPLAY B(10- FUNCTION LOG10(B):).
+       STOP RUN.
