@@ -1,0 +1,82 @@
+/*
+#pragma GCC optimize("O3")
+#pragma GCC target("sse4,avx2,abm,fma,tune=native")
+#pragma GCC optimize("unroll-loops")
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+#define mp(a,b) make_pair(a,b)
+#define ff first
+#define setp(a) setprecision(a)<<fixed
+#define ss second
+#define fori(v) for(ll i=0; i<v; i++)
+#define forj(v) for(ll j=0; j<v; j++)
+#define fork(v) for(ll k=0; k<v; k++)
+#define forl(v) for(ll l=0; l<v; l++)
+#define fort(v) for(ll t=0; t<v; t++)
+#define forz(v) for(ll z=0; z<v; z++)
+#define forx(v) for(ll x=0; x<v; x++)
+#define fory(v) for(ll y=0; y<v; y++)
+#define ll long long
+#define pb(a) push_back(a)
+#define mt make_tuple
+const ll INF = 0x3f3f3f3f;
+const ll inf =  1e18;
+const ll modulo = pow(10, 9) + 7;
+
+#define MAX 10'010
+
+void deal(){
+	ll t;
+	cin>>t;
+	forl(t){
+		ll n;
+		cin>>n;
+		vector<ll> arr(n+1, -1);
+		{
+			cout<<"? "<<1<<endl;
+			ll vl;
+			cin>>vl;
+		}
+		bitset<MAX> to;
+		for(ll i = 1; i<=n; i++){
+			if(to[i]){
+				continue;
+			}
+			vector<ll> cur;
+			if((ll)to.count()==n-1){
+				cur.pb(i);
+			}
+			else{
+				while(1){
+					ll cr;
+					cout<<"? "<<i<<endl;
+					cin>>cr;
+					if(to[cr]){
+						break;
+					}
+					cur.pb(cr);
+					to[cr] = 1;
+				}
+			}
+			ll sz = cur.size();
+			fori(sz){
+				ll nx = (i+1)%sz;
+				ll c1= cur[i], c2 = cur[nx];
+				arr[c1] = c2;
+			}
+		}
+		cout<<"! ";
+		for(ll i = 1; i<=n; i++){
+			cout<<arr[i]<<' ';
+		}
+		cout<<endl;
+	}
+}
+
+int main() {
+	cin.tie(0);
+	ios_base::sync_with_stdio(0);
+	deal();
+}
