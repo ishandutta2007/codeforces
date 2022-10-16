@@ -1,0 +1,30 @@
+main =>
+  N = read_int(),
+  XX = new_array(1001),
+  I = 1,
+
+  while (I <= 1000) XX[I] = 1, I := I+1 end,
+
+  I := 1,
+  J = 1,
+  A = 0, B = 0,
+
+  while (J <= N)
+    A := read_int(),
+    B := read_int(),
+    while (A <= B) 
+      XX[A] := 0,
+      A := A+1
+    end,
+    J := J+1
+  end,
+
+  C = 0,
+  I := 1,
+
+  while (I <= 1000) if (XX[I] == 1) then C := C+1 end, I := I+1 end,
+
+  printf("%d ", C),
+  I := 1,
+  while (I <= 1000) if (XX[I] == 1) then printf("%d ", I) end, I := I+1 end,
+  printf("%n").

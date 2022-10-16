@@ -1,0 +1,7 @@
+main =>
+  S = read_line(),
+  L = length(S),
+  A = slice(S, 1, round(L/2)),
+  B = slice(S, round(L/2)+1, L),
+  C = reverse(A) ++ reverse(B),
+  println(C).

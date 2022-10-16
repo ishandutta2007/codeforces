@@ -1,0 +1,30 @@
+import cp.
+import util.
+
+main =>
+  N = read_int(),
+  K = read_int(),
+
+  Bd = [],
+  foreach (X in 1..N)
+    Bd := Bd ++ [_]
+  end,
+  Bd :: 1..N,
+
+  foreach (X in 1..K)
+    NN = read_int(),
+    Ct = [],
+    foreach (KK in 1..NN)
+      PP = read_int(),
+      Ct := Ct ++ [Bd[PP]]
+    end,
+    all_distinct(Ct)
+  end,
+
+  Total #= max(Bd),
+  solve([forward, $min(Total)], Bd),
+
+  foreach (X in 1..N)
+    PPPP = Bd[X],
+    printf("%d ", PPPP)
+  end.
