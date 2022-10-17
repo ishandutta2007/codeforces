@@ -1,0 +1,1 @@
+print pow(5, input(), 100)
