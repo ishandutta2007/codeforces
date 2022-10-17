@@ -1,0 +1,1 @@
+n,m=gets.split.map &:to_i;p (0..n).to_a.map{|i|m>=i*i&&i+(m-i*i)**2==n}.count(true)

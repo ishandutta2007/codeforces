@@ -1,0 +1,1 @@
+n=gets.to_i;x,y=2,3;n.times{x,y=y,(x+y)%1000000007};p x-2

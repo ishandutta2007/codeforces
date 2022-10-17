@@ -1,0 +1,1 @@
+gets;a=gets.split.map &:to_i;gets;b=gets.split.map &:to_i;c=a.product(b).map{|x,y|y%x==0?(y/x):0};p c.count c.max
