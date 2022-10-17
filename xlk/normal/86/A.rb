@@ -1,0 +1,1 @@
+l,r=gets.split.map &:to_i;t=1;t*=10 while t<=r;p=[[t/2,l].max,r].min;p p*(t-1-p)
