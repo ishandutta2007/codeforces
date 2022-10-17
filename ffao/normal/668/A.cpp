@@ -1,0 +1,91 @@
+#if 1
+#ifdef LOCAL
+#define _GLIBCXX_DEBUG 1
+#define dbg(...) cerr << "LINE(" << __LINE__ << ") -> [" << #__VA_ARGS__ << "]: [", DBG(__VA_ARGS__)
+#else
+#define dbg(...) 0
+#endif
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define rep(i, a, b) for(int i = a; i < (b); ++i)
+#define sz(x) (int)(x).size()
+#define all(x) begin(x), end(x)
+#define FOR(i,a,b) for (int i = (a); i < (b); ++i)
+#define F0R(i,a) FOR(i,0,a)
+
+typedef string str;
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+
+#define ts to_string
+str ts(char c) { return str(1,c); }
+str ts(bool b) { return b ? "true" : "false"; }
+str ts(const char* s) { return (str)s; }
+str ts(str s) { return s; }
+template<class A> str ts(complex<A> c) { stringstream ss; ss << c; return ss.str(); }
+str ts(vector<bool> v) { str res = "{"; F0R(i,sz(v)) res += char('0'+v[i]);	res += "}"; return res; }
+template<size_t SZ> str ts(bitset<SZ> b) { str res = ""; F0R(i,SZ) res += char('0'+b[i]); return res; }
+template<class A, class B> str ts(pair<A,B> p);
+template<class T> str ts(T v) { bool fst = 1; str res = "{"; for (const auto& x: v) {if (!fst) res += ", ";	fst = 0; res += ts(x);}	res += "}"; return res;}
+template<class A, class B> str ts(pair<A,B> p) {return "("+ts(p.f)+", "+ts(p.s)+")"; }
+ 
+template<class A> void pr(A x) { cout << ts(x); }
+template<class H, class... T> void pr(const H& h, const T&... t) { pr(h); pr(t...); }
+void ps() { pr("\n"); }
+template<class H, class... T> void ps(const H& h, const T&... t) { pr(h); if (sizeof...(t)) pr(" "); ps(t...); }
+ 
+void DBG() { cerr << "]" << endl; }
+template<class H, class... T> void DBG(H h, T... t) {cerr << ts(h); if (sizeof...(t)) cerr << ", ";	DBG(t...); }
+#endif
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    
+    int n,m,q;
+
+    cin >> n >> m >> q;
+
+    vector< vector<pii> > board(n, vector<pii>(m));
+    vector< vector<int> > ans(n, vi(m));
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            board[i][j] = {i,j};
+        }
+    }
+
+    for (int i = 0; i < q; i++) {
+        int t;
+        cin >> t;
+
+        if (t == 1) {
+            int x; cin >> x; x--;
+            pair<int,int> fe = board[x][0];
+            for (int i = 0; i < m-1; i++) board[x][i] = board[x][i+1];
+            board[x][m-1] = fe;
+        }
+        else if (t == 2) {
+            int y; cin >> y; y--;
+            pair<int,int> fe = board[0][y];
+            for (int i = 0; i < n-1; i++) board[i][y] = board[i+1][y];
+            board[n-1][y] = fe;
+        }
+        else if (t == 3) {
+            int x, y, v; cin >> x >> y >> v; x--; y--;
+            auto [a,b] = board[x][y];
+            ans[a][b] = v;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << ans[i][j] << " ";
+        }
+        cout << '\n';
+    }
+    return 0;
+}
