@@ -1,0 +1,1 @@
+a,b,c,d=$<.map &:to_i;p a^d|b&c^(a^b)&(c|d)
