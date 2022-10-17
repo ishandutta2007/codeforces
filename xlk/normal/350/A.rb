@@ -1,0 +1,1 @@
+gets;a=gets.split.map &:to_i;b=gets.split.map &:to_i;z=[a.min*2,a.max].max;p z<b.min ? z:-1
