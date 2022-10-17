@@ -1,0 +1,1 @@
+<? $s = fgets(STDIN); print ($s >= 0 ? $s : max(intval($s / 10), intval($s / 100) * 10 + $s % 10)); ?>
