@@ -1,0 +1,1 @@
+gets;s=gets;$<.each{|_|l,r,a,b=_.split;l=l.to_i-1;r=r.to_i-1;s[l..r]=s[l..r].gsub(a,b)};puts s

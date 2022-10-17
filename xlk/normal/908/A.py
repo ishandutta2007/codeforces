@@ -1,0 +1,1 @@
+print sum(i in'aeiou13579'for i in raw_input())
