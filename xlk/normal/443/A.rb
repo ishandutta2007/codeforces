@@ -1,0 +1,1 @@
+p gets.scan(/\w/).uniq.size
