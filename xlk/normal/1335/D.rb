@@ -1,0 +1,1 @@
+puts STDIN.read.gsub('1','2').split[1..-1]

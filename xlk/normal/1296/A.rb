@@ -1,0 +1,1 @@
+gets.to_i.times{n=gets.to_i;s=gets.split.map{|i|i.to_i%2}.sum;puts 0<s&&s<n+n%2?:YES:'NO'}

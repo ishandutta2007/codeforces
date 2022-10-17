@@ -1,0 +1,1 @@
+puts (gets+gets).chars.sort==(gets+"\n").chars.sort ? :YES :"NO"

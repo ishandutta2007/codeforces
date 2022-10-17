@@ -1,0 +1,1 @@
+gets.to_i.times{gets;puts gets.split.reverse}

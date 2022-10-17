@@ -1,0 +1,1 @@
+gets;s=[];z=[];a=gets.split.map &:to_i;a<<0;0.upto(a.size-1){|i|(a[i-1]-a[i]).times{z<<[s.pop,i]};(a[i]-a[i-1]).times{s<<i}};p z.size;z.map{|x,y|puts [x+1,y].join' '}

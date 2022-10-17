@@ -1,0 +1,21 @@
+co one{
+	inc [2]
+	cout 42
+	eq [3] [2] [1]
+	if [3]
+		ac
+}
+
+co all{
+	inc [1]
+	set [2] 0
+	ca one
+	cout 10
+	eq [2] [1] [0]
+	if [2]
+			ac
+}
+iin [0]
+set [1] 0
+ca all
+ac

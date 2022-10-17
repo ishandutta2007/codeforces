@@ -1,0 +1,1 @@
+n=gets.to_i.abs;s=i=0;s+=i+=1 while s<n||(s-n)%2>0;p i

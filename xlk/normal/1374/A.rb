@@ -1,0 +1,1 @@
+gets.to_i.times{x,y,n=gets.split.map &:to_i;p n-(n-y)%x}

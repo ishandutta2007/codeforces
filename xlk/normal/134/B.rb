@@ -1,0 +1,1 @@
+n=gets.to_i;z=9**9;1.upto(n){|i|x,y,o=n,i,0;(o+=x/y)&&(x,y=y,x%y)while y>0;x==1&&z>o&&z=o};p z-1

@@ -1,0 +1,30 @@
+co in{
+	cin [1]
+	eq [2] [1] 10
+	if [2]
+		ac
+	eq [2] [1] 72
+	or [0] [0] [2]
+	eq [2] [1] 81
+	or [0] [0] [2]
+	eq [2] [1] 57
+	or [0] [0] [2]
+}
+co yes{
+	cout 89
+	cout 69
+	cout 83
+	ac
+}
+co no{
+	cout 78
+	cout 79
+	ac
+}
+ca in
+if [0]
+	ca yes
+xor [0] [0] 1
+if [0]
+	ca no
+ac

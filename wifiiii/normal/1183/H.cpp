@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+
+typedef long long ll;
+typedef long double ld;
+using namespace std;
+mt19937_64 mrand(chrono::steady_clock::now().time_since_epoch().count());
+//mt19937_64 mrand(42);
+#define ii for(int i=1;i<=n;++i)
+#define ji for(int j=1;j<=n;++j)
+#define jj for(int j=1;j<=m;++j)
+#define ij for(int i=1;i<=m;++i)
+#define sz(x) ((ll)x.size())
+#define all(x) x.begin(),x.end()
+#define al(x) x+1,x+1+n
+#define asd cout<<"ok"<<endl;
+#define asdd cout<<"okok"<<endl;
+#define vi vector<int>
+#define vvi vector<vector<int>>
+#define vl vector<ll>
+#define vii vector<pair<int,int>>
+#define pr(v) for(auto i:v) cout<<i<<" ";cout<<endl;
+#define prt(a, l, r) for(auto i=l;i<=r;++i) cout<<a[i]<<" ";cout<<endl;
+#define pc(x) __builtin_popcount(x)
+#define pb push_back
+#define PS string qqwwee;cin>>qqwwee;
+typedef pair<int, int> pii;
+
+// dp[i][j], 1~i len=j dp[i][j]=dp[i-1][j]+dp[i-1][j-1]-dp[lst[s[i]]][j]
+#define int ll
+int dp[105][105];
+int32_t main() {
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    int t=1;
+//    cin>>t;
+    while(t--) {
+        int n,k;
+        cin>>n>>k;
+        vector<int> lst(26);
+        string s;cin>>s;
+        dp[0][0]=1;
+        for(int i=1;i<=n;++i) {
+            int x=s[i-1]-'a';
+            dp[i][0]=1;
+            for(int j=1;j<=i;++j) {
+                dp[i][j]=dp[i-1][j]+dp[i-1][j-1];
+                if(lst[x]) dp[i][j]-=dp[lst[x]-1][j-1];
+                dp[i][j]=min(dp[i][j],(ll)(1e18));
+            }
+            lst[x]=i;
+        }
+        int ans=0;
+        for(int i=n;i>=0;--i) {
+            int p=min(k,dp[n][i]);
+            k-=p;
+            ans+=p*(n-i);
+            if(!k) break;
+        }
+        if(k) cout<<-1<<endl;
+        else cout<<ans<<endl;
+    }
+}

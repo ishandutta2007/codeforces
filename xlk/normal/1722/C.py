@@ -1,0 +1,10 @@
+t = int(input())
+for tt in range(t):
+	n = int(input())
+	a = set(input().split())
+	b = set(input().split())
+	c = set(input().split())
+	x = len(a - b - c) * 3 + len((a & b) - c) + len((a & c) - b)
+	y = len(b - a - c) * 3 + len((b & a) - c) + len((b & c) - a)
+	z = len(c - a - b) * 3 + len((c & a) - b) + len((c & b) - a)
+	print(x, y, z)

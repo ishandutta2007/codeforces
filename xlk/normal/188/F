@@ -1,0 +1,20 @@
+co cal{
+	eq [2] [0] 0
+	if [2]
+		ac
+	inc [1]
+	mod [[1]] [0] 2 
+	div [0] [0] 2
+}
+co out{
+	eq [2] [1] 10
+	if [2]
+			ac
+	iout [[1]]
+	dec [1]
+}
+iin [0]
+set [1] 10
+ca cal
+ca out
+ac

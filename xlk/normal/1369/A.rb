@@ -1,0 +1,1 @@
+gets.to_i.times{puts gets.to_i%4>0?:NO:'YES'}

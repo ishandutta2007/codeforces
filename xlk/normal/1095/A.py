@@ -1,0 +1,1 @@
+n=input()*2;s=raw_input();print''.join(s[i*(i+1)/2]for i in range(int(n**.5)))

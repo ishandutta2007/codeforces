@@ -1,0 +1,1 @@
+for tt in range(int(input())):print(list(filter(lambda x:x%3!=0 and x%10!=3,range(2000)))[int(input())-1])

@@ -1,0 +1,1 @@
+print max(0,eval("3*"+raw_input().replace(' ','-')))

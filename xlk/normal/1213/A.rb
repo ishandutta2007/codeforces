@@ -1,0 +1,1 @@
+gets;c=[0,0];gets.split.each{|x|c[x.to_i%2]+=1};p c.min

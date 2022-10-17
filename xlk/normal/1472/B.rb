@@ -1,0 +1,1 @@
+gets.to_i.times{gets;a=gets.count'1';puts a%2>0||a<$_.size%4?:NO:'YES'}

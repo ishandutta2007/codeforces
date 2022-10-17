@@ -1,0 +1,1 @@
+gets.to_i.times{gets;p gets.split.uniq.size}
