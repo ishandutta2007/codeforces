@@ -1,0 +1,1 @@
+$><<(((a=gets.next)<gets)?a:'No such string')

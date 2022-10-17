@@ -1,0 +1,1 @@
+<>;$s=<>;print qw/NO YES/[!grep $s!~/$_/i,a..z];
