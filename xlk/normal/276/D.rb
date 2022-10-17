@@ -1,0 +1,1 @@
+s=eval gets.sub(' ','^');99.times{s|=s/2};p s
