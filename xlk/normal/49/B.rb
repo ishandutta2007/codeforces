@@ -1,0 +1,1 @@
+b=gets.bytes.max-47;p eval($_.split.map{|i|i.to_i(b)}*'+').to_s(b).size
