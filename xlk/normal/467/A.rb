@@ -1,0 +1,1 @@
+p gets.to_i.times.count{eval(gets.sub(' ','-'))<-1}

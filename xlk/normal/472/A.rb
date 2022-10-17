@@ -1,0 +1,1 @@
+n=gets.to_i;t=n%2+8;p n-t,t
