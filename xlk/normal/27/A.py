@@ -1,0 +1,1 @@
+print min(set(range(1,input()+2))-set(map(int,raw_input().split())))
