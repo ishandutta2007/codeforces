@@ -1,0 +1,1 @@
+print ''.join("10"[i==j]for i,j in zip(raw_input(),raw_input()))
