@@ -1,0 +1,1 @@
+print ('abba'*6**7)[:input()]
