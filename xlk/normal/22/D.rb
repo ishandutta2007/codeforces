@@ -1,0 +1,1 @@
+n=gets.to_i;s=[-9e9];n.times.map{gets.split.map(&:to_i).sort.reverse}.sort.each{|x,y|s<<x if y>s[-1]};p s.size-1;$><<s[1..-1]*' '

@@ -1,0 +1,1 @@
+n,k=gets.split.map &:to_i;a=gets.split.map &:to_i;b=a.rindex{|i|i!=a[k-1]}||-1;p b<k-1?b+1:-1

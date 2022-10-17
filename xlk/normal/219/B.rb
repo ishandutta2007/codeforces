@@ -1,0 +1,1 @@
+p,d=gets.split.map &:to_i;z=p;d=p-d;t=10;loop{p-=(p+1)%t;break if p<d;z=p;t*=10};p z
