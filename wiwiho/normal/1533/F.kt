@@ -1,0 +1,115 @@
+import java.util.*
+import kotlin.math.*
+
+@JvmField
+val INPUT = System.`in`
+
+@JvmField
+val OUTPUT = System.out
+
+@JvmField
+val _reader = INPUT.bufferedReader()
+fun readLine(): String? = _reader.readLine()
+fun readLn() = _reader.readLine()!!
+
+@JvmField
+var _tokenizer: StringTokenizer = StringTokenizer("")
+fun read(): String {
+    while (_tokenizer.hasMoreTokens().not()) _tokenizer = StringTokenizer(_reader.readLine() ?: return "", " ")
+    return _tokenizer.nextToken()
+}
+
+fun readInt() = read().toInt()
+fun readDouble() = read().toDouble()
+fun readLong() = read().toLong()
+fun readStrings(n: Int) = List(n) { read() }
+fun readLines(n: Int) = List(n) { readLn() }
+fun readInts(n: Int) = List(n) { read().toInt() }
+fun readIntArray(n: Int) = IntArray(n) { read().toInt() }
+fun readDoubles(n: Int) = List(n) { read().toDouble() }
+fun readDoubleArray(n: Int) = DoubleArray(n) { read().toDouble() }
+fun readLongs(n: Int) = List(n) { read().toLong() }
+fun readLongArray(n: Int) = LongArray(n) { read().toLong() }
+
+fun <T> printv(v: Collection<T>) {
+    v.forEachIndexed { i, t ->
+        if (i != 0) print(" ")
+        print(t)
+    }
+    println()
+}
+
+fun <T : Comparable<T>> lsort(v: MutableList<T>) {
+    v.sort()
+}
+
+fun <T : Comparable<T>> gsort(v: MutableList<T>) {
+    v.sortDescending()
+}
+
+fun <T, U> mp(t: T, u: U) = Pair(t, u)
+
+fun ifloor(a: Long, b: Long): Long {
+    if (b < 0) return ifloor(-a, -b)
+    return if (a xor b > 0) a / b else (a - b + 1) / b
+}
+
+fun iceil(a: Long, b: Long): Long {
+    if (b < 0) return iceil(-a, -b)
+    return if (a xor b > 0) (a + b - 1) / b else a / b
+}
+
+fun ifloor(a: Int, b: Int) = ifloor(a.toLong(), b.toLong()).toInt()
+fun iceil(a: Int, b: Int) = iceil(a.toLong(), b.toLong()).toInt()
+
+typealias ll = Long
+typealias pii = Pair<Int, Int>
+typealias pll = Pair<ll, ll>
+
+val MOD = 1000000007L
+val MAX = 2147483647L
+
+fun <T> List<T>.binarySearchWith(condition: (T) -> Boolean): Int {
+    return binarySearch {
+        if (condition(it)) 1
+        else -1
+    }.let { -(it + 1) }
+}
+
+fun List<Int>.lowerBound(i: Int): Int {
+    return binarySearchWith { it >= i }
+}
+
+fun List<Int>.upperBound(i: Int): Int {
+    return binarySearchWith { it > i }
+}
+
+fun main() {
+
+    val s = read()
+    val n = s.length
+    val pos0 = mutableListOf<Int>()
+    val pos1 = mutableListOf<Int>()
+    for (i in 0 until n) {
+        if (s[i] == '0') pos0.add(i)
+        else pos1.add(i)
+    }
+
+    val ans = MutableList(n) { 0 }
+    for (k in 1..n) {
+        var cnt = 0
+        var now = 0
+
+        while (now < n) {
+            val p0 = pos0.lowerBound(now)
+            val p1 = pos1.lowerBound(now)
+            val a0 = if (p0 + k < pos0.size) pos0[p0 + k] else n
+            val a1 = if (p1 + k < pos1.size) pos1[p1 + k] else n
+            cnt++
+            now = max(a0, a1)
+        }
+        ans[k - 1] = cnt
+    }
+    println(ans.joinToString(" "))
+
+}
