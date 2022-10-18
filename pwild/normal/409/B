@@ -1,0 +1,3 @@
+C COMMENT
+  101 write(*,*) "FORTRAN 77"
+      END
