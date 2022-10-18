@@ -1,0 +1,118 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+class SegmentTreeRecLazy
+{
+public:
+    SegmentTreeRecLazy(int n) : n(n)
+    {
+        data.assign(4 * n, 0);
+        todo.assign(4 * n, 0);
+    }
+
+    SegmentTreeRecLazy(std::vector<long long> const& v) {
+        n = v.size();
+        data.assign(4 * n, 0);
+        todo.assign(4 * n, 0);
+        build(v);
+    }
+
+    void build(std::vector<long long> const& v, int id = 1, int l = 0, int r = -1) {
+        if (r == -1)
+            r = n;
+
+        if (l == r - 1) {
+            data[id] = v[l];
+        } else {
+            int m = (l + r) >> 1;
+            build(v, id << 1, l, m);
+            build(v, id << 1 | 1, m, r);
+            data[id] = data[id << 1] + data[id << 1 | 1];
+        }
+    }
+
+    long long sum(int x, int y, int id = 1, int l = 0, int r = -1)
+    {
+        if (r == -1)
+            r = n;
+
+        if (x >= r || y <= l) {
+            return 0;
+        } else if (x <= l && r <= y) {
+            return data[id];
+        } else {
+            push(id, l, r);
+            int m = (l + r) >> 1;
+            return sum(x, y, id << 1, l, m) + sum(x, y, id << 1 | 1, m, r);
+        }
+    }
+
+    void add(int x, int y, long long addend, int id = 1, int l = 0, int r = -1)
+    {
+        if (r == -1)
+            r = n;
+
+        if (x >= r || y <= l) {
+        } else if (x <= l && r <= y) {
+            data[id] += addend * (r - l);
+            todo[id] += addend;
+        } else {
+            push(id, l, r);
+            int m = (l + r) >> 1;
+            add(x, y, addend, id << 1, l, m);
+            add(x, y, addend, id << 1 | 1, m, r);
+            data[id] = data[id << 1] + data[id << 1 | 1];
+        }
+    }
+
+private:
+    void push(int id, int l, int r)
+    {
+        int m = (l + r) >> 1;
+        data[id << 1] += todo[id] * (m - l);
+        todo[id << 1] += todo[id];
+        data[id << 1 | 1] += todo[id] * (r - m);
+        todo[id << 1 | 1] += todo[id];
+        todo[id] = 0;
+    }
+
+    int n;
+    std::vector<long long> data, todo;
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    cin >> n;
+    SegmentTreeRecLazy seg(2 * n);
+
+    int l_idx = n - 1;
+    int r_idx = n;
+
+    map<int, int> to_index;
+    for (int i = 0; i < n; i++) {
+        char c;
+        cin >> c;
+        int x;
+        cin >> x;
+        if (c == 'L') {
+            to_index[x] = l_idx;
+            seg.add(l_idx, l_idx + 1, 1);
+            l_idx--;
+        }
+        if (c == 'R') {
+            to_index[x] = r_idx;
+            seg.add(r_idx, r_idx + 1, 1);
+            r_idx++;
+        }
+        if (c == '?') {
+            int idx = to_index[x];
+            int left = seg.sum(0, idx);
+            int right = seg.sum(idx + 1, 2 * n);
+            cout << min(left, right) << '\n';
+        }
+    }
+}
