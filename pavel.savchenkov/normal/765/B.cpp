@@ -1,0 +1,103 @@
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <set>
+#include <map>
+#include <utility>
+#include <cstdlib>
+#include <memory>
+#include <queue>
+#include <cassert>
+#include <cmath>
+#include <ctime>
+#include <complex>
+#include <bitset>
+#include <fstream>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+
+using namespace std;
+
+#define ws ws_____________________
+#define y1 y1_____________________
+#define y0 y0_____________________
+#define left left_________________
+#define right right_______________
+#define next next_________________
+#define prev prev_________________
+#define hash hash_________________
+
+#define pb push_back
+#define fst first
+#define snd second
+#define mp make_pair 
+#define sz(C) ((int) (C).size())
+#define forn(i, n) for (int i = 0; i < int(n); ++i)
+#define ford(i, n) for (int i = int(n) - 1; i >= 0; --i)
+#define all(C) begin(C), end(C)
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef unsigned int uint;
+typedef pair<int,int> pii;
+typedef pair<ll, ll> pll;
+typedef vector<ll> vll;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<pii> vii;
+typedef long double ld;
+typedef complex<double> cd;
+
+#define FILE_NAME "a"
+
+const int MAXN = 500 + 10;
+
+int n;
+char s[MAXN];
+
+bool read() {
+	scanf("%s\n", s);
+	n = (int) strlen(s);
+	return 1;
+}
+
+const int A = 26;
+
+bool solve() {
+	vi pos(A, n);
+	forn(i, n) {
+		int c = s[i] - 'a';
+		if  (pos[c] == n) {
+			pos[c] = i;
+		}
+	}
+	forn(c, A - 1) {
+		if  (pos[c] > pos[c + 1]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+#ifdef LOCAL
+	freopen(FILE_NAME ".in", "r", stdin);
+	// freopen(FILE_NAME ".out", "w", stdout);
+#endif
+
+	while (read()) {
+		puts(solve() ? "YES" : "NO");
+
+		break;
+	}
+
+#ifdef LOCAL
+	cerr.precision(5);
+	cerr << "Time: " << fixed << (double) clock() / CLOCKS_PER_SEC << endl;
+#endif
+	return 0;
+}
