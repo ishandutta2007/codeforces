@@ -1,0 +1,19 @@
+iin [0]
+set [10] 0
+co loop2{
+  eq [222] [1] [20]
+  if [222] ac
+  inc [20]
+  cout 42
+}
+co loop{
+  eq [111] [0] [10]
+  if [111] ac
+  inc [10]
+  set [20] 0
+  set [1] [10]
+  ca loop2
+  cout 10
+}
+ca loop
+ac
