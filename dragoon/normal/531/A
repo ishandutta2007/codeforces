@@ -1,0 +1,19 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  DD = B * B - 4 * A * C,
+  if DD == 0 then
+      X = - B / (2 * A),
+      println(X)
+  else
+      D = sqrt(DD),
+      X = (-B + D) / (2 * A),
+      Y = (-B - D) / (2 * A),
+      if Y @< X then
+          Z = X,
+          X := Y,
+          Y := Z
+      end,
+      printf("%f %f", X, Y)
+  end.

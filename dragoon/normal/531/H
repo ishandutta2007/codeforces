@@ -1,0 +1,24 @@
+main =>
+    N = read_int(),
+    X = new_array(120),
+    Y = new_array(120),
+    foreach (I in 1..N)
+        X[I] = read_int(),
+        Y[I] = read_int()
+    end,
+    ANS = 200 * 200,
+    foreach (A in 1..200)
+        foreach(B in 1..200)
+            Z = 0,
+            foreach(I in 1..N)
+                if A * B - A * Y[I] - B * X[I] < 0 then
+                    Z := 1
+                end
+            end,
+            if (Z == 0, A * B @< ANS) then
+                ANS := A * B
+            end
+        end
+    end,
+    ANS := ANS / 2,
+    printf("%f%n", ANS).

@@ -1,0 +1,9 @@
+main =>
+  S = read_line(),
+  L = length(S),
+  N = L // 2,
+  A = slice(S, 1, N),
+  A := reverse(A),
+  B = slice(S, N + 1, 2 * N),
+  B := reverse(B),
+  printf("%s%s", A, B).

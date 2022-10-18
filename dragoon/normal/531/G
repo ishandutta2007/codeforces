@@ -1,0 +1,34 @@
+main =>
+    S = read_line(),
+    T = read_line(),
+    L1 = length(S),
+    L2 = length(T),
+    DP = new_array(L1 + 10, L2 + 10),
+    foreach (I in 0..L1)
+        foreach (J in 0..L2)
+            if (I == 0, J == 0) then
+                DP[I + 1, J + 1] = 0
+            elseif I == 0 then
+                VALUE = ord(T[J]) - ord('a') + 1,
+                DP[I + 1, J + 1] = DP[I + 1, J] + VALUE
+            elseif J == 0 then
+                VALUE = ord(S[I]) - ord('a') + 1,
+                DP[I + 1, J + 1] = DP[I, J + 1] + VALUE
+            else
+                VALUE1 = ord(S[I]) - ord('a') + 1,
+                VALUE1 := VALUE1 + DP[I, J + 1],
+                VALUE2 = ord(T[J]) - ord('a') + 1,
+                VALUE2 := VALUE2 + DP[I + 1, J],
+                VALUE3 = abs(ord(S[I]) - ord(T[J])),
+                VALUE3 := VALUE3 + DP[I, J],
+                if VALUE1 @> VALUE2 then
+                    VALUE1 := VALUE2
+                end,
+                if VALUE1 @> VALUE3 then
+                    VALUE1 := VALUE3
+                end,
+                DP[I + 1, J + 1] = VALUE1
+            end
+        end
+    end,
+    println(DP[L1 + 1, L2 + 1]).
