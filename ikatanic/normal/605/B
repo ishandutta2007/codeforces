@@ -1,0 +1,37 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x)
+  
+let () =
+  let n = read_int () in
+  let m = read_int () in
+  let a = Array.init m (fun i -> let a = read_int () in let b = read_int () in (a, b, i)) in
+  let cmp (x1, y1, _) (x2, y2, _) =
+    if x1 = x2 then y2 - y1
+    else x1 - x2
+  in
+  let _ = Array.sort cmp a in
+  let ans = Array.make m (0, 0) in
+
+  let rec add_extra (extra, extra_cnt) x cur =
+    if extra_cnt >= m || x = cur then (extra, extra_cnt)
+    else add_extra ((x, cur)::extra, extra_cnt + 1) (x+1) cur
+  in
+
+  let process_edge (extra, extra_cnt, cur) (a, b, i) =
+    if extra_cnt = (-1) then (extra, extra_cnt, cur)
+    else if b = 0 then 
+      begin 
+        match extra with
+        | [] -> (extra, (-1), cur)
+        | hd::tl -> ans.(i) <- hd; (tl, extra_cnt-1, cur)
+      end
+    else 
+      begin
+        ans.(i) <- (0, cur);
+        let (extra, extra_cnt) = add_extra (extra, extra_cnt) 1 cur in
+        (extra, extra_cnt, cur + 1)
+      end
+  in
+  
+  let (_, extra_cnt, _) = Array.fold_left process_edge ([], 0, 1) a in
+  if extra_cnt = (-1) then Printf.printf "-1\n"
+  else Array.iter (fun (a, b) -> Printf.printf "%d %d\n" (a+1) (b+1)) ans

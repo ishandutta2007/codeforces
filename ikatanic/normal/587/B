@@ -1,0 +1,57 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x)
+let read_string () = Scanf.scanf " %s " (fun x -> x)
+
+let m = 1_000_000_007
+
+let ( ++ ) a b = Int64.add a b
+let ( -- ) a b = Int64.sub a b
+let ( ** ) a b = Int64.mul a b
+let ( // ) a b = Int64.div a b
+let ( %% ) a b = Int64.rem a b
+
+let ll a = Int64.of_int a
+
+let add a b = Int64.to_int (((ll a) ++ (ll b)) %% (ll m))
+
+let () =
+  let n = read_int () in
+  let l = Int64.of_string (read_string ()) in
+  let k = read_int () in
+  let a = Array.init n (fun _ -> read_int ()) in
+  let sorted = Array.init n (fun i -> (a.(i), i)) in
+  Array.sort (fun a b -> (fst a) - (fst b)) sorted;
+
+  let f = Array.make_matrix (k+1) n 0 in
+  for j = 0 to n-1 do
+    f.(1).(j) <- 1
+  done;
+  
+  for i = 2 to k do
+    let sum = ref 0 in
+    let l = ref 0 in
+    while !l < n do
+      let r = ref !l in
+      while !r < n && (fst sorted.(!r)) = (fst sorted.(!l)) do
+        sum := add !sum f.(i-1).(snd sorted.(!r));
+        r := !r + 1
+      done;
+      while !l < !r do
+        f.(i).(snd sorted.(!l)) <- !sum;
+        l := !l + 1
+      done;
+    done;
+  done;
+
+  let ans = ref 0 in
+  for i = 1 to k do
+    for j = 0 to n-1 do
+      let len = ((ll (i-1)) ** (ll n)) ++ (ll (j+1)) in
+      let ways = (l -- len ++ (ll n)) // (ll n) %% (ll m) in
+      let llf = ll f.(i).(j) in
+      let total = (ways ** llf) %% (ll m) in
+      if len <= l then ans := add !ans (Int64.to_int total)
+    done;
+  done;
+  
+  Printf.printf "%d\n" !ans
+;;
