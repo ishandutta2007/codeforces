@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <iostream>
+#include <math.h>
+#include <string.h>
+#include <algorithm>
+#include <stdlib.h>
+#include <time.h>
+#include <queue>
+#include <set>
+#include <map>
+#include <string>
+#include <vector>
+#include <utility>
+#include <assert.h>
+
+#define MPI 3.141592653589793238462643
+#define eps 1e-8
+#define inf ((int)1e9)
+#define pb push_back
+#define mp make_pair
+
+using namespace std;
+
+int D[4100][4100];
+int A[4100][2], n, k, res;
+
+int main()
+{
+  int n, k, i, j;
+  //freopen(".in", "r", stdin);
+  //freopen(".out", "w", stdout);
+  scanf("%d%d", &n, &k);
+  for (i=1; i<=n; i++)
+    scanf("%d%d", &A[i][0], &A[i][1]), A[i][0]--;
+  for (i=1; i<=n; i++)
+    for (j=0; j<=k; j++)
+    {
+      D[i][j]=max(D[i-1][j],A[i][0])+A[i][1];
+      if (j>0)
+        D[i][j]=min(D[i][j],D[i-1][j-1]);
+    }
+  for (A[n+1][0]=86400, i=0; i<=n; i++)
+    res=max(res,A[i+1][0]-D[i][k]);
+  printf("%d\n", res);
+  return 0;
+}
