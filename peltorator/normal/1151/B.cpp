@@ -1,0 +1,80 @@
+#ifdef ONPC
+    # define _GLIBCXX_DEBUG
+    #define deb(a) cerr << "========" << #a << " = " << a << endl;
+#else
+    #define deb(a)
+#endif
+#define sz(a) (int)(a).size()
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
+
+typedef long long ll;
+
+int solve()
+{
+    int n;
+    if (!(cin >> n))
+        return 1;
+    int m;
+    cin >> m;
+    vector<vector<int> > a(n,vector<int>(m, 0));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            cin >> a[i][j];
+    int x = 0;
+    for (int i = 0; i < n; i++)
+        x ^= a[i][0];
+    int t = 0, s = 0;
+    if (!x)
+    {
+        bool ok = 1;
+        for (int i = 0; ok && i < n; i++)
+        {
+            for (int j = 0; j < m  && ok; j++)
+                if (a[i][j] != a[i][0])
+                {
+                    ok = 0;
+                    t = i;
+                    s = j;
+                }
+        }
+        if (ok)
+        {
+            cout << "NIE\n";
+            return 0;
+        }
+    }
+    cout << "TAK\n";
+    for (int i = 0; i < n; i++)
+    {
+        if (i != t)
+            cout << "1 ";
+        else
+            cout << s + 1 << ' ';
+    }
+    cout << endl;
+    return 0;
+}
+
+int32_t main()
+{
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int TET = 1e9;
+    //cin >> TET;
+    while (TET--)
+    {
+        if (solve())
+            break;
+        #ifdef ONPC
+            cout << "\n__________________________" << endl;
+        #endif
+    }
+    #ifdef ONPC
+        cerr << endl << "finished in " << clock() * 1.0 / CLOCKS_PER_SEC << " sec" << endl;
+    #endif
+    return 0;
+}
