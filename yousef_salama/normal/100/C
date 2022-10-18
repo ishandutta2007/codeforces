@@ -1,0 +1,6 @@
+int main(){
+    int a = (int)Stdio.stdin->gets();
+    int b = (int)Stdio.stdin->gets();
+    int c = a + b;
+    write(c + "\n");
+}
