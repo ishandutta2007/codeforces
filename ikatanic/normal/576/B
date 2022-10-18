@@ -1,0 +1,51 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x);;
+
+let get_cycles n p =
+  let bio = Array.make n false in
+  let rec get_cycle i ans =
+    if bio.(i) then ans
+    else (bio.(i) <- true; get_cycle p.(i) (i::ans))
+  in
+  let rec go i ans =
+    if i >= n then ans
+    else if bio.(i) then go (i+1) ans
+    else go (i+1) ((get_cycle i [])::ans)
+  in
+  go 0 []
+
+let () =
+  let n = read_int () in
+  let p = Array.init n (fun _ -> (read_int ())-1) in
+  let cycles = get_cycles n p in
+  let rec lenf n l = (List.length l) = n in
+  if List.exists (lenf 1) cycles then 
+    begin
+      Printf.printf "YES\n";
+      let c = List.hd (List.find (lenf 1) cycles) in
+      for i = 0 to n-1 do
+        if i <> c then Printf.printf "%d %d\n" (c+1) (i+1)
+      done;
+    end
+  else if List.exists (lenf 2) cycles then
+    begin
+      let twos = List.find (lenf 2) cycles in
+      let a = List.hd twos in
+      let b = List.hd (List.tl twos) in
+      let rec print_edges a b v =
+        match v with
+        | [] -> ()
+        | hd::tl -> if hd <> a then 
+                      begin
+                        Printf.printf "%d %d\n" (a+1) ((List.hd v)+1);
+                        print_edges b a (List.tl v)
+                      end
+      in
+      if List.for_all (fun v -> (List.length v) mod 2 = 0) cycles then
+        begin
+          Printf.printf "YES\n";
+          Printf.printf "%d %d\n" (a+1) (b+1);
+          List.iter (print_edges a b) cycles;
+        end
+      else Printf.printf "NO\n"
+    end
+  else Printf.printf "NO\n";;
