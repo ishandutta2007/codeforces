@@ -1,0 +1,450 @@
+#ifndef LOCAL
+#pragma GCC optimize ("O3")
+#pragma GCC optimize ("unroll-loops")
+#pragma GCC target ("avx")
+#endif
+
+#include <vector>
+#include <set>
+#include <map>
+#include <tuple>
+#include <queue>
+#include <stack>
+#include <bitset>
+#include <functional>
+#include <algorithm>
+#include <utility>
+#include <numeric>
+#include <iostream>
+#include <cmath>
+#include <cassert>
+
+using namespace std;
+
+using ll = long long;
+using VI = vector<int>;
+using VVI = vector<vector<int>>;
+using VLL = vector<ll>;
+using VVLL = vector<vector<ll>>;
+using VB = vector<bool>;
+using PII = pair<int, int>;
+using PLL = pair<ll, ll>;
+template <typename T>
+using minheap = priority_queue<T, vector<T>, greater<T>>;
+const int INF = 1000000007;
+const ll INF_LL = 1'000'000'000'000'000'007;
+
+#define __overload3(_1, _2, _3, name,...) name
+#define rep(...) __overload3(__VA_ARGS__, repFromUntil, repUntil, repeat)(__VA_ARGS__)
+#define repeat(times) repFromUntil(_name##__LINE__, 0, times)
+#define repUntil(name, times) repFromUntil(name, 0, times)
+#define repFromUntil(name, from, until) for (int name = from, name##__until = (until); name < name##__until; name++)
+#define repr(...) __overload3(__VA_ARGS__, reprFromUntil, reprUntil, repeat)(__VA_ARGS__)
+#define reprUntil(name, times) reprFromUntil(name, 0, times)
+#define reprFromUntil(name, from, until) for (int name = until - 1, name##__from = (from); name >= name##__from; name--)
+
+#define EXIT(out) do { OUT(out); exit(0); } while (0)
+
+#define all(x) begin(x), end(x)
+#define rall(x) rbegin(x), rend(x)
+#define fs first
+#define sn second
+
+#ifdef LOCAL
+#define debug(v) do {debugos << "L" << __LINE__ << " " << #v << " > ";debugos<<(v)<<newl;} while (0)
+#define debugv(v) do {debugos << "L" << __LINE__ << " " << #v << " > ";for(auto e:(v)){debugos<<e<<" ";}debugos<<newl;} while (0)
+#define debuga(m,w) do {debugos << "L" << __LINE__ << " " << #m << " > ";for(int x=0;x<(w);x++){debugos<<(m)[x]<<" ";}debugos<<newl;} while (0)
+#define debugaa(m,h,w) do {debugos << "L" << __LINE__ << " " << #m << " > \n";for(int y=0;y<(h);y++){for(int x=0;x<(w);x++){debugos<<(m)[y][x]<<" ";}debugos<<newl;}} while (0)
+#else
+#define debug(v) do {v;} while (0)
+#define debugv(v) do; while (0)
+#define debuga(m,w) do; while (0)
+#define debugaa(m,h,w) do; while (0)
+#endif
+
+#define newl "\n"
+constexpr int dr[] = {1,-1,0,0};  // LRUD
+constexpr int dc[] = {0,0,1,-1};
+
+bool inside(int r, int c, int H, int W) {
+  return 0 <= r and r < H and 0 <= c and c < W;
+}
+
+template <typename T> bool chmin(T& var, T x) {
+  if (var > x) {
+    var = x;
+    return true;
+  } else return false;
+}
+
+template <typename T> bool chmax(T& var, T x) {
+  if (var < x) {
+    var = x;
+    return true;
+  } else return false;
+}
+
+template <typename T> int sgn(T val) { return (T(0) < val) - (val < T(0)); }
+
+ll power(ll e, int t, ll mod = INF_LL) {
+  ll res = 1;
+  while (t) {
+    if (t&1) res = (res * e) % mod;
+    t >>= 1;
+    e = (e * e) % mod;
+  }
+  return res;
+}
+
+template <typename T> T divceil(T m, T d) {
+  assert(m >= 0 and d > 0);
+  return (m+d-1)/d;
+}
+
+template<typename T>
+vector<T> make_v(size_t a, T b) { return vector<T>(a, b); }
+
+template<typename... Ts>
+auto make_v(size_t a, Ts... ts) {
+  return vector<decltype(make_v(ts...))>(a, make_v(ts...));
+}
+
+string operator*(const string& s, int times) {
+  string res = "";
+  rep(times) res += s;
+  return res;
+}
+
+class MyScanner {
+public:
+  int offset = 0;
+  char nc(){
+#ifdef LOCAL
+    return getchar();
+#else
+    static char buf[100000],*L=buf,*R=buf;
+    return L==R&&(R=(L=buf)+fread(buf,1,100000,stdin),L==R)?EOF:*L++;
+#endif
+  }
+  template <typename T> void input_integer(T& var) {
+    var = 0; T sign = 1;
+    int cc = nc();
+    for (; cc<'0' || '9'<cc; cc = nc())
+      if (cc == '-') sign = -1;
+    for (; '0' <= cc && cc <= '9'; cc = nc())
+      var = (var << 3) + (var << 1) + cc - '0';
+    var = var * sign; var += offset;
+  }
+  int c() { char c; while (c = nc(), c == ' ' or c == '\n'); return c; }
+  MyScanner& operator>>(char& var) { var = c(); return *this; }
+  MyScanner& operator>>(int& var) { input_integer<int>(var); return *this; }
+  MyScanner& operator>>(ll& var) { input_integer<ll>(var); return *this; }
+  MyScanner& operator>>(string& var) {
+    var = ""; int cc = nc();
+    for (; !isvisiblechar(cc); cc = nc());
+    for (; isvisiblechar(cc); cc = nc())
+      var.push_back(cc);
+    return *this;
+  }
+  template <typename T>
+  operator T() { T x; *this >> x; return x; }
+  template <typename T>
+  void operator()(T &t) { *this >> t; }
+  template <typename T, typename... Ts>
+  void operator()(T &t, Ts &...ts) { *this >> t; this->operator()(ts...); }
+  template <typename Iter>
+  void iter(Iter first, Iter last) { while (first != last) *this >> *first, first++; }
+  VI vi(int n) { VI res(n); iter(all(res)); return res; }
+  VVI vvi(int n, int m) { VVI res(n); rep(i, n) res[i] = vi(m); return res; }
+  VLL vll(int n) { VLL res(n); iter(all(res)); return res; }
+  VVLL vvll(int n, int m) { VVLL res(n); rep(i, n) res[i] = vll(m); return res; }
+  template <typename T>
+  vector<T> v(int n) { vector<T> res(n); iter(all(res)); return res; }
+private:
+  int isvisiblechar(int c) { return 0x21 <= c && c <= 0x7E; }
+} IN, IN1{-1};
+
+class MyPrinter {
+public:
+  template <typename T>
+  void output_integer(T var) {
+    if (var == 0) { putchar('0'); return; }
+    if (var < 0) putchar('-'), var = -var;
+    char stack[32]; int stack_p = 0;
+    while (var) stack[stack_p++] = '0' + (var % 10), var /= 10;
+    while (stack_p) putchar(stack[--stack_p]);
+  }
+  MyPrinter& operator<<(char c) { putchar(c); return *this; }
+  MyPrinter& operator<<(double x) { printf("%.10f\n", x); return *this; }
+  template <typename T> MyPrinter& operator<<(T var) { output_integer<T>(var); return *this; }
+  MyPrinter& operator<<(char* str_p) { while (*str_p) putchar(*(str_p++)); return *this; }
+  MyPrinter& operator<<(const char* str_p) { while (*str_p) putchar(*(str_p++)); return *this; }
+  MyPrinter& operator<<(const string& str) {
+    const char* p = str.c_str();
+    const char* l = p + str.size();
+    while (p < l) putchar(*p++);
+    return *this;
+  }
+  template <typename T>
+  void operator()(T x) { *this << x << newl; }
+  template <typename T, typename... Ts>
+  void operator()(T x, Ts ...xs) { *this << x << " "; this->operator()(xs...); }
+  template <typename Iter>
+  void iter(Iter s, Iter t) {
+    if (s == t) *this << "\n";
+    else {
+      for (; s != t; s++) {
+        *this << *s << " \n"[next(s, 1) == t];
+      }
+    }
+  }
+  template <typename Range>
+  void range(const Range& r) { iter(begin(r), end(r)); }
+} OUT;
+
+class DebugPrint {
+public:
+  template <typename T>
+  DebugPrint& operator <<(const T& v) {
+#ifdef LOCAL
+    cerr << v;
+#endif
+    return *this;
+  }
+} debugos;
+
+template <typename OutStream, typename T, typename U>
+OutStream& operator<<(OutStream& out, const pair<T, U>& var) {
+  return out << var.first << " " << var.second;
+}
+template <typename OutStream, typename Tuple, size_t I, size_t N,
+          enable_if_t<I == N>* = nullptr>
+OutStream& tuple_impl(OutStream& out, const Tuple& var) {
+  return out;
+}
+template <typename OutStream, typename Tuple, size_t I, size_t N,
+          enable_if_t<I != N>* = nullptr>
+OutStream& tuple_impl(OutStream& out, const Tuple& var) {
+  out << get<I>(var) << " ";
+  return tuple_impl<OutStream, Tuple, I+1, N>(out, var);
+}
+template <typename OutStream, typename... Ts>
+OutStream& operator<<(OutStream& out, const tuple<Ts...>& var) {
+  return tuple_impl<OutStream, tuple<Ts...>, 0, sizeof...(Ts)>(out, var);
+}
+template <typename InStream, typename T, typename U>
+InStream& operator>>(InStream& in, pair<T, U>& var) {
+  return in >> var.first >> var.second;
+}
+template <typename InStream, typename Tuple, size_t I, size_t N,
+          enable_if_t<I == N>* = nullptr>
+InStream& tuple_impl(InStream& in, Tuple& var) {
+  return in;
+}
+template <typename InStream, typename Tuple, size_t I, size_t N,
+          enable_if_t<I != N>* = nullptr>
+InStream& tuple_impl(InStream& in, Tuple& var) {
+  in >> get<I>(var);
+  return tuple_impl<InStream, Tuple, I+1, N>(in, var);
+}
+template <typename InStream, typename... Ts>
+InStream& operator>>(InStream& in, tuple<Ts...>& var) {
+  return tuple_impl<InStream, tuple<Ts...>, 0, sizeof...(Ts)>(in, var);
+}
+
+#pragma GCC diagnostic ignored "-Wshadow"
+template <typename T, typename U, typename Merge, typename EMerge, typename Upd>
+struct lazy_segtree {
+  const int n;
+  const T unit;
+  const U eunit;
+  const Merge merge;
+  const EMerge emerge;
+  const Upd upd;
+  vector<T> data;
+  vector<U> lazy;
+  const int h;
+
+  // eunit need not be a unit
+  lazy_segtree(int n = 0, T unit = T(), U eunit = U(), Merge merge = Merge(),
+               EMerge emerge = EMerge(), Upd upd = Upd())
+      : n(n),
+        unit(unit),
+        eunit(eunit),
+        merge(merge),
+        emerge(emerge),
+        upd(upd),
+        data(n << 1, unit),
+        lazy(n, eunit),
+        h(32 - __builtin_clz(n)) {
+    build(0, n);
+  }
+
+  // eunit need not be a unit
+  template <typename Iter>
+  lazy_segtree(Iter first, Iter last, int n, T unit = T(), U eunit = U(),
+               Merge merge = Merge(), EMerge emerge = EMerge(), Upd upd = Upd())
+      : n(n),
+        unit(unit),
+        eunit(eunit),
+        merge(merge),
+        emerge(emerge),
+        upd(upd),
+        data(n << 1),
+        lazy(n, eunit),
+        h(32 - __builtin_clz(n)) {
+    assign(first, last);
+  }
+
+  void apply(int p, U e, int sz) {
+    if (e == eunit) return;
+    data[p] = upd(data[p], e, sz);
+    if (p < n) {
+      if (lazy[p] == eunit)
+        lazy[p] = e;
+      else
+        lazy[p] = emerge(lazy[p], e);
+    }
+  }
+
+  void pushdown(int p, int sz) {
+    if (p >= n or lazy[p] == eunit) return;
+    apply(p << 1, lazy[p], sz >> 1);
+    apply(p << 1 | 1, lazy[p], sz >> 1);
+    lazy[p] = eunit;
+  }
+
+  void pushup(int p, int k) {
+    if (p >= n) return;
+    data[p] = merge(data[p << 1], data[p << 1 | 1]);
+    if (lazy[p] != eunit) data[p] = upd(data[p], lazy[p], k);
+  }
+
+  void flush(int l, int r) {
+    int s = h, k = 1 << h;
+    for (l += n, r += n - 1; s > 0; s--, k >>= 1)
+      for (int p = l >> s; p <= r >> s; p++) pushdown(p, k);
+  }
+
+  void build(int l, int r) {
+    int k = 2;
+    for (l += n, r += n - 1; l > 1; k <<= 1) {
+      l >>= 1, r >>= 1;
+      for (int p = l; p <= r; p++) pushup(p, k);
+    }
+  }
+
+  template <typename Iter>
+  void assign(Iter first, Iter last) {
+    copy(first, last, data.begin() + n);
+    build(0, n);
+  }
+
+  void modify(int l, int r, U e) {
+    if (e == eunit) return;
+    flush(l, l + 1);
+    flush(r - 1, r);
+    int l0 = l, r0 = r, k = 1;
+    for (l += n, r += n; l < r; l >>= 1, r >>= 1, k <<= 1) {
+      if (l & 1) apply(l++, e, k);
+      if (r & 1) apply(--r, e, k);
+    }
+    build(l0, l0 + 1);
+    build(r0 - 1, r0);
+  }
+
+  T query(int l, int r) {
+    flush(l, l + 1);
+    flush(r - 1, r);
+    T resl = unit, resr = unit;
+    for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+      if (l & 1) resl = merge(resl, data[l++]);
+      if (r & 1) resr = merge(data[--r], resr);
+    }
+    return merge(resl, resr);
+  }
+
+  T query(int l) const { return query(l, n); }
+};
+#pragma GCC diagnostic warning "-Wshadow"
+
+template <typename T>
+struct minT {
+  T operator()(T a, T b) const { return min(a, b); }
+};
+
+template <typename T>
+struct maxT {
+  T operator()(T a, T b) const { return max(a, b); }
+};
+
+template <typename T>
+struct assign {
+  T operator()(T a, T b, int k = 0) const { return b; }
+};
+
+template <typename T>
+struct plusT {
+  T operator()(T a, T b, int k) const {
+    return a + b * k;
+  }
+};
+
+int main() {
+  int n = IN;
+  VLL a(n+2), p(n+2);
+  rep(i, n) IN >> a[i+1]; a.back() = INF;
+  rep(i, n) IN >> p[i+1];
+  int m = IN;
+  VLL b(m+2);
+  rep(i, m) IN >> b[i+1]; b.back() = INF;
+  n += 2; m += 2;
+
+  bitset<500002> forbid;
+  int found = 0;
+  rep(i, 1, n-1)
+    if (a[i] == b[found+1]) found++;
+    else if (a[i] > b[found]) forbid[i] = true;
+
+  ll res = 0;
+  rep(i, n) if (forbid[i]) res += p[i];
+
+  // debugos << "forbid: ";
+  // rep(i, n) debugos << int(forbid[i]) << " ";
+  // debugos << newl;
+
+  lazy_segtree<ll, ll, minT<ll>, plus<ll>, plusT<ll>> dp(m+1, INF_LL);
+  dp.modify(0, 1, -INF_LL);
+  debug(dp.query(0, 1));
+
+  rep(i, n) if (not forbid[i]) {
+    debug(i);
+    // rep(i, m+1) debugos << dp.query(i, i+1) << " ";
+    debugos << "\n";
+    if (p[i] < 0) {//
+      int done = lower_bound(all(b), a[i]) - b.begin();
+      debug(done);
+      debug(b.size());
+      dp.modify(done+1, m+1, p[i]);
+    }
+    int ix = lower_bound(all(b), a[i]) - b.begin();
+    if (upper_bound(all(b), a[i]) - b.begin() != ix) {
+      ll now = dp.query(ix+1, ix+2);
+      ll prev = dp.query(ix, ix+1);
+      debug(b[ix]);
+      debug(ix);
+      debug(prev); debug(now);
+      if (prev < now) dp.modify(ix+1, ix+2, -now + prev);
+    }
+    dp.modify(0, ix+1, p[i]);
+    // dp.modify(upper_bound(al l(b), a[i]) - b.begin(), m+1, p[i]);
+  }
+
+  debug(m);
+
+  if (dp.query(m, m+1) >= 1e16) OUT("NO");
+  else {
+    OUT("YES");
+    OUT(dp.query(m, m+1) + res);
+  }
+}
