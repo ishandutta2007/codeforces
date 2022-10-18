@@ -1,0 +1,29 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Text_Io; use Ada.Text_Io;
+
+procedure AplusB is
+    S:string(1..100);
+    length,c,c1:Natural;
+    ans,X,P:float;
+begin
+    Get_Line(S,Length);
+    get(P);
+c:=0;
+c1:=0;
+for i in 1 .. Length loop 
+if S(i)='?' then c:=c+1; end if;
+if S(i)='1' then c1:=c1+1; end if;
+end loop;
+    Put( float(float(c1)+float(c)*p)/float(length),5,5,0);
+end AplusB;

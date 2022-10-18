@@ -1,0 +1,59 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Text_Io; use Ada.Text_Io;
+
+procedure AplusB is
+    n,ans,kk,kl:integer;
+    arra  : array(INTEGER range 1..50, INTEGER range 1..50) of character;
+    arra2,arra3 : array(INTEGER range 1..50) of integer;
+begin
+Get(n);
+for i in 1..n loop
+arra2(i):=0;
+kl:=1;
+kk:=1;
+end loop;
+arra2(1):=1;
+for i in 1..n loop
+for j in 1..n loop Get(arra(i,j));if arra2(i)>0 and arra(i,j)='1' then 
+arra2(j):=arra2(j)+1; 
+if j<i and arra2(j)=1 and i<n then
+arra3(kl):=j;
+kl:=kl+1;
+end if;
+
+end if;
+
+end loop;
+
+while kk<kl loop
+
+for k in kk..kl-1 loop
+for ll in 1..n loop
+if arra(arra3(k),ll)='1' then arra2(ll):=arra2(ll)+1;
+
+if ll<i and arra2(ll)=1 then
+arra3(kl):=ll;
+kl:=kl+1;
+end if;
+end if;
+end loop;
+kk:=kk+1;
+end loop;
+
+end loop; 
+
+end loop;
+
+put(arra2(n));
+end AplusB;
