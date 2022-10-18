@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+#define int ll
+typedef long double ld;
+
+typedef pair<int,int> pii;
+#define x first
+#define y second
+
+const int N=55;
+
+string s[N];
+
+signed main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        for(int i=0;i<n;i++)
+            cin>>s[i],s[i]+='1';
+        s[n]=string(n+1,'1');
+        bool ok=true;
+        for(int i=n-1;i>=0;i--)
+            for(int j=n-1;j>=0;j--)
+                if(s[i][j]=='1'&&s[i+1][j]=='0'&&s[i][j+1]=='0')
+                    ok=false;
+        cout<<(ok?"YES\n":"NO\n");
+    }
+}
