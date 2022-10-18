@@ -1,0 +1,13 @@
+n := File standardInput readLine asNumber
+cnt := 0
+z := 0
+for(x,1,n,1,
+    if(z==0, z:=1, z:=0)
+    m := n
+    while(m>0,
+        m := m - x
+    )
+    if(m != 0, continue)
+    if(z==0, cnt := cnt+1, cnt := cnt-1)
+)
+if(cnt==0, "yes" println, "no" println)
