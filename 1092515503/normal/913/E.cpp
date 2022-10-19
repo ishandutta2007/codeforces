@@ -1,0 +1,318 @@
+#include<bits/stdc++.h>
+using namespace std;
+/*
+string f[256][4];//the minimum of data i, with overall state j(0:or 1:and 2:not 3:const) 
+map<string,int>mp;
+string s[256],r[256];
+string match(pair<string,int>x,pair<string,int>y,int op){
+//	cout<<x.first<<' '<<y.first<<' '<<op<<'=';
+	if(op>x.second)x.first="("+x.first+")";
+	if(op>=y.second)y.first="("+y.first+")";
+//	cout<<x.first+(op==1?'&':'|')+y.first<<endl;
+	return x.first+(op==1?'&':'|')+y.first; 
+}
+string rev(pair<string,int>x){
+	if(x.second>=2)return "!"+x.first;
+	return "!("+x.first+")";
+}
+void chmn(string &x,string y){if(!y.empty()&&(x.empty()||x.size()>y.size()||x.size()==y.size()&&x>y))x=y;}
+int main(){
+	for(int i=0;i<256;i++){
+		for(int j=7;j>=0;j--)s[i]+='0'+((i>>j)&1);
+		mp[s[i]]=i;
+	}
+	f[mp["00001111"]][3]="x";
+	f[mp["00110011"]][3]="y";
+	f[mp["01010101"]][3]="z";
+	for(int stp=0;stp<=20;stp++){
+		printf("%d\n",stp);
+		for(int i=0;i<256;i++)for(int j=0;j<256;j++)for(int ii=0;ii<4;ii++)for(int jj=0;jj<4;jj++){
+			if(f[i][ii].empty()||f[j][jj].empty())continue;
+			chmn(f[i|j][0],match(make_pair(f[i][ii],ii),make_pair(f[j][jj],jj),0));
+			chmn(f[i&j][1],match(make_pair(f[i][ii],ii),make_pair(f[j][jj],jj),1));
+		}
+		for(int i=0;i<256;i++)for(int ii=0;ii<4;ii++){
+			if(f[i][ii].empty())continue;
+			chmn(f[(~i)&255][2],rev(make_pair(f[i][ii],ii)));
+		}
+	}
+	for(int i=0;i<256;i++)for(int j=0;j<4;j++)chmn(r[i],f[i][j]);
+	for(int i=0;i<256;i++)cout<<"\""<<r[i]<<"\","<<endl;
+	int n;
+	cin>>n;
+	string ss;
+	while(n--)cin>>ss,cout<<r[mp[ss]]<<endl;
+	return 0;
+}
+*/
+string r[256]={
+"!x&x",
+"x&y&z",
+"!z&x&y",
+"x&y",
+"!y&x&z",
+"x&z",
+"!y&x&z|!z&x&y",
+"(y|z)&x",
+"!y&!z&x",
+"!y&!z&x|x&y&z",
+"!z&x",
+"!z&x|x&y",
+"!y&x",
+"!y&x|x&z",
+"!(y&z)&x",
+"x",
+"!x&y&z",
+"y&z",
+"!x&y&z|!z&x&y",
+"(x|z)&y",
+"!x&y&z|!y&x&z",
+"(x|y)&z",
+"!x&y&z|!y&x&z|!z&x&y",
+"(x|y)&z|x&y",
+"!x&y&z|!y&!z&x",
+"!y&!z&x|y&z",
+"!x&y&z|!z&x",
+"!z&x|y&z",
+"!x&y&z|!y&x",
+"!y&x|y&z",
+"!(y&z)&x|!x&y&z",
+"x|y&z",
+"!x&!z&y",
+"!x&!z&y|x&y&z",
+"!z&y",
+"!z&y|x&y",
+"!x&!z&y|!y&x&z",
+"!x&!z&y|x&z",
+"!y&x&z|!z&y",
+"!z&y|x&z",
+"!(!x&!y|x&y|z)",
+"!(!x&!y|x&y|z)|x&y&z",
+"!z&(x|y)",
+"!z&(x|y)|x&y",
+"!x&!z&y|!y&x",
+"!x&!z&y|!y&x|x&z",
+"!y&x|!z&y",
+"!z&y|x",
+"!x&y",
+"!x&y|y&z",
+"!(x&z)&y",
+"y",
+"!x&y|!y&x&z",
+"!x&y|x&z",
+"!(x&z)&y|!y&x&z",
+"x&z|y",
+"!x&y|!y&!z&x",
+"!x&y|!y&!z&x|y&z",
+"!x&y|!z&x",
+"!z&x|y",
+"!x&y|!y&x",
+"!x&y|!y&x|x&z",
+"!(x&z)&y|!y&x",
+"x|y",
+"!x&!y&z",
+"!x&!y&z|x&y&z",
+"!x&!y&z|!z&x&y",
+"!x&!y&z|x&y",
+"!y&z",
+"!y&z|x&z",
+"!y&z|!z&x&y",
+"!y&z|x&y",
+"!(!x&!z|x&z|y)",
+"!(!x&!z|x&z|y)|x&y&z",
+"!x&!y&z|!z&x",
+"!x&!y&z|!z&x|x&y",
+"!y&(x|z)",
+"!y&(x|z)|x&z",
+"!y&z|!z&x",
+"!y&z|x",
+"!x&z",
+"!x&z|y&z",
+"!x&z|!z&x&y",
+"!x&z|x&y",
+"!(x&y)&z",
+"z",
+"!(x&y)&z|!z&x&y",
+"x&y|z",
+"!x&z|!y&!z&x",
+"!x&z|!y&!z&x|y&z",
+"!x&z|!z&x",
+"!x&z|!z&x|x&y",
+"!x&z|!y&x",
+"!y&x|z",
+"!(x&y)&z|!z&x",
+"x|z",
+"!(!y&!z|x|y&z)",
+"!(!y&!z|x|y&z)|x&y&z",
+"!x&!y&z|!z&y",
+"!x&!y&z|!z&y|x&y",
+"!x&!z&y|!y&z",
+"!x&!z&y|!y&z|x&z",
+"!y&z|!z&y",
+"!y&z|!z&y|x&y",
+"!(!x&!y|x&y|z)|!x&!y&z",
+"!(!x&!y|x&y|z)|!x&!y&z|x&y&z",
+"!x&!y&z|!z&(x|y)",
+"!x&!y&z|!z&(x|y)|x&y",
+"!x&!z&y|!y&(x|z)",
+"!x&!z&y|!y&(x|z)|x&z",
+"!y&(x|z)|!z&y",
+"!y&z|!z&y|x",
+"!x&(y|z)",
+"!x&(y|z)|y&z",
+"!x&z|!z&y",
+"!x&z|y",
+"!x&y|!y&z",
+"!x&y|z",
+"!(x&y)&z|!z&y",
+"y|z",
+"!x&(y|z)|!y&!z&x",
+"!x&(y|z)|!y&!z&x|y&z",
+"!x&(y|z)|!z&x",
+"!x&z|!z&x|y",
+"!x&(y|z)|!y&x",
+"!x&y|!y&x|z",
+"!x&y|!y&z|!z&x",
+"x|y|z",
+"!(x|y|z)",
+"!(x|y|z)|x&y&z",
+"!(!x&y|!y&x|z)",
+"!(x|y|z)|x&y",
+"!(!x&z|!z&x|y)",
+"!(x|y|z)|x&z",
+"!(!x&y|!y&x|z)|!y&x&z",
+"!(x|y|z)|(y|z)&x",
+"!y&!z",
+"!y&!z|x&y&z",
+"!(!x&y|z)",
+"!y&!z|x&y",
+"!(!x&z|y)",
+"!y&!z|x&z",
+"!(!x&y|z)|!y&x",
+"!y&!z|x",
+"!(!y&z|!z&y|x)",
+"!(x|y|z)|y&z",
+"!(!x&y|!y&x|z)|!x&y&z",
+"!(x|y|z)|(x|z)&y",
+"!(!x&z|!z&x|y)|!x&y&z",
+"!(x|y|z)|(x|y)&z",
+"!(!x&y|!y&x|z)|!x&y&z|!y&x&z",
+"!(x|y|z)|(x|y)&z|x&y",
+"!x&y&z|!y&!z",
+"!y&!z|y&z",
+"!(!x&y|z)|!x&y&z",
+"!(!x&y|z)|y&z",
+"!(!x&z|y)|!x&y&z",
+"!(!x&z|y)|y&z",
+"!(!x&y|z)|!x&y&z|!y&x",
+"!y&!z|x|y&z",
+"!x&!z",
+"!x&!z|x&y&z",
+"!(!y&x|z)",
+"!x&!z|x&y",
+"!x&!z|!y&x&z",
+"!x&!z|x&z",
+"!(!y&x|z)|!y&x&z",
+"!(!y&x|z)|x&z",
+"!(x&y|z)",
+"!(x&y|z)|x&y&z",
+"!z",
+"!z|x&y",
+"!x&!z|!y&x",
+"!(x&y|z)|x&z",
+"!y&x|!z",
+"!z|x",
+"!(!y&z|x)",
+"!x&!z|y&z",
+"!(!y&x|z)|!x&y",
+"!x&!z|y",
+"!(!y&z|x)|!y&x&z",
+"!(!y&z|x)|x&z",
+"!(!y&x|z)|!x&y|!y&x&z",
+"!x&!z|x&z|y",
+"!x&y|!y&!z",
+"!(x&y|z)|y&z",
+"!x&y|!z",
+"!z|y",
+"!(!x&!y&z|x&y)",
+"!x&!z|!y&x|y&z",
+"!x&y|!y&x|!z",
+"!z|x|y",
+"!x&!y",
+"!x&!y|x&y&z",
+"!x&!y|!z&x&y",
+"!x&!y|x&y",
+"!(!z&x|y)",
+"!x&!y|x&z",
+"!(!z&x|y)|!z&x&y",
+"!(!z&x|y)|x&y",
+"!(x&z|y)",
+"!(x&z|y)|x&y&z",
+"!x&!y|!z&x",
+"!(x&z|y)|x&y",
+"!y",
+"!y|x&z",
+"!y|!z&x",
+"!y|x",
+"!(!z&y|x)",
+"!x&!y|y&z",
+"!(!z&y|x)|!z&x&y",
+"!(!z&y|x)|x&y",
+"!(!z&x|y)|!x&z",
+"!x&!y|z",
+"!(!z&x|y)|!x&z|!z&x&y",
+"!x&!y|x&y|z",
+"!x&z|!y&!z",
+"!(x&z|y)|y&z",
+"!(!x&!z&y|x&z)",
+"!x&!y|!z&x|y&z",
+"!x&z|!y",
+"!y|z",
+"!x&z|!y|!z&x",
+"!y|x|z",
+"!(x|y&z)",
+"!(x|y&z)|x&y&z",
+"!x&!y|!z&y",
+"!(x|y&z)|x&y",
+"!x&!z|!y&z",
+"!(x|y&z)|x&z",
+"!(!y&!z&x|y&z)",
+"!x&!y|!z&y|x&z",
+"!((x|y)&z|x&y)",
+"!((x|y)&z|x&y)|x&y&z",
+"!x&!y|!z",
+"!x&!y|!z|x&y",
+"!x&!z|!y",
+"!x&!z|!y|x&z",
+"!y|!z",
+"!y|!z|x",
+"!x",
+"!x|y&z",
+"!x|!z&y",
+"!x|y",
+"!x|!y&z",
+"!x|z",
+"!x|!y&z|!z&y",
+"!x|y|z",
+"!x|!y&!z",
+"!x|!y&!z|y&z",
+"!x|!z",
+"!x|!z|y",
+"!x|!y",
+"!x|!y|z",
+"!(x&y&z)",
+"!x|x"
+};
+map<string,int>mp;
+int main(){
+	for(int i=0;i<256;i++){
+		string s;
+		for(int j=7;j>=0;j--)s+='0'+((i>>j)&1);
+		mp[s]=i;
+	}
+	int n;
+	cin>>n;
+	string s;
+	while(n--)cin>>s,cout<<r[mp[s]]<<endl;
+	return 0;
+}
