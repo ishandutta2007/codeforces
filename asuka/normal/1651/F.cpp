@@ -1,0 +1,6 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define O(i,a,n)for(int i=(a);i<=(n);i++)
+#define A(x) x.begin(),x.end()
+using namespace std;
+const int N=200015;int n,q,R[N],C[N];struct D{vector<int>U;vector<ll>S[2];bool fl;int l,m,r,t0,h0;D*ls,*rs;void init(int _l,int _r){l=_l;r=_r;m=(l+r)>>1;fl=1;t0=-1e9;O(p,0,1)S[p].resize(r-l+1);U.resize(r-l+1);vector<int>ord(r-l+1);iota(A(ord),l);sort(A(ord),[&](int u,int v){return(R[u]+C[u]-1)/C[u]<(R[v]+C[v]-1)/C[v];});O(i,0,r-l)U[i]=(R[ord[i]]+C[ord[i]]-1)/C[ord[i]];O(i,0,r-l){S[0][i]=R[ord[i]];S[1][i]=C[ord[i]];}O(i,1,r-l)O(p,0,1)S[p][i]+=S[p][i-1];}void solve(int t,ll&h){if(!h)return;if(l==r){int u=min((ll)R[l],(!fl)*h0+(ll)C[l]*(t-t0)),o=min((ll)u,h);h0=u-o;h-=o;t0=t;fl=h0==0;return;}if(fl){ls->fl=rs->fl=1;ls->t0=t0;rs->t0=t0+m-l+1;int p=upper_bound(A(U),t-t0)-U.begin();ll u;if(t-t0<1e9)u=(p?-S[1][p-1]*(t-t0)+S[0][p-1]:0)+S[1][r-l]*(t-t0);else u=S[0][p-1];if(h>=u){h-=u;t0=t;return;}}ls->solve(t,h);rs->solve(t+m-l+1,h);fl=ls->fl&&rs->fl&&ls->t0+m-l+1==rs->t0;t0=ls->t0;}}Pool[N<<2],*ptr=Pool,*rt;D*B(int l,int r){D*p=ptr++;p->init(l,r);int m=(l+r)>>1;if(l!=r)p->ls=B(l,m),p->rs=B(m+1,r);return p;}int main(){scanf("%d",&n);O(i,1,n)scanf("%d%d",&R[i],&C[i]);rt=B(1,n);scanf("%d",&q);ll Z=0;O(_,1,q){int t;ll h;scanf("%d%lld",&t,&h);rt->solve(t,h);Z+=h;}printf("%lld\n",Z);return 0;}
