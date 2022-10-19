@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;int n , a[102] , max1 = -1 , ans;int main(){cin >> n;for(int i = 1; i <= n; i++){	cin >> a[i];	max1 = max(max1 , a[i]);}for(int i = 1; i <= n; i++)	ans += max1 - a[i];cout << ans << endl;return 0;}
