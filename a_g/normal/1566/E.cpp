@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;vector<int>G[200005];int a,n,T,u,v,r;int f(int n,int p){int b=0;for(int i:G[n]){if(i!=p){r=!f(i,n);a+=r;b|=r;}}a-=b;return b;}int main(){cin>>T;while(T--){cin>>n;for(int i=1;i<n;i++){cin>>u>>v;G[u].push_back(v);G[v].push_back(u);}a=1;f(1,0);cout<<a<<'\n';for(int i=1;i<=n;i++)G[i].clear();}}
