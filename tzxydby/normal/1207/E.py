@@ -1,0 +1,5 @@
+print('? ',*list(range(0,100)))
+a=int(input())
+print('? ',*list(range(128,12928,128)))
+b=int(input())
+print('!',a&16256|b&127)

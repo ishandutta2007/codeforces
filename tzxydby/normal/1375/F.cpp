@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;main(){long long a[4],z,y;cin>>a[1]>>a[2]>>a[3];cout<<"First"<<endl<<(long long)1e10<<endl;cin>>z;a[z]+=1e10;cout<<(long long)(3*a[z]-a[1]-a[2]-a[3])<<endl;cin>>y;a[y]+=3*a[z]-a[1]-a[2]-a[3];sort(a+1,a+4);cout<<a[2]-a[1]<<endl;}
