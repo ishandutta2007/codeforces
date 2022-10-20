@@ -1,0 +1,3 @@
+//\
+BEGIN END.
+int main(){};
