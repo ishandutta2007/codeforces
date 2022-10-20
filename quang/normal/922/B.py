@@ -1,0 +1,1 @@
+print (sum(0 < (i ^ j) <= j <= i and (i ^ j) + j > i for i in range(1, int(input()) + 1) for j in range(1, i + 1)))
