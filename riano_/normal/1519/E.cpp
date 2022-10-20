@@ -972,10 +972,11 @@ void add(map<T,ll> &cnt,T a,ll n = 1){
 const ll mod = 998244353;
 
 
-
-//edge matching
+//dfs
+//s: i:dfs t:
 vector<int> vis; int t;
 vector<int> depth;
+ 
 void dfs(graph &g, int s,int i){
     t++;
     for(auto[nx,cost,label]:g.G[s]){
@@ -987,50 +988,14 @@ void dfs(graph &g, int s,int i){
         dfs(g,nx,i);
     }
     t--;
-}
-vector<Pr> edge_matching(graph &G){
-    ll N = G.N;
-    vector<ll> deg(N,0);
-    rep(i,N) deg[i] = G.G.size();
-    vis.assign(N,-1);
-    depth.assign(N,-1);
-    rep(i,N){
-        if(vis[i]==0) continue;
-        int s = i;
-        vis[s] = 0; depth[s] = 0; t = -1; //s:
-        dfs(G,s,0); //s: 0:dfs
-    }
-    vector<Pr> d;
-    rep(i,N){
-        d.emplace_back(depth[i],(ll)(i));
-    }
-    sort(all(d)); reverse(all(d));
-    vector<set<ll>> used(N);
-    vector<Pr> p;
-    rep(i,N){
-        auto[dp,id] = d[i];
-        if(deg[id]<2) continue;
-        vector<ll> en;
-        for(auto[t,c,e]:G.G[id]){
-            if(t!=G.par_v[id]&&!used[id].count(e)){
-                en.emplace_back(e); deg[t]--; used[t].insert(e);
-            }
-        }
-        if(en.size()%2==1&&G.par_v[id]!=-1){
-            en.emplace_back(G.par_e[id]); deg[G.par_v[id]]--; used[G.par_v[id]].insert(G.par_e[id]);
-        }
-        rep(i,en.size()/2){
-            p.emplace_back(en[i*2],en[i*2+1]);
-        }
-    }
-    return p;
-}
+}   
 
 int main(){
 	riano_; ll ans = 0;
     ll K; cin >> K;
     graph G(2*K);
     vector<Pr> z; map<Pr,ll> lab; ll N = 2*K;
+    vector<ll> deg(N,0);
     rep(i,K){
         ll a,b,c,d; cin >> a >> b >> c >> d;
         ll s = (b*c),t = (a+b)*d; ll g = gcd(s,t); s /= g; t /= g;
@@ -1043,12 +1008,46 @@ int main(){
         if(!lab.count(p2)){
             lab[p2] = z.size(); z.emplace_back(p2);
         }
-        G.unite(lab[p1],lab[p2]); //deg[lab[p1]]++; deg[lab[p2]]++; 
+        G.unite(lab[p1],lab[p2]); deg[lab[p1]]++; deg[lab[p2]]++; 
         // cout << i+1 << "\n";
         // cout << lab[p1] << " " << lab[p2] << "\n";
     } 
 
-    auto p = edge_matching(G);
+    
+    //main
+    vis.assign(N+1,-1);
+    depth.assign(N+1,-1);
+    rep(i,N){
+        if(vis[i]==0) continue;
+        int s = i;
+        vis[s] = 0; depth[s] = 0; t = -1; //s:
+        dfs(G,s,0); //s: 0:dfs
+    }
+ 
+    vector<Pr> d;
+    rep(i,N){
+        d.emplace_back(depth[i],(ll)(i));
+    }
+    sort(all(d)); reverse(all(d));
+ 
+    vector<set<ll>> used(N);
+    vector<Pr> p;
+    rep(i,N){
+        auto[dp,id] = d[i];
+        if(deg[id]<2) continue;
+        vector<ll> en;
+        for(auto[t,c,e]:G.G[id]){
+            if(t!=G.par_v[id]&&!used[id].count(e)){
+                en.emplace_back(e); deg[t]--; used[t].insert(e);
+            }
+        }
+        if(en.size()%2==1&&G.par_e[id]!=-1){
+            en.emplace_back(G.par_e[id]); deg[G.par_v[id]]--; used[G.par_v[id]].insert(G.par_e[id]);
+        }
+        rep(i,en.size()/2){
+            p.emplace_back(en[i*2],en[i*2+1]);
+        }
+    }
 
     cout << p.size() << endl;
     for(auto[x,y]:p){
