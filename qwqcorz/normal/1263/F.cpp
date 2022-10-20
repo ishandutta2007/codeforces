@@ -1,8 +1,6 @@
 #include<bits/stdc++.h>
-#define int long long
 using namespace std;
-const int N=(1<<18)+5;
-const int p=998244353;
+const int N=2e3+5;
 
 int read()
 {
@@ -23,68 +21,49 @@ void print(int x=-1,char c='\n')
 	write(x);
 	putchar(c);
 }
-int power(int a,int b)
-{
-	int ret=1;
-	while (b)
-	{
-		if (b&1) ret=ret*a%p;
-		a=a*a%p;
-		b/=2;
-	}
-	return ret;
-}
-int fact[N],inv[N],s[N];
-void ysgs(int n)
-{
-	for (int i=fact[0]=1;i<=n;i++) fact[i]=fact[i-1]*i%p;
-	inv[n]=power(fact[n],p-2);
-	for (int i=n;i>=1;i--) inv[i-1]=inv[i]*i%p;
-}
-int F[N],G[N],lim=1,l=0,rev[N];
-void NTT(int *a,int type)
-{
-	for (int i=0;i<lim;i++) if (i<rev[i]) swap(a[i],a[rev[i]]);
-	for (int mid=1;mid<lim;mid*=2)
-	{
-		int Wn=power(type>0?3:power(3,p-2),(p-1)/mid/2);
-		for (int len=mid*2,k=0;k<lim;k+=len)
-		for (int i=k,w=1;i<k+mid;w=w*Wn%p,i++)
-		{
-			int x=a[i],y=w*a[i+mid]%p;
-			a[i]=(x+y)%p;
-			a[i+mid]=(x-y+p)%p;
-		}
-	}
-	if (type<0)
-	for (int i=0,invn=power(lim,p-2);i<lim;i++) a[i]=a[i]*invn%p;
-}
-void strling(int n)
-{
-	for (int i=0;i<=n;i++) F[i]=((i&1)?p-1:1)*inv[i]%p;
-	for (int i=0;i<=n;i++) G[i]=power(i,n)*inv[i]%p;
-	n++;
-	while (lim<=n*2) lim*=2,l++;
-	for (int i=0;i<lim;i++) rev[i]=(rev[i>>1]>>1)|((i&1)<<(l-1));
-	NTT(F,1);
-	NTT(G,1);
-	for (int i=0;i<lim;i++) F[i]=F[i]*G[i]%p;
-	NTT(F,-1);
-	for (int i=0;i<n;i++) s[i]=F[i];
-}
+bool vis[N];
+int fa1[N],w1[N],siz1[N],l1[N],r1[N];
+int fa2[N],w2[N],siz2[N],l2[N],r2[N];
+int dp[N];
 
 signed main(signed Recall,char *_902_[])
 {
 	(void)Recall,(void)_902_;
-	int n=read(),k=read(),ans=0;
-	ysgs(k);
-	strling(k);
-	for (int i=1,C=1;i<=min(n,k);i++)
+	int n=read();
+	memset(vis,0,sizeof(vis));
+	int m1=read();
+	for (int i=2;i<=m1;i++) fa1[i]=read();
+	for (int i=2;i<=m1;i++)
+	for (int j=0,now=i;now;j+=!vis[now],vis[now]=1,now=fa1[now])
+	siz1[now]+=j;
+	for (int i=1;i<=n;i++) w1[i]=read();
+	for (int i=1;i<=n;i++)
+	for (int j=0,now=w1[i];now;now=fa1[now],j++)
+	r1[now]=i;
+	for (int i=n;i>=1;i--)
+	for (int j=0,now=w1[i];now;now=fa1[now],j++)
+	l1[now]=i;
+	
+	
+	memset(vis,0,sizeof(vis));
+	int m2=read();
+	for (int i=2;i<=m2;i++) fa2[i]=read();
+	for (int i=2;i<=m2;i++)
+	for (int j=0,now=i;now;j+=!vis[now],vis[now]=1,now=fa2[now])
+	siz2[now]+=j;
+	for (int i=1;i<=n;i++) w2[i]=read();
+	for (int i=1;i<=n;i++)
+	for (int j=0,now=w2[i];now;now=fa2[now],j++)
+	r2[now]=i;
+	for (int i=n;i>=1;i--)
+	for (int j=0,now=w2[i];now;now=fa2[now],j++)
+	l2[now]=i;
+	for (int i=1;i<=n;i++)
 	{
-		C=C*(n-i+1)%p*power(i,p-2)%p;
-		ans=(ans+C*s[i]%p*fact[i]%p*power(n+1,n-i)%p)%p;
+		for (int j=w1[i];j&&r1[j]==i;j=fa1[j]) dp[i]=max(dp[i],dp[l1[j]-1]+siz1[j]+(j>1));
+		for (int j=w2[i];j&&r2[j]==i;j=fa2[j]) dp[i]=max(dp[i],dp[l2[j]-1]+siz2[j]+(j>1));
 	}
-	print(ans);
+	print(dp[n]);
 	
 	return 0;
 }

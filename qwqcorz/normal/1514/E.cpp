@@ -1,8 +1,6 @@
 #include<bits/stdc++.h>
-#define int long long
 using namespace std;
-const int N=(1<<18)+5;
-const int p=998244353;
+const int N=105;
 
 int read()
 {
@@ -23,68 +21,62 @@ void print(int x=-1,char c='\n')
 	write(x);
 	putchar(c);
 }
-int power(int a,int b)
+bool ans[N][N];
+int S[N],l[N];
+bool A(int x,int y)
 {
-	int ret=1;
-	while (b)
-	{
-		if (b&1) ret=ret*a%p;
-		a=a*a%p;
-		b/=2;
-	}
-	return ret;
+	printf("1 %d %d",x-1,y-1);
+	cout<<endl;
+	return read();
 }
-int fact[N],inv[N],s[N];
-void ysgs(int n)
+bool B(int x,int l,int r)
 {
-	for (int i=fact[0]=1;i<=n;i++) fact[i]=fact[i-1]*i%p;
-	inv[n]=power(fact[n],p-2);
-	for (int i=n;i>=1;i--) inv[i-1]=inv[i]*i%p;
-}
-int F[N],G[N],lim=1,l=0,rev[N];
-void NTT(int *a,int type)
-{
-	for (int i=0;i<lim;i++) if (i<rev[i]) swap(a[i],a[rev[i]]);
-	for (int mid=1;mid<lim;mid*=2)
-	{
-		int Wn=power(type>0?3:power(3,p-2),(p-1)/mid/2);
-		for (int len=mid*2,k=0;k<lim;k+=len)
-		for (int i=k,w=1;i<k+mid;w=w*Wn%p,i++)
-		{
-			int x=a[i],y=w*a[i+mid]%p;
-			a[i]=(x+y)%p;
-			a[i+mid]=(x-y+p)%p;
-		}
-	}
-	if (type<0)
-	for (int i=0,invn=power(lim,p-2);i<lim;i++) a[i]=a[i]*invn%p;
-}
-void strling(int n)
-{
-	for (int i=0;i<=n;i++) F[i]=((i&1)?p-1:1)*inv[i]%p;
-	for (int i=0;i<=n;i++) G[i]=power(i,n)*inv[i]%p;
-	n++;
-	while (lim<=n*2) lim*=2,l++;
-	for (int i=0;i<lim;i++) rev[i]=(rev[i>>1]>>1)|((i&1)<<(l-1));
-	NTT(F,1);
-	NTT(G,1);
-	for (int i=0;i<lim;i++) F[i]=F[i]*G[i]%p;
-	NTT(F,-1);
-	for (int i=0;i<n;i++) s[i]=F[i];
+	printf("2 %d %d",x-1,r-l+1);
+	for (int i=l;i<=r;i++) printf(" %d",S[i]-1);
+	cout<<endl;
+	return read();
 }
 
 signed main(signed Recall,char *_902_[])
 {
 	(void)Recall,(void)_902_;
-	int n=read(),k=read(),ans=0;
-	ysgs(k);
-	strling(k);
-	for (int i=1,C=1;i<=min(n,k);i++)
+	int T=read();
+	while (T--)
 	{
-		C=C*(n-i+1)%p*power(i,p-2)%p;
-		ans=(ans+C*s[i]%p*fact[i]%p*power(n+1,n-i)%p)%p;
+		int n=read();
+		S[1]=1;
+		for (int i=2;i<=n;i++)
+		{
+			if (A(i,S[1])) {for (int j=i-1;j>=1;j--) S[j+1]=S[j];S[1]=i;continue;}
+			if (A(S[i-1],i)) {S[i]=i;continue;}
+			int l=2,r=i-1;
+			while (l<=r)
+			{
+				int mid=(l+r)/2;
+				if (A(i,S[mid])) r=mid-1;
+							else l=mid+1;
+			}
+			for (int j=i-1;j>=l;j--) S[j+1]=S[j];
+			S[l]=i;
+		}
+		for (int i=n,j=n;i>=1;i--)
+		{
+			j=min(j,i);
+			while (j>1&&B(S[i],1,j-1)) j--;
+			l[i]=j;
+		}
+		for (int i=1;i<=n;i++)
+		for (int j=1;j<=n;j++) ans[i][j]=0;
+		for (int i=1;i<=n;i++)
+		for (int j=l[i];j<i;j++) l[i]=min(l[i],l[j]);
+		for (int i=1;i<=n;i++)
+		for (int j=l[i];j<=n;j++) ans[S[i]][S[j]]=1;
+		print(3);
+		for (int i=1;i<=n;i++,putchar('\n'))
+		for (int j=1;j<=n;j++) putchar(ans[i][j]+'0');
+		fflush(stdout);
+		if (read()<0) return -1;
 	}
-	print(ans);
 	
 	return 0;
 }
