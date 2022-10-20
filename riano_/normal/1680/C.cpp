@@ -145,143 +145,33 @@ void out(vector<ll> &v){
     for(ll x:v) cout << x << " ";
     cout << "\n"; return;
 }
-
-ll solve(vector<ll> a,ll N,ll k){
-    ll ans = 0;
-    vector<ll> up(N+1,2e18),lw(N+1,-2e18);
-    up[0] = 0,lw[0] = 0; up[N] = 0,lw[N] = 0;
-    rep(i,N){
-        if(a[i]!=0){
-            chmin(up[i+1],up[i]+a[i]);
-            chmax(lw[i+1],lw[i]+a[i]);
-        }
-        else{
-            chmin(up[i+1],up[i]+k);
-            chmax(lw[i+1],lw[i]-k);
-        }
-    }
-    rrep(i,N){
-        if(a[i]!=0){
-            chmin(up[i],up[i+1]-a[i]);
-            chmax(lw[i],lw[i+1]-a[i]);
-        }
-        else{
-            chmin(up[i],up[i+1]+k);
-            chmax(lw[i],lw[i+1]-k);
-        }
-    }
-
-    // out(up);
-    // out(lw);
-
-    bool ok = true;
-    rep(i,N+1){
-        if(up[i]<lw[i]) ok = false;
-    }
-    if(!ok){
-        return -1;
-    }
-    ll mn,mx;
-    for(int i=1;i<N;i++){
-        mn = lw[i]; mx = lw[i];
-        ll x = lw[i];
-        //cout << mx << endl;
-        rep(j,i){
-            chmax(mx,lw[j]); chmin(mn,lw[j]);
-        }
-        //cout << mx << endl;
-        for(int j=i;j<N;j++){
-            if(a[j]==0) x = min(up[j+1],x+k);
-            else x += a[j];
-            chmax(mx,x); chmin(mn,x);
-            //cout << x << " ";
-        }
-        chmax(ans,mx-mn+1);
-
-        //cout << endl;
-        //cout << mx << " " << mn << endl;
-
-        mn = up[i]; mx = up[i];
-        x = up[i];
-        rep(j,i){
-            chmax(mx,up[j]); chmin(mn,up[j]);
-        }
-        for(int j=i;j<N;j++){
-            if(a[j]==0) x = max(lw[j+1],x-k);
-            else x += a[j];
-            chmin(mn,x); chmax(mx,x);
-            //cout << x << " ";
-        }
-        chmax(ans,mx-mn+1);
-
-
-        //cout << endl;
-        //cout << mx << " " << mn << endl;
-
-        //cout << ans << endl;
-    }
-    return ans;
-}
-
-
-//Dijkstra
-vector<ll> dijkstra(graph &g,int s){
-    ll N = g.G.size();
-    priority_queue<Pr, vector<Pr>, greater<Pr>> go;
-    ll x,y,a,t,l; ll inf = 2e18;
-    vector<ll> dist(N,inf);
-    go.push(make_pair(0,s)); dist[s] = 0;
-    Pr p;
-    while(!go.empty()){
-        p = go.top(); go.pop();
-        x = p.first; y = p.second;
-        if(x>dist[y]) continue;
-        for(auto q:g.G[y]){
-            a = get<0>(q); t = get<1>(q); l = get<2>(q);
-            if(x+t<dist[a]){
-                dist[a] = x+t;
-                g.par_v[a] = y;
-                g.par_e[a] = l;
-                go.push(make_pair(x+t,a));
-            }
-        }
-    }
-    return dist;
-}
-
-
+    
 int main(){
 	riano_; ll ans = 0;
-    ll N,k; cin >> N >> k;
-    vector<ll> a(N);
-    rep(i,N) cin >> a[i];
-    
-    ans = solve(a,N,k);
-    
-    if(ans==-1){
-        cout << -1 << endl; return 0;
-    }
-    ans = 0;
-
-    graph g(N+1);
-    rep(i,N){
-        if(a[i]==0){
-            g.unite(i,i+1,k,true);
-            g.unite(i+1,i,k,true);
+    ll N,M,T; cin >> T;
+    rep(ii,T){
+        string S; cin >> S; N = S.size(); ans = 2e9;
+        vector<ll> zs(N+1,0),os(N+1,0);
+        rep(i,N){
+            zs[i+1] = zs[i];
+            os[i+1] = os[i];
+            if(S[i]=='0') zs[i+1]++;
+            else os[i+1]++;
         }
-        else{
-            g.unite(i,i+1,(-1)*a[i],true);
-            g.unite(i+1,i,a[i],true);
+        int j = 0;
+        // rep(i,N){
+        //     if(zs[i]=os[N]-os[i]){
+        //         j = i; break;
+        //     }
+        // }
+        rep(i,N+1){
+            while(j<N&&os[i]+os[N]-os[j+1]>=zs[j+1]-zs[i]){
+                j++;
+            }
+            //cout << j << "\n";
+            chmin(ans,max(os[i]+os[N]-os[j],zs[j]-zs[i]));
         }
+        cout << ans << "\n";
     }
-    g.unite(0,N,0,true); g.unite(N,0,0,true); 
-
-    rep(i,N+1){
-        auto v = dijkstra(g,i);
-        rep(j,N+1) chmax(ans,v[j]+1);
-        //rep(j,N+1) cout << v[j] << " ";
-        // cout << endl;
-    }
-
-    cout << ans << endl;
+    
 }
