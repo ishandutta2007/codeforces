@@ -1,7 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 const int N=1005;
-const int WCR=2333;
 
 int read()
 {

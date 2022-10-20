@@ -1,7 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 const int inf=(1<<18)-1;
-const int WCR=2333;
 
 int read()
 {
