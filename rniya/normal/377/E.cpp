@@ -1,0 +1,245 @@
+#define LOCAL
+#include <bits/stdc++.h>
+using namespace std;
+#pragma region Macros
+typedef long long ll;
+typedef __int128_t i128;
+typedef unsigned int uint;
+typedef unsigned long long ull;
+#define ALL(x) (x).begin(), (x).end()
+
+template <typename T> istream& operator>>(istream& is, vector<T>& v) {
+    for (T& x : v) is >> x;
+    return is;
+}
+template <typename T> ostream& operator<<(ostream& os, const vector<T>& v) {
+    for (int i = 0; i < (int)v.size(); i++) {
+        os << v[i] << (i + 1 == (int)v.size() ? "" : " ");
+    }
+    return os;
+}
+template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) {
+    os << '(' << p.first << ',' << p.second << ')';
+    return os;
+}
+template <typename T, typename U> ostream& operator<<(ostream& os, const map<T, U>& m) {
+    os << '{';
+    for (auto itr = m.begin(); itr != m.end();) {
+        os << '(' << itr->first << ',' << itr->second << ')';
+        if (++itr != m.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template <typename T, typename U> ostream& operator<<(ostream& os, const unordered_map<T, U>& m) {
+    os << '{';
+    for (auto itr = m.begin(); itr != m.end();) {
+        os << '(' << itr->first << ',' << itr->second << ')';
+        if (++itr != m.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template <typename T> ostream& operator<<(ostream& os, const set<T>& s) {
+    os << '{';
+    for (auto itr = s.begin(); itr != s.end();) {
+        os << *itr;
+        if (++itr != s.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template <typename T> ostream& operator<<(ostream& os, const multiset<T>& s) {
+    os << '{';
+    for (auto itr = s.begin(); itr != s.end();) {
+        os << *itr;
+        if (++itr != s.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template <typename T> ostream& operator<<(ostream& os, const unordered_set<T>& s) {
+    os << '{';
+    for (auto itr = s.begin(); itr != s.end();) {
+        os << *itr;
+        if (++itr != s.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template <typename T> ostream& operator<<(ostream& os, const deque<T>& v) {
+    for (int i = 0; i < (int)v.size(); i++) {
+        os << v[i] << (i + 1 == (int)v.size() ? "" : " ");
+    }
+    return os;
+}
+
+template <int i, typename T> void print_tuple(ostream&, const T&) {}
+template <int i, typename T, typename H, class... Args> void print_tuple(ostream& os, const T& t) {
+    if (i) os << ',';
+    os << get<i>(t);
+    print_tuple<i + 1, T, Args...>(os, t);
+}
+template <typename... Args> ostream& operator<<(ostream& os, const tuple<Args...>& t) {
+    os << '{';
+    print_tuple<0, tuple<Args...>, Args...>(os, t);
+    return os << '}';
+}
+
+void debug_out() { cerr << '\n'; }
+template <class Head, class... Tail> void debug_out(Head&& head, Tail&&... tail) {
+    cerr << head;
+    if (sizeof...(Tail) > 0) cerr << ", ";
+    debug_out(move(tail)...);
+}
+#ifdef LOCAL
+#define debug(...)                                                                   \
+    cerr << " ";                                                                     \
+    cerr << #__VA_ARGS__ << " :[" << __LINE__ << ":" << __FUNCTION__ << "]" << '\n'; \
+    cerr << " ";                                                                     \
+    debug_out(__VA_ARGS__)
+#else
+#define debug(...) 42
+#endif
+
+template <typename T> T gcd(T x, T y) { return y != 0 ? gcd(y, x % y) : x; }
+template <typename T> T lcm(T x, T y) { return x / gcd(x, y) * y; }
+
+int topbit(signed t) { return t == 0 ? -1 : 31 - __builtin_clz(t); }
+int topbit(long long t) { return t == 0 ? -1 : 63 - __builtin_clzll(t); }
+int botbit(signed a) { return a == 0 ? 32 : __builtin_ctz(a); }
+int botbit(long long a) { return a == 0 ? 64 : __builtin_ctzll(a); }
+int popcount(signed t) { return __builtin_popcount(t); }
+int popcount(long long t) { return __builtin_popcountll(t); }
+bool ispow2(int i) { return i && (i & -i) == i; }
+
+template <class T> T ceil(T x, T y) {
+    assert(y >= 1);
+    return (x > 0 ? (x + y - 1) / y : x / y);
+}
+template <class T> T floor(T x, T y) {
+    assert(y >= 1);
+    return (x > 0 ? x / y : (x - y + 1) / y);
+}
+
+template <class T1, class T2> inline bool chmin(T1& a, T2 b) {
+    if (a > b) {
+        a = b;
+        return true;
+    }
+    return false;
+}
+template <class T1, class T2> inline bool chmax(T1& a, T2 b) {
+    if (a < b) {
+        a = b;
+        return true;
+    }
+    return false;
+}
+#pragma endregion
+
+/**
+ * @brief Convex Hull Trick
+ * @docs docs/datastructure/ConvexHullTrick.md
+ */
+template <typename T, bool isMin = true> struct ConvexHullTrick {
+    struct Line {
+        T a, b;
+        Line(T a, T b) : a(a), b(b) {}
+    };
+    deque<Line> Lines;
+    bool empty() const { return Lines.empty(); }
+    inline int sgn(T a) { return a == 0 ? 0 : (a < 0 ? -1 : 1); }
+    inline bool check(const Line& a, const Line& b, const Line& c) {
+        if (b.b == a.b || c.b == b.b) return sgn(b.a - a.a) * sgn(c.b - b.b) >= sgn(c.a - b.a) * sgn(b.b - a.b);
+        return (long double)(b.a - a.a) * sgn(c.b - b.b) / (long double)abs(b.b - a.b) >=
+               (long double)(c.a - b.a) * sgn(b.b - a.b) / (long double)abs(c.b - b.b);
+    }
+    void add(T a, T b) {
+        if (!isMin) a *= -1, b *= -1;
+        Line l(a, b);
+        if (empty()) {
+            Lines.emplace_back(l);
+            return;
+        }
+        if (Lines.front().a <= a) {
+            if (Lines.front().a == a) {
+                if (Lines.front().b <= b) return;
+                Lines.pop_front();
+            }
+            while (Lines.size() >= 2 && check(l, Lines.front(), Lines[1])) Lines.pop_front();
+            Lines.emplace_front(l);
+        } else {
+            if (Lines.back().a == a) {
+                if (Lines.back().b <= b) return;
+                Lines.pop_back();
+            }
+            while (Lines.size() >= 2 && check(Lines[Lines.size() - 2], Lines.back(), l)) Lines.pop_back();
+            Lines.emplace_back(l);
+        }
+    }
+    inline T f(const Line& l, const T& x) { return l.a * x + l.b; }
+    T query(T x) {
+        int lb = -1, ub = Lines.size() - 1;
+        while (ub - lb > 1) {
+            int mid = (ub + lb) >> 1;
+            (f(Lines[mid], x) >= f(Lines[mid + 1], x) ? lb : ub) = mid;
+        }
+        return (isMin ? f(Lines[ub], x) : -f(Lines[ub], x));
+    }
+    T query_monotone_inc(T x) {
+        while (Lines.size() >= 2 && f(Lines.front(), x) >= f(Lines[1], x)) Lines.pop_front();
+        return (isMin ? f(Lines.front(), x) : -f(Lines.front(), x));
+    }
+    T query_monotone_dec(T x) {
+        while (Lines.size() >= 2 && f(Lines.back(), x) >= f(Lines[Lines.size() - 2], x)) Lines.pop_back();
+        return (isMin ? f(Lines.back(), x) : -f(Lines.back(), x));
+    }
+};
+
+const int INF = 1e9;
+const long long IINF = 1e18;
+const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+const char dir[4] = {'D', 'R', 'U', 'L'};
+const long long MOD = 1000000007;
+// const long long MOD = 998244353;
+
+int main() {
+    cin.tie(0);
+    ios::sync_with_stdio(false);
+    int n;
+    ll s;
+    cin >> n >> s;
+    vector<pair<int, int>> build;
+    for (int i = 0; i < n; i++) {
+        int v, c;
+        cin >> v >> c;
+        build.emplace_back(v, c);
+    }
+
+    sort(build.begin(), build.end());
+    ConvexHullTrick<ll, false> CHT;
+    CHT.add(0, 0);
+    ll ans = IINF;
+    auto calc = [&](int x) {
+        assert(!CHT.empty());
+        int lb = -1, ub = INF;
+        while (ub - lb > 1) {
+            int mid = (ub + lb) >> 1;
+            (CHT.query(mid) >= x ? ub : lb) = mid;
+        }
+        return ub;
+    };
+
+    for (auto& p : build) {
+        int v = p.first, c = p.second;
+        int time = calc(c);
+        if (time == INF) continue;
+        ll cookie = CHT.query(time) - c;
+        CHT.add(v, cookie - ll(time) * v);
+        ans = min(ans, (cookie >= s ? time : time + (s - cookie + v - 1) / v));
+    }
+
+    cout << ans << '\n';
+    return 0;
+}
