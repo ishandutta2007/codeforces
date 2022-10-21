@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define LOCAL
+// #define LOCAL
 #pragma region Macros
 typedef long long ll;
 #define ALL(x) (x).begin(),(x).end()
@@ -78,63 +78,61 @@ template<class T1,class T2> inline bool chmax(T1 &a,T2 b){
 }
 #pragma endregion
 
-using i128=__int128_t;
-using T=tuple<i128,i128,int>;
+using u128=__int128_t;
+using T=tuple<u128,u128,int>;
 const int MAX_K=100010;
-vector<pair<int,int>> add[MAX_K][2];
+vector<pair<int,int>> v[MAX_K][2];
 
 int main(){
     cin.tie(0);
     ios::sync_with_stdio(false);
     int k,n,m; cin >> k >> n >> m;
-    vector<int> a(k);
-    for (int i=0;i<k;++i) cin >> a[i];
-    vector<int> Max(k,0),id(k),type(n);
-    for (int i=0;i<n;++i){
-        int t,j,b; cin >> t >> j >> b; --j;
-        type[i]=--t;
-        if (!t){
-            if (Max[j]<b){
-                Max[j]=b;
-                id[j]=i;
+    vector<int> a(k); cin >> a;
+    vector<int> Max(k,0),id(k,-1),type(n);
+    for (int j=0;j<n;++j){
+        int t,i,b; cin >> t >> i >> b; --i;
+        type[j]=t-1;
+        if (t==1){
+            if (chmax(Max[i],b)){
+                id[i]=j;
             }
-        } else add[j][t-1].emplace_back(b,i);
+        } else v[i][t-2].emplace_back(b,j);
     }
 
     auto f=[](pair<int,int> a,pair<int,int> b){
         return a.first>b.first;
     };
     auto g=[](T a,T b){
-        return get<0>(a)*get<1>(b)>get<1>(a)*get<0>(b);
+        return get<0>(a)*get<1>(b)<get<1>(a)*get<0>(b);
     };
-    vector<T> v;
+    priority_queue<T,vector<T>,decltype(g)> pq(g);
     for (int i=0;i<k;++i){
-        if (Max[i]>a[i]) add[i][0].emplace_back(Max[i]-a[i],id[i]);
-        sort(add[i][0].begin(),add[i][0].end(),f);
+        if (~id[i]&&Max[i]>a[i]) v[i][0].emplace_back(Max[i]-a[i],id[i]);
+        sort(v[i][0].begin(),v[i][0].end());
+        reverse(v[i][0].begin(),v[i][0].end());
         ll cur=a[i];
-        for (auto p:add[i][0]){
-            v.emplace_back(cur+p.first,cur,p.second);
+        for (auto p:v[i][0]){
+            pq.emplace(cur+p.first,cur,p.second);
             cur+=p.first;
         }
-        for (auto p:add[i][1]){
-            v.emplace_back(p.first,1,p.second);
+        for (auto p:v[i][1]){
+            pq.emplace(p.first,1,p.second);
         }
     }
-    sort(v.begin(),v.end(),g);
 
     vector<vector<int>> ans(3);
-    for (int i=0;i<m&&i<v.size();++i){
-        int nxt=get<2>(v[i]);
-        ans[type[nxt]].emplace_back(nxt+1);
+    for (int _=0;_<m&&!pq.empty();++_){
+        auto t=pq.top(); pq.pop();
+        int v=get<2>(t);
+        ans[type[v]].emplace_back(v);
     }
     vector<int> fans;
     for (int i=0;i<3;++i){
         for (int x:ans[i]){
-            fans.emplace_back(x);
+            fans.emplace_back(x+1);
         }
     }
 
-    int s=fans.size();
-    cout << s << '\n';
-    for (int i=0;i<s;++i) cout << fans[i] << (i+1==s?'\n':' ');
+    cout << fans.size() << '\n';
+    cout << fans << '\n';
 }
