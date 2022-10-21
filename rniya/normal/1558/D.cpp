@@ -239,127 +239,6 @@ template <class M> struct Combination {
 };
 
 /**
- * @brief Lazy Segment Tree
- * @docs docs/datastructure/LazySegmentTree.md
- */
-template <typename Monoid, typename OperatorMonoid> struct LazySegmentTree {
-    typedef function<Monoid(Monoid, Monoid)> F;
-    typedef function<Monoid(Monoid, OperatorMonoid)> G;
-    typedef function<OperatorMonoid(OperatorMonoid, OperatorMonoid)> H;
-    int n, hi;
-    F f;
-    G g;
-    H h;
-    Monoid id0;
-    OperatorMonoid id1;
-    vector<Monoid> dat;
-    vector<OperatorMonoid> laz;
-    LazySegmentTree(int n_, F f, G g, H h, Monoid id0, OperatorMonoid id1) : f(f), g(g), h(h), id0(id0), id1(id1) {
-        init(n_);
-    }
-    void init(int n_) {
-        n = 1, hi = 0;
-        while (n < n_) n <<= 1, hi++;
-        dat.assign(n << 1, id0);
-        laz.assign(n << 1, id1);
-    }
-    void build(const vector<Monoid>& v) {
-        for (int i = 0; i < (int)v.size(); i++) dat[i + n] = v[i];
-        for (int i = n - 1; i; --i) dat[i] = f(dat[i << 1 | 0], dat[i << 1 | 1]);
-    }
-    inline Monoid reflect(int k) { return laz[k] == id1 ? dat[k] : g(dat[k], laz[k]); }
-    inline void propagate(int k) {
-        if (laz[k] == id1) return;
-        laz[k << 1 | 0] = h(laz[k << 1 | 0], laz[k]);
-        laz[k << 1 | 1] = h(laz[k << 1 | 1], laz[k]);
-        dat[k] = reflect(k);
-        laz[k] = id1;
-    }
-    inline void thrust(int k) {
-        for (int i = hi; i; i--) propagate(k >> i);
-    }
-    inline void recalc(int k) {
-        while (k >>= 1) dat[k] = f(reflect(k << 1 | 0), reflect(k << 1 | 1));
-    }
-    void update(int a, int b, OperatorMonoid x) {
-        if (a >= b) return;
-        thrust(a += n);
-        thrust(b += n - 1);
-        for (int l = a, r = b + 1; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) laz[l] = h(laz[l], x), ++l;
-            if (r & 1) --r, laz[r] = h(laz[r], x);
-        }
-        recalc(a);
-        recalc(b);
-    }
-    void set_val(int k, Monoid x) {
-        thrust(k += n);
-        dat[k] = x, laz[k] = id1;
-        recalc(k);
-    }
-    Monoid query(int a, int b) {
-        if (a >= b) return id0;
-        thrust(a += n);
-        thrust(b += n - 1);
-        Monoid vl = id0, vr = id0;
-        for (int l = a, r = b + 1; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) vl = f(vl, reflect(l++));
-            if (r & 1) vr = f(reflect(--r), vr);
-        }
-        return f(vl, vr);
-    }
-    template <typename C> int find_subtree(int k, const C& check, Monoid& M, bool type) {
-        while (k < n) {
-            propagate(k);
-            Monoid nxt = type ? f(reflect(k << 1 | type), M) : f(M, reflect(k << 1 | type));
-            if (check(nxt))
-                k = k << 1 | type;
-            else
-                M = nxt, k = k << 1 | (type ^ 1);
-        }
-        return k - n;
-    }
-    // min i s.t. f(seg[a],seg[a+1],...,seg[i]) satisfy "check"
-    template <typename C> int find_first(int a, const C& check) {
-        Monoid L = id0;
-        if (a <= 0) {
-            if (check(f(L, reflect(1)))) return find_subtree(1, check, L, false);
-            return -1;
-        }
-        thrust(a + n);
-        int b = n;
-        for (int l = a + n, r = b + n; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) {
-                Monoid nxt = f(L, reflect(l));
-                if (check(nxt)) return find_subtree(l, check, L, false);
-                L = nxt;
-                l++;
-            }
-        }
-        return -1;
-    }
-    // max i s.t. f(seg[i],...,seg[b-2],seg[b-1]) satisfy "check"
-    template <typename C> int find_last(int b, const C& check) {
-        Monoid R = id0;
-        if (b >= n) {
-            if (check(f(reflect(1), R))) return find_subtree(1, check, R, true);
-            return -1;
-        }
-        thrust(b + n - 1);
-        int a = n;
-        for (int l = a, r = b + n; l < r; l >>= 1, r >>= 1) {
-            if (r & 1) {
-                Monoid nxt = f(reflect(--r), R);
-                if (check(nxt)) return find_subtree(r, check, R, true);
-                R = nxt;
-            }
-        }
-        return -1;
-    }
-    Monoid operator[](int i) { return query(i, i + 1); }
-};
-
-/**
  * @brief Binary Indexed Tree
  * @docs docs/datastructure/BinaryIndexedTree.md
  */
@@ -404,64 +283,42 @@ const long long MOD = 998244353;
 using mint = modint<MOD>;
 const int MAX_N = 200010;
 Combination<mint> COM(2 * MAX_N);
-
-int f(int a, int b) { return min(a, b); }
-int g(int a, int b) { return a + b; }
+BinaryIndexedTree<int> BIT(MAX_N);
 
 void solve() {
     int n, m;
     cin >> n >> m;
-    vector<int> x(m), y(m);
-    for (int i = 0; i < m; i++) cin >> x[i] >> y[i], x[i]--, y[i]--;
     if (m == 0) {
-        cout << COM.C(n + (n - 1), n) << '\n';
+        cout << COM.C(2 * n - 1, n) << '\n';
         return;
     }
+    vector<int> x(m), y(m);
+    for (int i = 0; i < m; i++) cin >> x[i] >> y[i], x[i]--, y[i]--;
 
-    vector<pair<int, int>> P;
-    LazySegmentTree<int, int> seg(m, f, g, g, INF, 0);
-    set<int> used;
-
-    seg.build(y);
-    int cur = 0, pre = -1;
-    for (int _ = 0; _ < m; _++) {
-        int Min = seg.query(0, m);
-        int pos = seg.find_last(m, [&](int x) { return x == Min; });
-        int add = Min - pre - 1, nxt = cur + add - 1;
-        pre = Min;
-        while (used.count(cur)) cur++;
-        if (add > 0) {
-            while (1) {
-                auto itr = used.lower_bound(cur);
-                if (itr != used.end() && *itr <= nxt) {
-                    nxt++;
-                    used.erase(itr);
-                } else
-                    break;
-            }
-            P.emplace_back(cur, nxt);
-            cur = nxt + 1;
-        }
-
-        P.emplace_back(x[pos], x[pos]);
-        used.emplace(x[pos]);
-        seg.update(0, pos, 1);
-        seg.set_val(pos, INF);
+    vector<pair<int, int>> inserted;
+    for (int i = m - 1; i >= 0; i--) {
+        int pos = BIT.upper_bound(y[i]);
+        inserted.emplace_back(pos, i);
+        BIT.add(pos, -1);
     }
-    while (used.count(cur)) cur++;
-    P.emplace_back(cur, n);
 
-    int cnt = 0;
-    for (int i = 0; i + 1 < (int)P.size(); i++) cnt += (P[i].second > P[i + 1].first);
-    int equal = n - 1 - cnt;
+    sort(inserted.begin(), inserted.end());
+    int noeq = m;
+    for (int i = 0; i + 1 < (int)inserted.size(); i++) {
+        auto &p = inserted[i], &q = inserted[i + 1];
+        noeq -= (p.first + 1 == q.first && p.second < q.second);
+    }
 
-    mint ans = COM.C(n + equal, n);
+    mint ans = COM.C(2 * n - 1 - noeq, n);
     cout << ans << '\n';
+
+    for (auto& p : inserted) BIT.add(p.first, 1);
 }
 
 int main() {
     cin.tie(0);
     ios::sync_with_stdio(false);
+    for (int i = 0; i < MAX_N; i++) BIT.add(i, 1);
     int t;
     cin >> t;
     for (; t--;) solve();

@@ -145,12 +145,11 @@ const char dir[4] = {'D', 'R', 'U', 'L'};
 const long long MOD = 1000000007;
 // const long long MOD = 998244353;
 
-ll dp[11][1 << 10][2][2];
-
 void solve() {
     int n, K;
     cin >> n >> K;
 
+    int N = n;
     vector<int> d;
     while (n > 0) {
         d.emplace_back(n % 10);
@@ -158,47 +157,35 @@ void solve() {
     }
     while (d.size() < 10) d.emplace_back(0);
 
-    for (int i = 0; i <= 10; i++) {
-        for (int j = 0; j < (1 << 10); j++) {
-            for (int k = 0; k < 2; k++) {
-                for (int l = 0; l < 2; l++) {
-                    dp[i][j][k][l] = IINF;
-                }
-            }
-        }
-    }
-    dp[10][0][0][0] = 0;
-    vector<int> flag(1 << 10);
-    for (int mask = 0; mask < (1 << 10); mask++) flag[mask] = popcount(mask);
+    ll ans = IINF, cur = 0;
+    int mask = 0;
+    vector<ll> power(10, 1);
+    for (int i = 0; i < 9; i++) power[i + 1] = power[i] * 10;
 
+    auto calc = [&](int rest, int mask) -> ll {  //  rest  mask 
+        if (rest == 0) return popcount(mask) <= K ? 0 : IINF;
+        int f = popcount(mask);
+        if (f > K) return IINF;
+        if (f < K) return 0;
+        int Min = botbit(mask);
+        ll res = 0;
+        for (int i = 0; i < rest; i++) res += power[i] * Min;
+        return res;
+    };
+
+    bool lead = true;
     for (int i = 9; i >= 0; i--) {
         int x = d[i];
-        for (int mask = 0; mask < (1 << 10); mask++) {
-            if (flag[mask] > K) continue;
-            for (int k = 0; k < 2; k++) {
-                for (int l = 0; l < 2; l++) {
-                    ll val = dp[i + 1][mask][k][l];
-                    if (val == IINF) continue;
-                    for (int f = 0; f < 10; f++) {
-                        int nk = k | (f > 0);
-                        if (l == 0 && f < x) continue;
-                        int nl = l | (f > x);
-                        int nmask = (nk == 0 ? mask : mask | 1 << f);
-                        if (flag[nmask] > K) continue;
-                        chmin(dp[i][nmask][nk][nl], val * 10 + f);
-                    }
-                }
-            }
+        for (int nx = x + 1; nx < 10; nx++) {
+            chmin(ans, (cur * 10 + nx) * power[i] + calc(i, mask | 1 << nx));
         }
+        cur = cur * 10 + x;
+        if (lead && x > 0) lead = false;
+        if (!lead) mask |= 1 << x;
     }
-
-    ll ans = IINF;
-    for (int mask = 0; mask < (1 << 10); mask++) {
-        for (int l = 0; l < 2; l++) {
-            if (flag[mask] <= K) {
-                chmin(ans, dp[0][mask][1][l]);
-            }
-        }
+    if (popcount(mask) <= K) {
+        cout << N << '\n';
+        return;
     }
 
     cout << ans << '\n';

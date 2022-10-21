@@ -138,90 +138,36 @@ template <class T1, class T2> inline bool chmax(T1& a, T2 b) {
 }
 #pragma endregion
 
-/**
- * @brief osa_k
- * @docs docs/math/prime_factor_table.md
- */
-vector<int> prime_factor_table(int n) {
-    vector<int> res(n + 1, 0);
-    for (int i = 2; i <= n; i++)
-        if (!res[i]) {
-            for (int j = i; j <= n; j += i) {
-                if (!res[j]) res[j] = i;
-            }
-        }
-    return res;
-}
-
 const int INF = 1e9;
-const long long IINF = 8e18;
+const long long IINF = 1e18;
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
 const char dir[4] = {'D', 'R', 'U', 'L'};
 const long long MOD = 1000000007;
 // const long long MOD = 998244353;
 
-const int MAX_P = 1000010;
+void solve() {
+    int n, p;
+    cin >> n >> p;
+
+    vector<vector<bool>> G(n, vector<bool>(n, false));
+    for (int i = 0; i < n; i++) {
+        for (int j = 1; j <= 2; j++) {
+            G[i][(i + j) % n] = G[(i + j) % n][i] = true;
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (!G[i][j] && p > 0) G[i][j] = true, p--;
+            if (G[i][j]) cout << i + 1 << ' ' << j + 1 << '\n';
+        }
+    }
+}
 
 int main() {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    auto table = prime_factor_table(MAX_P);
-
-    int m;
-    cin >> m;
-    vector<vector<pair<ll, ll>>> imos(MAX_P);
-    for (; m--;) {
-        int p;
-        ll a;
-        cin >> p >> a;
-        imos[p].emplace_back(0, a);
-    }
-    ll K;
-    cin >> K;
-
-    vector<ll> ans(MAX_P, 0);
-    pair<ll, ll> id = make_pair(-1, -1);
-    for (int i = MAX_P - 1; i >= 2; i--) {
-        if (imos[i].empty()) continue;
-        vector<pair<ll, ll>> sum;
-        pair<ll, ll> pre = id;
-        sort(imos[i].begin(), imos[i].end());
-        imos[i].emplace_back(IINF, IINF);
-        for (auto& e : imos[i]) {
-            if (pre.second < e.first) {
-                if (pre != id) sum.emplace_back(pre);
-                pre = e;
-            } else
-                pre.second += e.second - e.first;
-        }
-
-        while (!sum.empty()) {
-            auto& e = sum.back();
-            if (e.first >= K) {
-                ans[i] += e.second - e.first;
-                sum.pop_back();
-            } else if (e.second > K) {
-                ans[i] += e.second - K;
-                e.second = K;
-            } else
-                break;
-        }
-
-        int num = i - 1;
-        while (num > 1) {
-            int p = table[num];
-            for (auto& e : sum) imos[p].emplace_back(e.first + 1, e.second + 1);
-            num /= p;
-        }
-    }
-
-    vector<pair<int, ll>> res;
-    for (int i = 2; i < MAX_P; i++) {
-        if (ans[i] > 0) {
-            res.emplace_back(i, ans[i]);
-        }
-    }
-    cout << res.size() << '\n';
-    for (auto& e : res) cout << e.first << ' ' << e.second << '\n';
+    int t;
+    cin >> t;
+    for (; t--;) solve();
     return 0;
 }
