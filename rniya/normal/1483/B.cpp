@@ -117,17 +117,6 @@ template <class T1, class T2> inline bool chmax(T1& a, T2 b) {
 }
 #pragma endregion
 
-/**
- * @brief compress
- */
-template <typename T> map<T, int> compress(vector<T> v) {
-    sort(v.begin(), v.end());
-    v.erase(unique(v.begin(), v.end()), v.end());
-    map<T, int> res;
-    for (int i = 0; i < v.size(); i++) res[v[i]] = i;
-    return res;
-}
-
 const int INF = 1e9;
 const long long IINF = 1e18;
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
@@ -135,88 +124,65 @@ const char dir[4] = {'D', 'R', 'U', 'L'};
 const long long MOD = 1000000007;
 // const long long MOD = 998244353;
 
-template <typename T> struct RectangleSet {
-    const T inf = numeric_limits<T>::max() / 3;
-    set<pair<T, T>> s;
-    multiset<T> val;
-    RectangleSet() {
-        s.emplace(-1, inf);
-        s.emplace(0, 0);
-        val.emplace(0);
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    cin >> a;
+
+    vector<int> left(n), right(n);
+    set<int> cand;
+    for (int i = 0; i < n; i++) {
+        left[i] = (i + n - 1) % n, right[i] = (i + 1) % n;
+        if (gcd(a[i], a[(i + 1) % n]) == 1) {
+            cand.emplace(i);
+            cand.emplace(i + n);
+        }
     }
 
-    void add(T x, T y) {
-        auto itr = s.lower_bound(make_pair(x, y));
-        bool flag = false;
-        T nx = inf, ny = inf;
-        while (1) {
-            itr = prev(itr);
-            if (y < itr->second) break;
-            flag = true;
-            nx = min(nx, itr->first);
-            ny = min(ny, itr->second);
-            val.erase(val.find(itr->first + itr->second));
-            itr = s.erase(itr);
-        }
-        if (flag) {
-            s.emplace(nx, y);
-            val.emplace(nx + y);
-            s.emplace(x, ny);
-            val.emplace(x + ny);
-        }
+    if (cand.empty()) {
+        cout << 0 << '\n';
+        return;
     }
-    T query() { return *val.begin(); }
-};
+
+    vector<int> ans;
+    int rest = n;
+    auto erase = [&](int x) {
+        ans.emplace_back(x + 1);
+        rest--;
+        if (cand.count(x)) {
+            cand.erase(x);
+            cand.erase(x + n);
+        }
+        if (rest == 0) return;
+        int l = left[x], r = right[x];
+        right[l] = r, left[r] = l;
+        if (gcd(a[l], a[r]) == 1) {
+            cand.emplace(l);
+            cand.emplace(l + n);
+        }
+    };
+    int cur = *cand.begin();
+
+    while (1) {
+        cand.erase(cur);
+        cand.erase(cur + n);
+        erase(right[cur]);
+        auto itr = cand.upper_bound(cur);
+        if (itr == cand.end()) break;
+        cur = (*itr) % n;
+    }
+
+    cout << ans.size();
+    for (int& x : ans) cout << ' ' << x;
+    cout << '\n';
+}
 
 int main() {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n;
-    cin >> n;
-    vector<vector<int>> a(3, vector<int>(n));
-    cin >> a;
-
-    vector<int> val;
-    for (auto& v : a) {
-        for (int& x : v) {
-            val.emplace_back(x);
-        }
-    }
-    map<int, int> mp = compress(val);
-    for (auto& v : a) {
-        for (int& x : v) {
-            x = mp[x];
-        }
-    }
-    int sz = mp.size();
-
-    vector<vector<int>> appear(3, vector<int>(sz, INF));
-    for (int i = 0; i < 3; i++) {
-        for (int j = n - 1; j >= 0; j--) {
-            appear[i][a[i][j]] = j;
-        }
-    }
-    vector<int> cnt(sz, 0);
-    for (int& x : a[0]) cnt[x]++;
-
-    RectangleSet<ll> RS;
-    for (int i = 0; i < sz; i++) {
-        if (!cnt[i]) {
-            RS.add(appear[1][i] + 1, appear[2][i] + 1);
-        }
-    }
-    auto erase = [&](int x) {
-        int val = a[0][x];
-        if (--cnt[val] == 0) RS.add(appear[1][val] + 1, appear[2][val] + 1);
-    };
-
-    ll ans = INF;
-    for (int i = n; i >= 0; i--) {
-        ans = min(ans, i + RS.query());
-        if (i == 0) break;
-        erase(i - 1);
-    }
-
-    cout << ans << '\n';
+    int t;
+    cin >> t;
+    for (; t--;) solve();
     return 0;
 }

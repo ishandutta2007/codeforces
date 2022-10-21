@@ -117,17 +117,6 @@ template <class T1, class T2> inline bool chmax(T1& a, T2 b) {
 }
 #pragma endregion
 
-/**
- * @brief compress
- */
-template <typename T> map<T, int> compress(vector<T> v) {
-    sort(v.begin(), v.end());
-    v.erase(unique(v.begin(), v.end()), v.end());
-    map<T, int> res;
-    for (int i = 0; i < v.size(); i++) res[v[i]] = i;
-    return res;
-}
-
 const int INF = 1e9;
 const long long IINF = 1e18;
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
@@ -135,88 +124,29 @@ const char dir[4] = {'D', 'R', 'U', 'L'};
 const long long MOD = 1000000007;
 // const long long MOD = 998244353;
 
-template <typename T> struct RectangleSet {
-    const T inf = numeric_limits<T>::max() / 3;
-    set<pair<T, T>> s;
-    multiset<T> val;
-    RectangleSet() {
-        s.emplace(-1, inf);
-        s.emplace(0, 0);
-        val.emplace(0);
+void solve() {
+    string S, T;
+    cin >> S >> T;
+
+    int n = S.size(), m = T.size();
+    int ans = n + m;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            for (int k = 0; i + k < n && j + k < m; k++) {
+                if (S[i + k] != T[j + k]) break;
+                chmin(ans, n + m - (k + 1) * 2);
+            }
+        }
     }
 
-    void add(T x, T y) {
-        auto itr = s.lower_bound(make_pair(x, y));
-        bool flag = false;
-        T nx = inf, ny = inf;
-        while (1) {
-            itr = prev(itr);
-            if (y < itr->second) break;
-            flag = true;
-            nx = min(nx, itr->first);
-            ny = min(ny, itr->second);
-            val.erase(val.find(itr->first + itr->second));
-            itr = s.erase(itr);
-        }
-        if (flag) {
-            s.emplace(nx, y);
-            val.emplace(nx + y);
-            s.emplace(x, ny);
-            val.emplace(x + ny);
-        }
-    }
-    T query() { return *val.begin(); }
-};
+    cout << ans << '\n';
+}
 
 int main() {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n;
-    cin >> n;
-    vector<vector<int>> a(3, vector<int>(n));
-    cin >> a;
-
-    vector<int> val;
-    for (auto& v : a) {
-        for (int& x : v) {
-            val.emplace_back(x);
-        }
-    }
-    map<int, int> mp = compress(val);
-    for (auto& v : a) {
-        for (int& x : v) {
-            x = mp[x];
-        }
-    }
-    int sz = mp.size();
-
-    vector<vector<int>> appear(3, vector<int>(sz, INF));
-    for (int i = 0; i < 3; i++) {
-        for (int j = n - 1; j >= 0; j--) {
-            appear[i][a[i][j]] = j;
-        }
-    }
-    vector<int> cnt(sz, 0);
-    for (int& x : a[0]) cnt[x]++;
-
-    RectangleSet<ll> RS;
-    for (int i = 0; i < sz; i++) {
-        if (!cnt[i]) {
-            RS.add(appear[1][i] + 1, appear[2][i] + 1);
-        }
-    }
-    auto erase = [&](int x) {
-        int val = a[0][x];
-        if (--cnt[val] == 0) RS.add(appear[1][val] + 1, appear[2][val] + 1);
-    };
-
-    ll ans = INF;
-    for (int i = n; i >= 0; i--) {
-        ans = min(ans, i + RS.query());
-        if (i == 0) break;
-        erase(i - 1);
-    }
-
-    cout << ans << '\n';
+    int t;
+    cin >> t;
+    for (; t--;) solve();
     return 0;
 }
