@@ -1,6 +1,3 @@
-#pragma GCC target("avx2")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 using namespace std;
 const long long MOD=1000000007;
@@ -129,85 +126,60 @@ template<class T1,class T2> inline bool chmax(T1 &a,T2 b){
 }
 #pragma endregion
 
-void solve(){
-    vector<pair<int,int>> P;
-    for (int i=0;i<4;++i){
-        int x,y; cin >> x >> y;
-        P.emplace_back(x,y);
-    }
-    auto d=[](pair<int,int> a,pair<int,int> b){
-        return ll(abs(a.first-b.first))+abs(a.second-b.second);
-    };
-
-    // vector<int> v(4);
-    // auto calc=[&](){
-    //     ll res=IINF;
-    //     for (int _=0;_<2;++_){
-    //         for (int i=0;i<4;++i){
-    //             for (int j=i+1;j<4;++j){
-    //                 for (int k=0;k<4;++k){
-    //                     for (int l=-1;l<=1;l+=2){
-    //                         vector<pair<int,int>> square;
-    //                         int a=abs(P[i].first-P[j].first);
-    //                         square.emplace_back(P[i].first,P[k].second);
-    //                         square.emplace_back(P[i].first,P[k].second+a*l);
-    //                         square.emplace_back(P[j].first,P[k].second);
-    //                         square.emplace_back(P[j].first,P[k].second+a*l);
-    //                         ll cnt=0;
-    //                         for (int m=0;m<4;++m) cnt+=d(square[m],P[v[m]]);
-    //                         res=min(res,cnt);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         for (int i=0;i<4;++i) swap(P[i].first,P[i].second);
-    //     }
-    //     return res;
-    // };
-
-    // ll ans=IINF;
-    // iota(v.begin(),v.end(),0);
-    // do {
-    //     ans=min(ans,calc());
-    // } while (next_permutation(v.begin(),v.end()));
-
-    ll ans=IINF;
-    for (int _=0;_<2;++_){
-        for (int i=0;i<4;++i){
-            for (int j=i+1;j<4;++j){
-                for (int k=0;k<4;++k){
-                    for (int l=-1;l<=1;l+=2){
-                        vector<pair<int,int>> square;
-                        int a=abs(P[i].first-P[j].first);
-                        square.emplace_back(P[i].first,P[k].second);
-                        square.emplace_back(P[i].first,P[k].second+a*l);
-                        square.emplace_back(P[j].first,P[k].second);
-                        square.emplace_back(P[j].first,P[k].second+a*l);
-                        ll cnt=0;
-                        vector<int> v(4);
-                        iota(v.begin(),v.end(),0);
-                        do {
-                            ll cnt=0;
-                            for (int m=0;m<4;++m){
-                                cnt+=d(square[m],P[v[m]]);
-                            }
-                            ans=min(ans,cnt);
-                        } while (next_permutation(v.begin(),v.end()));
-                    }
-                }
-            }
-        }
-        for (int i=0;i<4;++i) swap(P[i].first,P[i].second);
-    }
-
-    cout << ans << '\n';
-}
+const int MAX_B=9;
 
 int main(){
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int t; cin >> t;
-    for (;t--;){
-        solve();
+    int n; cin >> n;
+    vector<int> l(n),c(n); cin >> l >> c;
+
+    vector<map<int,int>> mp(n);
+    for (int i=0;i<n;++i){
+        int x=l[i];
+        for (int j=2;j*j<=x;++j){
+            while (x%j==0){
+                ++mp[i][j]; x/=j;
+            }
+        }
+        if (x!=1) mp[i][x]=1;
     }
+
+    int ans=INF;
+    vector<vector<int>> dp(n+1,vector<int>(1<<MAX_B));
+    auto solve=[&](int x){
+        vector<int> check;
+        for (auto p:mp[x]) check.emplace_back(p.first);
+        int b=check.size();
+        for (int i=0;i<=n;++i){
+            for (int mask=0;mask<(1<<b);++mask){
+                dp[i][mask]=INF;
+            }
+        }
+        dp[0][(1<<b)-1]=c[x];
+        for (int i=0;i<n;++i){
+            if (i==x){
+                for (int mask=0;mask<(1<<b);++mask){
+                    chmin(dp[i+1][mask],dp[i][mask]);
+                }
+                continue;
+            }
+            int nmask=0;
+            for (int j=0;j<b;++j){
+                if (l[i]%check[j]==0){
+                    nmask|=1<<j;
+                }
+            }
+            for (int mask=0;mask<(1<<b);++mask){
+                chmin(dp[i+1][mask],dp[i][mask]);
+                chmin(dp[i+1][mask&nmask],dp[i][mask]+c[i]);
+            }
+        }
+        return dp[n][0];
+    };
+    for (int i=0;i<n;++i){
+        chmin(ans,solve(i));
+    }
+
+    cout << (ans==INF?-1:ans) << '\n';
 }

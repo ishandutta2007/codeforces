@@ -1,6 +1,3 @@
-#pragma GCC target("avx2")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 using namespace std;
 const long long MOD=1000000007;
@@ -129,85 +126,97 @@ template<class T1,class T2> inline bool chmax(T1 &a,T2 b){
 }
 #pragma endregion
 
-void solve(){
-    vector<pair<int,int>> P;
-    for (int i=0;i<4;++i){
-        int x,y; cin >> x >> y;
-        P.emplace_back(x,y);
+template<bool directed>
+struct CycleDetection{
+    vector<vector<int>> G;
+    vector<int> seen,finished;
+    stack<int> hist;
+    int pos;
+    CycleDetection(int n):G(n),seen(n,0),finished(n,0),pos(-1){}
+    void add_edge(int u,int v){
+        G[u].emplace_back(v);
     }
-    auto d=[](pair<int,int> a,pair<int,int> b){
-        return ll(abs(a.first-b.first))+abs(a.second-b.second);
-    };
-
-    // vector<int> v(4);
-    // auto calc=[&](){
-    //     ll res=IINF;
-    //     for (int _=0;_<2;++_){
-    //         for (int i=0;i<4;++i){
-    //             for (int j=i+1;j<4;++j){
-    //                 for (int k=0;k<4;++k){
-    //                     for (int l=-1;l<=1;l+=2){
-    //                         vector<pair<int,int>> square;
-    //                         int a=abs(P[i].first-P[j].first);
-    //                         square.emplace_back(P[i].first,P[k].second);
-    //                         square.emplace_back(P[i].first,P[k].second+a*l);
-    //                         square.emplace_back(P[j].first,P[k].second);
-    //                         square.emplace_back(P[j].first,P[k].second+a*l);
-    //                         ll cnt=0;
-    //                         for (int m=0;m<4;++m) cnt+=d(square[m],P[v[m]]);
-    //                         res=min(res,cnt);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         for (int i=0;i<4;++i) swap(P[i].first,P[i].second);
-    //     }
-    //     return res;
-    // };
-
-    // ll ans=IINF;
-    // iota(v.begin(),v.end(),0);
-    // do {
-    //     ans=min(ans,calc());
-    // } while (next_permutation(v.begin(),v.end()));
-
-    ll ans=IINF;
-    for (int _=0;_<2;++_){
-        for (int i=0;i<4;++i){
-            for (int j=i+1;j<4;++j){
-                for (int k=0;k<4;++k){
-                    for (int l=-1;l<=1;l+=2){
-                        vector<pair<int,int>> square;
-                        int a=abs(P[i].first-P[j].first);
-                        square.emplace_back(P[i].first,P[k].second);
-                        square.emplace_back(P[i].first,P[k].second+a*l);
-                        square.emplace_back(P[j].first,P[k].second);
-                        square.emplace_back(P[j].first,P[k].second+a*l);
-                        ll cnt=0;
-                        vector<int> v(4);
-                        iota(v.begin(),v.end(),0);
-                        do {
-                            ll cnt=0;
-                            for (int m=0;m<4;++m){
-                                cnt+=d(square[m],P[v[m]]);
-                            }
-                            ans=min(ans,cnt);
-                        } while (next_permutation(v.begin(),v.end()));
-                    }
-                }
-            }
+    void dfs(int v,int p){
+        seen[v]=1; hist.emplace(v);
+        for (int u:G[v]){
+            if (!directed&&u==p) continue;
+            if (finished[u]) continue;
+            if (seen[u]&&!finished[u]){pos=u; return;}
+            dfs(u,v);
+            if (~pos) return;
         }
-        for (int i=0;i<4;++i) swap(P[i].first,P[i].second);
+        finished[v]=1; hist.pop();
     }
+    vector<int> build(){
+        for (int v=0;v<G.size();++v){
+            if (!seen[v]) dfs(v,-1);
+            if (~pos) break;
+        }
+        vector<int> res;
+        while(!hist.empty()){
+            int t=hist.top(); hist.pop();
+            res.emplace_back(t);
+            if (t==pos) break;
+        }
+        return res;
+    }
+};
 
-    cout << ans << '\n';
-}
+struct TopologicalSort{
+    vector<vector<int>> G;
+    vector<int> seen,order;
+    TopologicalSort(int n):G(n),seen(n){}
+    void add_edge(int u,int v){
+        G[u].emplace_back(v);
+    }
+    void dfs(int v){
+        seen[v]=1;
+        for (int u:G[v]){
+            if (!seen[u]) dfs(u);
+        }
+        order.emplace_back(v);
+    }
+    vector<int> build(){
+        for (int i=0;i<G.size();++i){
+            if (!seen[i]) dfs(i);
+        }
+        reverse(order.begin(),order.end());
+        return order;
+    }
+    int operator[](int i){return order[i];}
+};
 
 int main(){
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int t; cin >> t;
-    for (;t--;){
-        solve();
+    int n; cin >> n;
+    vector<string> S(n); cin >> S;
+    CycleDetection<true> CD(26);
+    TopologicalSort TS(26);
+    auto compare=[&](string s,string t){
+        for (int i=0;i<min(s.size(),t.size());++i){
+            if (s[i]!=t[i]){
+                int a=s[i]-'a',b=t[i]-'a';
+                CD.add_edge(a,b);
+                TS.add_edge(a,b);
+                return;
+            }
+        }
+        if (s.size()>t.size()){
+            cout << "Impossible" << '\n';
+            exit(0);
+        }
+    };
+    for (int i=0;i<n-1;++i){
+        compare(S[i],S[i+1]);
     }
+
+    if (!CD.build().empty()){
+        cout << "Impossible" << '\n';
+        exit(0);
+    }
+    TS.build();
+    string ans="";
+    for (int i=0;i<26;++i) ans+=(char)('a'+TS[i]);
+    cout << ans << '\n';
 }
