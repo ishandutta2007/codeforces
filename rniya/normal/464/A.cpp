@@ -117,17 +117,6 @@ template <class T1, class T2> inline bool chmax(T1& a, T2 b) {
 }
 #pragma endregion
 
-/**
- * @brief compress
- */
-template <typename T> map<T, int> compress(vector<T>& v) {
-    sort(v.begin(), v.end());
-    v.erase(unique(v.begin(), v.end()), v.end());
-    map<T, int> res;
-    for (int i = 0; i < v.size(); i++) res[v[i]] = i;
-    return res;
-}
-
 const int INF = 1e9;
 const long long IINF = 1e18;
 const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
@@ -135,89 +124,75 @@ const char dir[4] = {'D', 'R', 'U', 'L'};
 const long long MOD = 1000000007;
 // const long long MOD = 998244353;
 
-using P = pair<ll, ll>;
-
 int main() {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n;
-    cin >> n;
-    auto slope = [](int a, int b, int c, int d) -> P {
-        ll x = ll(a) * d, y = ll(b) * c;
-        ll g = gcd(x, y);
-        return make_pair(x / g, y / g);
-    };
-    vector<P> comp;
-    vector<vector<P>> pos(n);
-    for (int i = 0; i < n; i++) {
-        int a, b, c, d;
-        cin >> a >> b >> c >> d;
-        pos[i].emplace_back(slope(a + b, b, c, d));
-        pos[i].emplace_back(slope(a, b, c + d, d));
-        for (int j = 0; j < 2; j++) comp.emplace_back(pos[i][j]);
-    }
+    int n, p;
+    cin >> n >> p;
+    string S;
+    cin >> S;
 
-    map<P, int> mp = compress(comp);
-    int sz = mp.size();
-    vector<vector<pair<int, int>>> G(sz);
-    vector<vector<int>> edge(n);
-    for (int i = 0; i < n; i++) {
-        int x = mp[pos[i][0]], y = mp[pos[i][1]];
-        G[x].emplace_back(y, i);
-        G[y].emplace_back(x, i);
-        edge[i].emplace_back(x);
-        edge[i].emplace_back(y);
-    }
-
-    vector<bool> used(n, false), visited(sz, false);
-    auto dfs1 = [&](auto self, int v) -> void {
-        visited[v] = true;
-        for (auto& e : G[v]) {
-            int u = e.first;
-            if (visited[u]) continue;
-            used[e.second] = true;
-            self(self, u);
+    vector<int> B(n);
+    for (int i = 0; i < n; i++) B[i] = S[i] - 'a';
+    auto plus = [&]() {
+        for (int i = n - 1; i >= 0; i--) {
+            B[i]++;
+            if (B[i] == p)
+                B[i] = 0;
+            else
+                return;
+            if (i == 0) {
+                cout << "NO" << '\n';
+                exit(0);
+            }
         }
     };
-    for (int i = 0; i < sz; i++) {
-        if (visited[i]) continue;
-        dfs1(dfs1, i);
-    }
-
-    vector<int> pre(sz, -1);
-    vector<pair<int, int>> ans;
-    auto update = [&](int x, int y) {
-        if (~pre[x]) {
-            ans.emplace_back(pre[x], y);
-            pre[x] = -1;
-        } else
-            pre[x] = y;
-    };
-    for (int i = 0; i < n; i++) {
-        if (used[i]) continue;
-        update(edge[i][0], i);
-    }
-
-    for (int i = 0; i < sz; i++) visited[i] = false;
-    auto dfs2 = [&](auto self, int v, int p, int num) -> void {
-        visited[v] = true;
-        for (auto& e : G[v]) {
-            int u = e.first;
-            if (visited[u]) continue;
-            self(self, u, v, e.second);
+    auto check = [&]() {
+        for (int i = 0; i < n; i++) {
+            if (i + 1 < n && B[i] == B[i + 1]) return false;
+            if (i + 2 < n && B[i] == B[i + 2]) return false;
         }
-        if (num < 0) return;
-        if (~pre[v])
-            update(v, num);
-        else
-            update(p, num);
+        return true;
     };
-    for (int i = 0; i < sz; i++) {
-        if (visited[i]) continue;
-        dfs2(dfs2, i, -1, -1);
+
+    plus();
+    for (int i = 0; i < 5000; i++) {
+        if (check()) {
+            for (int i = 0; i < n; i++) cout << char('a' + B[i]);
+            cout << '\n';
+            return 0;
+        }
+        plus();
     }
 
-    cout << ans.size() << '\n';
-    for (auto& p : ans) cout << p.first + 1 << ' ' << p.second + 1 << '\n';
+    vector<int> A(n);
+    for (int i = 0; i < n; i++) A[i] = S[i] - 'a';
+    for (int i = n - 1; i >= 0; i--) {
+        vector<bool> used(p, false);
+        if (i - 1 >= 0) used[A[i - 1]] = true;
+        if (i - 2 >= 0) used[A[i - 2]] = true;
+        for (int j = A[i] + 1; j < p; j++) {
+            if (used[j]) continue;
+            A[i] = j;
+            if (i - 1 >= 0) used[A[i - 1]] = false;
+            if (i - 2 >= 0) used[A[i - 2]] = false;
+            for (int k = i + 1; k < n; k++) {
+                if (k - 1 >= 0) used[A[k - 1]] = true;
+                if (k - 2 >= 0) used[A[k - 2]] = true;
+                for (int l = 0; l < p; l++) {
+                    if (used[l]) continue;
+                    A[k] = l;
+                    break;
+                }
+                if (k - 1 >= 0) used[A[k - 1]] = false;
+                if (k - 2 >= 0) used[A[k - 2]] = false;
+            }
+            for (int k = 0; k < n; k++) cout << char('a' + A[k]);
+            cout << '\n';
+            return 0;
+        }
+    }
+
+    cout << "NO" << '\n';
     return 0;
 }
