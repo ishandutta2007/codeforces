@@ -1,0 +1,45 @@
+namespace Solution {
+
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.MachineLearning;
+
+    operation Set (q: Qubit, des: Result) : Unit {
+        if(des != M(q)){ X(q); }
+    }
+
+    operation Solve (qs : Qubit[]) : Unit {
+        // your code here
+        repeat {
+            mutable i = 0;
+            repeat{
+                Set(qs[i], Zero);
+                H(qs[i]);
+                set i = i+1;
+            }
+            until(i == Length(qs));
+
+            mutable b = Zero;
+            using(q = Qubit()){
+                Controlled X(qs[0..Length(qs)-1], q);
+                set b = M(q);
+                Set(q, Zero);
+            }
+        }
+        until (b == Zero)
+        fixup {}
+    }
+ 
+    // @EntryPoint()
+    // operation HelloQ() : Unit {
+    //     Message("Hello quantum world!");
+    //     using (q = Qubit[3]) {
+    //         Set(q[0],One);
+    //         Set(q[1],One);
+    //         for (i in 0..2) {
+    //             Set(q[i],Zero);
+    //         }
+    //     }
+    // }
+}
