@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <cstring>
+#include <string>
+#include <cmath>
+#include <set>
+#include <map>
+#include <queue>
+#include <iterator>
+#include <sstream>
+#define endl "\n"
+#define int long long
+#define ld long double
+#define debug(x) cout << #x << " is " << x << endl;
+using namespace std;
+
+
+signed main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    cout << fixed << setprecision(7);
+    int b, g, n, ans = 0;
+    cin >> b >> g >> n;
+    for (int i = 0; i <= n; ++i) {
+        int x = i, y = n - i;
+        if (x <= b and y <= g) ++ans;
+    }
+    cout << ans << endl;
+
+}
