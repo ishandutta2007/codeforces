@@ -1,0 +1,22 @@
+print =: 1!:2&2
+
+FOO =: 3 : 0
+if. <./ (y = 'Jan') do. print 'winter'
+elseif. <./ (y = 'Feb') do. print 'winter'
+elseif. <./ (y = 'Dec') do. print 'winter'
+elseif. <./ (y = 'Mar') do. print 'spring'
+elseif. <./ (y = 'Apr') do. print 'spring'
+elseif. <./ (y = 'May') do. print 'spring'
+elseif. <./ (y = 'Jun') do. print 'summer'
+elseif. <./ (y = 'Jul') do. print 'summer'
+elseif. <./ (y = 'Aug') do. print 'summer'
+elseif. <./ (y = 'Sep') do. print 'autumn'
+elseif. <./ (y = 'Oct') do. print 'autumn'
+elseif. <./ (y = 'Nov') do. print 'autumn'
+end.
+)
+
+read =: 1!:1[3
+
+in =. 3 {. read
+FOO in
