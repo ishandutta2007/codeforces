@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define mp make_pair
+#define pb push_back
+
+#define eprintf(...) fprintf(stderr, __VA_ARGS__)
+#define rep(i, n) for (int i = 0; i < (int)(n); ++ i)
+
+struct FUNC {
+    ll a, b;
+    FUNC(): a(-1e18), b(0) {}
+    FUNC(ll a, ll b): a(a), b(b) {}
+    ll get(int x) { return a + b * x; }
+};
+
+struct LCSEG {
+    static const int mxn = 1e6 + 7;
+    struct Node {
+        FUNC f;
+        Node *ls, *rs;
+    };
+    void ins(FUNC f0, Node *&i, int a = -mxn, int b = mxn) {
+        if (!i) {
+            i = new Node();
+        }
+        if (a + 1 == b) {
+            if (f0.get(a) > i->f.get(a)) i->f = f0;
+            return ;
+        }
+        int m = a + ((b - a) >> 1);
+        bool lef = f0.get(a) > i->f.get(a);
+        bool mid = f0.get(m) > i->f.get(m);
+        if (mid) {
+            swap(i->f, f0);
+        }
+        if (lef != mid) {
+            ins(f0, i->ls, a, m);
+        } else {
+            ins(f0, i->rs, m, b);
+        }
+    }
+    ll get(int x, Node *i, int a = -mxn, int b = mxn) {
+        if (!i) {
+            return -1e18;
+        }
+        if (a + 1 == b) {
+            return i->f.get(x);
+        }
+        int m = a + ((b - a) >> 1);
+        ll ans = i->f.get(x);
+        if (x < m) {
+            ans = max(ans, get(x, i->ls, a, m));
+        } else {
+            ans = max(ans, get(x, i->rs, m, b));
+        }
+        return ans;
+    }
+} lcseg;
+
+const int mxn = 200005;
+int n, a[mxn];
+ll sum[mxn];
+LCSEG::Node *rt;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin >> n;
+    rep(i, n) cin >> a[i];
+    rep(i, n) sum[i + 1] = sum[i] + a[i];
+    ll ans = 0;
+    rt = nullptr;
+    rep(i, n) {
+        ans = max(ans, lcseg.get(a[i], rt) + sum[i] - 1LL * a[i] * i);
+        lcseg.ins(FUNC(-sum[i], i), rt);
+    }
+    rt = nullptr;
+    for (int i = n - 1; ~i; -- i) {
+        ans = max(ans, lcseg.get(a[i], rt) + sum[i + 1] - 1LL * a[i] * i);
+        lcseg.ins(FUNC(-sum[i + 1], i), rt);
+    }
+    rep(i, n) ans += 1LL * a[i] * (i + 1);
+    cout << ans << endl;
+    return 0;
+}

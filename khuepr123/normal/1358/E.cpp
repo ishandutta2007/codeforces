@@ -1,0 +1,66 @@
+/*
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
+*/
+// lethal option
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define pb push_back
+#define fi first
+#define se second
+#define endl "\n"
+#define eb emplace_back
+#define ii pair<int, int>
+#define PI 3.141592653589793238462643383279502884
+#define ll long long
+#define for1(i, ff, gg) for(int i = ff; i <= gg; ++i)
+#define for2(i, ff, gg) for(int i = ff; i >= gg; --i)
+const ll mod = 1e9 + 7;
+const int maxN = 500005;
+const ll oo = 1e18 + 7;
+int n, a[maxN];
+int x, y, z, k;
+int m;
+int pre[maxN];
+
+stack<int> fvl;
+
+signed main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> n;
+    m = n / 2;
+    n = n - m;
+    for1(i, 1, n) cin >> a[i];
+    cin >> x;
+    for1(i, n + 1, n + m) a[i] = x;
+    multiset<int> st;
+    int sm = 0;
+    for1(i, 1, n) sm += a[i];
+    st.insert(sm);
+    fvl.push(sm);
+    for1(i, 1, m){
+        sm += a[i + n];
+        sm -= a[i];
+        st.insert(sm);
+        fvl.push(sm);
+    }
+    int cofe = 0;
+    k = n;
+    while(!fvl.empty()){
+        if(cofe + *st.begin() > 0){
+            cout << k << endl;
+            return 0;
+        }
+        st.erase(st.find(fvl.top()));
+        fvl.pop();
+        cofe += x;
+        ++k;
+    }
+    cout << "-1\n";
+}
