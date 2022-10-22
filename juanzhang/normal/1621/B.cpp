@@ -1,0 +1,91 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=(a),i##end=(b);i<=i##end;++i)
+#define per(i,a,b) for(int i=(a),i##end=(b);i>=i##end;--i)
+//mt19937 Rnd(chrono::high_resolution_clock::now().time_since_epoch().count());
+template<typename T>void chkmax(T&x,T y){if(x<y)x=y;}
+template<typename T>void chkmin(T&x,T y){if(x>y)x=y;}
+
+typedef double db;
+typedef long long ll;
+typedef vector<int>vi;
+typedef pair<int,int>pii;
+
+namespace orzjk{
+  const int SZ=1e6;
+  char buf[SZ],*p1=buf,*p2=buf;
+  char nc(){
+    return p1==p2&&(p2=(p1=buf)+fread(buf,1,SZ,stdin),p1==p2)?EOF:*p1++;
+  }
+  char fub[SZ],*p3=fub,*p4=fub+SZ;
+  void pc(char c){
+    p3==p4&&(fwrite(fub,1,SZ,stdout),p3=fub);
+    *p3++=c;
+  }
+  void flush(){
+    fwrite(fub,1,p3-fub,stdout),p3=fub;
+  }
+}
+using orzjk::nc;
+using orzjk::pc;
+
+//#define nc getchar
+//#define pc putchar
+
+int read(){
+  int x=0,f=1;char c=nc();
+  while(c<48)c=='-'&&(f=-1),c=nc();
+  while(c>47)x=x*10+(c^48),c=nc();
+  return x*f;
+}
+void write(int x){
+  static char st[11];
+  if(!x)return pc(48),void();
+  char*p=st;
+  if(x<0)x=-x,pc('-');
+  for(;x;x/=10)*p++=x%10|48;
+  do{
+    pc(*--p);
+  }while(p!=st);
+}
+
+int n;
+struct node{
+  int l,r,c;
+};
+
+void solve(){
+  n=read();
+  int mn=1e9,mx=-1e9;int rig1=0,r1=1e9,v1=1e9,lef2=1e9,l2=1e9,v2=1e9;
+  rep(i,1,n){
+    node p;
+    p.l=read(),p.r=read(),p.c=read();
+    if(mn>p.l){
+      mn=p.l,rig1=0,v1=r1=1e9;
+    }
+    if(mn==p.l){
+      if(rig1<p.r||(rig1==p.r&&r1>p.c))rig1=p.r,r1=p.c;
+      chkmin(v1,p.c);
+    }
+    if(mx<p.r){
+      mx=p.r,lef2=1e9,v2=l2=1e9;
+    }
+    if(mx==p.r){
+      if(lef2>p.l||(lef2==p.l&&l2>p.c))lef2=p.l,l2=p.c;
+      chkmin(v2,p.c);
+    }
+    int ans=v1+v2;
+    if(rig1==mx)chkmin(ans,r1);
+    if(lef2==mn)chkmin(ans,l2);
+    write(ans),pc(10);
+  }
+}
+
+signed main(){
+  int T;cin>>T;
+  while(T--)solve();
+//  solve();
+  orzjk::flush();
+  return 0;
+}
