@@ -1,0 +1,122 @@
+#include <bits/stdc++.h>
+using namespace std;
+//using namespace atcoder;
+struct fast_ios { fast_ios(){ cin.tie(0); ios::sync_with_stdio(false); cout << fixed << setprecision(20); }; } fast_ios_;
+#define FOR(i, begin, end) for(int i=(begin);i<(end);i++)
+#define REP(i, n) FOR(i,0,n)
+#define IFOR(i, begin, end) for(int i=(end)-1;i>=(begin);i--)
+#define IREP(i, n) IFOR(i,0,n)
+#define Sort(v) sort(v.begin(), v.end())
+#define Reverse(v) reverse(v.begin(), v.end())
+#define all(v) v.begin(),v.end()
+#define SZ(v) ((int)v.size())
+#define Lower_bound(v, x) distance(v.begin(), lower_bound(v.begin(), v.end(), x))
+#define Upper_bound(v, x) distance(v.begin(), upper_bound(v.begin(), v.end(), x))
+#define chmax(a, b) a = max(a, b)
+#define chmin(a, b) a = min(a, b)
+#define bit(n) (1LL<<(n))
+#define debug(x) cout << #x << "=" << x << endl;
+#define vdebug(v) { cout << #v << "=" << endl; REP(i_debug, v.size()){ cout << v[i_debug] << ","; } cout << endl; }
+#define mdebug(m) { cout << #m << "=" << endl; REP(i_debug, m.size()){ REP(j_debug, m[i_debug].size()){ cout << m[i_debug][j_debug] << ","; } cout << endl;} }
+#define pb push_back
+#define fi first
+#define se second
+#define int long long
+#define INF 1000000000000000000
+template<typename T> istream &operator>>(istream &is, vector<T> &v){ for (auto &x : v) is >> x; return is; }
+template<typename T> ostream &operator<<(ostream &os, vector<T> &v){ for(int i = 0; i < v.size(); i++) { cout << v[i]; if(i != v.size() - 1) cout << endl; }; return os; }
+template<typename T1, typename T2> ostream &operator<<(ostream &os, pair<T1, T2> p){ cout << '(' << p.first << ',' << p.second << ')'; return os; }
+template<typename T> void Out(T x) { cout << x << endl; }
+template<typename T1, typename T2> void chOut(bool f, T1 y, T2 n) { if(f) Out(y); else Out(n); }
+
+using vec = vector<int>;
+using mat = vector<vec>;
+using Pii = pair<int, int>;
+using v_bool = vector<bool>;
+using v_Pii = vector<Pii>;
+
+//int dx[4] = {1,0,-1,0};
+//int dy[4] = {0,1,0,-1};
+//char d[4] = {'D','R','U','L'};
+
+const int mod = 1000000007;
+//const int mod = 998244353;
+
+int n_query = 0;
+map<vec, bool> memo;
+bool ask(int h, int w, int i1, int j1, int i2, int j2){
+    vec q({h, w, i1, j1, i2, j2});
+    if(memo.count(q)) return memo[q];
+
+    n_query++;
+
+    cout << "? " << h << " " << w << " "<< i1 + 1 << " " << j1 + 1 << " " << i2 + 1 << " " << j2 + 1 << endl;
+    int t; cin >> t;
+    memo[q] = t;
+    return t;
+}
+
+int n, m;
+bool is_equal1(int D, int N){
+    if(N == 1) return true;
+    int N1 = (N + 1) / 2, N2 = N - N1;
+    if(!is_equal1(D, N1)) return false;
+    return ask(n, D * N2, 0, 0, 0, N1 * D);
+}
+bool is_equal2(int D, int N){
+    if(N == 1) return true;
+    int N1 = (N + 1) / 2, N2 = N - N1;
+    if(!is_equal2(D, N1)) return false;
+    return ask(D * N2, m, 0, 0, N1 * D, 0);
+}
+
+signed main(){
+
+    cin >> n >> m;
+    v_bool dp1(m + 1, false), dp2(n + 1, false);
+    dp1[m] = true;
+    IFOR(i, 1, m) if(m % i == 0){
+        if(!dp1[i]){
+            bool ok = true;
+            FOR(j, i + 1, m + 1) if(m % j == 0 && j % i == 0 && !dp1[j]) ok = false;
+            if(ok){
+                FOR(j, i + 1, m + 1) if(m % j == 0 && j % i == 0){
+                    if(dp1[j]){
+                        dp1[i] = is_equal1(i, j / i);
+                    }
+                    break;
+                }
+            }
+        }
+        if(dp1[i]){
+            FOR(j, i + 1, m + 1) if(dp1[j]) dp1[gcd(i, j)] = true;
+        }
+    }
+    dp2[n] = true;
+    IFOR(i, 1, n) if(n % i == 0){
+        if(!dp2[i]){
+            bool ok = true;
+            FOR(j, i + 1, n + 1) if(n % j == 0 && j % i == 0 && !dp2[j]) ok = false;
+            if(ok){
+                FOR(j, i + 1, n + 1) if(n % j == 0 && j % i == 0){
+                    if(dp2[j]){
+                        dp2[i] = is_equal2(i, j / i);
+                    }
+                    break;
+                }
+            }
+        }
+        if(dp2[i]){
+            FOR(j, i + 1, n + 1) if(dp2[j]) dp2[gcd(i, j)] = true;
+        }
+    }
+
+    int ans1 = 0, ans2 = 0;
+    FOR(i, 1, m + 1) ans1 += dp1[i];
+    FOR(i, 1, n + 1) ans2 += dp2[i];
+    int ans = ans1 * ans2;
+    cout << "! " << ans << endl;
+    //debug(n_query);
+
+    return 0;
+}
