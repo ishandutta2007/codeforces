@@ -1,0 +1,9 @@
+x := File standardInput readLine asNumber
+a := 1
+b := 1
+for (i, 1, x-1, 1,
+temp := b
+b = a+b
+a = temp
+)
+b println
