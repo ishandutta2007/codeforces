@@ -1,0 +1,130 @@
+//#include <bits/stdc++.h>
+#include <iostream>
+#include <iomanip>
+#include <math.h>
+#include <cmath>
+#include <algorithm>
+#include <climits>
+#include <functional>
+#include <cstring>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cstdio>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <deque>
+#include <map>
+#include <set>
+#include <bitset>
+#include <complex>
+//#include <ext/pb_ds/assoc_container.hpp>
+//#include <ext/pb_ds/tree_policy.hpp>
+#define itn int
+#define nit int
+#define ll long long
+#define ms multiset
+#define F(i,a,b) for(register int i=a,i##end=b;i<=i##end;++i)
+#define UF(i,a,b) for(register int i=a,i##end=b;i>=i##end;--i)
+#define re register
+#define ri re int
+#define il inline
+#define pii pair<int,int>
+#define cp complex<double>
+using namespace std;
+using std::bitset;
+//using namespace __gnu_pbds;
+const double Pi=acos(-1);
+namespace fastIO {
+	template<class T>
+	inline void read(T &x) {
+		x=0;
+		bool fu=0;
+		char ch=0;
+		while(ch>'9'||ch<'0') {
+			ch=getchar();
+			if(ch=='-')fu=1;
+		}
+		while(ch<='9'&&ch>='0') x=(x*10-48+ch),ch=getchar();
+		if(fu)x=-x;
+	}
+	inline int read() {
+		int x=0;
+		bool fu=0;
+		char ch=0;
+		while(ch>'9'||ch<'0') {
+			ch=getchar();
+			if(ch=='-')fu=1;
+		}
+		while(ch<='9'&&ch>='0') x=(x*10-48+ch),ch=getchar();
+		return fu?-x:x;
+	}
+	template<class T,class... Args>
+	inline void read(T& t,Args&... args) {
+		read(t);
+		read(args...);
+	}
+	char _n_u_m_[40];
+	template<class T>
+	inline void write(T x ) {
+		if(x==0){
+			putchar('0');
+			return;
+		}
+		T tmp = x > 0 ? x : -x ;
+		if( x < 0 ) putchar('-') ;
+		register int cnt = 0 ;
+		while( tmp > 0 ) {
+			_n_u_m_[ cnt ++ ] = tmp % 10 + '0' ;
+			tmp /= 10 ;
+		}
+		while( cnt > 0 ) putchar(_n_u_m_[ -- cnt ]) ;
+	}
+	template<class T>
+	inline void write(T x ,char ch) {
+		write(x);
+		putchar(ch);
+	}
+}
+using namespace fastIO;
+int n,f[1002],tot[1002],t1,t2;
+inline void solve(int x){
+	if(x==n)return;
+	if(tot[x]>1){
+		puts("NO");
+		exit(0);
+	}
+	if(tot[x]){
+		solve(x+1);
+		f[x]=x+1;
+	}else{
+		F(i,x+1,n-1)if(tot[i]>1){
+			--tot[i];
+			solve(x+1);
+			f[x]=f[i];
+			f[i]=x;
+		}
+	}
+}
+int main() {
+	cin>>n;
+	F(i,2,n){
+		read(t1,t2);
+		if(max(t1,t2)!=n){
+			puts("NO");
+			exit(0);
+		}
+		++tot[min(t1,t2)];
+	}
+	if(tot[n]){
+		puts("NO");
+		exit(0);
+	}
+	solve(1);
+	puts("YES");
+	F(i,1,n-1){
+		write(i,' ');write(f[i],'\n');
+	}
+	return 0;
+}
