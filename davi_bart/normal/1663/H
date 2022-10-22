@@ -1,0 +1,13 @@
+const int(*a)  //*)
+    = {
+/*
+}
+4
+;
+begin
+end.
+
+*/
+    };
+int main() {
+}

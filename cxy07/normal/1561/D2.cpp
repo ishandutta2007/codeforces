@@ -1,0 +1,67 @@
+//Code By CXY07
+#include<bits/stdc++.h>
+using namespace std;
+
+//#define FILE
+//#define int long long
+#define file(FILENAME) freopen(FILENAME".in", "r", stdin), freopen(FILENAME".out", "w", stdout)
+#define randint(l, r) (rand() % ((r) - (l) + 1) + (l))
+#define LINE() cout << "LINE = " << __LINE__ << endl
+#define debug(x) cout << #x << " = " << x << endl
+#define abs(x) ((x) < 0 ? (-(x)) : (x))
+#define popc(x) __builtin_popcount(x)
+#define inv(x) qpow((x), mod - 2)
+#define lowbit(x) ((x) & (-(x)))
+#define ull unsigned long long
+#define pii pair<int, int>
+#define LL long long
+#define mp make_pair
+#define pb push_back
+#define scd second
+#define vec vector
+#define fst first
+#define endl '\n'
+
+const int MAXN = 4e6 + 10;
+const int INF = 2e9;
+const double eps = 1e-6;
+const double PI = acos(-1);
+//const int mod = 1e9 + 7;
+//const int mod = 998244353;
+//const int G = 3;
+//const int base = 131;
+
+int n, mod;
+int sum[MAXN], f[MAXN], tag[MAXN];
+
+template<typename T> inline bool read(T &a) {
+	a = 0; char c = getchar(); int f = 1;
+	while(c < '0' || c > '9') { if(c == '-') f = -1; c = getchar(); }
+	while(c >= '0' && c <= '9') { a = a * 10 + (c ^ 48); c = getchar(); }
+	return a *= f, true;
+}
+
+template<typename A, typename ...B>
+inline bool read(A &x, B &...y) { return read(x) && read(y...); }
+
+void add(int a, int b, int v) { 
+	b = min(b, n);
+	(tag[a] += v) %= mod, (tag[b + 1] -= v) %= mod; 
+}
+
+signed main () {
+#ifdef FILE
+	freopen(".in", "r", stdin);
+	freopen(".out", "w", stdout);
+#endif
+	read(n), read(mod); f[1] = sum[1] = 1;
+	for(int j = 2; j <= n; ++j) add(j, j + j - 1, f[1]);
+	for(int i = 2; i <= n; ++i) {
+		tag[i] = (tag[i - 1] + tag[i]) % mod;
+		f[i] = (sum[i - 1] + tag[i]) % mod;
+		for(int j = 2; i * j <= n; ++j) add(i * j, i * j + j - 1, f[i]);
+		sum[i] = (sum[i - 1] + f[i]) % mod;
+	}
+	cout << (f[n] % mod + mod) % mod << endl;
+	return 0;
+}
