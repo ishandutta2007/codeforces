@@ -1,0 +1,311 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <algorithm>
+#include <cmath>
+#include <vector>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <queue>
+#include <ctime>
+#include <cassert>
+#include <complex>
+#include <string>
+#include <cstring>
+#include <chrono>
+#include <random>
+#include <bitset>
+#include <fstream>
+#include <array>
+using namespace std;
+#define int long long
+#define ii pair <int, int>
+#define app push_back
+#define all(a) a.begin(), a.end()
+#define bp __builtin_popcountll
+#define ll long long
+#define mp make_pair
+#define x first
+#define y second
+#define Time (double)clock()/CLOCKS_PER_SEC
+#define debug(x) std::cerr << #x << ": " << x << '\n';
+
+#define FORI(i,a,b) for (int i = (a); i < (b); ++i)
+#define FOR(i,a) FORI(i,0,a)
+#define ROFI(i,a,b) for (int i = (b)-1; i >= (a); --i)
+#define ROF(i,a) ROFI(i,0,a)
+#define rep(a) FOR(_,a)
+#define each(a,x) for (auto& a: x)
+#define FORN(i, n) FORI(i, 1, n + 1)
+
+using vi = vector<int>;
+template <typename T>
+std::istream& operator >>(std::istream& input, std::pair <T, T> & data)
+{
+    input >> data.x >> data.y;
+    return input;
+}
+template <typename T>
+std::istream& operator >>(std::istream& input, std::vector<T>& data)
+{
+    for (T& x : data)
+        input >> x;
+    return input;
+}
+template <typename T>
+std::ostream& operator <<(std::ostream& output, const pair <T, T> & data)
+{
+    output << "(" << data.x << "," << data.y << ")";
+    return output;
+}
+template <typename T>
+std::ostream& operator <<(std::ostream& output, const std::vector<T>& data)
+{
+    for (const T& x : data)
+        output << x << " ";
+    return output;
+}
+std::ostream& operator <<(std::ostream& output, const __int128 &x)
+{
+    __int128 n = x;
+    if (n == 0) {
+        output << "0";
+        return output;
+    }
+    if (n < 0) {
+        n = -n;
+        output << "-";
+    }
+    string s;
+    while (n) {
+        s += '0' + (n%10);
+        n /= 10;
+    }
+    reverse(all(s));
+    cout << s;
+    return output;
+}
+ll div_up(ll a, ll b) { return a/b+((a^b)>0&&a%b); } // divide a by b rounded up
+ll div_down(ll a, ll b) { return a/b-((a^b)<0&&a%b); } // divide a by b rounded down 
+ll math_mod(ll a, ll b) { return a - b * div_down(a, b); }
+#define tcT template<class T
+#define tcTU tcT, class U
+tcT> using V = vector<T>; 
+tcT> bool ckmin(T& a, const T& b) {
+    return b < a ? a = b, 1 : 0; 
+} // set a = min(a,b)
+tcT> bool ckmax(T& a, const T& b) {
+    return a < b ? a = b, 1 : 0; 
+}
+ll gcd(ll a, ll b) {
+    while (b) {
+        tie(a, b) = mp(b, a % b);
+    }
+    return a;
+}
+int Bit(int mask, int bit) { return (mask >> bit) & 1; }
+
+struct Dsu {
+int n;
+vector <int> par, cnt;
+Dsu (int n_) {
+    n = n_;
+    par.resize(n + 1);
+    cnt.resize(n + 1, 1);
+    FOR (i, n + 1)
+        par[i] = i;
+}   
+int root(int u) {
+    if (par[u] == u)
+        return u;
+    else
+        return par[u] = root(par[u]);                
+}   
+int get_cnt(int u) {
+    return cnt[root(u)];
+}   
+bool merge(int u, int v) {
+    u = root(u);
+    v = root(v);
+    if (u == v)
+        return 0;
+    par[u] = v;
+    cnt[v] += cnt[u];
+    return 1;
+}
+bool connected(int u, int v) {
+    return root(u) == root(v);
+}   
+bool cut(int u, int v) {
+    return root(u) != root(v);
+}
+};  
+
+const int N = 2e5+7;
+int n, q, S, D;
+int a[N], ans[N];
+V <ii> mst[N];
+
+int l[N], r[N];
+
+pair <int, ii> best[N];
+
+void dfs(int u, int p, int mx) {
+    ans[u] = mx;
+    each (e, mst[u]) {
+        int v = e.x, c = e.y;
+        if (v != p) {
+            dfs(v, u, max(mx, c));
+        }
+    }
+}
+
+const int INF = 1e9+7;
+
+signed main() {
+    #ifdef LOCAL
+    #else
+    #define endl '\n'
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    #endif
+    cin >> n >> q >> S >> D;
+    FORN (i, n) {
+        cin >> a[i];
+    }
+
+    Dsu d(n);
+    while (1) {
+        l[0] = 0;
+        r[n + 1] = n + 1;
+        FORN (i, n) {
+            if (i > 1 && d.root(i - 1) != d.root(i)) {
+                l[i] = i - 1;
+            }
+            else {
+                l[i] = l[i - 1];
+            }
+        }
+        for (int i = n; i; --i) {
+            if (i + 1 <= n && d.root(i + 1) != d.root(i)) {
+                r[i] = i + 1;
+            }
+            else {
+                r[i] = r[i + 1];
+            }
+        }
+        if (r[1] == n + 1) {
+            break;
+        }
+
+        FORN (i, n) {
+            best[i] = mp(INF, mp(INF, INF));
+        }
+
+        auto f2 = [&] (int i, int j) {
+            return abs(D - abs(a[i] - a[j]));
+        };
+
+        auto rel = [&] (int i, int j) {
+            int c = d.root(i);
+            if (j < i) {
+                swap(i, j);
+            }
+            ckmin(best[c], mp(f2(i, j), mp(i, j)));
+        };
+
+        {
+        int ptr = 1;
+        FORN (i, n) {
+            while (a[ptr] < a[i] - D) {
+                ptr++;
+            }
+            if (d.root(ptr) != d.root(i)) {
+                rel(i, ptr);
+            }
+            else if (r[ptr] != n + 1) {
+                rel(i, r[ptr]);
+            }
+        }            
+        }
+
+        {
+        int ptr = 1;
+        FORN (i, n) {
+            while (ptr < n && a[ptr + 1] <= a[i] - D) {
+                ptr++;
+            }
+            if (d.root(ptr) != d.root(i)) {
+                rel(i, ptr);
+            }
+            else if (l[ptr] != 0) {
+                rel(i, l[ptr]);
+            }
+        } 
+        }
+
+        {
+        int ptr = n;
+        for (int i = n; i; --i) {
+            while (a[ptr] > a[i] + D) {
+                ptr--;
+            }
+            if (d.root(ptr) != d.root(i)) {
+                rel(i, ptr);
+            }
+            else if (l[ptr] != 0) {
+                rel(i, l[ptr]);
+            }
+        }
+        }
+
+        {
+        int ptr = n;
+        for (int i = n; i; --i) {
+            while (ptr > 1 && a[ptr - 1] >= a[i] + D) {
+                ptr--;
+            }
+            if (d.root(ptr) != d.root(i)) {
+                rel(i, ptr);
+            }
+            else if (r[ptr] != n + 1) {
+                rel(i, r[ptr]);
+            }
+        }
+        }
+
+        auto f = [&] (ii e) {
+            return abs(D - abs(a[e.x] - a[e.y]));
+        };
+
+        auto comp = [&] (ii a, ii b) {
+            return f(a) < f(b);
+        };
+
+        FORN (c, n) {
+            if (best[c].x != INF) {
+                int u = best[c].y.x;
+                int v = best[c].y.y;
+                int val = best[c].x;
+                if (d.merge(u, v)) {
+                    mst[u].app(mp(v, val));
+                    mst[v].app(mp(u, val));
+                }
+            }
+        }
+    }
+
+    dfs(S, S, 0);
+
+    rep (q) {
+        int i, w;
+        cin >> i >> w;
+        if (ans[i] <= w) {
+            cout << "Yes" << endl;
+        }
+        else {
+            cout << "No" << endl;
+        }
+    }
+}
