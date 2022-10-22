@@ -1,0 +1,221 @@
+/*
+ /+===================================================+\
+//+---------------------------------------------------+\
+|.|\...>>>>>>> Hollwo_Pelw's 2nd template<<<<<<<...//|.|
+\+---------------------------------------------------+//
+ \+===================================================+/
+*/
+#include <bits/stdc++.h>
+using namespace std;
+// type
+typedef long long ll;
+typedef long double ld;
+// pair
+#define F                   first
+#define S                   second
+#define pii                 pair<int, int>
+#define pll                 pair<ll, ll>
+#define pdd                 pair<ld, ld>
+// vector & !!?(string)
+#define eb                  emplace_back
+#define pb                  push_back
+#define all(a)              a.begin(), a.end()
+#define rall(a)             a.rbegin(), a.rend()
+#define sz(a)               a.size()
+// I/O
+#define setpre(n)           fixed << setprecision(n)
+#define Ptest(x)            return cout << x << endl, (void) 0;
+bool endline = false;
+template<class T>
+istream& operator >> (istream& inp, vector<T>& v){
+    for (auto& it : v) inp >> it;
+    return inp;
+}
+template<class T>
+ostream& operator << (ostream& out, vector<T>& v){
+    for (auto& it : v) out << it << (endline ? "\n" : " ");
+    return out;
+}
+template<class T, class U>
+istream& operator >> (istream& inp, pair<T, U>& v){
+    inp >> v.F >> v.S;
+    return inp;
+}
+template<class T, class U>
+ostream& operator << (ostream& out, pair<T, U>& v){
+    out << v.F << ' ' << v.S;
+    return out;
+}
+void debug(){
+    cout << endl;
+}
+template <typename H, typename... T>
+void debug(H a, T... b){
+    cout << a << ' ';
+    debug(b...);
+}
+// geometry calculate
+#define pi                  acos(-1.0)
+#define g_sin(a)            sin(a*pi/180)
+#define g_cos(a)            cos(a*pi/180)
+#define g_tan(a)            tan(a*pi/180)
+// set val
+#define ms0(a)              memset(a,        0, sizeof(a));
+#define ms1(a)              memset(a,        1, sizeof(a));
+#define msn1(a)             memset(a,       -1, sizeof(a));
+#define msinf(a)            memset(a, 0x3f3f3f, sizeof(a));
+
+void FAST_IO(string filein = "", string fileout = ""){
+    if (fopen(filein.c_str(), "r")){
+        freopen(filein.c_str(), "r", stdin);
+        freopen(fileout.c_str(), "w", stdout);
+    }
+    cin.tie(0), cout.tie(0) -> sync_with_stdio(0);
+}
+
+void Hollwo_Pelw();
+
+signed main(){
+    #ifdef hollwo_pelw_local
+        FAST_IO("input.inp", "output.out");
+        auto start = chrono::steady_clock::now();
+    #else
+        FAST_IO(".inp", ".out");
+    #endif
+    int testcases = 1;
+    // cin >> testcases;
+    for (int test = 1; test <= testcases; test++){
+        // cout << "Case #" << test << ": ";
+        Hollwo_Pelw();
+    }
+    #ifdef hollwo_pelw_local
+        auto end = chrono::steady_clock::now();
+        cout << endl;
+        cout << "Excution time : " << chrono::duration_cast<chrono::milliseconds> (end - start).count() << "[ms]" << endl;
+    #endif
+    return 0;
+}
+
+// constant
+const int allmod[3] = {(int) 1e9 + 7, 998244353, (int) 1e9 + 9};
+const int mod = allmod[0];
+const int MAXN = 1e5 + 5;
+const int inf = 2e9;
+const ll linf = 1e18;
+#define int long long
+
+vector<pii> adj[MAXN * 9];
+int dist[MAXN * 9];
+
+int id[MAXN], add, n, q, s;
+
+#define left node << 1, tl, tm
+#define right node << 1 | 1, tm + 1, tr
+
+void build(int node = 1, int tl = 1, int tr = n){
+    if (tl == tr){
+        int idx = id[tl];
+        adj[idx].eb(node, 0);
+        adj[node].eb(idx, 0);
+        adj[idx].eb(node + add, 0);
+        adj[node + add].eb(idx, 0);
+        return ; 
+    }
+    int tm = (tl + tr) >> 1;
+    build(left); build(right);
+    adj[node].eb(node * 2, 0);
+    adj[node * 2 + add].eb(node + add, 0);
+    adj[node].eb(node * 2 + 1, 0);
+    adj[node * 2 + 1 + add].eb(node + add, 0);
+}
+
+void upd_2(int u, int l, int r, int w, int node = 1, int tl = 1, int tr = n){
+    if (l > tr || r < tl) return ;
+    if (l <= tl && tr <= r){
+        adj[id[u]].eb(node, w);
+        return ;
+    }
+    int tm = (tl + tr) >> 1;
+    upd_2(u, l, r, w, left);
+    upd_2(u, l, r, w, right);
+}
+
+void upd_3(int u, int l, int r, int w, int node = 1, int tl = 1, int tr = n){
+    if (l > tr || r < tl) return ;
+    if (l <= tl && tr <= r){
+        adj[node + add].eb(id[u], w);
+        return ;
+    }
+    int tm = (tl + tr) >> 1;
+    upd_3(u, l, r, w, left);
+    upd_3(u, l, r, w, right);
+}
+
+void dijk(int s){
+    for (int i = 1; i <= 9 * n; i++){
+        dist[i] = linf;
+    }
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    pq.push({dist[s] = 0, s});
+    while(!pq.empty()){
+        auto [d, u] = pq.top(); pq.pop();
+        if (d != dist[u]) continue;
+        for (auto [v, w] : adj[u]){
+            if (dist[v] > d + w){
+                pq.push({dist[v] = d + w, v});
+            }
+        }
+    }
+}
+
+void Hollwo_Pelw(){
+    cin >> n >> q >> s;
+    for (int i = 1; i <= n; i++)
+        id[i] = i + 8 * n;
+    add = 4 * n;
+    build();
+    while(q--){
+        int t;
+        cin >> t;
+        if (t == 1){
+            int u, v, w;
+            cin >> u >> v >> w;
+            adj[id[u]].eb(id[v], w);
+        }else{
+            int u, l, r, w;
+            cin >> u >> l >> r >> w;
+            if (t == 2) upd_2(u, l, r, w);
+            if (t == 3) upd_3(u, l, r, w);
+        }
+    }
+    dijk(id[s]);
+    // for (int i = 1; i <= 9 * n; i++){
+    //     cout << "Node " << i << ": ";
+    //     for (auto [u, w] : adj[i]) cout << "(" << u << ' ' << w << ") ";
+    //     cout << endl;
+    // }
+    for (int i = 1; i <= n; i++){
+        if (dist[id[i]] == linf)
+            dist[id[i]] = -1;
+        cout << dist[id[i]] << ' ';
+    }
+}
+
+
+/*
+
+./-=====>>><<<-------- DEBUG -------->>><<<=====-\.
+/.................................................\
++====================== INP ======================+
+
+
+
++====================== OUT ======================+
+
+
+
++======================*****======================+
+\................................................./
+.\-=====>>><<<--------= END =-------->>><<<=====-/.
+
+*/

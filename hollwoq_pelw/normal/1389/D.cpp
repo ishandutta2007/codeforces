@@ -1,0 +1,111 @@
+/*
+ /+==================================================+\
+//+--------------------------------------------------+\\
+|.|\\...>>>>>>> Hollwo_Pelw(ass) 's code <<<<<<<...//|.|
+\\+--------------------------------------------------+//
+ \+==================================================+/
+*/
+#include <bits/stdc++.h>
+using namespace std;
+// type
+typedef long long ll;
+typedef long double ld;
+// loop
+//#define For(i, l, r)        for (int i = l; i < r; i++)
+//#define ForE(i, l, r)       for (int i = l; i <= r; i++)
+//#define Ford(i, r, l)       for (int i = r; i > l; i--)
+//#define FordE(i, r, l)      for (int i = r; i >= l; i--)
+//#define Fora(i, a)          for (auto i : a)
+// I/O
+#define open(file, in, out) if (fopen(file in, "r")) {        \
+                                freopen(file in, "r", stdin);  \
+                                freopen(file out, "w", stdout); \
+                            }
+#define FAST_IO             std::ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define setpre(n)           fixed << setprecision(n)
+// pair
+#define F                   first
+#define S                   second
+#define pii                 pair<int, int>
+#define pll                 pair<ll, ll>
+#define pdd                 pair<ld, ld>
+// vector & !!?(string)
+#define eb                  emplace_back
+#define pb                  push_back
+#define all(a)              a.begin(), a.end()
+#define rall(a)             a.rbegin(), a.rend()
+#define sz(a)               a.size()
+#define len(a)              a.length()
+// geometry calculate
+#define pi                  acos(-1.0)
+#define g_sin(a)            sin(a*pi/180)
+#define g_cos(a)            cos(a*pi/180)
+#define g_tan(a)            tan(a*pi/180)
+// set val
+#define ms0(a)              memset(a,        0, sizeof(a));
+#define ms1(a)              memset(a,        1, sizeof(a));
+#define msn1(a)             memset(a,       -1, sizeof(a));
+#define msinf(a)            memset(a, 0x3f3f3f, sizeof(a));
+// constant
+const int mod1 = 998244353, mod = 1e9 + 7;
+const int MAXN = 1e5 + 6 , MAXM = 2e5 + 5;
+const int inf = 2e9; const ll linf = 1e18;
+// code
+#define int long long
+
+int n, k, l1, r1, l2, r2;
+void Solve() {
+    cin >> n >> k >> l1 >> r1 >> l2 >> r2;
+    if (l1 > l2){
+        swap(l1, l2);
+        swap(r1, r2);
+    }
+    int ans = 1e18;
+    k -= n * max(0ll, min(r1, r2) - max(l1, l2));
+    if (k <= 0){
+        cout << "0\n";
+        return;
+    }
+    
+    if(r1 <= r2 && l2 <= r1){
+		int temp = r2 - l1 - r1 + l2;
+		ans = min(ans, min(k, temp * n) + 2 * (k - min(k, temp * n)));
+	}else{
+    	if(r1 < l2){
+    		for(int i = 1; i <= n; i++){
+    			int temp = (l2 - r1) * i;
+    			int temp2 = i * (r2 - l1);
+    			ans = min(ans, min(temp2, k) + temp + 2 * (k - min(temp2, k)));
+    		}
+    	}
+    	if(r1 > r2){
+    		int temp = r1 - l1 - r2 + l2;
+    		ans = min(ans, min(k, temp * n) + 2 * (k - min(k, temp * n)));
+    	}
+	}
+	cout << ans << endl;
+}
+
+signed main(){
+    open("", ".inp", ".out");
+    FAST_IO; int TC = 1;
+    cin >> TC;
+    while(TC--) Solve();
+    return 0;
+}
+/*
+
+./-=====>>><<<-------- DEBUG -------->>><<<=====-\.
+/.................................................\
+
+
++====================== INP ======================+
+
+
++====================== OUT ======================+
+
+
+\................................................./
+.\-=====>>><<<--------= END =-------->>><<<=====-/.
+
+*/
