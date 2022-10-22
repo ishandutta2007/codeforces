@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define TASKNAME ""
+
+using namespace std;
+
+const int INF = 1e9 + 7;
+const int MAXN = 1e6 + 7;
+const double EPS = 1e-6;
+
+string o = "aeiou";
+
+bool isO(char c) {
+    for (char x : o) {
+        if (x == c) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    #ifdef MY
+        freopen("input.txt", "r", stdin);
+        //freopen("output.txt", "w", stdout);
+    #else
+        //freopen(TASKNAME".in", "r", stdin);
+        //freopen(TASKNAME".out", "w", stdout);
+        ios_base::sync_with_stdio(false);
+        cin.tie(0);
+        cout.tie(0);
+    #endif // MY
+    string s, t;
+    cin >> s >> t;
+    if (s.size() != t.size()) {
+        cout << "No\n";
+        return 0;
+    }
+    int n = s.size();
+    for (int i = 0; i < n; i++) {
+        if (isO(s[i]) != isO(t[i])) {
+            cout << "No\n";
+            return 0;
+        }
+    }
+    cout << "Yes\n";
+}

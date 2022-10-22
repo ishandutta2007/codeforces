@@ -1,0 +1,1 @@
+print "YES" if any(c in "HQ9" for c in raw_input()) else "NO"

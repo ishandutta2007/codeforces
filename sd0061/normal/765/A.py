@@ -1,0 +1,1 @@
+print ['home','contest'][input() % 2]
