@@ -39,26 +39,23 @@ inline ll tav(ll n , ll k){
 
 ll a[maxn] , dp[maxn];
 vector<ll> mn , mx;
-multiset<ll> f , g;
 
 int main(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
 	ll n;
 	cin>>n;
-	for(ll i = 1 ; i <= n ; i++){
+	for(ll i = 0 ; i < n ; i++){
 		cin>>a[i];
 	}
-	dp[0] = dp[1] = 0;
-	mn.push_back(1); mx.push_back(1);
-	f.insert(a[1]); g.insert(-a[1]);
-	for(ll i = 2 ; i <= n ; i++){
+	dp[0] = 0;
+	ll f = a[0] , g = -a[0];
+	for(ll i = 1 ; i < n ; i++){
 		while(!mn.empty()){
 			ll j = mn.back();
 			if(a[j] < a[i]){
 				break;
 			}
-			g.erase(g.find(dp[j - 1] - a[j]));
 			mn.pop_back();
 		}
 		while(!mx.empty()){
@@ -66,18 +63,14 @@ int main(){
 			if(a[j] > a[i]){
 				break;
 			}
-			f.erase(f.find(dp[j - 1] + a[j]));
 			mx.pop_back();
 		}
 		mn.push_back(i);
-		g.insert(dp[i - 1] - a[i]);
+		g = max(g , dp[i - 1] - a[i]);
 		mx.push_back(i);
-		f.insert(dp[i - 1] + a[i]);
-		auto it = f.end(); it--;
-		dp[i] = *it - a[i];
-		it = g.end(); it--;
-		dp[i] = max(dp[i] , *it + a[i]);
+		f = max(f , dp[i - 1] + a[i]);
+		dp[i] = max(f - a[i] , g + a[i]);
 	}
-	cout<<dp[n]<<'\n';
+	cout<<dp[n - 1]<<'\n';
 	return 0;
 }
