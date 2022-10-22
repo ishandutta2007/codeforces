@@ -1,0 +1,47 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in1 =: 	(read -. CR) -. LF
+f1 =: 3 : 0	
+	a =: #in1 
+	if. a = 5 do.
+		if. in1 = 'March' do.
+			print 'spring'	
+		elseif. in1 = 'April' do.
+			print 'spring'
+		end.
+	elseif. a = 3 do.
+		if. in1 = 'May' do.
+			print 'spring'
+		end.
+	elseif. a = 4 do.
+		if. in1 = 'June' do.
+			print 'summer'
+		elseif. in1 = 'July' do.
+			print 'summer'
+		end.
+	elseif. a = 6 do.
+		if. in1 = 'August' do.
+			print 'summer'
+		end.
+	elseif. a = 7 do.
+		if. in1 = 'October' do.
+			print 'autumn'
+		elseif. in1 = 'January' do.
+			print 'winter'
+		end.
+	elseif. a = 8 do.
+		if. in1 = 'November' do.
+			print 'autumn'
+		elseif. in1 = 'December' do.
+			print 'winter'
+		elseif. in1 = 'February' do.
+			print 'winter'
+		end.
+	elseif. a = 9 do.
+		if. in1 = 'September' do.
+			print 'autumn'
+		end.
+	end.
+)
+f1 5

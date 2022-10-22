@@ -1,0 +1,1 @@
+print((lambda a: list(map(lambda x: sum(a[:x + 1]) > sum(a[x + 1:]), range(len(a)))).index(True) + 1)([int(input())] * 0 + list(sorted([int(i) for i in input().split()], key=lambda x: -x))))
