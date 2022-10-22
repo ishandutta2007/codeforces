@@ -1,0 +1,17 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    D = sqrt(B * B - 4 * A * C),
+    E = (-B - D) / (2 * A),
+    F = (-B + D) / (2 * A),
+    
+    if E == F then
+        println(E)
+    elseif E < F then
+        println(E),
+        println(F)
+    else
+        println(F),
+        println(E)
+    end.

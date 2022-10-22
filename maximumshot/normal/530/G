@@ -1,0 +1,45 @@
+main =>
+   
+   A = read_line(),
+   B = read_line(),
+  
+   L1 = length(A),
+   L2 = length(B),
+   
+   DP = new_array(L1 + 10, L2 + 10),
+   
+   INF = 1000000000,
+   
+   foreach(I in 1 .. L1 + 10)
+       foreach(J in 1 .. L2 + 10)
+           DP[I, J] := INF
+       end
+   end,
+ 
+   
+   DP[1, 1] := 0,
+   
+   foreach(I in 2 .. L1 + 1)
+       DP[I, 1] := DP[I - 1, 1] + ord(A[I - 1]) - ord('a') + 1
+   end,
+   
+   foreach(I in 2 .. L2 + 1)
+       DP[1, I] := DP[1, I - 1] + ord(B[I - 1]) - ord('a') + 1
+   end,
+   
+   foreach(I in 2 .. L1 + 1)
+       foreach(J in 2 .. L2 + 1)
+           DP[I, J] := min(
+               min(
+                   DP[I, J - 1] + ord(B[J - 1]) - ord('a') + 1,
+                   DP[I - 1, J] + ord(A[I - 1]) - ord('a') + 1
+               ),
+               min(
+                   DP[I - 1, J - 1] + abs(ord(A[I - 1]) - ord(B[J - 1])),
+                   DP[I - 1, J - 1] + ord(A[I - 1]) - ord('a') + 1 + ord(B[J - 1]) - ord('a') + 1
+               )
+           )
+       end
+   end,
+   
+   println(DP[L1 + 1, L2 + 1]).
