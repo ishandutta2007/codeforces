@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+#define PB push_back
+#define ST first
+#define ND second
+
+//#pragma GCC optimize ("O3")
+//#pragma GCC target("tune=native")
+
+//mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+//#include <ext/pb_ds/assoc_container.hpp>
+//#include <ext/pb_ds/tree_policy.hpp>
+//using namespace __gnu_pbds;
+//typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+
+using namespace std;
+using ll = long long;
+using pi = pair<int, int>;
+using vi = vector<int>;
+
+int t, n, k;
+
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cin >> t;
+	while(t--) {
+		cin >> n >> k;
+		if((n + 1) / 2 < k) {
+			cout << "-1\n";
+			continue;
+		}
+		int cnt = 0;
+		for(int i = 0; i < n; ++i) {
+			for(int j = 0; j < n; ++j) {
+				if(i & 1) cout << ".";
+				else {
+					if(i == j && cnt < k) {
+						cout << "R";
+						cnt++;
+					}
+					else cout << ".";
+				}
+			}
+			cout << "\n";
+		}
+	}
+	
+}
