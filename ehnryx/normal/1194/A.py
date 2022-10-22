@@ -1,0 +1,1 @@
+import sys;input();[print(2*int(L.split()[1]))for L in sys.stdin]
