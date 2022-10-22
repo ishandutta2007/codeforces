@@ -1,0 +1,22 @@
+co print2
+{
+  gt [3] [2] [1]
+  if [3] cout 10
+  if [3] ac
+  cout 42
+  add [2] [2] 1
+}
+
+co print1
+{
+  gt [3] [1] [0]
+  if [3] ac
+  set [2] 1
+  ca print2
+  add [1] [1] 1
+}
+
+iin [0]
+set [1] 1
+ca print1
+ac

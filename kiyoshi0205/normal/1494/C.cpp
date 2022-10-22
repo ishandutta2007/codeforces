@@ -1,0 +1,203 @@
+#pragma GCC target("avx")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+#include<bits/stdc++.h>
+// #include<ext/pb_ds/assoc_container.hpp>
+// #include<ext/pb_ds/tree_policy.hpp>
+// #include<ext/pb_ds/tag_and_trait.hpp>
+// using namespace __gnu_pbds;
+// #include<boost/multiprecision/cpp_int.hpp>
+// namespace multiprecisioninteger = boost::multiprecision;
+// using cint=multiprecisioninteger::cpp_int;
+using namespace std;
+using ll=long long;
+using datas=pair<ll,ll>;
+using ddatas=pair<long double,long double>;
+using tdata=pair<ll,datas>;
+using vec=vector<ll>;
+using mat=vector<vec>;
+using pvec=vector<datas>;
+using pmat=vector<pvec>;
+// using llset=tree<ll,null_type,less<ll>,rb_tree_tag,tree_order_statistics_node_update>;
+#define For(i,a,b) for(i=a;i<(ll)b;++i)
+#define bFor(i,b,a) for(i=b,--i;i>=(ll)a;--i)
+#define rep(i,N) For(i,0,N)
+#define rep1(i,N) For(i,1,N)
+#define brep(i,N) bFor(i,N,0)
+#define brep1(i,N) bFor(i,N,1)
+#define all(v) (v).begin(),(v).end()
+#define allr(v) (v).rbegin(),(v).rend()
+#define vsort(v) sort(all(v))
+#define vrsort(v) sort(allr(v))
+#define uniq(v) vsort(v);(v).erase(unique(all(v)),(v).end())
+#define endl "\n"
+#define eb emplace_back
+#define print(x) cout<<x<<endl
+#define printyes print("Yes")
+#define printno print("No")
+#define printYES print("YES")
+#define printNO print("NO")
+#define output(v) do{bool f=0;for(auto outi:v){cout<<(f?" ":"")<<outi;f=1;}cout<<endl;}while(0)
+#define matoutput(v) do{for(auto outimat:v)output(outimat);}while(0)
+constexpr ll mod=1000000007;
+// constexpr ll mod=998244353;
+constexpr ll inf=1LL<<60;
+constexpr long double eps=1e-9;
+const long double PI=acosl(-1);
+template<class T,class E> ostream& operator<<(ostream& os,const pair<T,E>& p){return os<<"("<<p.first<<","<<p.second<<")";}
+template<class T> ostream& operator<<(ostream& os,const vector<T>& v){
+  os<<"{";bool f=false;
+  for(auto& x:v){if(f)os<<",";os<<x;f=true;}
+  os<<"}";
+  return os;
+}
+template<class T> ostream& operator<<(ostream& os,const set<T>& v){
+  os<<"{";bool f=false;
+  for(auto& x:v){if(f)os<<",";os<<x;f=true;}
+  os<<"}";
+  return os;
+}
+template<class T,class E> ostream& operator<<(ostream& os,const map<T,E>& v){
+  os<<"{";bool f=false;
+  for(auto& x:v){if(f)os<<",";os<<x;f=true;}
+  os<<"}";
+  return os;
+}
+template<class T> inline bool chmax(T& a,T b){bool x=a<b;if(x)a=b;return x;}
+template<class T> inline bool chmin(T& a,T b){bool x=a>b;if(x)a=b;return x;}
+#ifdef DEBUG
+void debugg(){cout<<endl;}
+template<class T,class... Args>void debugg(const T& x,const Args&... args){cout<<" "<<x;debugg(args...);}
+#define debug(...) cout<<__LINE__<<" ["<<#__VA_ARGS__<<"]:",debugg(__VA_ARGS__)
+#else
+#define debug(...) (void(0))
+#endif
+
+void startupcpp(){
+  cin.tie(0);
+  ios::sync_with_stdio(false);
+  cout<<fixed<<setprecision(15);
+}
+
+long double distance(ddatas x,ddatas y){
+  long double a=x.first-y.first,b=x.second-y.second;
+  return sqrtl(a*a+b*b);
+}
+
+ll modinv(ll a,ll m=mod) {
+  ll b=m,u=1,v=0,t;
+  while(b){
+    t=a/b;
+    a-=t*b; swap(a,b);
+    u-=t*v; swap(u,v);
+  }
+  return (u+m)%m;
+}
+
+ll moddevide(ll a,ll b){return (a*modinv(b))%mod;}
+
+vec modncrlistp,modncrlistm;
+
+ll modncr(ll n,ll r){
+  if(n<r)return 0;
+  ll i,size=modncrlistp.size();
+  if(size<=n){
+    modncrlistp.resize(n+1);
+    modncrlistm.resize(n+1);
+    if(!size){
+      modncrlistp[0]=modncrlistm[0]=1;
+      size++;
+    }
+    For(i,size,n+1)modncrlistp[i]=modncrlistp[i-1]*i%mod;
+    modncrlistm[n]=modinv(modncrlistp[n]);
+    for(i=n;i>size;--i)modncrlistm[i-1]=modncrlistm[i]*i%mod;
+  }
+  return modncrlistp[n]*modncrlistm[r]%mod*modncrlistm[n-r]%mod;
+}
+
+ll modpow(ll a,ll n,ll m=mod){
+  if(n<0)return 0;
+  ll res=1;
+  while(n>0){
+    if(n&1)res=res*a%m;
+    a=a*a%m;
+    n>>=1;
+  }
+  return res;
+}
+
+ll gcd(ll a,ll b){if(!b)return abs(a);return (a%b==0)?abs(b):gcd(b,a%b);}
+ll lcm(ll a,ll b){return a/gcd(a,b)*b;}
+
+ll countdigits(ll n,ll k=10){
+  ll ans=0;
+  while(n){n/=k;ans++;}
+  return ans;
+}
+
+ll sumdigits(ll n,ll k=10){
+  ll ans=0;
+  while(n){ans+=n%k;n/=k;}
+  return ans;
+}
+ll solve(vec a,vec b){
+  if(a.empty()||b.empty())return 0;
+  a.emplace_back(inf);
+  ll i,j=0,ans,N=a.size(),M=b.size();
+  vec v(N,0);
+  brep(i,N){
+    auto itr=lower_bound(all(b),a[i]);
+    int x=itr!=b.end()&&*itr==a[i];
+    v[i]=x;
+  }
+  brep1(i,N)v[i-1]+=v[i];
+  ans=v[0];
+  ll now=0;
+  while(j<M){
+    if(a[i]-1<=b[j]){
+      assert(now<=a[i]-i-1);
+      now=a[i]-i-1;
+      ++i;
+    }else{
+      chmax(now,b[j]-i);
+      ++j;
+    }
+    debug(now,i,j);
+    chmax(ans,upper_bound(all(b),now+i)-lower_bound(all(b),now+1)+v[i]);
+  }
+  return ans;
+}
+ll N,M;
+int main(){
+  startupcpp();
+  int codeforces;cin>>codeforces;while(codeforces--){
+  ll i,j;
+  cin>>N>>M;
+  vec ap,am,bp,bm/*,zap,zam*/;
+  rep(i,N){
+    cin>>j;
+    if(j<0)am.emplace_back(-j);
+    else ap.emplace_back(j);
+  }
+  rep(i,M){
+    cin>>j;
+    if(j<0)bm.emplace_back(-j);
+    else bp.emplace_back(j);
+  }
+  reverse(all(am));
+  reverse(all(bm));
+  // for(auto x:ap)zap.emplace_back(x);
+  // for(auto x:am)zam.emplace_back(x);
+  // for(auto x:bp)zap.emplace_back(x);
+  // for(auto x:bm)zam.emplace_back(x);
+  // zap.emplace_back(0);
+  // zam.emplace_back(0);
+  // uniq(zap);
+  // uniq(zam);
+  // for(auto& x:ap)x=lower_bound(all(zap),x)-zap.begin();
+  // for(auto& x:am)x=lower_bound(all(zam),x)-zam.begin();
+  // for(auto& x:bp)x=lower_bound(all(zap),x)-zap.begin();
+  // for(auto& x:bm)x=lower_bound(all(zam),x)-zam.begin();
+  print(solve(ap,bp)+solve(am,bm));
+}
+}

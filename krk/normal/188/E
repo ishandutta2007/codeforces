@@ -1,0 +1,30 @@
+co print1
+{
+   cout 89
+   cout 69
+   cout 83
+   cout 10
+   ac
+}
+
+co print2
+{
+   cout 78
+   cout 79
+   cout 10
+   ac
+}
+
+cin [0]
+eq [2] [0] 10
+eq [1] [0] 72
+if [1] ca print1
+if [1] ac
+eq [1] [0] 81
+if [1] ca print1
+if [1] ac
+eq [1] [0] 57
+if [1] ca print1
+if [1] ac
+if [2] ca print2
+if [2] ac

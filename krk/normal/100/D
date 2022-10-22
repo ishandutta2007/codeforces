@@ -1,0 +1,15 @@
+int main()
+{
+    int n = (int)Stdio.stdin->gets();
+    string a = Stdio.stdin->gets();
+    string b = Stdio.stdin->gets();
+    int alen = strlen(a), blen = strlen(b);
+    int i;
+    for (i = 0; i < alen && i < blen; i++)
+        if (a[i] != b[i]) break;
+    int res;
+    if (i < alen && i < blen) res = alen - i + blen - i;
+    else if (alen < blen) res = blen - alen;
+    else res = alen - blen;
+    write(res <= n? "YES": "NO");
+}

@@ -1,0 +1,7 @@
+set line [gets stdin]
+scan $line "%d" n
+set rez 1
+for { set i 1 } { $i <= $n } { incr i } {
+   set rez [expr $rez * $i]
+}
+puts $rez
