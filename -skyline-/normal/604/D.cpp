@@ -1,0 +1,83 @@
+#include<cmath>
+#include<math.h>
+#include<ctype.h>
+#include<algorithm>
+#include<bitset>
+#include<cassert>
+#include<cctype>
+#include<cerrno>
+#include<cfloat>
+#include<ciso646>
+#include<climits>
+#include<clocale>
+#include<complex>
+#include<csetjmp>
+#include<csignal>
+#include<cstdarg>
+#include<cstddef>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include<ctime>
+#include<cwchar>
+#include<cwctype>
+#include<deque>
+#include<exception>
+#include<fstream>
+#include<functional>
+#include<iomanip>
+#include<ios>
+#include<iosfwd>
+#include<iostream>
+#include<istream>
+#include<iterator>
+#include<limits>
+#include<list>
+#include<locale>
+#include<map>
+#include<memory>
+#include<new>
+#include<numeric>
+#include<ostream>
+#include<queue>
+#include<set>
+#include<sstream>
+#include<stack>
+#include<stdexcept>
+#include<streambuf>
+#include<string>
+#include<typeinfo>
+#include<utility>
+#include<valarray>
+#include<vector>
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+#define ll   long long
+//:
+using namespace std;
+ll p,k,res,ans=1;
+int main()
+{
+    scanf("%I64d%I64d",&p,&k);
+    if(k==0)res=p-1;
+    else if(k==1) res=p;
+    else{
+         res=1;
+         ll o=k;
+         while(o!=1){
+                     res++;
+                     o*=k;
+                     o%=p;
+         }
+         res=(p-1)/res;
+    }
+    while(res){
+               if(res&1)ans=ans*p%1000000007;
+               res>>=1;
+               p=p*p%1000000007;
+    }
+    printf("%I64d\n",ans);
+	//system("pause");
+	return 0;
+}

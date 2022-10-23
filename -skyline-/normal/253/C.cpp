@@ -1,0 +1,90 @@
+#include<cmath>
+#include<math.h>
+#include<ctype.h>
+#include<algorithm>
+#include<bitset>
+#include<cassert>
+#include<cctype>
+#include<cerrno>
+#include<cfloat>
+#include<ciso646>
+#include<climits>
+#include<clocale>
+#include<complex>
+#include<csetjmp>
+#include<csignal>
+#include<cstdarg>
+#include<cstddef>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include<ctime>
+#include<cwchar>
+#include<cwctype>
+#include<deque>
+#include<exception>
+#include<fstream>
+#include<functional>
+#include<iomanip>
+#include<ios>
+#include<iosfwd>
+#include<iostream>
+#include<istream>
+#include<iterator>
+#include<limits>
+#include<list>
+#include<locale>
+#include<map>
+#include<memory>
+#include<new>
+#include<numeric>
+#include<ostream>
+#include<queue>
+#include<set>
+#include<sstream>
+#include<stack>
+#include<stdexcept>
+#include<streambuf>
+#include<string>
+#include<typeinfo>
+#include<utility>
+#include<valarray>
+#include<vector>
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+using namespace std;
+queue<int> qx,qy;
+int fxr[5]={0,1,0,-1},fxc[5]={1,0,-1,0};
+int f[104][100005];
+int a[200],fr,fc,lr,lc,i,j,x,y,xx,yy,n;
+int main()
+{
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+    cin>>n;
+    memset(f,-1,sizeof(f));
+    for(i=1;i<=n;i++)cin>>a[i],a[i]++;
+    cin>>fr>>fc>>lr>>lc;
+    qx.push(fr);
+    qy.push(fc);
+    f[fr][fc]=0;
+    while(!qx.empty()&&f[lr][lc]==-1){
+                      x=qx.front();
+                      y=qy.front();
+                      qx.pop();
+                      qy.pop();
+                      for(j=0;j<4;j++){
+                                       xx=x+fxr[j];
+                                       yy=min(y+fxc[j],a[xx]);
+                                       if(xx<=n&&xx>0&&yy<=a[xx]&&yy>0&&f[xx][yy]==-1){
+                                                                                       qx.push(xx);
+                                                                                       qy.push(yy);
+                                                                                       f[xx][yy]=f[x][y]+1;
+                                       }
+                      }
+    }
+    cout<<f[lr][lc]<<endl;                                                            
+   // system("pause");
+    return 0;
+}

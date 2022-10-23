@@ -1,0 +1,164 @@
+#include<cmath>
+#include<math.h>
+#include<ctype.h>
+#include<algorithm>
+#include<bitset>
+#include<cassert>
+#include<cctype>
+#include<cerrno>
+#include<cfloat>
+#include<ciso646>
+#include<climits>
+#include<clocale>
+#include<complex>
+#include<csetjmp>
+#include<csignal>
+#include<cstdarg>
+#include<cstddef>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include<ctime>
+#include<cwchar>
+#include<cwctype>
+#include<deque>
+#include<exception>
+#include<fstream>
+#include<functional>
+#include<iomanip>
+#include<ios>
+#include<iosfwd>
+#include<iostream>
+#include<istream>
+#include<iterator>
+#include<limits>
+#include<list>
+#include<locale>
+#include<map>
+#include<memory>
+#include<new>
+#include<numeric>
+#include<ostream>
+#include<queue>
+#include<set>
+#include<sstream>
+#include<stack>
+#include<stdexcept>
+#include<streambuf>
+#include<string>
+#include<typeinfo>
+#include<utility>
+#include<valarray>
+#include<vector>
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+using namespace std;
+long long a1,a2,b1,b2,c1,c2,d1,d2,t1,t2,s;
+int main()
+{
+    scanf("%d %d",&a1,&b1);
+    scanf("%d %d",&a2,&b2);
+    c1=a1*b1;
+    c2=a2*b2;
+    t1=c1;
+    while(t1%81==0){
+                  t1/=81;
+                  d1+=4;
+    }
+    while(t1%3==0){
+                  t1/=3;
+                  d1++;
+    }
+    t2=c2;
+    while(t2%81==0){
+                  t2/=81;
+                  d2+=4;
+    }
+    while(t2%3==0){
+                  t2/=3;
+                  d2++;
+    }
+    s+=abs(d1-d2);                            
+    while(a1%3==0&&d1>d2){
+                          a1=a1/3*2;
+                          d1--;
+    }
+    while(b1%3==0&&d1>d2){
+                          b1=b1/3*2;
+                          d1--;
+    }
+    if(d1>d2){
+              puts("-1");
+              return 0;
+    }
+    while(a2%3==0&&d2>d1){
+                          a2=a2/3*2;
+                          d2--;
+    }
+    while(b2%3==0&&d2>d1){
+                          b2=b2/3*2;
+                          d2--;
+    }
+    if(d2>d1){
+              puts("-1");
+              return 0;
+    }
+    c1=a1*b1;
+    c2=a2*b2;
+    t1=c1;
+    while(t1%64==0){
+                  t1/=64;
+                  d1+=6;
+    }
+    while(t1%2==0){
+                  t1/=2;
+                  d1++;
+    }
+    t2=c2;
+    while(t2%64==0){
+                  t2/=64;
+                  d2+=6;
+    }
+    while(t2%2==0){
+                  t2/=2;
+                  d2++;
+    }
+    s+=abs(d1-d2);                            
+    while(a1%2==0&&d1>d2){
+                          a1=a1/2;
+                          d1--;
+    }
+    while(b1%2==0&&d1>d2){
+                          b1=b1/2;
+                          d1--;
+    }
+    if(d1>d2){
+              puts("-1");
+              return 0;
+    }
+    while(a2%2==0&&d2>d1){
+                          a2=a2/2;
+                          d2--;
+    }
+    while(b2%2==0&&d2>d1){
+                          b2=b2/2;
+                          d2--;
+    }
+    if(d2>d1){
+              puts("-1");
+              return 0;
+    }
+    c1=a1*b1;
+    c2=a2*b2;
+    if(c1!=c2){
+              puts("-1");
+              return 0;
+    }
+    cout<<s<<endl;
+    cout<<a1<<" "<<b1<<endl;
+    cout<<a2<<" "<<b2<<endl;
+                                                                                               
+  //  system("pause");
+    return 0;
+}

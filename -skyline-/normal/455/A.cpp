@@ -1,0 +1,79 @@
+#include<cmath>
+#include<math.h>
+#include<ctype.h>
+#include<algorithm>
+#include<bitset>
+#include<cassert>
+#include<cctype>
+#include<cerrno>
+#include<cfloat>
+#include<ciso646>
+#include<climits>
+#include<clocale>
+#include<complex>
+#include<csetjmp>
+#include<csignal>
+#include<cstdarg>
+#include<cstddef>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include<ctime>
+#include<cwchar>
+#include<cwctype>
+#include<deque>
+#include<exception>
+#include<fstream>
+#include<functional>
+#include<iomanip>
+#include<ios>
+#include<iosfwd>
+#include<iostream>
+#include<istream>
+#include<iterator>
+#include<limits>
+#include<list>
+#include<locale>
+#include<map>
+#include<memory>
+#include<new>
+#include<numeric>
+#include<ostream>
+#include<queue>
+#include<set>
+#include<sstream>
+#include<stack>
+#include<stdexcept>
+#include<streambuf>
+#include<string>
+#include<typeinfo>
+#include<utility>
+#include<valarray>
+#include<vector>
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<Windows.h>
+using namespace std;
+long long n,a[120000],dp[120000],ans,i,j,k,l;
+int main()
+{
+    cin>>n;
+    for(i=1;i<=n;i++){
+                      cin>>k;
+                      a[k]++;
+                      l=max(l,k);
+    }
+    for(i=1;i<=l;i++) a[i]*=i;
+    dp[1]=a[1];
+    dp[2]=a[2];
+    dp[3]=a[3]+a[1];
+    for(i=4;i<=l;i++){
+                      dp[i]=max(dp[i-2],dp[i-3])+a[i];
+    }
+    cout<<max(dp[l-1],dp[l])<<endl;                  
+    
+                                       
+    //system("pause");
+    return 0;
+}
