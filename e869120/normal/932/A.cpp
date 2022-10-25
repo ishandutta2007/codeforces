@@ -4,11 +4,11 @@
 using namespace std;
 #pragma warning (disable: 4996)
 
-string S;
+string S, T;
 
 int main() {
 	cin >> S;
-	string T = S; reverse(T.begin(), T.end());
-	cout << S + T << endl;
+	T = S; reverse(T.begin(), T.end());
+	cout << S << T << endl;
 	return 0;
 }

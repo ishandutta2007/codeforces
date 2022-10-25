@@ -1,29 +1,34 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
 using namespace std;
-long long t,x,y,p,q;
-bool solve(long long H){
-	long long e1=p*H,e2=q*H;
-	long long f1=abs(e1-x),f2=abs(e2-y);
-	if(e2<y || e1<x || H==0)return false;
-	if(f1>f2)return false;
-	return true;
+#pragma warning (disable: 4996)
+
+long long T;
+
+long long solve(long long A, long long B, long long C, long long D) {
+	if (C == 0) {
+		if (A == 0) return 0;
+		return -1;
+	}
+	if (C == D) {
+		if (A == B) return 0;
+		return -1;
+	}
+
+	long long a = A, b = B - A, c = C, d = D - C;
+
+	long long V1 = (a + c - 1LL) / c;
+	long long V2 = (b + d - 1LL) / d;
+	long long EA = max(V1, V2) * c;
+	long long EB = max(V1, V2) * d;
+	return EA + EB - a - b;
 }
-int main(){
-	cin>>t;
-	for(int i=0;i<t;i++){
-		cin>>x>>y>>p>>q;
-		long long F=__gcd(p,q);
-		p/=F;q/=F;
-		long long L=1,R=1000000005,M;
-		while(true){
-			M=(L+R)/2;
-			bool p1=solve(M-1),p2=solve(M);
-			if(p1==false && p2==true){
-				cout<<M*q-y<<endl;break;
-			}
-			if(p1==true)R=M;else L=M;
-			if(M>=1000000002){cout<<"-1"<<endl;break;}
-		}
+
+int main() {
+	cin >> T;
+	for (int i = 1; i <= T; i++) {
+		long long p1, p2, p3, p4; cin >> p1 >> p2 >> p3 >> p4;
+		cout << solve(p1, p2, p3, p4) << endl;
 	}
 	return 0;
 }
