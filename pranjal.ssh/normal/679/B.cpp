@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp> 
+
+using namespace std;
+using namespace __gnu_pbds;
+
+#define INF 1000000007
+
+typedef tree<int, null_type, less<int>, rb_tree_tag,tree_order_statistics_node_update> ordered_set;
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<vector<int> > vvi;
+typedef pair<int,int> ii;
+typedef vector<pair<int,int> > vii;
+typedef vector<vector<pair<int,int> > > vvii;
+
+#define all(x) (x).begin(), (x).end()
+#define nall(x) (x).rbegin(), (x).rend()
+#define sz(a) int((a).size()) 
+#define boost ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0)
+#define pb push_back
+#define rz resize
+#define MP make_pair
+#define F first
+#define S second
+#define FOR(i,a,b) for(int i=(a);i<=(b);++i)
+#define NFOR(i,a,b) for(int i=(a);i>=(b);--i)
+#define TCASE int __T;cin>>__T;FOR(Tc,1,__T)
+#define ass(n,l,r) assert(n>=l and n<=r)
+inline int add(int a,int b, int m=INF){a+=b;if(a>=m)a-=m;return a;}
+inline int mul(int a,int b, int m=INF){return (int)(((ll)a*(ll)b)%m);}
+
+map<ll,pair<ll,ll>> mp;
+pair<ll,ll> f(ll m){
+  if(m==0)return pair<ll,ll>();
+  if(m<8) return pair<ll,ll>(m,m);
+  auto it =mp.find(m);
+  if(it!=mp.end())return it->S;
+
+  ll x = cbrt((long double)m);
+  ll cb=x;
+  for(ll i=x-1;i<=x+1;++i)
+    if(i*i*i<=m)cb=i;
+  ll cube = cb*cb*cb;
+  auto yo1=f(cube-1);
+  auto yo2=f(m-cube);
+  yo2.F+=1;yo2.S+=cube;
+  return mp[m]=max(yo1,yo2);
+}
+
+int main()
+{  
+  boost;
+  ll m;cin>>m;
+  auto it = f(m);
+  cout<<it.F<<" "<<it.S;
+  return 0;
+}
