@@ -1,0 +1,104 @@
+#include<bits/stdc++.h>
+using namespace std ;
+
+#define M 1000000007
+#define MM 998244353 
+#define ll long long 
+#define pb push_back
+#define mem0(a) memset(a,0,sizeof(a))
+#define mem1(a) memset(a,-1,sizeof(a))
+#define memf(a) memset(a,false,sizeof(a))
+#define all(v) v.begin(),v.end()
+#define sz(a) (ll)a.size()
+#define F first
+#define S second
+#define INF 2000000000000000000
+#define endl "\n"
+#define _time_ 1.0 * clock() / CLOCKS_PER_SEC
+#define popcount(x) __builtin_popcountll(x)
+#define pll pair<ll,ll> 
+#define ld long double
+
+const long double PI = acos(-1);
+
+ll power(ll b,ll e,ll m)
+{
+    if(e==0) return 1;
+    if(e&1) return b*power(b*b%m,e/2,m)%m;
+    return power(b*b%m,e/2,m);
+}
+ll power( ll b, ll e)
+{
+    if(e==0) return 1;
+    if(e&1) return b*power(b*b,e/2);
+    return power(b*b,e/2);
+}
+template<typename T, typename U> static inline void amin(T &x, U y){ if(y<x) x=y; }
+template<typename T, typename U> static inline void amax(T &x, U y){ if(x<y) x=y; }
+template<typename T, typename U> ostream& operator<<(ostream &os, const pair<T, U> &p)
+{ 
+    return os<<'('<<p.F<< ","<<p.S<<')'; 
+}
+const int N=100005;
+bool bad[N];
+ll a[N],sub[N],ans=0;
+vector<pll> v[N];
+
+void dfs(int s=1,int p=-1,ll dis=0)
+{
+    sub[s]=1;
+    if(a[s]<dis)
+        bad[s]=true;
+    for(auto j:v[s])
+    {
+        if(j.F!=p)
+        {
+            dfs(j.F,s,max(dis+j.S,j.S));
+            sub[s]+=sub[j.F];
+        }
+    }
+}
+void dfs2(int s=1,int p=-1)
+{
+    if(bad[s])
+    {
+        ans+=sub[s];
+        return ;
+    }
+    for(auto j:v[s])
+        dfs2(j.F,s);
+}
+int _runtimeTerror_()
+{
+    ll n;
+    cin>>n;
+    for(int i=1;i<=n;++i)
+        cin>>a[i];
+    for(int i=2;i<=n;++i)
+    {
+        int p,w;
+        cin>>p>>w;
+        v[p].pb({i,w});
+    }
+    dfs();
+    dfs2();
+    cout<<ans<<endl;
+    return 0;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    #ifdef runSieve
+        sieve();
+    #endif
+    #ifdef NCR
+        initialize();
+    #endif
+    int TESTS=1;
+    //cin>>TESTS;
+    while(TESTS--)
+        _runtimeTerror_();
+    cerr<<"\n"<<_time_;
+    return 0;
+}
