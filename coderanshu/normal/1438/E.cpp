@@ -1,0 +1,118 @@
+#include<bits/stdc++.h>
+using namespace std ;
+
+#define ll              long long 
+#define pb              push_back
+#define all(v)          v.begin(),v.end()
+#define sz(a)           (ll)a.size()
+#define F               first
+#define S               second
+#define INF             2000000000000000000
+#define popcount(x)     __builtin_popcountll(x)
+#define pll             pair<ll,ll> 
+#define pii             pair<int,int>
+#define ld              long double
+
+const int M = 1000000007;
+const int MM = 998244353;
+const long double PI = acos(-1);
+
+template<typename T, typename U> static inline void amin(T &x, U y){ if(y<x) x=y; }
+template<typename T, typename U> static inline void amax(T &x, U y){ if(x<y) x=y; }
+template<typename T, typename U> ostream& operator<<(ostream &os, const pair<T, U> &p)
+{ 
+    return os<<'('<<p.F<< ","<<p.S<<')'; 
+}
+
+const int N = 200005;
+
+ll a[N];
+ll sum[N];
+int n;
+
+ll ans = 0;
+
+vector<int> v[40];
+
+void insert(int x,int id)
+{
+    for(int j=29;j>=0;--j)
+    {
+        if(x&(1<<j))
+        {
+            if(v[j].empty())
+                v[j].pb(id);
+            else if(sz(v[j])==1)
+                v[j].pb(v[j][0]),v[j][0] = id;
+            else 
+            {
+                assert(sz(v[j])==2);
+                v[j][1] = v[j][0];
+                v[j][0] = id;
+            }
+        }
+    }
+}
+
+void query(int x,int r)
+{
+    for(int j=29;j>=0;--j)
+    {
+        if(x&(1<<j))
+            continue;
+        for(auto k:v[j])
+        {
+            if((a[r]^a[k]) == sum[r-1]-sum[k])
+            {
+                if((a[r]^a[k])<(1<<(j+1)))
+                    ++ans;
+            }
+        }
+    }
+}
+
+
+int _runtimeTerror_()
+{
+    cin>>n;
+    for(int i=1;i<=n;++i)
+        cin>>a[i];
+    for(int i=1;i<=n;++i)
+        sum[i] = sum[i-1] + a[i];
+    insert(a[1],1);
+    for(int i=3;i<=n;++i)
+    {
+        query(a[i],i);
+        insert(a[i-1],i-1);
+    }
+    for(int i=0;i<=30;++i)
+        v[i].clear();
+    reverse(a+1,a+n+1);
+    sum[0] = 0;
+    for(int i=1;i<=n;++i)
+        sum[i] = sum[i-1] + a[i];
+    insert(a[1],1);
+    for(int i=3;i<=n;++i)
+    {
+        query(a[i],i);
+        insert(a[i-1],i-1);   
+    }
+    cout<<ans<<"\n";
+    return 0;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    #ifdef runSieve
+        sieve();
+    #endif
+    #ifdef NCR
+        initialize();
+    #endif
+    int TESTS=1;
+    //cin>>TESTS;
+    while(TESTS--)
+        _runtimeTerror_();
+    return 0;
+}
