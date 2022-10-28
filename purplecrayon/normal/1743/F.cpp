@@ -1,0 +1,153 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define sz(v) int(v.size())
+#define ar array
+typedef long long ll;
+const int N = 3e5+10, MOD = 998244353;
+
+template <int MOD_> struct modnum {
+	static constexpr int MOD = MOD_;
+	static_assert(MOD_ > 0, "MOD must be positive");
+private:
+	using ll = long long;
+
+	int v;
+
+	static int minv(int a, int m) {
+		a %= m;
+		assert(a);
+		return a == 1 ? 1 : int(m - ll(minv(m, a)) * ll(m) / a);
+	}
+public:
+	modnum() : v(0) {}
+	modnum(ll v_) : v(int(v_ % MOD)) { if (v < 0) v += MOD; }
+	explicit operator int() const { return v; }
+	friend std::ostream& operator << (std::ostream& out, const modnum& n) { return out << int(n); }
+	friend std::istream& operator >> (std::istream& in, modnum& n) { ll v_; in >> v_; n = modnum(v_); return in; }
+
+	friend bool operator == (const modnum& a, const modnum& b) { return a.v == b.v; }
+	friend bool operator != (const modnum& a, const modnum& b) { return a.v != b.v; }
+
+	modnum inv() const {
+		modnum res;
+		res.v = minv(v, MOD);
+		return res;
+	}
+	friend modnum inv(const modnum& m) { return m.inv(); }
+	modnum neg() const {
+		modnum res;
+		res.v = v ? MOD-v : 0;
+		return res;
+	}
+	friend modnum neg(const modnum& m) { return m.neg(); }
+
+	modnum operator- () const {
+		return neg();
+	}
+	modnum operator+ () const {
+		return modnum(*this);
+	}
+
+	modnum& operator ++ () {
+		v ++;
+		if (v == MOD) v = 0;
+		return *this;
+	}
+	modnum& operator -- () {
+		if (v == 0) v = MOD;
+		v --;
+		return *this;
+	}
+	modnum& operator += (const modnum& o) {
+		v -= MOD-o.v;
+		v = (v < 0) ? v + MOD : v;
+		return *this;
+	}
+	modnum& operator -= (const modnum& o) {
+		v -= o.v;
+		v = (v < 0) ? v + MOD : v;
+		return *this;
+	}
+	modnum& operator *= (const modnum& o) {
+		v = int(ll(v) * ll(o.v) % MOD);
+		return *this;
+	}
+	modnum& operator /= (const modnum& o) {
+		return *this *= o.inv();
+	}
+
+	friend modnum operator ++ (modnum& a, int) { modnum r = a; ++a; return r; }
+	friend modnum operator -- (modnum& a, int) { modnum r = a; --a; return r; }
+	friend modnum operator + (const modnum& a, const modnum& b) { return modnum(a) += b; }
+	friend modnum operator - (const modnum& a, const modnum& b) { return modnum(a) -= b; }
+	friend modnum operator * (const modnum& a, const modnum& b) { return modnum(a) *= b; }
+	friend modnum operator / (const modnum& a, const modnum& b) { return modnum(a) /= b; }
+};
+using num = modnum<MOD>;
+
+
+int n;
+bool a[N];
+vector<int> ev[N];
+
+struct T {
+    num ans[2][2]; // given you start with i, number of ways to end with j
+
+    T() {
+        memset(ans, 0, sizeof(ans));
+    }
+    T(int x) {
+        memset(ans, 0, sizeof(ans));
+        for (int i : {0, 1}) {
+            ans[i][x ^ i]++;
+            ans[i][x & i]++;
+            ans[i][x | i]++;
+        }
+    }
+} t[4 * N];
+
+T comb(T one, T two) {
+    T ans = T();
+    for (int x : {0, 1}) {
+        for (int a : {0, 1}) {
+            for (int b : {0, 1}) {
+                ans.ans[x][b] += one.ans[x][a] * two.ans[a][b];
+            }
+        }
+    }
+    return ans;
+}
+void upd(int v, int tl, int tr, int pos, int x) {
+    if (pos < tl || pos > tr) return;
+    if (tl == tr) {
+        t[v] = T(x);
+        return;
+    }
+    int tm = (tl + tr) / 2;
+    upd(2*v, tl, tm, pos, x), upd(2*v+1, tm+1, tr, pos, x);
+    t[v] = comb(t[2*v], t[2*v+1]);
+}
+void solve() {
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        int l, r; cin >> l >> r;
+        ev[l].push_back(i), ev[r+1].push_back(i);
+    }
+    for (int i = 0; i < n-1; i++) upd(1, 0, n-2, i, 0);
+    num ans = 0;
+    for (int i = 0; i < N; i++) {
+        for (int x : ev[i]) {
+            if (x) upd(1, 0, n-2, x - 1, a[x] ^ 1);
+            a[x] ^= 1;
+        }
+        ans += t[1].ans[a[0]][1];
+    }
+    cout << ans << '\n';
+}
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0);
+    int T = 1;
+    // cin >> T;
+    while (T--) solve();
+}
