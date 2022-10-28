@@ -1,0 +1,5 @@
+n = input()
+a = map(int, raw_input().split())
+m = input()
+b = map(int, raw_input().split())
+print(str(max(a)) + ' ' + str(max(b)))
