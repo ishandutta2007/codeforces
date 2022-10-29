@@ -1,0 +1,67 @@
+#include<cstdio>
+#include<cstring>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+int n,K,l,q[10005],bg,ed,w[10005],dis[25][25],f[1100000],i,j,k,x[25],a[105];
+bool v[10005];
+int main()
+{
+	scanf("%d%d%d",&n,&K,&l);
+	for(i=1;i<=K;++i)
+	{
+		scanf("%d",&j);
+		w[j]=1;
+	}
+	for(i=n+1;i>=1;--i)
+		w[i]^=w[i-1];
+	K=0;
+	for(i=1;i<=n+1;++i)
+		if(w[i])
+			x[++K]=i;
+	for(i=1;i<=l;++i)
+		scanf("%d",a+i);
+	for(i=1;i<=K;++i)
+	{
+		for(j=1;j<=n+1;++j)
+			v[j]=false;
+		q[bg=ed=1]=x[i];
+		v[x[i]]=true;
+		w[x[i]]=0;
+		while(bg<=ed)
+		{
+			for(j=1;j<=l;++j)
+			{
+				if(q[bg]-a[j]>=1&&!v[q[bg]-a[j]])
+				{
+					v[q[bg]-a[j]]=true;
+					q[++ed]=q[bg]-a[j];
+					w[q[ed]]=w[q[bg]]+1;
+				}
+				if(q[bg]+a[j]<=n+1&&!v[q[bg]+a[j]])
+				{
+					v[q[bg]+a[j]]=true;
+					q[++ed]=q[bg]+a[j];
+					w[q[ed]]=w[q[bg]]+1;
+				}
+			}
+			++bg;
+		}
+		for(j=1;j<=K;++j)
+			if(v[x[j]])
+				dis[i][j]=w[x[j]];
+			else
+				dis[i][j]=1<<30;
+	}
+	for(i=0;i<(1<<K);++i)
+		f[i]=1<<30;
+	f[0]=0;
+	for(i=1;i<(1<<K);++i)
+		for(j=1;j<=K;++j)
+			if(i>>(j-1)&1)
+				for(k=j+1;k<=K;++k)
+					if((i>>(k-1)&1)&&dis[j][k]<(1<<30)&&f[i^(1<<(j-1))^(1<<(k-1))]<(1<<30))
+						f[i]=min(f[i],f[i^(1<<(j-1))^(1<<(k-1))]+dis[j][k]);
+	printf("%d",f[(1<<K)-1]<(1<<30)?f[(1<<K)-1]:-1);
+	return 0;
+}
