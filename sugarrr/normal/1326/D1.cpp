@@ -1,0 +1,109 @@
+//#include <bits/stdc++.h>
+#include "bits/stdc++.h"
+using namespace std;
+typedef long long ll;
+//#include "boost/multiprecision/cpp_int.hpp"
+//typedef boost::multiprecision::cpp_int ll;
+typedef long double dd;
+//#define i_7 (ll)(1E9+7)
+#define i_7 998244353
+#define i_5 i_7-2
+
+ll mod(ll a){
+    ll c=a%i_7;
+    if(c>=0)return c;
+    return c+i_7;
+}
+typedef pair<ll,ll> l_l;
+typedef pair<dd,dd> d_d;
+ll inf=(ll)1E16;
+#define rep(i,l,r) for(ll i=l;i<=r;i++)
+#define pb push_back
+ll max(ll a,ll b){if(a<b)return b;else return a;}
+ll min(ll a,ll b){if(a>b)return b;else return a;}
+void Max(ll &pos,ll val){pos=max(pos,val);}//Max(dp[n],dp[n-1]);
+void Min(ll &pos,ll val){pos=min(pos,val);}
+void Add(ll &pos,ll val){pos=mod(pos+val);}
+dd EPS=1E-9;
+#define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+#define fi first
+#define se second
+#define endl "\n"
+#define SORT(x) sort(x.begin(),x.end())
+#define ERASE(x) x.erase(unique(x.begin(),x.end()),x.end())
+#define POSL(x,v) (lower_bound(x.begin(),x.end(),v)-x.begin())
+#define POSU(x,v) (upper_bound(x.begin(),x.end(),v)-x.begin())
+//template<class T>void max(T a,T b){if(a<b)return b;else return a;}
+//template<class T>void min(T a,T b){if(a>b)return b;else return a;}
+//template<class T>bool Max(T&a, T b){if(a < b){a = b;return 1;}return 0;}
+//template<class T>bool Min(T&a, T b){if(a > b){a = b;return 1;}return 0;}
+
+//////////////////////////
+
+bool parin(string s){
+    ll n=s.size();
+    ll pi=0,pj=n-1;
+    while(pi<=pj){
+        if(s[pi]==s[pj]){
+            pi++;pj--;
+        }else{
+            return false;
+        }
+    }
+    return true;
+}
+
+ll cal(string s){
+    ll n=s.size();
+    for(ll i=n-1;i>=0;i--){
+        string t;
+        rep(j,0,i)t+=s[j];
+        if(parin(t)){
+            return i+1;
+        }
+    }
+    return 0;
+}
+
+bool anspro(){
+    string s;cin>>s;
+    ll n=s.size();
+    ll pi=0,pj=n-1;
+    string ini;
+    while(pi<pj){
+        if(s[pi]==s[pj]){
+            ini+=s[pi];
+            pi++;pj--;
+        }
+        else break;
+    }
+    string t;
+    rep(i,pi,pj)t+=s[i];
+    ll m1=cal(t);
+    reverse(t.begin(),t.end());
+    ll m2=cal(t);
+    if(m2>m1){
+        swap(m1,m2);
+    }else{
+        reverse(t.begin(),t.end());
+    }
+    string mid;
+    rep(i,0,m1-1){
+        mid+=t[i];
+    }
+    string inirev=ini;
+    reverse(inirev.begin(),inirev.end());
+    cout<<ini<<mid<<inirev<<endl;
+    
+    return 0;
+}
+
+int main(){fastio
+    
+    ll que;cin>>que;
+    while(que--){
+        anspro();
+    }
+    
+    return 0;
+}
