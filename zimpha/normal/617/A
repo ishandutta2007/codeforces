@@ -1,0 +1,11 @@
+let bs = Scanf.Scanning.stdin
+let xint() = Scanf.bscanf bs " %d" (fun x -> x)
+let xint32() = Scanf.bscanf bs " %ld" (fun x -> x)
+let xint64() = Scanf.bscanf bs " %Ld" (fun x -> x)
+let xstr() = Scanf.bscanf bs " %s" (fun x -> x)
+let xreal() = Scanf.bscanf bs " %f" (fun x -> x)
+let printf = Printf.printf
+
+let () = 
+  let x = xint() in
+  printf "%d\n" (if x mod 5 = 0 then (x / 5) else (x / 5) + 1);

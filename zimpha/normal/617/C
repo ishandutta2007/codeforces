@@ -1,0 +1,48 @@
+let bs = Scanf.Scanning.stdin
+let xint() = Scanf.bscanf bs " %d" (fun x -> x)
+let xint32() = Scanf.bscanf bs " %ld" (fun x -> x)
+let xint64() = Scanf.bscanf bs " %Ld" (fun x -> x)
+let xstr() = Scanf.bscanf bs " %s" (fun x -> x)
+let xreal() = Scanf.bscanf bs " %f" (fun x -> x)
+let printf = Printf.printf
+
+let ( +| ) = Int64.add
+let ( -| ) = Int64.sub
+let ( *| ) = Int64.mul
+let ( /| ) = Int64.div
+let ( %| ) = Int64.rem
+
+let () = 
+  let n = xint() in
+  let x1 = xint64() and y1 = xint64() in
+  let x2 = xint64() and y2 = xint64() in
+  let x = Array.make n 0L and y = Array.make n 0L in
+  for i = 0 to n - 1 do
+    x.(i) <- xint64();
+    y.(i) <- xint64();
+  done;
+  
+  let sqr x = x *| x in
+  let max x y =
+    if Int64.compare x y > 0 then x
+    else y
+  in
+  let min x y =
+    if Int64.compare x y < 0 then x
+    else y
+  in
+
+  let ret = ref 9223372036854775807L in
+  for i = -1 to n - 1 do
+    let r1 = (if i = -1 then 0L else ((sqr (x.(i) -| x1)) +| (sqr (y.(i) -| y1)))) in
+    let r2 = ref 0L in
+    for j = 0 to n - 1 do
+      let a = (sqr (x.(j) -| x1)) +| (sqr (y.(j) -| y1)) in
+      let b = (sqr (x.(j) -| x2)) +| (sqr (y.(j) -| y2)) in
+      if Int64.compare a r1 > 0 then (
+        r2 := max !r2 b;
+      );
+    done;
+    ret := min !ret (r1 +| !r2);
+  done;
+  printf "%Ld\n" !ret;

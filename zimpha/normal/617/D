@@ -1,0 +1,50 @@
+let bs = Scanf.Scanning.stdin
+let xint() = Scanf.bscanf bs " %d" (fun x -> x)
+let xint32() = Scanf.bscanf bs " %ld" (fun x -> x)
+let xint64() = Scanf.bscanf bs " %Ld" (fun x -> x)
+let xstr() = Scanf.bscanf bs " %s" (fun x -> x)
+let xreal() = Scanf.bscanf bs " %f" (fun x -> x)
+let printf = Printf.printf
+
+let () = 
+  let x = Array.make 3 0 in
+  let y = Array.make 3 0 in
+  for i = 0 to 2 do
+    x.(i) <- xint();
+    y.(i) <- xint();
+  done;
+  if x.(0) = x.(1) && x.(0) = x.(2) then (
+    printf "1\n";
+    exit(0);
+  );
+  if y.(0) = y.(1) && y.(0) = y.(2) then (
+    printf "1\n";
+    exit(0);
+  );
+  let max x y = if x > y then x else y in
+  let min x y = if x < y then x else y in
+  if x.(0) = x.(1) && ((min y.(0) y.(1)) >= y.(2) || (max y.(0) y.(1)) <= y.(2)) then (
+    printf "2\n";
+    exit(0);
+  );
+  if x.(0) = x.(2) && ((min y.(0) y.(2)) >= y.(1) || (max y.(0) y.(2)) <= y.(1)) then (
+    printf "2\n";
+    exit(0);
+  );
+  if x.(1) = x.(2) && ((min y.(2) y.(1)) >= y.(0) || (max y.(2) y.(1)) <= y.(0)) then (
+    printf "2\n";
+    exit(0);
+  );
+  if ((min x.(1) x.(0)) >= x.(2) || (max x.(1) x.(0)) <= x.(2)) && y.(1) = y.(0) then (
+    printf "2\n";
+    exit(0);
+  );
+  if ((min x.(1) x.(2)) >= x.(0) || (max x.(1) x.(2)) <= x.(0)) && y.(2) = y.(1) then (
+    printf "2\n";
+    exit(0);
+  );
+  if ((min x.(2) x.(0)) >= x.(1) || (max x.(2) x.(0)) <= x.(1)) && y.(2) = y.(0) then (
+    printf "2\n";
+    exit(0);
+  );
+  printf "3\n";
