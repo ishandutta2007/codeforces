@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <cmath>
+#include <stdio.h>
+#include <queue>
+#include <deque>
+#include <bitset>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <random>
+#include <ctime>
+#include <utility>
+
+#pragma GCC optimize("O3")
+#pragma comment(linker, "/STACK:256000000")
+#pragma warning(disable:4996)
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef vector<int> vi1;
+typedef vector<vi1> vi2;
+typedef vector<vi2> vi3;
+typedef vector<vi3> vi4;
+typedef vector<vi4> vi5;
+
+const int inf = 1e9;
+const ll llinf = 1e18;
+const ld pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825;
+
+#define all(v) v.begin(), v.end()
+
+int main() {
+	srand(time(NULL));
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int n, k1, k2;
+	cin >> n >> k1 >> k2;
+	int k = k1 + k2;
+	vi1 a(n), b(n);
+	for (int i = 0; i < n; ++i)
+		cin >> a[i];
+	for (int i = 0; i < n; ++i)
+		cin >> b[i];
+	while (k--) {
+		int imax = 0;
+		for (int i = 0; i < n; ++i)
+			if (abs(a[i] - b[i]) > abs(a[imax] - b[imax]))
+				imax = i;
+		if (a[imax] == b[imax]) {
+			a[imax] += !(k & 1);
+			break;
+		}
+		(a[imax] < b[imax] ? a[imax] : b[imax])++;
+	}
+	ll ans = 0 * 1ll;
+	for (int i = 0; i < n; ++i)
+		ans += (a[i] - b[i]) * 1ll * (a[i] - b[i]);
+	cout << ans;
+#ifdef _DEBUG
+	system("pause");
+#endif
+	return 0;
+}
