@@ -1,0 +1,85 @@
+/*
+the vast starry sky,
+bright for those who chase the light.
+*/
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int,int> pii;
+#define mk make_pair
+const int inf=(int)1e9;
+const ll INF=(ll)5e18;
+const int MOD=998244353;
+int _abs(int x){return x<0 ? -x : x;}
+int add(int x,int y){x+=y; return x>=MOD ? x-MOD : x;}
+int sub(int x,int y){x-=y; return x<0 ? x+MOD : x;}
+#define mul(x,y) (ll)(x)*(y)%MOD
+void Add(int &x,int y){x+=y; if(x>=MOD) x-=MOD;}
+void Sub(int &x,int y){x-=y; if(x<0) x+=MOD;}
+void Mul(int &x,int y){x=mul(x,y);}
+int qpow(int x,int y){int ret=1; while(y){if(y&1) ret=mul(ret,x); x=mul(x,x); y>>=1;} return ret;}
+void checkmin(int &x,int y){if(x>y) x=y;}
+void checkmax(int &x,int y){if(x<y) x=y;}
+void checkmin(ll &x,ll y){if(x>y) x=y;}
+void checkmax(ll &x,ll y){if(x<y) x=y;}
+#define out(x) cerr<<#x<<'='<<x<<' '
+#define outln(x) cerr<<#x<<'='<<x<<endl
+#define sz(x) (int)(x).size()
+inline int read(){
+    int x=0,f=1; char c=getchar();
+    while(c>'9'||c<'0'){if(c=='-') f=-1; c=getchar();}
+    while(c>='0'&&c<='9') x=(x<<1)+(x<<3)+(c^48),c=getchar();
+    return x*f;
+}
+const int N=200005;
+int n,a[N],q;
+vector<pii> v[N];
+set<int> st;
+int pre[N],lst[N],cnt[N];
+namespace DSU{
+    int fa[N];
+    void init(){for(int i=1;i<=200000;i++) fa[i]=i;}
+    int getfather(int x){return fa[x]==x ? x : fa[x]=getfather(fa[x]);}
+    void unite(int x,int y){fa[getfather(y)]=getfather(x);}
+}
+vector<int> seq[N];
+
+int main()
+{
+    n=read(); q=read(); 
+    for(int i=1;i<=n;i++) a[i]=read(),cnt[a[i]]++;
+    memset(pre,0x3f,sizeof(pre)); memset(lst,-1,sizeof(lst));
+    for(int i=1;i<=n;i++){
+        checkmin(pre[a[i]],i);
+        checkmax(lst[a[i]],i);
+    }
+    for(int i=1;i<=n;i++){
+        if(i==pre[a[i]]) v[i].push_back(mk(a[i],1));
+        if(i==lst[a[i]]) v[i+1].push_back(mk(a[i],-1));
+    }
+    DSU::init();
+    for(int i=1;i<=n;i++){
+        for(auto &u : v[i]){
+            if(u.second==-1) st.erase(u.first);
+            else{
+                if(!st.empty()){
+                    int tmp=*st.begin();
+                    outln(tmp);
+                    DSU::unite(tmp,u.first);
+                }
+                st.insert(u.first);
+            }
+        }
+    }
+    for(int i=1;i<=200000;i++) if(cnt[i]){
+        int tmp=DSU::getfather(i);
+        seq[tmp].push_back(cnt[i]);
+    }
+    ll ans=0;
+    for(int i=1;i<=200000;i++) if(cnt[i]&&DSU::getfather(i)==i){
+        sort(seq[i].begin(),seq[i].end());
+        for(int j=0;j<sz(seq[i])-1;j++) ans+=seq[i][j];
+    }
+    cout<<ans<<endl;
+    return 0;
+}
