@@ -1,0 +1,4 @@
+#include<iostream> 
+#include<cstdio> 
+using namespace std; 
+int pre[105][105]; int Find(int x,int col) {     int r=x;     while(pre[r][col]!=r)     {         r=pre[r][col];     }     int i=x,j;     while(pre[i][col]!=r)     {         j=pre[i][col];         pre[i][col]=r;         i=j;     }     return r; } void mix(int x,int y,int z) {     int fx=Find(x,z);     int fy=Find(y,z);     if(fx!=fy) pre[fx][z]=fy; } int main() {     int a,b,c,n,m;     cin>>n>>m;     for(int i=1;i<=n;i++)     {         for(int j=1;j<=m;j++) pre[i][j]=i;     }     for(int i=0; i<m; i++)     {         cin>>a>>b>>c;         mix(a,b,c);     }     int q;     cin>>q;     int x,y;     while(q--)     {         cin>>x>>y;         int ans=0;         for(int i=1;i<=m;i++)         {             if(Find(x,i)==Find(y,i)) ans++;         }         cout<<ans<<endl;     }     return 0; }
