@@ -1,0 +1,58 @@
+#include <cmath>
+#include <climits>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <algorithm>
+#include <bitset>
+#include <deque>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <vector>
+using namespace std;
+
+typedef unsigned long long ll;
+
+#define rep(i, n) for(int i = 0; i < n; ++i)
+#define repe(i, a, b) for(int i = a; i <= b; ++i)
+#define ri(a) scanf("%d", &a)
+#define rii(a, b) scanf("%d%d", &a, &b)
+#define riii(a, b, c) scanf("%d%d%d", &a, &b, &c)
+#define rs(s) scanf("%s", s)
+#define pi(n) printf("%d\n", n)
+#define pia(a, n) rep(_, n) printf("%d%c", a[_], _ == n - 1 ? '\n' : ' ')
+#define ria(a, n) rep(_, n) scanf("%d", &a[_])
+#define Ttimes int T; ri(T); for(int ks = 1; ks <= T; ++ks)
+#define IO(name) freopen(name".in", "r", stdin);freopen(name".out", "w", stdout)
+#define PB push_back
+#define EB emplace_back
+#define MP make_pair
+#define F first
+#define S second
+
+const int dx[] = {1, 0, -1, 0};
+const int dy[] = {0, 1, 0, -1};
+const int maxn = 100010;
+const double eps = 1e-8;
+
+vector<ll> a;
+void go(ll cur, bool fg, int d) {
+	if(d == 64) return ;
+	if(fg) a.push_back(cur);
+	go((cur << 1) + 1, fg, d + 1);
+	if(!fg) go(cur << 1, true, d + 1);
+}
+
+int main() {
+	go(1, false, 0);
+	sort(a.begin(), a.end());
+	ll l, r;
+	cin >> l >> r;
+	cout << (upper_bound(a.begin(), a.end(), r) - lower_bound(a.begin(), a.end(), l)) << endl;
+	return 0;
+}
