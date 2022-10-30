@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int i,j,k,n,a[200500];int f(int k,int l,int r){if(l>r){return 0;}if(k<0){return 1;}int i,p=r+1;for(i=l;i<=r;i++){if((1<<k)&a[i]){p=i;break;}}return max(f(k-1,l,p-1)+min(r-p+1,1),f(k-1,p,r)+min(p-l,1));}main(){scanf("%d",&n);for(i=1;i<=n;i++){scanf("%d",&a[i]);}sort(a+1,a+n+1);printf("%d",max(n-f(30,1,n),0));}
