@@ -1,0 +1,25 @@
+main =>
+  N = read_int(),
+  X = new_array(N),
+  Y = new_array(N),
+  MINX = 0,
+  foreach(I in 1..N)
+    X[I] := read_int(),
+    Y[I] := read_int(),
+    if MINX < X[I] then
+        MINX := X[I]
+    end
+  end,
+  S = 1000000,
+  foreach (XX in MINX + 1..300)
+    YY := 1,
+    foreach (I in 1..N)
+        while (X[I] * YY + Y[I] * XX > XX * YY) 
+          YY := YY + 1
+        end
+    end,
+    if S > XX * YY then
+        S := XX * YY
+    end
+  end,
+  println(S / 2).

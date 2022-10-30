@@ -1,0 +1,20 @@
+main =>
+  A = read_real(),
+  B = read_real(),
+  C = read_real(),
+  R = (B * B) - 4 * A * C,
+  if (R == 0) then
+      H = (-B) / (2 * A),
+      println(H)
+  end,
+  D = math.sqrt((B * B) - 4 * A * C),
+  E = (-B - D) / (2 * A),
+  F = (-B + D) / (2 * A),
+  if (E > F) then
+      println(F),
+      println(E)
+  end,
+  if (F > E) then
+      println(E),
+      println(F)
+  end.
