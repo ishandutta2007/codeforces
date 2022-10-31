@@ -1,0 +1,200 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <string.h>
+#include <queue>
+#include <math.h>
+#include <cmath>
+#include <map>
+#include <set>
+#include <vector>
+#include <algorithm>
+#include <bitset>
+#include <list>
+#include <ctype.h>
+#include <cassert>
+#include <stack>
+#include <fstream>
+#include <unordered_map>
+#include <unordered_set>
+#include <ctime>
+#include <functional>
+#include <ctime>
+#include <limits>
+#include <tuple>
+#include <complex>
+#include <numeric>
+#include <future>
+
+using namespace std;
+
+#define snd second
+#define fst first
+#define mp make_pair
+#define ll long long
+#define ull unsigned long long
+#define ld long double
+#define pb push_back
+#define left _left
+#define right _right
+
+const ld pi = acos(-1.0);
+
+template<typename T>
+T abs(T x) {
+    return x > 0 ? x : -x;
+}
+
+template<typename T>
+T sqr(T x) {
+    return x * x;
+}
+
+template<typename T>
+bool chmin(T &x, T y) {
+    if (x > y) {
+        x = y;
+        return true;
+    }
+    return false;
+}
+
+template<typename T>
+bool chmax(T &x, T y) {
+    if (x < y) {
+        x = y;
+        return true;
+    }
+    return false;
+}
+
+template<typename U, typename V>
+ostream &operator<<(ostream &s, const pair<U, V> &x) {
+    s << "(" << x.fst << ", " << x.snd << ")";
+    return s;
+}
+
+template<typename U>
+ostream &operator<<(ostream &s, const vector<U> &x) {
+    s << "[";
+    bool was = false;
+    for (auto it : x) {
+        if (was) {
+            s << ", ";
+        }
+        was = true;
+        s << it;
+    }
+    s << "]";
+    return s;
+}
+
+template<typename U>
+ostream &operator<<(ostream &s, const set<U> &x) {
+    s << "{";
+    bool was = false;
+    for (auto it : x) {
+        if (was) {
+            s << ", ";
+        }
+        was = true;
+        s << it;
+    }
+    s << "}";
+    return s;
+}
+
+template<int sz>
+ostream operator<<(ostream &s, const bitset<sz> &x) {
+    for (int i = 0; i < sz; i++) {
+        s << x[i];
+    }
+    return s;
+}
+
+
+//--------------------------------------------------------------------------
+
+map<ll, ll> was;
+ll sz(ll x) {
+    if (x <= 1) {
+        return 1;
+    }
+    if (was.count(x)) {
+        return was[x];
+    }
+    return was[x] = 1LL + 2 * sz(x >> 1);
+}
+
+map<ll, ll> was2;
+ll g(ll x) {
+    if (x <= 1) {
+        return x;
+    }
+    if (was2.count(x)) {
+        return was2[x];
+    }
+    return was2[x] = (x & 1) + 2LL * g(x >> 1);
+}
+
+ll f(ll n, ll l, ll r) {
+
+
+    if (n <= 1) {
+        return n;
+    }
+
+    if (r - l + 1 == sz(n)) {
+        return g(n);
+    }
+
+    ll s = sz(n >> 1);
+
+
+    if (r <= s) {
+        return f(n >> 1, l, r);
+    }
+
+    if (l > s + 1) {
+        return f(n >> 1, l - s - 1, r - s - 1);
+    }
+
+    if (l == r && l == s + 1) {
+        return n & 1;
+    }
+
+    ll res = 0;
+    if (l <= s) {
+        res += f(n >> 1, l, s);
+    }
+
+    res += n & 1;
+
+    if (r > s + 1) {
+        res += f(n >> 1, 1, r - s - 1);
+    }
+
+    return res;
+}
+
+int main() {
+
+    srand(134);
+
+retry:
+#ifdef LOCAL
+    //gen();
+    //return 0;
+    freopen("a.in", "r", stdin);
+    //freopen("a.out", "w", stdout);
+#else
+    //freopen("identification.in", "r", stdin);
+    //freopen("identification.out", "w", stdout);
+#endif
+
+    ll n, l, r;
+    cin >> n >> l >> r;
+    cout << f(n, l, r) << endl;
+
+    return 0;
+}
