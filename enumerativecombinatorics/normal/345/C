@@ -1,0 +1,30 @@
+with Ada.Text_IO, Ada.Integer_Text_IO,Ada.Strings,Ada.Integer_Text_IO,Ada.Command_Line;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Strings,Ada.Integer_Text_IO,Ada.Command_Line;
+
+procedure Program is
+A,B,C,Y,CC,YY,M,D,Z:Integer;
+P:String(1..15);
+begin
+    Get(A);
+    B:=0;
+    C:=1;
+    Z:=Character'Pos ('0');
+    Get_Line(P,Y);
+    while C<=A loop
+        Get_Line(P,Y);
+      --  Put_Line(P);
+        Y:=(Character'Pos (P(1))-Z)*1000+(Character'Pos(P(2))-Z)*100+(Character'Pos(P(3))-Z)*10+(Character'Pos(P(4))-Z);
+        M:=(Character'Pos(P(6))-Z)*10+(Character'Pos(P(7))-Z);
+        D:=(Character'Pos(P(9))-Z)*10+(Character'Pos(P(10))-Z);
+        if M<3 then M:=M+12;  Y:=Y-1;
+        end if;
+        CC:=Y/100;
+        YY:=Y mod 100;
+        if (D+(26*(M+1))/10+YY+YY/4-2*CC+CC/4+5)mod 7 = 4 then
+            if D=13 then B:=B+1;
+            end if;
+        end if;
+        C:=C+1;
+    end loop;
+    Put(Item=>B,Width=>0);
+end Program;

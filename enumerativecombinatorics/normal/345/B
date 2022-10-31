@@ -1,0 +1,33 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+with Ada.Strings.Unbounded; use Ada.Strings.unbounded;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+ 
+procedure prog is
+Var : Integer;
+Count : Integer := 0;
+tmp : Integer;
+Str : Unbounded_String;
+tmpStr : Unbounded_String;
+begin
+Get(Var);
+if Index(Integer'Image(Var),"13") /= 0 then
+Put("-1");
+New_Line;
+else
+for c in 2..Var loop
+tmp := Var;
+Str := To_Unbounded_String("");
+while tmp /= 0 loop
+tmpStr := To_Unbounded_String(Trim(Integer'Image(tmp mod c), Ada.Strings.Left));
+Str := tmpStr & Str;
+tmp := tmp / c;
+end loop;
+if Index(Str, "13") /= 0 then
+Count := Count + 1;
+end if;
+end loop;
+Put(Item=>Count,Width=>0);
+New_Line;
+end if;
+end prog;

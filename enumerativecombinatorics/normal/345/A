@@ -1,0 +1,25 @@
+with Ada.Text_IO, Ada.Integer_Text_IO,Ada.Strings,Ada.Float_Text_IO,Ada.Command_Line;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Strings,Ada.Float_Text_IO,Ada.Command_Line;
+ 
+procedure Program is
+    A: Float;
+    Bd: String (1..500);
+    C: Float;
+    D,E: Integer;
+begin
+    C:=0.0;
+    Get_Line (Bd, D);
+ --   Get(Item => Bd);
+Get(A);
+ --   Get(Item => A);
+    E:=1;
+    while E<=D loop
+        if Bd(E)='1' then C:=C+1.0;
+        end if;
+        if Bd(E)='?' then C:=C+A;
+        end if;
+        E:=E+1;
+    end loop;
+    C:=C/Float(D);
+    Put(Item=>C,Fore=>1,Aft=>5,Exp=>0);
+end Program;
