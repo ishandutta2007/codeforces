@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int s[200005],n,i,j,t,a;main(){scanf("%d",&n);for(i=1;i<=n;i++){scanf("%d",&t);a=1;for(j=1;j<=t;j++){scanf("%d",&s[j]);}sort(s+1,s+1+t);for(j=1;j<=t;j++){if(j>=s[j]){a=j+1;}}printf("%d\n",a);}}
