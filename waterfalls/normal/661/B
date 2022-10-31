@@ -1,0 +1,19 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =. (read-.LF)-.CR
+
+print ^:(in-:'January') 'winter'
+print ^:(in-:'February') 'winter'
+print ^:(in-:'March') 'spring'
+print ^:(in-:'April') 'spring'
+print ^:(in-:'May') 'spring'
+print ^:(in-:'June') 'summer'
+print ^:(in-:'July') 'summer'
+print ^:(in-:'August') 'summer'
+print ^:(in-:'September') 'autumn'
+print ^:(in-:'October') 'autumn'
+print ^:(in-:'November') 'autumn'
+print ^:(in-:'December') 'winter'
+
+exit ''
