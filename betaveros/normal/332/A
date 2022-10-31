@@ -1,0 +1,14 @@
+(* betaveros's polyglot adventure *)
+
+let people = int_of_string (read_line ());;
+let moves = read_line ();;
+
+let canDrink s i = s.[i-1] == s.[i-2] && s.[i-2] == s.[i-3];;
+
+let rec addDrinkCount s n i accum =
+	if i >= String.length s then accum
+	else addDrinkCount s n (i + n) (
+		accum + if canDrink s i then 1 else 0);;
+
+let solution = addDrinkCount moves people people 0 in
+	print_endline (string_of_int solution);;
