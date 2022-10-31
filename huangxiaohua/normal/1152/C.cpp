@@ -1,0 +1,3 @@
+#include<stdio.h>
+#include<math.h>
+int main(){long long int a,b,c,n,i=0,fuck[100000];int j=0;scanf("%lld%lld",&a,&b);if(a<=b){c=a;a=b;b=c;}if(a%b==0){printf("0");return 0;}if(b%(a-b)==0){printf("0");return 0;}if(b>a-b){printf("%lld",(a-b)-b%(a-b));return 0;}c=sqrt(a-b);for(i=1;i<=c;i++){if((a-b)%i==0){fuck[j]=i;j++;}}for(i=1;i<=j;i++){fuck[j+i-1]=(a-b)/(fuck[j-i]);}i=0;while(!(b>=fuck[i]&b<=fuck[i+1])){i++;}printf("%lld",fuck[i+1]-b);return 0;}

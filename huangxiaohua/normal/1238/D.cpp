@@ -1,0 +1,2 @@
+#include<stdio.h>
+long long int s[300001];int main(){long long int n,i,j=1,k=0,sb=0;scanf("%lld",&n);scanf("%1s",&s[1]);for(i=2;i<=n;i++){scanf("%1s",&s[i]);if(s[i]!=s[i-1]){sb+=j;j=1;k=1;}else{j++;sb+=k;}}printf("%lld",n*(n-1)/2-sb);return 0;}
