@@ -1,0 +1,54 @@
+with Ada.Text_IO;
+with Ada.Strings.Fixed;
+
+procedure Program is
+    use Ada.Text_IO;
+    use Ada.Strings.Fixed;
+    
+    S : String (1 .. 100);
+    P : Float;
+    P_S : String (1 .. 100);
+    P_Last : Natural;
+    F : Float;
+    X : Float;
+    Last : Natural;
+    A : Integer;
+    B : String (1 .. 5);
+    C : String (1 .. 5);
+begin
+   Get_Line(S, Last);
+   Get_Line(P_S, P_Last);
+   P := Float'Value(P_S (1 .. P_Last));
+   F := 0.0;
+   X := 0.0;
+For_Loop:
+   for I in Natural range 1 .. Last
+   loop
+     if S(I) = '0' then
+        F := F + 0.0;
+        X := X + 1.0;
+     elsif S(I) = '1' then
+        F := F + 1.0;
+        X := X + 1.0;
+     elsif S(I) = '?' then
+        F := F + P;
+        X := X + 1.0;
+     end if;
+   end loop For_Loop;
+   F := F / X;
+   A := Integer(F * 100000.0);
+   Put(Trim(Integer'Image(A / 100000), Ada.Strings.Left));
+   Put(".");
+   A := A mod 100000;
+   if A < 10 then
+      Put_Line("0000" & Trim(Integer'Image(A), Ada.Strings.Left));
+   elsif A < 100 then
+      Put_Line("000" & Trim(Integer'Image(A), Ada.Strings.Left));
+   elsif A < 1000 then
+      Put_Line("00" & Trim(Integer'Image(A), Ada.Strings.Left));
+   elsif A < 10000 then
+      Put_Line("0" & Trim(Integer'Image(A), Ada.Strings.Left));
+   elsif A < 100000 then
+      Put_Line("" & Trim(Integer'Image(A), Ada.Strings.Left));
+   end if;
+end Program;
