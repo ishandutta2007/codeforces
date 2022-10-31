@@ -1,0 +1,10 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =. (read rplc LF;' ')-.CR
+name =. (in i. ' ') {. in
+deci =. ((in i. '.') = #in)
+
+print (deci { 'fi'), (toupper({. name)), ( 1 }. name)
+
+exit ''
