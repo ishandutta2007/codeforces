@@ -1,0 +1,9 @@
+main =>
+A = read_int(),
+B = read_int(),
+C = read_int(),
+Ans = [ (X,Y): X in 1..1000 , Y in 1..1000, A * X + B * Y == C ],
+println( length( Ans ) ),
+foreach( (X,Y) in Ans )
+    printf( "%d %d%n" , X , Y )
+end.
