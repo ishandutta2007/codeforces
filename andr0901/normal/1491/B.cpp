@@ -1,0 +1,71 @@
+//#pragma GCC optimize("Ofast")
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//vector string deque break continue
+#define forn(i, s, f) for (int i = (int)s; i < (int)f; i++)
+#define ll long long
+#define ull unsigned long long
+#define ld long double
+#define pii pair <int, int>
+#define fs first
+#define sc second
+#define pf push_front
+#define pb push_back
+#define pop_f pop_front
+#define pop_b pop_back
+#define eb emplace_back
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define sz(x) (int)(x).size()
+
+#ifdef DEBUG
+#else
+    #define cerr if (false) cerr
+#endif
+
+template <typename T> istream& operator>>(istream& in, vector <T>& a) {for (auto& i : a) in >> i; return in;}
+template <typename T> ostream& operator<<(ostream& out, vector <T>& a)  {for (auto& i : a) out << i << " "; return out;}
+template <typename T, typename U> void chkmin(T& a, U b) {if (a > b) a = b;}
+template <typename T, typename U> void chkmax(T& a, U b) {if (a < b) a = b;}
+
+void solve() {
+    int n, u, v;
+    cin >> n >> u >> v;
+    vector<int> a(n);
+    cin >> a;
+    int ans = 2e9 + 5;
+    bool vertical = (*min_element(all(a)) == *max_element(all(a)));
+    if (vertical) {
+        chkmin(ans, 2 * v);
+        chkmin(ans, v + u);
+    } else {
+        chkmin(ans, u);
+        forn (i, 0, n) {
+            forn (dx, -2, 3) {
+                int x = a[i] + dx;
+                if (x < 0 || x > 1e6 + 1)
+                    continue;
+                int up = (i == 0 ? x : a[i - 1]);
+                int down  = (i == n - 1 ? x : a[i + 1]);
+                int dst = max(abs(up - x), abs(down - x));
+                cerr << dst << " ";
+                if (dst >= 2) {
+                    chkmin(ans, abs(dx) * v);
+                }
+            }
+        }
+    }
+    cerr << "\n";
+    cout << ans << "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(0), cin.tie(0);
+    int t;
+    cin >> t;
+    while (t --> 0)
+        solve();
+    return 0;
+}
