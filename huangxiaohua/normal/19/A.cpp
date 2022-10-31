@@ -1,0 +1,3 @@
+#include<bits/stdc++.h>
+#define p(a,b) strcmp(a,b)
+using namespace std;typedef int n;struct r{char v[50];n s=0;n t=0;n u=0;}e[64];char a[64],b[64],jb;n i,j,m,w,x,z,y;n c1(r a,r b){if(a.s==b.s){if(a.t==b.t){return a.u>b.u;}else{return a.t>b.t;}}return a.s>b.s;}n c2(r a,r b){return p(a.v,b.v)<0;}n main(){scanf("%d\n",&m);for(i=1;i<=m;i++){gets(e[i].v);}for(i=1;i<=m*(m-1)/2;i++){scanf("%[^-]%c%s",&a,&jb,&b);scanf("%d:%d",&w,&x);getchar();for(j=1;j<=m;j++){if(p(a,e[j].v)==0){z=j;}}for(j=1;j<=m;j++){if(p(b,e[j].v)==0){y=j;}}if(w>x){e[z].s+=3;}if(w==x){e[z].s+=1;e[y].s+=1;}if(w<x){e[y].s+=3;}e[z].t+=(w-x);e[y].t-=(w-x);e[z].u+=w;e[y].u+=x;}sort(e+1,e+m+1,c1);sort(e+1,e+m/2+1,c2);for(i=1;i<=m/2;i++){puts(e[i].v);}}
