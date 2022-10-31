@@ -1,0 +1,6 @@
+print =: 1!:2&2
+read =: 1!:1[3
+n =. ". (read-.LF)-.CR
+n2=. 1+((n*(n+1))%2)
+echo n2
+exit ''
