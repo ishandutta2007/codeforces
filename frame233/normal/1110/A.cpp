@@ -1,0 +1,2 @@
+#include<cstdio>
+int gcd(int a,int b){return (!b)?a:gcd(b,a%b);}inline int abs(int a){return a>0?a:-a;}inline int max(int a,int b){return a>b?a:b;}inline int min(int a,int b){return a<b?a:b;}int a[100005];int main(){int b,k,ans=0,mul=1;scanf("%d %d",&b,&k);for(int i=1;i<=k;++i) scanf("%d",&a[i]);for(int i=k;i>=1;--i){ans=(ans+mul*a[i])&1;mul=(mul*b)&1;}if(!ans) printf("even\n");else printf("odd\n");return 0;}
