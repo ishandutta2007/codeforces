@@ -1,0 +1,48 @@
+string term(int i)
+{
+	if (i==0)
+		return "";
+	if (i == 1)
+		return "X";
+	else
+		return sprintf("X^%d",i);
+}
+
+int main()
+{
+	sscanf(Stdio.stdin->gets(), "%d", int n);
+	array(int) a = ({1});
+	for (int s = 0; s < n; s++)
+	{
+		int x = (int)Stdio.stdin->gets();
+		array(int) b = ({});
+		for (int i = 0; i < sizeof(a); ++i)
+		{
+			int t = a[i]*x;
+			if (i > 0) t += a[i-1];
+			b = b + ({t});
+		}
+		b = b + ({1});
+		a = b;
+	}
+//	write("%d\n",-23);
+//	write("%O\n",a);
+	write("%s",term(sizeof(a)-1));
+	for (int i = sizeof(a)-2; i>=0; i--)
+	{
+		if (a[i] == 0) continue;
+		if (a[i] == 1 && i > 0)
+			write("+");
+		else if (a[i] == -1 && i > 0)
+			write("-");
+		else
+		{
+			write("%+d",a[i]);
+			if (i>0)
+				write("*");
+		}
+		write(term(i));
+	}
+	write("\n");
+	return 0;
+}

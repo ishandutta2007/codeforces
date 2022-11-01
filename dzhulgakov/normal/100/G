@@ -1,0 +1,25 @@
+int main()
+{
+	sscanf(Stdio.stdin->gets(), "%d", int n);
+	mapping(string:int) was = ([]);
+	for (int s = 0; s < n; s++)
+	{
+		sscanf(Stdio.stdin->gets(), "%s %d", string name, int year);
+		if (was[name] < year)
+			was[name] = year;
+	}
+	sscanf(Stdio.stdin->gets(), "%d", int k);
+	string best = "";
+	int last = 2012;
+	for (int s = 0; s < k; s++)
+	{
+		string name = Stdio.stdin->gets();
+		if (was[name] < last || was[name] == last && name > best)
+		{
+			last = was[name];
+			best = name;
+		}
+	}
+	write("%s\n", best);
+	return 0;
+}

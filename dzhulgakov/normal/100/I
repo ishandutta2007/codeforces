@@ -1,0 +1,10 @@
+int main()
+{
+    sscanf(Stdio.stdin->gets(), "%d", int k);
+    sscanf(Stdio.stdin->gets(), "%f %f", float x, float y);
+    float a = k / 180.0 * 3.141592653589793;
+    float xx = cos(a) * x + -sin(a) * y;
+    float yy = sin(a) * x + cos(a) * y;
+    write("%.10f %.10f\n",xx,yy);
+    return 0;
+}

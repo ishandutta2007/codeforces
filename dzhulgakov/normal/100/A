@@ -1,0 +1,12 @@
+int main()
+{
+	string s  = Stdio.stdin->gets();
+	int n,k,n1;
+	sscanf(s, "%d %d %d",n,k,n1);
+	int need = (n+n1-1)/n1;
+	need = need * need;
+	if (need <= k)
+		write("YES\n");
+	else
+		write("NO\n");
+}
