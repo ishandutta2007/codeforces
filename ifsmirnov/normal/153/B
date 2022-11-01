@@ -1,0 +1,31 @@
+       IDENTIFICATION DIVISION.
+          PROGRAM-ID. SOLUTION.
+       
+          DATA DIVISION.
+          WORKING-STORAGE SECTION.
+          01 N PIC 9(30) VALUE ZEROES.
+          01 R PIC 9(1) VALUE ZEROES.
+          01 STR PIC X(30).
+          
+       
+          PROCEDURE DIVISION.
+            ACCEPT STR
+            MOVE STR TO N
+            STRING "" DELIMITED BY SIZE INTO STR
+            IF N = 0
+              DISPLAY "0"
+              STOP RUN
+            END-IF
+            MOVE "5" TO STR
+            PERFORM UNTIL N LESS THAN OR EQUAL 0
+              DIVIDE N BY 2 GIVING N REMAINDER R
+              STRING STR DELIMITED BY SPACE R DELIMITED BY SIZE INTO STR
+            END-PERFORM
+            MOVE STR TO N
+            MOVE "" TO STR
+            PERFORM UNTIL N LESS THAN OR EQUAL 5
+              DIVIDE N BY 10 GIVING N REMAINDER R
+              STRING STR DELIMITED BY SPACE R DELIMITED BY SIZE INTO STR              
+            END-PERFORM
+            DISPLAY STR
+            STOP RUN.
