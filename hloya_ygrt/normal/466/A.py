@@ -1,0 +1,7 @@
+inp = input().split()
+n = int(inp[0])
+m = int(inp[1])
+a = int(inp[2])
+b = int(inp[3])
+sumary = min(b,a*m)
+print(min((sumary)*(n//m + 1), sumary*(n // m) + (n - (n//m)*m) * a ))
