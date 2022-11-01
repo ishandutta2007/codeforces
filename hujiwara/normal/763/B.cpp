@@ -1,0 +1,15 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  int n;
+  scanf("%d",&n);
+  puts("YES");
+  for(int i=0;i<n;i++){
+    int x1,y1,x2,y2;
+    scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
+    printf("%d\n",1+(x1%2==0?0:1)+(y1%2==0?0:2));
+  }
+  return 0;
+}
