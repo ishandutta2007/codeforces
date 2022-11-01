@@ -1,0 +1,43 @@
+#include <iostream>
+#include <iomanip>
+#include <deque>
+#include <algorithm>
+#include <vector>
+#include <cmath>
+#include <map>
+using namespace std;
+
+const int N = 200 * 1000 + 5;
+
+int a[N];
+map <string, int> mp;
+int b[N];
+vector <char> vec;
+deque <int> q;
+bool mark[N];
+char c[55][55];
+string s;
+
+bool get(int l, int r) {
+	for (int i = 0; i <= r - l; i++) {
+		if (s[l + i] != s[r - i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+int main() {
+	int n, k;
+	cin >> n >> k;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i];
+		a[i] = -a[i];
+	}
+	if (k > n) {
+		cout << -1;
+		return 0;
+	}
+	sort(a + 1, a + n + 1);
+	cout << -a[k] << " " << -a[k] << endl;
+}
