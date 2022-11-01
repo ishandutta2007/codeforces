@@ -1,0 +1,34 @@
+with Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+with Ada.Strings;
+use  Ada.Strings;
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+
+procedure Main is
+  a,c,d,e,f,g,h,i,j,k,l,m,n : Integer;
+  cnt : Integer := 0;
+  s : Ada.Strings.Unbounded.Unbounded_String;
+begin
+  Get(Item => n);
+  if Ada.Strings.Fixed.Count(Integer'Image(n),"13") >= 1 then
+    Put(Item => -1,Width => 0);
+  else
+    for b in 2..n+10 loop
+      a := n;
+      s := To_Unbounded_String("");
+      while a > 0 loop
+        c := a - ((a / b) * b);
+        s := Trim(Integer'Image(c),Both) & s;
+        a := a / b;
+      end loop;
+      if Ada.Strings.Fixed.Count(To_String(s),"13") >= 1 then
+        cnt := cnt + 1;
+      end if;
+    end loop;
+    Put(Item => cnt,Width => 0);
+  end if;
+
+end;
