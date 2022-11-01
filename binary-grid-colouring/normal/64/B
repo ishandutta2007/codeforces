@@ -1,0 +1,1 @@
+puts [expr [gets stdin]]

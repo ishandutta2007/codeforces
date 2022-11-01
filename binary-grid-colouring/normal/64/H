@@ -1,0 +1,27 @@
+set line [gets stdin]
+scan $line "%d" n
+set pl [list]
+
+for {set i 0} {$i < $n} {incr i} {
+  set line [gets stdin]
+  scan $line "%s %d" name score
+
+  lappend pl "[format "%05d" [expr 1000-$score]] $name"
+}
+
+set pl [lsort $pl]
+
+set ci 0
+for {set i 0} {$i <= $n} {incr i} {
+  if {[lindex [lindex $pl $i] 0] != [lindex [lindex $pl $ci] 0]} {
+    if {$i > [expr $ci+1]} {
+      set str "[expr $ci+1]-$i"
+    } else {
+      set str "[expr $ci+1]"
+    }
+    for {set j $ci} {$j < $i} {incr j} {
+      puts "$str [lindex [lindex $pl $j] 1]"
+    }
+    set ci $i
+  }
+}

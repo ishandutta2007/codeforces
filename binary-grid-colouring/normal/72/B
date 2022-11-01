@@ -1,0 +1,29 @@
+INI := Map clone
+
+section := ""
+INI atPut ( section , Map clone )
+
+n := File standardInput readLine asNumber
+for ( i , 1 , n ,
+    s := File standardInput readLine
+    s = s asMutable strip
+    if ( s containsSeq ( ";" ) , continue )
+    if ( s containsSeq ( "=" ) ,
+        sSplit := s split ( "=" )
+        key := sSplit at ( 0 ) asMutable strip
+        value := sSplit at ( 1 ) asMutable strip
+        INI at ( section ) atPut ( key , value )
+    ,
+        section = s strip ( "[" ) strip( "]" ) strip
+        INI atIfAbsentPut ( section , Map clone )
+    )
+)
+
+INI keys sort foreach ( section ,
+    if ( section != "" , ( "[" .. section .. "]" ) println )
+    subINI := INI at ( section )
+    subINI keys sort foreach ( key ,
+        value = subINI at ( key )
+        ( key .. "=" .. value ) println
+    )
+)

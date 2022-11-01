@@ -1,0 +1,5 @@
+s := File standardInput readLine asString
+n := s asNumber
+a := 0
+for(i, 0, s size-1, if(n%(s at(i) asNumber - 48) == 0) then(a = a+1))
+if(a == s size) then("happier" println) else(if(a == 0) then("upset" println) else("happy" println))

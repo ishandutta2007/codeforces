@@ -1,0 +1,7 @@
+int main() {
+	int n, k, m;
+	sscanf(Stdio.stdin->gets(), "%d%d%d", n, k, m);
+	n = (n + m - 1) / m;
+	write(n * n <= k ? "YES" : "NO");
+	return 0;
+}

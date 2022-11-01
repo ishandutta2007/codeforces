@@ -1,0 +1,2 @@
+f	:=method(x,if(x>1,f(x-1)+f(x-2),1))
+write(f(File standardInput readLine asNumber))

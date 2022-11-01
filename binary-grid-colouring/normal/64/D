@@ -1,0 +1,11 @@
+set line [gets stdin]
+scan $line "%d %d %d" a b c
+set l [split "$a 1.$b 2.$c 3" "."]
+set k [lsort -integer -decreasing -index 0 $l]
+set i 1
+foreach a $k {
+    set t [lindex $a 1]
+    set r($t) $i
+    set i [expr {$i+1}]        
+}
+puts "$r(1) $r(2) $r(3)"

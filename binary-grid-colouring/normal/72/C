@@ -1,0 +1,3 @@
+A := File standardInput readLine asNumber;
+if (A%4==2, "yes" print; return);
+"no" print;

@@ -1,0 +1,24 @@
+int main(){
+    int n=(int)Stdio.stdin->gets();
+    array(int) u=allocate(n+10,0);
+    u[0]=(int)Stdio.stdin->gets();
+    u[1]=1;
+    for(int i=1;i<n;i++){
+        int x=(int)Stdio.stdin->gets();
+        for(int j=n+3;j>0;j--) u[j]=u[j-1];
+        u[0]=0;
+        if(x==0) continue;
+        for(int j=0;j<n+3;j++) u[j]+=x*u[j+1];
+    }
+    int start=1;
+    for(int i=n+3;i>=0;i--) if(u[i]!=0){
+        if(start==1) start=0;
+        else if(u[i]>0) write("+");
+        if(i==0) write(u[i]+"");
+        else if(u[i]!=1) write(u[i]==-1?"-":u[i]+"*");
+        if(i>0) write("X");
+        if(i>1) write("^"+i);
+    }
+    write("\n");
+    return 0;
+}
