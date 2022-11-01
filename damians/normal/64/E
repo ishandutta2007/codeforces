@@ -1,0 +1,26 @@
+proc prime x {
+   if {$x<2} {return 0}
+   set max [expr sqrt($x)]
+   set try 2
+   while {$try<=$max} {
+       if {$x%$try == 0} {return 0}
+       incr try [expr {2-($try==2)}]
+   }
+   return 1
+}
+
+
+
+gets stdin string
+scan $string "%d" a
+set b $a
+
+while {[prime $a]==0} {
+       incr a -1
+   }   
+   
+while {[prime $b]==0} {
+       incr b 1
+   }   
+set wyn [format "%d %d" $a $b]
+puts $wyn

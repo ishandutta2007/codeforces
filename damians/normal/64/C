@@ -1,0 +1,6 @@
+gets stdin string
+scan $string "%d %d %d" n m k
+incr k -1
+set d [expr [expr $m*[expr $k%$n]]+ [expr $k/$n]]
+incr d 1
+puts $d
