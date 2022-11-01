@@ -1,0 +1,18 @@
+int main() {
+  string s=Stdio.stdin->gets();
+  int n;
+  sscanf(s, "%d", n);
+  string s1=Stdio.stdin->gets();
+  string s2=Stdio.stdin->gets();
+  int len1 = strlen(s1), len2 = strlen(s2);
+  int i = 0;
+  while (i < len1 && i < len2 && s1[i] == s2[i]) {
+     i++;
+  }
+  if (len1 + len2 - 2 * i <= n) {
+     write("Yes");  
+  } else {
+     write("No");
+  }
+  return 0;
+}

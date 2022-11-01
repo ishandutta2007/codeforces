@@ -1,0 +1,31 @@
+int main() {
+string s1=Stdio.stdin->gets();
+string s2=Stdio.stdin->gets();
+s1 = reverse(s1);
+s2 = reverse(s2);
+int len1 = strlen(s1), len2 = strlen(s2);
+int size = max(strlen(s1), strlen(s2)) + 1;
+array(int) c = allocate(size);
+
+for (int i = 0; i < size; i++) {
+    if (i < len1) {
+        c[i] += s1[i] - '0';    
+    }
+    if (i < len2) {
+        c[i] += s2[i] - '0';
+    }
+    if (c[i] >= 10) {
+        c[i]-=10;
+        c[i+1]++;
+    }
+}
+
+int i = size - 1;
+while (c[i] == 0) --i;
+do {
+    Stdio.stdout->printf("%d",c[i]);
+    --i;
+} while (i >= 0);
+  
+return 0;
+}

@@ -1,0 +1,66 @@
+void sort(array(int) a, array(int) b, array(int) temp1, array(int) temp2, int start, int end) {
+    if (end - start <= 1) {
+        return;
+    }
+    int m = (end + start) >> 1;
+    sort(a, b, temp1, temp2, start, m);
+    sort(a, b, temp1, temp2, m, end);
+    for(int i = start, p = start, q = m; i < end; i++) {
+        if (q >= end || p < m && a[p] <= a[q]) {
+            temp1[i] = a[p];
+            temp2[i] = b[p++];
+        } else {
+            temp1[i] = a[q];
+            temp2[i] = b[q++];
+        }
+    }
+    for (int i = start; i < end; i++) {
+        a[i] = temp1[i];
+        b[i] = temp2[i];
+    }
+}
+
+int main() {
+    int n;
+    string s = Stdio.stdin->gets();
+    sscanf(s,"%d",n);
+    array(int) a = allocate(n);
+    array(int) b = allocate(n);
+    for (int i = 0; i < n; i++) {
+        s = Stdio.stdin->gets();
+        int len = strlen(s);
+        int left = 0, right = 0;
+        if (s[0] == '(') ++left;
+        if (s[len-1] == ']') ++right;
+        s = s[1 .. len - 1];
+        sscanf(s,"%d,%d", a[i], b[i]);
+        a[i] *= 2;
+        b[i] *= 2;
+        a[i] += left;
+        b[i] += right;
+    }
+    array(int) temp1 = allocate(n);
+    array(int) temp2 = allocate(n);
+    sort(a,b,temp1,temp2,0,n);
+    
+    array(int) last = allocate(n + 1);
+    
+    for (int i = 0; i < n + 1; i++) {
+        last[i] = -1000000;
+    }
+    
+    for (int i = 0; i < n;) {
+        int j = 0;
+        for (; last[j] > a[i]; j++) {
+        }
+        int i1 = i + 1;
+        while (i1 < n && a[i1] < b[i]) i1++;
+        last[j] = b[i1 - 1];
+        i = i1;
+    }
+    int res = 0;
+    while (last[res] != -1000000) res++;
+    Stdio.stdout->printf("%d",res);
+    
+    return 0;
+}

@@ -1,0 +1,29 @@
+int main() {
+    string s=Stdio.stdin->gets();
+    int n;
+    sscanf(s, "%d", n);
+    s=Stdio.stdin->gets();
+    array(string) arr = s / ",";
+    array(int) a = allocate(n);
+    for (int i = 0; i < n; i++) {
+            sscanf(arr[i], "%d", a[i]);
+    }
+    for (int i = 1; i < n; i++) {
+            for (int j = 0;j<i;j++) {
+                    int u = a[i], v = a[j];
+                    if (u < 0) u = -u;
+                    if (v < 0) v = -v;
+                    if (u < v) {
+                        int t = u;
+                        u = v;
+                        v = t;
+                    }
+                    if (u % v != 0) {
+                            write("NOT FRIENDS");
+                            return 0;
+                    }  
+            }
+    }
+    write("FRIENDS");
+    return 0;
+}
