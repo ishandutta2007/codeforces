@@ -1,0 +1,5 @@
+input()
+a = map(int,input().split())
+input()
+b = map(int,input().split())
+print(sorted(a)[-1],sorted(b)[-1])
