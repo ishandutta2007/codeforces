@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+
+#define forn(i, n) for (int i = 0; i < int(n); i++)
+#define mp(i, j) make_pair(i, j)
+#define rs(j) resize((j))
+#define pb push_back
+#define pp pop_back
+#define len(s) (int)s.length()
+#define sz(a) (int)a.size()
+#define re  return
+#define fi first
+#define se second
+
+typedef long long ll;
+typedef long double ld;
+using namespace std;
+
+const ll mod = 998244353;
+int n, m, xmi = mod, xma = -mod;
+string s;
+vector<int> a;
+int main(){
+    iostream::sync_with_stdio(0); cin.tie(0);
+    //freopen("bridge.in", "r",  stdin);
+    //freopen("bridge.out", "w", stdout);
+    cin >> n >> m;
+    a.assign(m, 0);
+    forn (i, n) {
+        cin >> s;
+        forn (j, m) {
+            if (s[j] == '*') {
+                a[j] = max(a[j], n - i);
+            }
+        }
+    }
+    forn (i, m - 1) {
+        xmi = min(xmi, a[i + 1] - a[i]);
+        xma = max(xma, a[i + 1] - a[i]);
+    }
+    cout << max(xma, 0) << " " << max(-xmi, 0);
+    return 0;
+}
