@@ -1,0 +1,5 @@
+def gcd(a,b): return a if not b else gcd(b,a%b)
+a,b,c,d = map(int,raw_input().split())
+x,y = abs(a*d-b*c),max(a*d,b*c)
+g = gcd(x,y)
+print '%d/%d'%(x/g,y/g)
