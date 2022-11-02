@@ -1,0 +1,15 @@
+s := File standardInput readLine
+n := s asNumber
+L := s size
+k := 0
+div := 0
+for(i, 0, L-1,
+  k = s at(i)
+  k = k - 48
+  if(k != 0,
+    if(n % k == 0, div = div + 1)
+  )
+)
+if(div == L, "happier" println)
+if(div != L and div > 0, "happy" println)
+if(div == 0, "upset" println)

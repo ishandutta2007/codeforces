@@ -1,0 +1,75 @@
+S := File standardInput readLine
+readint := method(s, i,
+  ret := 0
+  while(48 <= s at(i) and s at(i) <= 57,
+    ret = ret*10 + s at(i)-48
+    i = i+1
+  )
+  list(i, ret)
+)
+readstr := method(s, i,
+  start := i+1
+  i = i+1
+  while(s at(i) != 34, i = i+1)
+  list(i+1, s slice(start, i))
+)
+reverseP := method(s, i,
+  tmp := program(s, i+8)
+  i = tmp at(0) + 1
+  ret := ""
+  L := tmp at(1) size
+  for(x, L-1, 0, -1,
+    p := tmp at(1) at(x) asCharacter
+    ret = ret .. p
+  )
+  list(i, ret)
+)
+concatP := method(s, i,
+  tmp := program(s, i+7)
+  i = tmp at(0) + 1
+  x := tmp at(1)
+  tmp = program(s, i)
+  i = tmp at(0) + 1
+  y := tmp at(1)
+  list(i, x .. y)
+)
+substrP := method(s, i,
+  tmp := program(s, i+7)
+  i = tmp at(0) + 1
+  x := tmp at(1)
+  tmp = readint(s, i)
+  i = tmp at(0) + 1
+  a := tmp at(1)
+  tmp = readint(s, i)
+  i = tmp at(0)
+  b := tmp at(1)
+  if(s at(i)==44,
+    tmp = readint(s, i+1)
+    i = tmp at(0) + 1
+    c := tmp at(1)
+    ret := ""
+    a = a-1
+    while(a<b,
+      p := x at(a) asCharacter
+      ret = ret .. p
+      a = a + c
+    )
+    list(i, ret)
+    ,
+    list(i+1, x slice(a-1, b))
+  )
+)
+callP := method(s, i,
+  if(s at(i)==99 or s at(i)==67, concatP(s, i),
+  if(s at(i)==114 or s at(i)==82, reverseP(s, i), substrP(s, i)))
+)
+program := method(s, i,
+  if(s at(i)==34,
+    readstr(s, i),
+    callP(s, i)
+  )
+)
+t := program(S, 0) at(1)
+"\"" print
+t print
+"\"" println

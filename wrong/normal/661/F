@@ -1,0 +1,11 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =: (read-.LF)-.CR
+'a b' =: ". in
+
+P =: p: i. 80000
+
+print +/ (a<:P) * (P<:b)
+
+exit ''

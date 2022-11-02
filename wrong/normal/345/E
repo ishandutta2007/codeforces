@@ -1,0 +1,68 @@
+with Ada.Strings;
+with Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;
+with Ada.Numerics.Elementary_Functions;
+
+procedure Main is
+    package T_IO renames Ada.Text_IO;
+    package F_IO renames Ada.Float_Text_IO;
+    package I_IO renames Ada.Integer_Text_IO;
+    package STR renames Ada.Strings;
+
+    type Matrix is array (Positive range <>, Positive range <>) of Integer;
+    type Vector is array (Positive range <>) of Integer;
+
+    A, V, U, N : Integer;
+    Res : Integer;
+begin
+    I_IO.Get(A);
+    I_IO.Get(V);
+    I_IO.Get(U);
+    I_IO.Get(N);
+    Res := 0;
+
+    For I in Integer range 1 .. N loop
+        declare 
+            X, Y : Integer;
+        begin
+            I_IO.Get(Y);
+            I_IO.Get(X);
+            if U < V then
+                declare
+                    T1 : Float;
+                    T2 : Float;
+                    D : Float;
+                    Q : Float;
+                    TL : Float;
+                begin
+                    D := float(U*U*X*X + U*U*Y*Y - V*V*X*X);
+                    Q := float(U*U-V*V);
+                    TL := float(A) / float(V);
+                    if D >= 0.0 then
+                        D := Ada.Numerics.Elementary_Functions.Sqrt(D);
+                        T1 := (-D - float(V*Y)) / Q;
+                        T2 := (D - float(V*Y)) / Q;
+                        if (0.0 <= T1 and T1 <= TL) or (0.0 <= T2 and T2 <= TL) then
+                            Res := Res + 1;
+                        end if;
+                    end if;
+                end;
+            else
+                declare
+                    ReqTime2 : Integer;
+                begin
+                    ReqTime2 := X*X + (Y-A)*(Y-A);
+                    if A*A*U*U >= ReqTime2*V*V then
+                        Res := Res + 1;
+                    end if;
+                end;
+            end if;
+        end;
+    end loop;
+
+    I_IO.Put(Res);
+    T_IO.New_Line;
+end;

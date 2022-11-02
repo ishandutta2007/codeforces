@@ -1,0 +1,49 @@
+set s [gets stdin]
+set ok yes
+set n [string length $s]
+
+for {set i 0} {$i <= $n-1} {incr i} {
+  set c [string index $s $i]
+  if {[string is lower $c] == 0} {
+    if {[string is integer $c] == 0} {
+      if {$c != "."} {
+        set ok no
+      }
+    }
+  }
+}
+
+for {set i 0} {$i <= $n-2} {incr i} {
+  if {[string index $s $i] == "."} {
+    if {[string index $s [expr $i+1]] == "."} {
+      set ok no
+    }
+  }
+}
+
+if {[string index $s 0] == "."} {
+  set ok no
+}
+if {[string index $s [expr $n-1]] == "."} {
+  set ok no
+}
+
+set cons 0
+for {set i [expr $n-1]} {$i >= 0} {set i [expr $i-1]} {
+  set c [string index $s $i]
+  if {$c == "."} {
+    break
+  }
+  incr cons
+}
+if {$cons != 2} {
+  if {$cons != 3} {
+    set ok no
+  }
+}
+
+if {$ok == "yes"} {
+  puts YES
+} else {
+  puts NO
+}

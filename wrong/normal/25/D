@@ -1,0 +1,33 @@
+open System
+open System.Collections.Generic
+
+let main() =
+    let n = Console.ReadLine() |> Int32.Parse
+    let no_a, no_b = new List<int>(), new List<int>()
+    let U = [| 0..n-1 |]
+    let rec find (u : int array) x =
+        if u.[x] = x then x
+        else u.[x] <- find u u.[x]; u.[x]
+    let uni (u : int array) x y = u.[find u x] <- find u y
+    for i = 1 to n-1 do
+        let a, b = 
+            let t = Array.ConvertAll(Console.ReadLine().Split([|' '|]), fun x -> Int32.Parse x)
+            t.[0]-1, t.[1]-1
+        if find U a = find U b then
+            no_a.Add a
+            no_b.Add b
+        else 
+            uni U a b
+    no_a.Count |> Console.WriteLine
+    let rec dest p i =
+        if p >= n then ()
+        else
+            if find U 0 = find U p then 
+                dest (p+1) i
+            else
+                String.Format("{0} {1} {2} {3}", no_a.[i]+1, no_b.[i]+1, 1, p+1) |> Console.WriteLine
+                uni U 0 p
+                dest (p+1) (i+1)
+    dest 1 0
+
+main()

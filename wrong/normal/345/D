@@ -1,0 +1,74 @@
+with Ada.Strings;
+with Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;
+
+procedure Main is
+    package T_IO renames Ada.Text_IO;
+    package F_IO renames Ada.Float_Text_IO;
+    package I_IO renames Ada.Integer_Text_IO;
+    package STR renames Ada.Strings;
+
+    type Matrix is array (Positive range <>, Positive range <>) of Integer;
+    type Vector is array (Positive range <>) of Integer;
+
+    N : Integer;
+    Res : Integer;
+    T : String (1 .. 50);
+    Tlen : Integer;
+begin
+    I_IO.Get(N);
+    Res := 0;
+    T_IO.Get_Line(T, Tlen);
+
+    declare
+        Adj : Matrix(1 .. N, 1 .. N);
+        Received : Vector(1 .. N);
+        Have : Vector(1 .. N);
+    begin
+        For I in Integer range 1 .. N loop
+            Received(I) := 0;
+            Have(I) := 0;
+
+            declare
+                S : String (1 .. 64);
+                Len : Integer;
+            begin
+                T_IO.Get_Line(S, Len);
+
+                For J in Integer range 1 .. N loop
+                    if S(J) = '1' then
+                        Adj(I, J) := 1;
+                    else
+                        Adj(I, J) := 0;
+                    end if;
+                end loop;
+            end;
+        end loop;
+
+        Received(1) := 1;
+        Have(1) := 1;
+        For L in Integer range 1 .. N loop
+            For I in Integer range 1 .. N loop
+                if Have(I) = 1 then
+                    For J in Integer range 1 .. N loop
+                        if Adj(I, J) = 1 and Received(J) = 0 then
+                            if J = N then
+                                Res := Res + 1;
+                            else
+                                Received(J) := 1;
+                                Have(J) := 1;
+                            end if;
+                        end if;
+                    end loop;
+                end if;
+                Have(I) := 0;
+            end loop;
+        end loop;
+    end;
+
+    I_IO.Put(Res);
+    T_IO.New_Line;
+end;

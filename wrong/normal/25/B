@@ -1,0 +1,17 @@
+open System
+
+let main () =
+    let n = Int32.Parse(Console.ReadLine())
+    let s = Console.ReadLine()
+    let rec print f (s : string) =
+        if s.Length = 2 or s.Length = 3 then
+            if not f then Console.Write '-'
+            Console.Write s
+        else
+            if not f then Console.Write '-'
+            s.Substring(0, 2) |> Console.Write
+            s.Substring(2) |> print false
+    print true s
+    Console.WriteLine ""
+
+main()

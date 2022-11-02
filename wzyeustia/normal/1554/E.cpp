@@ -1,0 +1,172 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef tuple<ll, ll, ll> t3l;
+typedef tuple<ll, ll, ll, ll> t4l;
+typedef vector<ll> vl;
+typedef vector<vl> vvl;
+typedef vector<vvl> vvvl;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<vvi> vvvi;
+
+#define FOR(i, a, b) for (ll (i) = (a); (i) <= (b); (i)++)
+#define ROF(i, a, b) for (ll (i) = (a); (i) >= (b); (i)--)
+#define REP(i, n) FOR(i, 0, (n)-1)
+#define sqr(x) ((x) * (x))
+#define all(x) (x).begin(), (x).end()
+#define pb push_back
+#define eb emplace_back
+#define ef emplace_front
+#define em emplace
+#define mp make_pair
+#define chkmin(a, b) a = min(a, b)
+#define chkmax(a, b) a = max(a, b)
+#define _1 first
+#define _2 second
+
+// FILL by byte!!!
+#define FILL(arr, num) memset(arr, num, sizeof(arr))
+
+#ifndef ONLINE_JUDGE
+#define dbg(x...) do { cout << "\033[32;1m " << #x << " -> "; err(x); } while (0)
+void err() { cout << "\033[39;0m" << endl; }
+template<template<typename...> class T, typename t, typename... A>
+void err(T<t> a, A... x) { for (auto v: a) cout << v << ' '; err(x...); }
+template<typename T, typename... A>
+void err(T a, A... x) { cout << a << ' '; err(x...); }
+#else
+#define dbg(...)
+#define err(...)
+#endif
+
+template <typename T>
+using MinHeap = priority_queue<T, vector<T>, greater<T>>;
+template <typename T>
+using MaxHeap = priority_queue<T>;
+
+const ld PI = 3.14159265358979323846;
+const ld E = 2.718281828459;
+ll MOD = 998'244'353;
+ll M(ll n) {return (n % MOD + MOD) % MOD;}
+ll pow2(ll n) {return 1ll << n;}
+
+mt19937 rng((unsigned int) chrono::steady_clock::now().time_since_epoch().count());
+#define uid(a, b) uniform_int_distribution<int>(a, b)(rng)
+
+ll fastPow(ll num, ll exp) {
+    if (exp == 0) return 1;
+    if (exp == 1) return num;
+    else {
+        ll half = fastPow(num, exp/2);
+        if (exp % 2 == 1) 
+            return sqr(half)%MOD * num % MOD;
+        else 
+            return sqr(half)%MOD;
+    }
+}
+
+const ll MAXN = 3e5+1;
+vl prime;
+bool is_composite[MAXN];
+void sieve (ll n) {
+	std::fill (is_composite, is_composite + n, false);
+	for (ll i = 2; i < n; ++i) {
+		if (!is_composite[i]) prime.push_back (i);
+		for (ll j = 0; j < prime.size () && i * prime[j] < n; ++j) {
+			is_composite[i * prime[j]] = true;
+			if (i % prime[j] == 0) break;
+		}
+	}
+}
+
+vl decompose(ll num) {
+    vl ret;
+    for (auto pr : prime) {
+        if (sqr(pr) > num) break;
+        if (num%pr == 0) {
+            ret.eb(pr);
+            while (num%pr==0) num/=pr;
+        }
+    }
+    if (num>1) ret.eb(num);
+
+    return ret;
+}
+
+vvl G;
+vl cnt;
+ll n, k;
+
+ll dfs(ll u, ll par) {
+	ll ret = 1;
+	for (auto v : G[u]) {
+		if (v == par) continue;
+		ret = ret * dfs(v, u) % MOD; // how to mul?
+	}
+
+	if (par == 0) {
+		if (cnt[u] % k == 0) return ret;
+		return 0;
+	} else {
+		if (cnt[u] % k == 0) {
+			cnt[par]++;
+			return ret;
+		}
+		if ((cnt[u]+1) % k == 0) return ret;
+		return 0; 
+	}
+}
+
+ll calc() {
+	cnt = vl(n+2, 0);
+	return dfs(1, 0);
+}
+
+// read problem carefully!
+// sequence ai means unerased edges adjacent to node i(not ith erased node)!
+int main(int argn, char **argv) {
+    ios::sync_with_stdio(false);
+    cout.tie(nullptr);
+    cin.tie(nullptr);
+
+    int T = 1;
+    cin >> T;
+    REP(I, T) {
+        cin >> n;
+		G = vvl(n+2);
+		REP(i, n-1) {
+			ll u, v; cin >> u >> v;
+			G[u].eb(v), G[v].eb(u);
+		}
+
+		// this part is relatively easy...
+		vl tot(n+2, 0);
+		for (int i = 1; i <= sqrt(n-1); i++) {
+			if ((n-1) % i == 0) {
+				k = i, tot[k] = calc();
+				k = (n-1)/i, tot[k] = calc();
+			}
+		} tot[1] = fastPow(2, n-1);
+		dbg(tot);
+
+		// how to find this formula?
+		// think about inclusion-exclusion.
+		vl ans(n+2, 0);
+		ROF(i, n-1, 1) {
+			dbg(i);
+			ll crt = tot[i];
+			for (int j = 2*i; j <= n-1; j+=i) crt = (crt - ans[j] + MOD)%MOD;
+			ans[i] = crt;
+		}
+		dbg(ans);
+		FOR(i, 1, n) cout << ans[i] << " ";
+		cout << endl;
+    }
+    return 0;
+}

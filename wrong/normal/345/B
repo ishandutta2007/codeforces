@@ -1,0 +1,57 @@
+with Ada.Strings;
+with Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;
+
+procedure Main is
+    package T_IO renames Ada.Text_IO;
+    package F_IO renames Ada.Float_Text_IO;
+    package I_IO renames Ada.Integer_Text_IO;
+    package STR renames Ada.Strings;
+
+    S : String (1..10);
+    Len : Integer;
+    N : Integer;
+    T : Integer;
+    LastThree : Integer;
+    Res : Integer;
+begin
+    T_IO.Get_Line(S, Len);
+    N := Integer'Value(S (1..Len));
+    Res := 0;
+
+    if (Ada.Strings.Fixed.Index (S, "13")) > 0 then
+        T_IO.Put("-1");
+    else
+        For B in Integer range 2 .. N loop
+            T := N;
+            LastThree := 0;
+
+WhileLoop:
+            while T > 0 loop
+                declare
+                    Conv : String := Integer'Image(T mod B);
+                begin
+                    if LastThree = 1 and Conv(Conv'Length) = '1' then
+                        Res := Res + 1;
+                        exit WhileLoop;
+                    elsif (Ada.Strings.Fixed.Index (Conv, "13")) > 0 then
+                        Res := Res + 1;
+                        exit WhileLoop;
+                    end if;
+                    LastThree := 0;
+                    if Conv(2) = '3' then
+                        LastThree := 1;
+                    end if;
+                    T := T / B;
+                end;
+            end loop WhileLoop;
+        end loop;
+
+        I_IO.Put(Res);
+    end if;
+
+    T_IO.New_Line;
+end;

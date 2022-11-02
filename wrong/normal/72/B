@@ -1,0 +1,72 @@
+n := File standardInput readLine asNumber
+cur_sec := " "
+sec_pos := 0
+ini := list(list(" "))
+sections := 1
+for(i,1,n,
+  s := File standardInput readLine asMutable strip
+  if(s size==0, continue)
+  if(s at(0)==59, continue)
+  if(s at(0)==91,
+    cur_sec = ""
+    j := 1
+    while(s at(j)!=93,
+      p := s at(j) asCharacter
+      cur_sec = cur_sec .. p
+      j = j + 1
+    )
+    cur_sec = cur_sec asMutable strip
+    found := -1
+    for(j, 0, sections-1,
+      if(ini at(j) at(0) == cur_sec,
+        found = j
+	break
+      )
+    )
+    if(found > -1,
+      sec_pos = found
+      ,
+      sec_pos = sections
+      sections = sections + 1
+      ini append(list(cur_sec))
+    )
+    continue
+  )
+  tmp := s split("=") map(x, x asMutable strip)
+  key := tmp at(0)
+  val := tmp at(1)
+  found := -1
+  items := ini at(sec_pos) size
+  for(j, 1, items-1,
+    if(ini at(sec_pos) at(j) at(0) == key,
+      found = j
+      break
+    )
+  )
+  if(found > -1,
+    ini at(sec_pos) atPut(found, list(key, val))
+    ,
+    ini at(sec_pos) append(list(key, val))
+  )
+)
+for(i, 1, sections,
+  pr := 0
+  rem := ini size
+  for(j, 1, rem-1,
+    if(ini at(pr) at(0) > ini at(j) at(0), pr = j)
+  )
+  if(i==1, pr=0)
+  ps := ini at(pr)
+  if(ps at(0) != " ",
+    "[" print
+    ps at(0) print
+    "]" println
+  )
+  kvps := ps slice(1) sort
+  for(j, 0, kvps size - 1,
+    kvps at(j) at(0) print
+    "=" print
+    kvps at(j) at(1) println
+  )
+  if(i==1, ini=ini slice(1), ini remove(ps))
+)

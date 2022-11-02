@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;int n,t;vector<int> adj[100013];void dfs(int x, int p=0, int c=0) {if (c) t+=1;for (int i: adj[x]) if (i!=p) dfs(i,x,!c);}int main() {scanf("%d",&n);for (int i=0;i<n-1;i++) {int a,b;scanf("%d%d",&a,&b);adj[a].push_back(b);adj[b].push_back(a);}dfs(1);printf("%lld\n",1LL*t*(n-t)-n+1);}

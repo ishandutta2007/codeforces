@@ -1,0 +1,15 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =: read-.CR
+part =: 1 + 0 { I. LF = in
+nm =: >0{;:in
+v =: LF -.~ part }. in
+
+fst =: 0 { nm
+ff =: (a. {~ _32 + a. i. fst)
+nm =: (a. {~ _32 + a. i. fst) , }. nm
+
+print ('if' {~ +/'.'=v),nm
+
+NB. exit ''

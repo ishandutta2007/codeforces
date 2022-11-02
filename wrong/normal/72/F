@@ -1,0 +1,23 @@
+tmp := File standardInput readLine split
+n := tmp at(0) asNumber
+m := tmp at(1) asNumber
+R := File standardInput readLine split map(x, x asNumber)
+t := R at(0)
+R = R slice(1) sort
+C := File standardInput readLine split map(x, x asNumber)
+s := C at(0)
+C = C slice(1) sort
+Y := t+1
+X := s+1
+if(R at(0) == 1 or R at(0) == n, Y = Y-1)
+for(i, 1, t-1,
+  if(R at(i)==R at(i-1)+1, Y = Y-1)
+  if(R at(i)==n, Y = Y-1)
+)
+if(C at(0) == 1 or C at(0) == m, X = X-1)
+for(i, 1, s-1,
+  if(C at(i)==C at(i-1)+1, X = X-1)
+  if(C at(i)==m, X = X-1)
+)
+sol := X * Y
+sol println
