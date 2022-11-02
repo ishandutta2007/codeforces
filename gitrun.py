@@ -32,7 +32,8 @@ MAX_WAIT_SEC = 110
 WAIT_SEC = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
 MAX_FILES_TO_ADD = 9
 MAX_ITERATIONS = 10001
-SLEEP_BETWEEN_ITERATIONS = 9
+SLEEP_BETWEEN_ITERATIONS = 2#python dropbox_binger_hp_buffer.py -r 1
+
 
 
 def compact(lst):
