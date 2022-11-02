@@ -1,0 +1,19 @@
+import cp.
+
+main =>
+  S = read_line(),
+  L = S.length(),
+  H = 0,
+  while (H * 2 < L)
+      H := H + 1
+  end,
+  I = H,
+  while (I >= 1)
+      print(S[I]),
+      I := I - 1
+  end,
+  I := L,
+  while (I > H)
+      print(S[I]),
+      I := I - 1
+  end.

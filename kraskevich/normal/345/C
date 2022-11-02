@@ -1,0 +1,423 @@
+with Ada.Text_IO;
+use Ada.Text_IO;
+with  Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+
+
+procedure TaskD is
+    s: string(1..10);
+    c: character;
+    res, n: integer;
+    i: integer;
+begin
+    res := 0;
+    get(n);
+    loop
+        exit when n = 0;
+        n := n - 1;
+        i := 1;
+        loop
+            exit when i = 11;
+            get(c);
+            if c = '0' or c='1' or c='2' or c='3' or c='4' or c='5' or c='6' or c='7' or c='8' or c='9' or c = '-' then
+                s(i) := c;
+                i := i + 1;
+              end if;
+          end loop;
+          if s = "1974-09-13" then
+   res := res + 1;
+end if;
+
+if s = "1974-12-13" then
+   res := res + 1;
+end if;
+
+if s = "1975-06-13" then
+   res := res + 1;
+end if;
+
+if s = "1976-02-13" then
+   res := res + 1;
+end if;
+
+if s = "1976-08-13" then
+   res := res + 1;
+end if;
+
+if s = "1977-05-13" then
+   res := res + 1;
+end if;
+
+if s = "1978-01-13" then
+   res := res + 1;
+end if;
+
+if s = "1978-10-13" then
+   res := res + 1;
+end if;
+
+if s = "1979-04-13" then
+   res := res + 1;
+end if;
+
+if s = "1979-07-13" then
+   res := res + 1;
+end if;
+
+if s = "1980-06-13" then
+   res := res + 1;
+end if;
+
+if s = "1981-02-13" then
+   res := res + 1;
+end if;
+
+if s = "1981-03-13" then
+   res := res + 1;
+end if;
+
+if s = "1981-11-13" then
+   res := res + 1;
+end if;
+
+if s = "1982-08-13" then
+   res := res + 1;
+end if;
+
+if s = "1983-05-13" then
+   res := res + 1;
+end if;
+
+if s = "1984-01-13" then
+   res := res + 1;
+end if;
+
+if s = "1984-04-13" then
+   res := res + 1;
+end if;
+
+if s = "1984-07-13" then
+   res := res + 1;
+end if;
+
+if s = "1985-09-13" then
+   res := res + 1;
+end if;
+
+if s = "1985-12-13" then
+   res := res + 1;
+end if;
+
+if s = "1986-06-13" then
+   res := res + 1;
+end if;
+
+if s = "1987-02-13" then
+   res := res + 1;
+end if;
+
+if s = "1987-03-13" then
+   res := res + 1;
+end if;
+
+if s = "1987-11-13" then
+   res := res + 1;
+end if;
+
+if s = "1988-05-13" then
+   res := res + 1;
+end if;
+
+if s = "1989-01-13" then
+   res := res + 1;
+end if;
+
+if s = "1989-10-13" then
+   res := res + 1;
+end if;
+
+if s = "1990-04-13" then
+   res := res + 1;
+end if;
+
+if s = "1990-07-13" then
+   res := res + 1;
+end if;
+
+if s = "1991-09-13" then
+   res := res + 1;
+end if;
+
+if s = "1991-12-13" then
+   res := res + 1;
+end if;
+
+if s = "1992-03-13" then
+   res := res + 1;
+end if;
+
+if s = "1992-11-13" then
+   res := res + 1;
+end if;
+
+if s = "1993-08-13" then
+   res := res + 1;
+end if;
+
+if s = "1994-05-13" then
+   res := res + 1;
+end if;
+
+if s = "1995-01-13" then
+   res := res + 1;
+end if;
+
+if s = "1995-10-13" then
+   res := res + 1;
+end if;
+
+if s = "1996-09-13" then
+   res := res + 1;
+end if;
+
+if s = "1996-12-13" then
+   res := res + 1;
+end if;
+
+if s = "1997-06-13" then
+   res := res + 1;
+end if;
+
+if s = "1998-02-13" then
+   res := res + 1;
+end if;
+
+if s = "1998-03-13" then
+   res := res + 1;
+end if;
+
+if s = "1998-11-13" then
+   res := res + 1;
+end if;
+
+if s = "1999-08-13" then
+   res := res + 1;
+end if;
+
+if s = "2000-10-13" then
+   res := res + 1;
+end if;
+
+if s = "2001-04-13" then
+   res := res + 1;
+end if;
+
+if s = "2001-07-13" then
+   res := res + 1;
+end if;
+
+if s = "2002-09-13" then
+   res := res + 1;
+end if;
+
+if s = "2002-12-13" then
+   res := res + 1;
+end if;
+
+if s = "2003-06-13" then
+   res := res + 1;
+end if;
+
+if s = "2004-02-13" then
+   res := res + 1;
+end if;
+
+if s = "2004-08-13" then
+   res := res + 1;
+end if;
+
+if s = "2005-05-13" then
+   res := res + 1;
+end if;
+
+if s = "2006-01-13" then
+   res := res + 1;
+end if;
+
+if s = "2006-10-13" then
+   res := res + 1;
+end if;
+
+if s = "2007-04-13" then
+   res := res + 1;
+end if;
+
+if s = "2007-07-13" then
+   res := res + 1;
+end if;
+
+if s = "2008-06-13" then
+   res := res + 1;
+end if;
+
+if s = "2009-02-13" then
+   res := res + 1;
+end if;
+
+if s = "2009-03-13" then
+   res := res + 1;
+end if;
+
+if s = "2009-11-13" then
+   res := res + 1;
+end if;
+
+if s = "2010-08-13" then
+   res := res + 1;
+end if;
+
+if s = "2011-05-13" then
+   res := res + 1;
+end if;
+
+if s = "2012-01-13" then
+   res := res + 1;
+end if;
+
+if s = "2012-04-13" then
+   res := res + 1;
+end if;
+
+if s = "2012-07-13" then
+   res := res + 1;
+end if;
+
+if s = "2013-09-13" then
+   res := res + 1;
+end if;
+
+if s = "2013-12-13" then
+   res := res + 1;
+end if;
+
+if s = "2014-06-13" then
+   res := res + 1;
+end if;
+
+if s = "2015-02-13" then
+   res := res + 1;
+end if;
+
+if s = "2015-03-13" then
+   res := res + 1;
+end if;
+
+if s = "2015-11-13" then
+   res := res + 1;
+end if;
+
+if s = "2016-05-13" then
+   res := res + 1;
+end if;
+
+if s = "2017-01-13" then
+   res := res + 1;
+end if;
+
+if s = "2017-10-13" then
+   res := res + 1;
+end if;
+
+if s = "2018-04-13" then
+   res := res + 1;
+end if;
+
+if s = "2018-07-13" then
+   res := res + 1;
+end if;
+
+if s = "2019-09-13" then
+   res := res + 1;
+end if;
+
+if s = "2019-12-13" then
+   res := res + 1;
+end if;
+
+if s = "2020-03-13" then
+   res := res + 1;
+end if;
+
+if s = "2020-11-13" then
+   res := res + 1;
+end if;
+
+if s = "2021-08-13" then
+   res := res + 1;
+end if;
+
+if s = "2022-05-13" then
+   res := res + 1;
+end if;
+
+if s = "2023-01-13" then
+   res := res + 1;
+end if;
+
+if s = "2023-10-13" then
+   res := res + 1;
+end if;
+
+if s = "2024-09-13" then
+   res := res + 1;
+end if;
+
+if s = "2024-12-13" then
+   res := res + 1;
+end if;
+
+if s = "2025-06-13" then
+   res := res + 1;
+end if;
+
+if s = "2026-02-13" then
+   res := res + 1;
+end if;
+
+if s = "2026-03-13" then
+   res := res + 1;
+end if;
+
+if s = "2026-11-13" then
+   res := res + 1;
+end if;
+
+if s = "2027-08-13" then
+   res := res + 1;
+end if;
+
+if s = "2028-10-13" then
+   res := res + 1;
+end if;
+
+if s = "2029-04-13" then
+   res := res + 1;
+end if;
+
+if s = "2029-07-13" then
+   res := res + 1;
+end if;
+
+if s = "2030-09-13" then
+   res := res + 1;
+end if;
+
+if s = "2030-12-13" then
+   res := res + 1;
+end if;
+     end loop;
+     put(res);
+end TaskD;

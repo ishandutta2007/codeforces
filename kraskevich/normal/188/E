@@ -1,0 +1,24 @@
+co read
+{
+    cin [0]
+    lt [222] [0] 33
+    gt [333] [0] 126
+    or [222] [333] [222]
+    if [222] ac
+    eq [222] 72 [0]
+    if [222] set [1] 1
+    eq [222] [0] 81
+    if [222] set [1] 1
+    eq [222] [0] 57
+    if [222] set [1] 1
+}
+
+set [1] 0
+ca read
+if [1] cout 89
+if [1] cout 69
+if [1] cout 83
+eq [1] [1] 0
+if [1] cout 78
+if [1] cout 79
+ac

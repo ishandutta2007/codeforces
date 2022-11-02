@@ -1,0 +1,37 @@
+import cp.
+
+main =>
+  A = readln(),
+  B = readln(),
+  N = A.length(),
+  M = B.length(),
+  DP = new_array(N + 1, M + 1),
+  DP[1, 1] := 0,
+  S = 0,
+  foreach (I in 2..(N + 1))
+      S := S + ord(A[I - 1]) - ord('a') + 1,
+      DP[I, 1] := S
+  end,
+  S := 0,
+  foreach (I in 2..(M + 1))
+      S := S + ord(B[I - 1]) - ord('a') + 1,
+      DP[1, I] := S
+  end,
+  foreach (I in 2..(N + 1), J in 2..(M + 1))
+       CUR = DP[I - 1, J - 1],
+       OA = ord(A[I - 1]) - ord('a') + 1,
+       OB = ord(B[J - 1]) - ord('a') + 1,
+       if (A[I - 1] != B[J - 1]) then
+           CUR := CUR + abs(OA - OB)
+       end,
+       DP[I, J] := CUR,
+       CUR := OB + DP[I, J - 1],
+       if (CUR < DP[I, J]) then
+           DP[I, J] := CUR
+       end,
+       CUR := OA + DP[I - 1, J],
+       if (CUR < DP[I, J]) then
+           DP[I, J] := CUR
+       end
+  end,
+  println(DP[N + 1, M + 1]).

@@ -1,0 +1,20 @@
+import cp.
+
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  CNT = 0,
+  foreach (X in 1..1000, Y in 1..1000)
+      if (A * X + B * Y == C) then
+           CNT := CNT + 1
+      end
+  end,
+  println(CNT),
+  foreach (X in 1..1000, Y in 1..1000)
+      if (A * X + B * Y == C) then
+           print(X),
+           print(" "),
+           println(Y)
+      end
+  end.
