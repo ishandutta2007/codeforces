@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+#define rep(i,n) for(int i=0;i<(n);i++)
+#define reps(i,a,b) for(int i=(a);i<(b);i++)
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(),(v).end()
+#define fi first
+#define se second
+
+using vint=vector<int>;
+using pint=pair<int,int>;
+using vpint=vector<pint>;
+
+template<typename A,typename B>inline void chmin(A &a,B b){if(a>b)a=b;}
+template<typename A,typename B>inline void chmax(A &a,B b){if(a<b)a=b;}
+
+template<class A,class B>
+ostream& operator<<(ostream& ost,const pair<A,B>&p){
+    ost<<"{"<<p.first<<","<<p.second<<"}";
+    return ost;
+}
+
+template<class T>
+ostream& operator<<(ostream& ost,const vector<T>&v){
+    ost<<"{";
+    for(int i=0;i<v.size();i++){
+        if(i)ost<<",";
+        ost<<v[i];
+    }
+    ost<<"}";
+    return ost;
+}
+
+signed main(){
+    string S;cin>>S;
+
+    int cnt=count(all(S),'1');
+    string ans;
+    rep(i,S.size()){
+        if(S[i]=='0')ans+='0';
+        else if(S[i]=='2'){
+            ans+=string(cnt,'1');
+            cnt=0;
+            ans+='2';
+        }
+    }
+    ans+=string(cnt,'1');
+    cout<<ans<<endl;
+    return 0;
+}
