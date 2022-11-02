@@ -1,0 +1,28 @@
+co go {
+	cin [1]
+	eq [2] [1] 10
+	if [2] ac
+	eq [2] [1] 72
+	if [2] set [0] 1
+	eq [2] [1] 81
+	if [2] set [0] 1
+	eq [2] [1] 57
+	if [2] set [0] 1
+}
+co yes {
+	cout 89
+	cout 69
+	cout 83
+	ac
+}
+co no {
+	cout 78
+	cout 79
+	ac
+}
+set [0] 0
+ca go
+if [0] ca yes
+eq [0] [0] 0
+if [0] ca no
+ac

@@ -1,0 +1,11 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+s =. (read rplc LF;' ')-.CR
+p =. s i. ' '
+t =. p {. s
+d =. (s i. '.') = #s
+print (d { 'fi'),(toupper ({. t)),(1 }. t)
+
+
+exit ''

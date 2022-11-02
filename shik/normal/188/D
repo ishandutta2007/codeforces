@@ -1,0 +1,18 @@
+co gogo {
+	cout 42
+	add [2] [2] 1
+	eq [20] [2] [1]
+	if [20] ac
+}
+co go {
+	set [2] 0
+	ca gogo
+	cout 10
+	eq [10] [1] [0]
+	if [10] ac
+	add [1] [1] 1
+}
+iin [0]
+set [1] 1
+ca go
+ac

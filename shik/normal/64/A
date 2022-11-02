@@ -1,0 +1,4 @@
+gets stdin n
+set ans 1
+for {set i 1} {$i <= $n} {incr i} {set ans [expr $ans*$i]}
+puts $ans

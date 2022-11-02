@@ -1,0 +1,24 @@
+co go {
+	eq [1000] [0] 0
+	if [1000] ac
+	iin [1001]
+	add [[1001]] [[1001]] 1
+	sub [0] [0] 1
+}
+co gogogo {
+	eq [1004] [[1002]] 0
+	if [1004] ac
+	iout [1002]
+	cout 32
+	sub [[1002]] [[1002]] 1
+}
+co gogo {
+	if [[1002]] ca gogogo
+	eq [1003] [1002] 100
+	if [1003] ac
+	add [1002] [1002] 1
+}
+iin [0]
+ca go
+ca gogo
+ac

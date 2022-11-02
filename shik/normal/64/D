@@ -1,0 +1,4 @@
+set s [lsort -decreasing -integer -indices [split [gets stdin]]]
+set t {0 0 0}
+foreach v $s {lset t $v [incr i]}
+puts $t

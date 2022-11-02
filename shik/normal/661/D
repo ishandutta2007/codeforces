@@ -1,0 +1,14 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+a =. (read-.LF)-.CR
+a =. 0 ". a
+x =. 1 }. a
+y =. _1 }. a
+z =. x - y
+p =. z > 0
+q =. _1 * (z < 0)
+r =. z * (p + q)
+print (>. / r)
+
+exit ''

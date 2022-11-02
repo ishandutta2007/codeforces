@@ -1,0 +1,19 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+s =. (read-.LF)-.CR
+s =. s rplc 'January';'winter'
+s =. s rplc 'February';'winter'
+s =. s rplc 'March';'spring'
+s =. s rplc 'April';'spring'
+s =. s rplc 'May';'spring'
+s =. s rplc 'June';'summer'
+s =. s rplc 'July';'summer'
+s =. s rplc 'August';'summer'
+s =. s rplc 'September';'autumn'
+s =. s rplc 'October';'autumn'
+s =. s rplc 'November';'autumn'
+s =. s rplc 'December';'winter'
+print s
+
+exit ''

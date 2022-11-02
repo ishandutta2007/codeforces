@@ -1,0 +1,2 @@
+gets stdin s
+puts [expr $s]

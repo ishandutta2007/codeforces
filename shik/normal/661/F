@@ -1,0 +1,14 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+ab =. (read-.LF)-.CR
+ab =. 0 ". ab
+a =. {. ab
+b =. {: ab
+ps =. p: i. 100000
+x =. ps >: a
+y =. ps <: b
+ans =. + / (x * y)
+print ans
+
+exit ''
