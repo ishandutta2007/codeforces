@@ -1,0 +1,28 @@
+set line [gets stdin]
+scan $line "%d" n
+set i 0
+set a [list]
+while {$i < $n} {
+    set s [gets stdin]
+    scan $s "%s%d" name x
+    lappend a [list [expr 9999999-$x] $name]
+    set i [expr $i + 1]
+}
+set a [lsort $a]
+set i 0
+while {$i < $n} {
+    set j [expr $i + 1]
+    while {$j < $n && [lindex [lindex $a $j] 0] == [lindex [lindex $a $i] 0]} {
+        set j [expr $j + 1]
+    }
+    if {$j == [expr $i + 1]} {
+        puts "[expr $i + 1] [lindex [lindex $a $i] 1]"
+    } else {
+        set k $i
+        while {$k < $j} {
+            puts "[expr $i + 1]-[expr $j] [lindex [lindex $a $k] 1]"
+            set k [expr $k + 1]
+        }
+    }
+    set i $j
+}

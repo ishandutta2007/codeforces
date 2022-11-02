@@ -1,0 +1,32 @@
+set line [gets stdin]
+
+set res "YES"
+
+if {[string length $line] <= 1} {
+    set res "NO"
+} else {
+set i 0
+set cur 0
+while {$i < [string length $line]} {
+    set cc [string index $line $i]
+    if {$cc == "."} {
+        if {$cur == 0} {
+            set res "NO"
+        }
+        set cur 0
+    } else {
+        set cur [expr $cur + 1]
+    }
+    set tmp [regexp {[a-z0-9.]+} $cc match]
+    if {$tmp == 1} {
+    } else {
+        set res "NO"
+    }
+    set i [expr $i+1]
+
+}
+if {$cur != 2 && $cur != 3} {
+    set res "NO"
+}
+}
+puts $res
