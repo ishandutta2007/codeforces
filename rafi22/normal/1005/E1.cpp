@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+
+#define int long long
+#define double long double
+#define endl '\n'
+#define st first
+#define nd second
+#define pb push_back
+#define sz(x) (int)(x).size()
+using namespace std;
+double PI=3.14159265359;
+int inf=1000000000000000007;
+int mod=1000000007;
+int mod1=998244353;
+
+const bool multi=0;
+
+int a[200007];
+map<int,int> ileO;
+map<int,int> ileE;
+
+signed main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int tt;
+    if(multi)
+        cin>>tt;
+    else tt=1;
+    while(tt--)
+    {
+        int n,m,ans=0;
+        cin>>n>>m;
+        for(int i=1;i<=n;i++) cin>>a[i];
+        int act=0;
+        bool was=0;
+        ileE[0]++;
+        for(int i=1;i<=n;i++)
+        {
+            if(a[i]<m) act--;
+            else if(a[i]>m) act++;
+            else was=1;
+            if(!was)
+            {
+                if(i%2) ileO[act]++;
+                else ileE[act]++;
+            }
+            if(was)
+            {
+                if(i%2)
+                {
+                    ans+=ileO[act-1];
+                    ans+=ileE[act];
+                }
+                else
+                {
+                    ans+=ileO[act];
+                    ans+=ileE[act-1];
+                }
+
+            }
+        }
+        cout<<ans<<endl;
+    }
+
+    return 0;
+}
