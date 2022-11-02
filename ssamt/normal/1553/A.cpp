@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <string.h>
+#include <vector>
+
+int main() {
+	int h, i, j;
+	int t, n;
+	scanf("%d", &t);
+	for(h=0; h<t; h++) {
+		scanf("%d", &n);
+		printf("%d\n", (n+1)/10);
+	}
+}
