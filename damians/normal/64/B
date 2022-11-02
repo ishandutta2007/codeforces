@@ -1,0 +1,10 @@
+proc fact n {expr {$n<2? 1: $n * [fact [incr n -1]]}}
+
+
+set a [read stdin 1]
+set b [read stdin 1]
+set c [read stdin 1]
+
+if {$b=="+"} {incr a $c}
+if {$b=="-"} {incr a -$c}
+puts $a
