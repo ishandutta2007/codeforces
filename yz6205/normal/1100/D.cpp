@@ -1,0 +1,111 @@
+#include <iostream>
+#include <cstdio>
+#include <map>
+#include <set>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
+#include <queue>
+#include <cmath>
+#include <cstring>
+using namespace std;
+
+#ifdef ENABLE_LL
+#define int long long
+#endif
+
+#ifdef ENABLE_LL
+#define I "%lld"
+#define II "%lld%lld"
+#define III "%lld%lld%lld"
+#define IIII "%lld%lld%lld%lld"
+#define IN "%lld\n"
+#define IIN "%lld%lld\n"
+#define IIIN "%lld%lld%lld\n"
+#define IIIIN "%lld%lld%lld%lld\n"
+#else
+#define I "%d"
+#define II "%d%d"
+#define III "%d%d%d"
+#define IIII "%d%d%d%d"
+#define IN "%d\n"
+#define IIN "%d%d\n"
+#define IIIN "%d%d%d\n"
+#define IIIIN "%d%d%d%d\n"
+#endif
+
+#ifdef __LOCALE__
+#define see(a) std::cout << #a << "=" << a << std::endl
+#define ses(a) std::cout << #a << "=" << a << " " 
+#else
+#define see(a) //std::cout << #a << "=" << a << std::endl
+#define ses(a)
+#endif
+#define foreach(a,b) for (int a=0;a<(int)b.size();a++)
+#define rep(i,n) for (int i=0;i<n;i++)
+#define repa(i,n) for (int i=1;i<=n;i++)
+#define repi(i,a,b) for (int i=a;i<=b;i++) 
+typedef pair < int , int > pr;
+typedef pair < pr  , int > prr;
+#define L first
+#define R second
+
+const int N = 1005;
+int x , y;
+bool mp[N][N];
+pr w[N];
+
+void init() {
+    scanf(II,&x,&y);
+    rep (i,666) {
+        int x , y; scanf(II,&x,&y);
+        mp[x][y] = 1;
+        w[i] = pr(x,y);
+    }
+}
+
+void sets(int _x , int _y) {
+    int nx = x + _x , ny = y + _y;
+    if (mp[nx][ny]) {
+        nx = x;
+    }
+    printf("%d %d\n",nx,ny);
+    x = nx ; y = ny;
+    fflush(stdout);
+    int a , b , c;
+    scanf(III,&a,&b,&c);
+    if (a == -1) exit(0);
+    if (a ==  0) exit(0);
+    mp[ w[a - 1].L ][ w[a - 1].R ] = 0;
+    mp[ b ][ c ] = 1;
+    w[a - 1] = pr(b , c);
+}
+
+const int dir[4][2] = {{1,1},{1,-1},{-1,1},{-1,-1}};
+
+void solve() {
+    while (x < 500) sets(1,0);
+    while (x > 500) sets(-1,0);
+    while (y < 500) sets(0,1);
+    while (y > 500) sets(0,-1);
+    int cnt[4];
+    memset(cnt,0,sizeof(cnt));
+    rep (i,666) {
+        int px = w[i].L , py = w[i].R;
+        if (px < 500 || py < 500) cnt[0]++;
+        if (px < 500 || py > 500) cnt[1]++;
+        if (px > 500 || py < 500) cnt[2]++;
+        if (px > 500 || py > 500) cnt[3]++;
+    }
+    int mn = 0; rep(i,4) if (cnt[i] > 500) mn = i;
+    while (1) sets(-dir[mn][0] , -dir[mn][1]);
+}
+
+#ifdef ENABLE_LL
+#undef int
+#endif
+int main(){
+    init();
+    solve();
+    return 0;
+}

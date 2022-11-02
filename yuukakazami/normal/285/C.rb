@@ -1,0 +1,1 @@
+gets;a,s=gets.split.map(&:to_i).sort,0;a.size.times {|i|s+=(a[i]-i-1).abs};p s;

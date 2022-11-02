@@ -1,0 +1,1 @@
+print((lambda a,b:"YES"if((lambda f:lambda x:f(f,x))(lambda f,x:x if len(x)%2==1 else (lambda a,b:a+b if a<b else b+a)(f(f,x[:len(x)>>1]),f(f,x[len(x)>>1:])))(a)==(lambda f:lambda x:f(f,x))(lambda f,x:x if len(x)%2==1 else (lambda a,b:a+b if a<b else b+a)(f(f,x[:len(x)>>1]),f(f,x[len(x)>>1:])))(b))else"NO")(input(),input()))

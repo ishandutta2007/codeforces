@@ -1,0 +1,1 @@
+main=interact$show.(\[n,k] -> max (3*n-k) 0).map read.words
