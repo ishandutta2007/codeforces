@@ -1,0 +1,5 @@
+n = int(input())
+a = list(map(int, input().split()))
+b = sorted([[-a[i], i]for i in range(n)])
+print(sum([ -b[i][0] * i+1 for i in range(n)]))
+print(' '.join(map(lambda x: str(x[1]+1), b)))
