@@ -1,0 +1,30 @@
+int main(){
+    int n;
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    array(string) alls=Stdio.stdin->gets()/" ";
+    array(int) st=allocate(n);
+    int i,j;
+    for(i=0;i<n;i++){
+	if(alls[i]=="off"||alls[i]=="off\r")st[i]=0;
+	else st[i]=1;
+    }
+    int k;
+    array(int) mod=allocate(n+1);
+    sscanf(Stdio.stdin->gets(),"%d",k);
+    array(string) XD=Stdio.stdin->gets()/" ";
+    for(i=0;i<k;i++){
+	int a;
+	sscanf(XD[i],"%d",a);
+	mod[a]=1-mod[a];
+    }
+    for(i=1;i<=n;i++)if(mod[i]){
+	for(j=1;j*i<=n;j++){
+	    st[i*j-1]=1-st[i*j-1];
+	}
+    }
+    for(i=0;i<n;i++){
+	if(i>0)write(" ");
+	if(st[i]>0)write("on");
+	else write("off");
+    }
+}

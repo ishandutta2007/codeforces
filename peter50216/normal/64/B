@@ -1,0 +1,9 @@
+set line [gets stdin]
+set n [expr {[string index $line 0]}]
+set o [expr {[string index $line 1]}]
+set m [expr {[string index $line 2]}]
+if {$o eq "-"} {
+puts [expr {$n - $m}]
+} else {
+puts [expr {$n + $m}]
+}

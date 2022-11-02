@@ -1,0 +1,1 @@
+print(sum(i == '1' for i in oct(int(input()))[2:]))

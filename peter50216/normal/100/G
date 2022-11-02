@@ -1,0 +1,27 @@
+int main(){
+    mapping a=([ ]);
+    int n,i;
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    for(i=0;i<n;i++){
+	array(string) s=Stdio.stdin->gets()/" ";
+	int y;
+	sscanf(s[1],"%d",y);
+	a[s[0]]=y;
+    }
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    string ans;
+    int ay=10000;
+    for(i=0;i<n;i++){
+	string s=Stdio.stdin->gets();
+	if(s[strlen(s)-1]=='\r'){
+	    s=s[0..strlen(s)-2];
+	}
+	int y=-10;
+	if(!zero_type(a[s]))y=a[s];
+	if(y<ay||(y==ay&&s>ans)){
+	    ay=y;
+	    ans=s;
+	}
+    }
+    write(ans);
+}

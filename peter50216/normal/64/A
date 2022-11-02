@@ -1,0 +1,9 @@
+set x 1
+set y 1
+set line [gets stdin]
+scan $line "%d" n
+while {$x <= $n} {
+set y [expr {$x * $y}]
+set x [expr {$x + 1}]
+}
+puts $y

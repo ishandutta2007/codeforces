@@ -1,0 +1,44 @@
+int main(){
+    int n,i,j;
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    array(int) a=allocate(n+1);
+    a[0]=1;
+    for(i=0;i<n;i++){
+	array(int) b=a;
+	a=({0})+a[0..sizeof(a)-2];
+	int x;
+	sscanf(Stdio.stdin->gets(),"%d",x);
+	for(j=0;j<=i;j++){
+	    a[j]+=b[j]*x;
+	}
+    }
+    int f=1;
+    for(i=n;i>=0;i--){
+	if(a[i]==0)continue;
+	if(f){
+	    f=0;
+	    if(a[i]!=1&&a[i]!=-1){
+		write(""+a[i]);
+		if(i>0)write("*");
+	    }
+	    else if(a[i]==-1)write("-");
+	}
+	else{
+	    if(a[i]!=1&&a[i]!=-1){
+		if(a[i]>0)write("+");
+		write(""+a[i]);
+		if(i>0)write("*");
+	    }
+	    else if(a[i]==1){
+		write("+");
+		if(i==0)write("1");
+	    }
+	    else{
+		write("-");
+		if(i==0)write("1");
+	    }
+	}
+	if(i>0)write("X");
+	if(i>1)write("^"+i);
+    }
+}

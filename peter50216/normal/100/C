@@ -1,0 +1,24 @@
+int main(){
+    string a,b;
+    a=reverse(Stdio.stdin->gets());
+    if(a[0]=='\r')a=a[1..sizeof(a)-1];
+    b=reverse(Stdio.stdin->gets());
+    if(b[0]=='\r')b=b[1..sizeof(b)-1];
+    int as=strlen(a);
+    int bs=strlen(b);
+    int ms=as>bs?as:bs;
+    array(int) c=allocate(ms+1);
+    int i;
+    for(i=0;i<as;i++){
+	c[i]=a[i]-'0';
+    }
+    for(i=0;i<bs;i++){
+	c[i]+=b[i]-'0';
+    }
+    for(i=0;i<ms;i++)if(c[i]>=10){
+	c[i]-=10;
+	c[i+1]++;
+    }
+    for(i=ms;i>=0;i--)if(c[i])break;
+    for(;i>=0;i--)write(""+c[i]);
+}

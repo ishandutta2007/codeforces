@@ -1,0 +1,14 @@
+set line [gets stdin]
+#
+scan $line "%d" n
+proc pr {nn} {
+for {set i 2} {$i*$i<=$nn} {incr i} {
+if {$nn % $i==0} {
+return 0
+}
+}
+return 1
+}
+for {set a $n} {[pr $a]==0} {incr a -1} {}
+for {set b $n} {[pr $b]==0} {incr b 1} {}
+puts "$a $b"

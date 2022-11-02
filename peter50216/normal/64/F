@@ -1,0 +1,20 @@
+set line [gets stdin]
+#scan $line "%d" n
+proc pr {in} {
+set l [string length $in]
+if {[string index $in [expr $l-1]] eq "."} {return 0}
+if {[string index $in 0] eq "."} {return 0}
+set ld -1
+for {set i 0} {$i<$l} {incr i} {
+set c [string index $in $i]
+if {!(($c <= "z" && $c>="a")||($c>="0"&&$c<="9")||($c eq "."))} {
+return 0
+}
+if {$c eq "."} {set ld $i}
+if {$i + 1 < $l && [string index $in $i] eq "." && [string index $in [expr $i+1]] eq "."} {return 0}
+}
+set r [expr $l-$ld-1]
+if {$r==2||$r==3} {return 1}
+return 0
+}
+if {[pr $line]==1} {puts "YES"} {puts "NO"}

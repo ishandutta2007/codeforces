@@ -1,0 +1,14 @@
+USING: formatting io kernel math math.parser sequences ;
+IN: 162b
+
+: fib ( n -- n )
+    dup
+    1 =
+    [ 1 "%d" printf ]
+    [ dup 2 /i fib drop dup 2 mod "%d" printf ]
+    if
+    ;
+
+readln string>number
+fib
+drop

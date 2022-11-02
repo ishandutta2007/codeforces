@@ -1,0 +1,43 @@
+iin [0]
+set [1] [0]
+set [2] 10
+set [3] 10
+co c{
+    eq [4] [3] 200
+    if [4] ac
+    set [[3]] 0
+    add [3] [3] 1
+}
+ca c
+co r{
+    eq [3] [1] 0
+    if [3]
+        ac
+    iin [3]
+    add [4] 10 [3]
+    add [[4]] [[4]] 1
+    sub [1] [1] 1
+}
+ca r
+set [3] 10
+co p{
+    iout [6]
+    sub [5] [5] 1
+    cout 32
+    eq [7] [5] 0
+    if [7]
+        ac
+}
+co s{
+    eq [4] [3] 200
+    if [4]
+        ac
+    set [5] [[3]]
+    sub [6] [3] 10
+    neq [9] [5] 0
+    if [9]
+    ca p
+    add [3] [3] 1
+}
+ca s
+ac

@@ -1,0 +1,17 @@
+print =: 1!:2&2
+read =: 1!:1[3
+abs =: -^:(0&>)
+
+in =. (read-.CR)
+idx =: in i. LF
+name =: (idx {. in) -. LF
+val =: (idx }. in) -. LF
+r =: (val i. '.') = (#val)
+pre =: (r { 'fi')
+n1 =: {. name
+nv =: }. name
+
+print datatype 
+print >(pre,(u: ((3 u: n1) - 32)) ,nv)
+
+exit ''
