@@ -1,0 +1,19 @@
+co loop
+{
+    cin [0]
+    eq [1] [0] 10
+    if [1] ac
+    sub [5] [0] 48
+    mul [5] [5] [10]
+    add [4] [4] [5]
+    mul [10] [10] 10
+}
+
+iin [3]
+set [10] 1
+set [5] 0
+cin [0]
+ca loop
+add [3] [3] [4]
+iout [3]
+ac

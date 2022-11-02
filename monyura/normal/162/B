@@ -1,0 +1,21 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array ;
+IN: template
+: rec ( n -- answer )
+   dup 0 =                      
+   [ ]                          
+   [   
+       dup
+       dup
+       dup
+       2 mod
+       - 2 /
+       rec
+       2 *
+       -
+       "%d" printf 
+   ]
+   if ;
+   
+readln string>number
+rec
+drop

@@ -1,0 +1,19 @@
+USING: io kernel splitting math math.parser formatting sequences prettyprint io.streams.byte-array ;
+readln
+dup
+length
+1
+swap
+[ [ dup first ] dip
+    dup
+ [ 0 = 
+   [ 32 bitor ]
+   [ 223 bitand ]
+   if
+   "%c" printf
+   rest ] dip
+   0 =
+   [ 1 ]
+   [ 0 ]
+   if ] times
+clear

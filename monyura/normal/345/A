@@ -1,0 +1,27 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO; Use Ada.Integer_Text_IO;
+With Ada.Float_Text_IO; Use Ada.Float_Text_IO;
+
+procedure a is
+    one:Float :=0.0;
+    total:Float :=0.0;
+    q:Float :=0.0;
+    c:character;
+    p:float;
+    res:float;
+begin
+   
+   while not End_Of_Line(Standard_Input) loop
+        Get(c);
+        total:=total+1.0;
+        if c = '1' then
+            one:=one+1.0;
+        end if;
+        if c = '?' then
+            q:=q+1.0;
+        end if;
+   end loop;
+   Get(p);
+   res := (one + q*p)/total;
+   Put(res,0,5,0);
+end a;

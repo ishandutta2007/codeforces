@@ -1,0 +1,35 @@
+co loop
+{
+    cin [0]
+    eq [1] [0] 10
+    if [1] ac
+    eq [1] [0] 72
+    eq [2] [0] 81
+    or [1] [1] [2]
+    eq [2] [0] 57
+    or [1] [1] [2]
+    if [1] 
+        set [3] 1
+}
+
+co yes
+{
+    cout 89
+    cout 69
+    cout 83
+    ac
+}
+
+co no
+{
+    cout 78
+    cout 79
+    ac
+}
+
+set [3] 0
+ca loop
+if [3] ca yes
+xor [3] [3] 1
+if [3] ca no
+ac
