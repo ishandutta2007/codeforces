@@ -1,0 +1,21 @@
+open Printf
+open Scanf
+
+let rec fold i j f init = if i >= j then init else fold (i + 1) j f (f i init)
+let sum i j f = fold i j (fun i a -> (f i) + a) 0
+
+let read_int () = bscanf Scanning.stdib " %d " (fun x -> x)
+
+let () = 
+    (* let start_time = Sys.time() in *)
+
+    let n = read_int () in
+    let a = Array.init n (fun _ -> read_int()) in
+    let b = Array.init n (fun i -> string_of_int (
+                            1 + sum 0 n (fun x -> if a.(x) > a.(i) then 1 else 0)
+                         )) in
+    print_string (String.concat " " (Array.to_list b));
+
+    (* let finish_time = Sys.time() in *)
+    (* printf "Time of scanning %fs\n" (finish_time -. start_time); *)
+    (* b;; *)

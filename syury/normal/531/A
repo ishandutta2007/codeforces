@@ -1,0 +1,15 @@
+main =>
+A = read_int(),
+B = read_int(),
+C = read_int(),
+D = B*B-4*A*C,
+X1 = (-B-sqrt(D))/(2*A),
+X2 = (-B+sqrt(D))/(2*A),
+if (X1>X2) then
+    TMP = X1,X1:=X2,X2:=TMP
+    end,
+if (D==0) then
+    println(X1)
+    else
+    writef("%w %w%n",X1,X2)
+    end.

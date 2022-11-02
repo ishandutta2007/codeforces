@@ -1,0 +1,1 @@
+print ['NO','YES'][(lambda x:(x+x%2))(len(raw_input().split('1'))-1)>=len(raw_input().split('1'))-1]

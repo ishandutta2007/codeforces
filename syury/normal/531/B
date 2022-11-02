@@ -1,0 +1,9 @@
+main =>
+  S = read_line(),
+  L = length(S),
+  HL = L/2,
+  S1 = slice(S,1,HL.to_integer()),
+  S2 = slice(S,HL.to_integer()+1,L),
+  S1:=reverse(S1),
+  S2:=reverse(S2),
+  writef("%s%s%n",S1,S2).

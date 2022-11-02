@@ -1,0 +1,45 @@
+with Ada.Integer_Text_IO;
+with Ada.Text_IO;  use Ada.Text_IO;
+with Ada.Strings.Unbounded;
+with Ada.Command_Line;
+use Ada.Integer_Text_IO;
+with ada.long_integer_text_io;
+use ada.long_integer_text_io;
+with Ada.Strings.Unbounded;
+use Ada.Strings.unbounded;
+use Ada;
+
+procedure Solveb is
+	last,res,y,e,b,X:Long_integer;
+	se,s:strings.unbounded.unbounded_string;
+
+begin
+	Get(Item=>x);
+	b:=2;res:=0;
+	while b<=x+1 loop
+	  begin
+	    s:=strings.unbounded.to_unbounded_string("");
+	    y:=x;
+	    while (y>0) loop
+	      begin
+	        e:=y mod b;
+	        se:=strings.unbounded.to_unbounded_string(long_integer'image(e));
+	        delete(se,1,1);
+	        s:=se&s;
+	        y:=y/b;
+	      end;
+	    
+	    end loop;
+	    if (strings.unbounded.count(s,"13")>0)then 
+			  res:=res+1;
+			  last:=b;
+		end if;
+	    b:=b+1;
+	  end;
+	 end loop;
+	if (last=x+1)then
+	  ada.text_io.put_line("-1");
+	else 
+	  Put(Item=>res);
+	end if;
+end Solveb;

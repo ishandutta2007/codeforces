@@ -1,0 +1,37 @@
+main =>
+  ARR = new_array(1000),
+  N = read_int(),
+  I = 1,
+  while(I<=1000)
+    ARR[I]=0,
+    I:=I+1
+    end,
+  J = 1,
+  A = 0,
+  B = 0,
+  while(J<=N)
+    A:=read_int(),
+    B:=read_int(),
+    I:=A,
+    while(I<=B)
+      ARR[I]:=1,
+      I:=I+1
+      end,
+    J:=J+1
+    end,
+  I:=1,
+  CNT = 0,
+  while(I<=1000)
+    if(ARR[I]==0) then
+      CNT:=CNT+1
+      end,
+    I:=I+1
+    end,
+  writef("%w ",CNT),
+  I:=1,
+  while(I<=1000)
+    if(ARR[I]==0) then
+      writef("%w ",I)
+      end,
+    I:=I+1
+    end.
