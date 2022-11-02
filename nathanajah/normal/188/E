@@ -1,0 +1,32 @@
+co process{
+    cin [0]
+    eq [1] [0] 10
+    if [1] ac
+    eq [3] [0] 72
+    or [2] [2] [3]
+    eq [3] [0] 81
+    or [2] [2] [3]
+    eq [3] [0] 57
+    or [2] [2] [3]
+}
+
+co yes{
+    cout 89
+    cout 69
+    cout 83
+    cout 10
+    ac
+}
+
+co no{
+    cout 78
+    cout 79
+    cout 10
+    ac
+}
+
+ca process
+if [2] ca yes
+sub [2] 1 [2]
+if [2] ca no
+ac

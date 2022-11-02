@@ -1,0 +1,50 @@
+co input{
+    gt [7] [5] [1]
+    if [7] ac
+    iin [[5]]
+    add [5] [5] 1
+}
+
+co swap{
+    set [6] [[8]]
+    set [[8]] [[9]]
+    set [[9]] [6]
+    ac
+}
+co i1{
+    eq [7] [3] [2]
+    if [7] ac
+    add [8] [3] 11
+    add [9] [3] 12
+    gt [7] [[8]] [[9]]
+    if [7] ca swap
+    add [3] [3] 1
+}
+
+co i2{
+    eq [7] [4] [0]
+    if [7] ac
+    set [3] 0
+    ca i1
+    add [4] [4] 1
+}
+
+co output{
+    gt [7] [5] [1]
+    if [7] ac
+    cout 32
+    iout [[5]]
+    add [5] [5] 1
+}
+iin [0]
+add [1] [0] 10
+sub [2] [0] 1
+set [3] 0
+set [4] 0
+set [5] 11
+ca input
+ca i2
+iout [11]
+set [5] 12
+ca output
+ac
