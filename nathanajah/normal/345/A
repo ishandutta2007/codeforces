@@ -1,0 +1,27 @@
+with Ada.Text_IO,Ada.Integer_Text_IO,Ada.Float_Text_IO;
+use Ada.Text_IO,Ada.Integer_Text_IO,Ada.Float_Text_IO;
+
+procedure a is
+    A:String(1..55);
+		Last:Integer;
+		I:Integer;
+		Res:float;
+		pel:float;
+begin
+    Get_Line(A,Last);
+		Get(pel);
+		I:=0;
+		Res:=0.0;
+		loop
+			I:=I+1;
+			exit when I = Last+1;
+			if (A(I)='?') then
+				Res:=Res+pel;
+			end if;
+			if (A(I)='1') then
+				Res:=Res+1.0;
+			end if;
+		end loop;
+		Res:=Res/float(Last);
+		Put(Res,Fore=>1,Aft=>5,Exp=>0);
+end a;

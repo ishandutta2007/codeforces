@@ -1,0 +1,62 @@
+with Ada.Text_IO,Ada.Long_Integer_Text_IO,Ada.Float_Text_IO,Ada.Strings.Unbounded,Ada.Strings.Unbounded.Text_IO;
+use Ada.Text_IO,Ada.Long_Integer_Text_IO,Ada.Float_Text_IO,Ada.Strings.Unbounded,Ada.Strings.Unbounded.Text_IO;
+with Ada.Strings.Fixed;
+use Ada.Strings.Fixed;
+
+
+procedure b is
+		procedure f (alol,base:in Long_integer; b: out Unbounded_String) is
+			i:Long_integer;
+			tmp:Long_integer;
+			a:Long_integer;
+		begin
+			Delete(b,1,Length(b));
+			a:=alol;
+			while (a>0) loop
+				tmp:= a rem base;
+				a:=a/base;
+				b:=Trim(Long_Integer'Image(tmp),Ada.Strings.Left) & b ;
+			end loop;
+		end f;
+    a:Unbounded_String;
+		n,i,j:Long_integer;
+		panjang:Long_integer;
+		res:Long_integer;
+		bisa:Long_integer;
+		b:Unbounded_String;
+begin
+		res:=0;
+    Get(n);
+		Delete(b,1,Length(b));
+		b:=b & Long_Integer'Image(n);
+		panjang:=Long_Integer(Length(b));
+		bisa:=0;
+		i:=1;
+		while (i<panjang) loop
+			if Element(b,Integer(i))='1' and then Element(b,Integer(i)+1) = '3' then
+				bisa:=1;
+			end if;
+			i:=i+1;
+		end loop;
+		if (bisa=1) then
+			Put(-1,Width=>1);
+		else
+			i:=2;
+			while i<=n loop
+				Delete(a,1,Length(a));
+				f(n,i,a);
+				panjang:=Long_Integer(Length(a));
+				j:=1;
+				bisa:=0;
+				while (j<panjang) loop
+					if Element(a,Integer(j))='1' and then Element(a,Integer(j)+1) ='3' then
+						bisa:=1;
+					end if;
+					j:=j+1;
+				end loop;
+				res:=res+bisa;
+				i:=i+1;
+			end loop;
+			Put(res,Width=>1);
+		end if;
+end b;
