@@ -1,0 +1,8 @@
+let (n, k) = Scanf.scanf "%d %d\n" (fun x y -> x, y) in
+
+let rec solve n k =
+        if k = 0 then n 
+        else let n' = if n mod 10 = 0 then n / 10 else n - 1 in
+        solve n' (k - 1) in
+
+Printf.printf "%d\n" @@ solve n k

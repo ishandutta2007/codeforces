@@ -1,0 +1,52 @@
+with Ada.Text_IO, Ada.Integer_Text_IO, Ada.Strings;
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+
+procedure ProbB is
+begin
+  declare
+    function check (n: Integer; b: Integer) return Integer is
+    s, t: Unbounded_String;
+      r, v, i, c: Integer;
+    begin
+      v := n;
+      loop
+        r := v mod b;
+        v := v / b;
+      for c in r'img'range loop
+         if c /= r'img'Length then
+           Append(s, r'img(r'img'Length - c + 1));
+         end if;
+      end loop;
+        exit when v = 0;
+      end loop;
+      i := Length(s);
+      if Length(s) = 1 then 
+        return 0;
+      end if;
+      loop
+        if Character'Pos(To_String(s)(i)) = 49 and Character'Pos(To_String(s)(i - 1)) = 51 then
+          return 1;
+        end if;
+        i := i - 1;
+        exit when i = 1;
+      end loop;
+      return 0;   
+    end check;
+  n, ans: Integer;
+  i: Integer := 2;
+  begin
+    Ada.Integer_Text_IO.Get(n);
+    if check(n, 10) = 1 then
+      Ada.Integer_Text_IO.Put(-1);
+    else
+      ans := 0;
+      loop
+        ans := ans + check(n, i);
+        i := i + 1;
+        exit when i > n;
+      end loop;
+      Ada.Integer_Text_IO.Put(ans);
+    end if;
+  end;
+end ProbB;

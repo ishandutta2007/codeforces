@@ -1,0 +1,43 @@
+with Ada.Text_IO, Ada.Integer_Text_IO;
+
+procedure ProbC is
+begin
+  declare
+    function check (s : String) return Integer is
+      c, y, m, d, w: Integer;
+    begin
+      c := (Character'Pos(s(1)) - 48) * 10 + (Character'Pos(s(2)) - 48) * 1;
+      y := (Character'Pos(s(3)) - 48) * 10 + (Character'Pos(s(4)) - 48) * 1;
+      m := (Character'Pos(s(6)) - 48) * 10 + (Character'Pos(s(7)) - 48) * 1;
+      d := (Character'Pos(s(9)) - 48) * 10 + (Character'Pos(s(10)) - 48) * 1;
+      if m < 3 then
+        if y > 0 then 
+          y := y - 1;
+        else 
+          y := 99;
+          c := c - 1;
+        end if;
+        m := m + 12;
+      end if;
+      w := (y + y / 4 + c / 4 - 2 * c + (26 * (m + 1) / 10) + d - 1) mod 7;
+      if d = 13 and w = 5 then
+        return 1;
+      end if;
+      return 0;   
+    end check;
+  n, t: Integer;
+  ans: Integer := 0;
+  s: String(1..11);
+  i: Integer := 1;
+  begin
+    Ada.Integer_Text_IO.Get(n);
+      Ada.Text_IO.Get_Line(s, t);
+    loop
+      Ada.Text_IO.Get_Line(s, t);
+      ans := ans + check(s);
+      i := i + 1;
+      exit when i > n;
+    end loop;
+    Ada.Integer_Text_IO.Put(ans);  
+end;
+end ProbC;

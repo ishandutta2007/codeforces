@@ -1,0 +1,68 @@
+#define _USE_MATH_DEFINES/////////////////////////////////////////////////////
+#include <bits/stdc++.h>//////////////////////////////////////////////////////
+#ifdef LOC////////////////////////////////////////////////////////////////////
+#include "debuglib.h"/////////////////////////////////////////////////////////
+#else/////////////////////////////////////////////////////////////////////////
+#define deb(...)//////////////////////////////////////////////////////////////
+#define DBP(...)//////////////////////////////////////////////////////////////
+#endif////////////////////////////////////////////////////////////////////////
+#define x first///////////////////////////////////////////////////////////////
+#define y second//////////////////////////////////////////////////////////////
+#define mp make_pair//////////////////////////////////////////////////////////
+#define pb push_back//////////////////////////////////////////////////////////
+#define sz(x)int((x).size())//////////////////////////////////////////////////
+#define each(a,x)for(auto&a:(x))///////////////// by teapotd /////////////////
+#define all(x)(x).begin(),(x).end()///////////////////////////////////////////
+#define rep(i,b,e)for(int i=(b);i<(e);i++)////////////////////////////////////
+using namespace std;using namespace rel_ops;using ll=int64_t;using Pii=pair///
+<int,int>;using ull=uint64_t;using Vi=vector<int>;void run();int main(){cin.//
+sync_with_stdio(0);cin.tie(0);cout<<fixed<<setprecision(10);run();return 0;}//
+//--------------------------------------------------------------------------//
+
+int uplg(int n) { return 32-__builtin_clz(n); }
+int uplg(ll n)  { return 64-__builtin_clzll(n); }
+
+void run() {
+	int n; cin >> n;
+	vector<ll> elems(n-1);
+
+	each(e, elems) {
+		ll a, b; cin >> a >> b;
+		e = a*b;
+	}
+
+	rep(k, 0, 2) {
+		int div; cin >> div;
+
+		for (int i = 2; i*i <= div; i++) {
+			if (div%i) continue;
+			while (div%i == 0) div /= i;
+
+			bool ok = true;
+			each(e, elems) if (e%i) {
+				ok = false;
+				break;
+			}
+
+			if (ok) {
+				cout << i << endl;
+				return;
+			}
+		}
+
+		if (div == 1) continue;
+
+		bool ok = true;
+		each(e, elems) if (e%div) {
+			ok = false;
+			break;
+		}
+
+		if (ok) {
+			cout << div << endl;
+			return;
+		}
+	}
+
+	cout << "-1\n";
+}

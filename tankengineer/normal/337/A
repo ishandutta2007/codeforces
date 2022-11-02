@@ -1,0 +1,15 @@
+let (n, m) = Scanf.scanf "%d %d\n" (fun n m -> n, m) in
+
+let a = Array.make m 0 in
+for i = 0 to m - 1 do
+    Scanf.scanf "%d%[ ]" (fun x _ -> a.(i) <- x)
+done ;
+
+Array.sort compare a ;
+
+let ans = ref max_int in
+for i = 0 to m - n do
+    ans := min !ans (a.(i + n - 1) - a.(i))
+done ;
+
+Printf.printf "%d\n" !ans ;;
