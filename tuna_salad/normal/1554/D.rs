@@ -1,0 +1,108 @@
+//spnauti-rusT {{{
+#[allow(unused_imports)]use std::{io::*,collections::*,fmt::Debug,str::{self,*},cmp::*,ops::{self,*},iter::{self,*}};
+macro_rules!rp{{[$c:expr]$($s:tt)+}=>(for _ in 0..$c{$($s)+})}
+macro_rules!min{($x:expr,$y:expr)=>{{let b=$y;let a=&mut$x;if b<*a{*a=b;true}else{false}}};}
+macro_rules!v{
+	($(:$t:ty)?=$e:expr)=>{$e$(as$t)?};([$d:expr]$(:$t:ty)?)=>{Vec::$(<$t>::)?with_capacity($d)};
+	([]$(:$t:ty)?)=>{Vec::$(<$t>::)?new()};([$d:expr]$($s:tt)+)=>{vec![v!($($s)+);$d]};}
+fn rio()->(Reader,BufWriter<Stdout>){(Reader::new(),BufWriter::new(stdout()))}
+struct Reader{buf:Vec<u8>,pos:usize,x:*mut Stdin,q:StdinLock<'static>}//'
+#[allow(dead_code)]impl Reader{
+	fn new()->Self{let x=Box::into_raw(Box::new(stdin()));let q=unsafe{&*x}.lock();Self{x,q,buf:v!([]),pos:0}}
+	fn next_line(&mut self)->bool{self.buf.clear();self.pos=0;self.q.read_until(b'\n',&mut self.buf).unwrap_or(0)>0}
+	fn byte(&mut self)->Option<u8>{
+		if self.pos==self.buf.len(){if!self.next_line(){return None;}}self.pos+=1;Some(self.buf[self.pos-1])}
+	fn vb(&mut self)->Vec<u8>{let mut s=v!([10]);let mut f=false;while let Some(c)=self.byte(){
+		if!c.is_ascii_whitespace(){s.push(c);f=true;}else if f{break;}}s}
+	fn p<T:FromStr>(&mut self)->T where T::Err:Debug{let w=self.vb();str::from_utf8(w.as_ref()).unwrap().parse::<T>().unwrap()}
+	fn u(&mut self) ->  usize { self.p() }
+}impl Drop for Reader{fn drop(&mut self){unsafe{Box::from_raw(self.x)};}}
+//----------}}}
+
+fn rec(n: usize, p: &mut u8, t0: &[(usize,usize,usize)]) -> String {
+	let mut res = String::new();
+	match t0[n].2 {
+		0 => {
+			rp!{[n]
+				res.push(*p as char);
+				*p += 1;
+			}
+		},
+		1 => {
+			res = rec(t0[n].1, p, t0);
+			res += &rec(n-t0[n].1, p, t0);
+		},
+		3 => {
+			let k = t0[n].1;
+			let m = (n-k) / (k+1);
+			let x = rec(m, p, t0);
+			let y = rec(k, p, t0);
+			res += &x;
+			for c in y.chars() {
+				res.push(c);
+				res += &x;
+			}
+		},
+		4 => {
+			assert!(n == 4);
+			let x = *p as char;
+			let y = (*p + 1) as char;
+			*p += 2;
+			res.push(x);
+			res.push(y);
+			res.push(x);
+			res.push(x);
+		},
+		_ => unreachable!(),
+	}
+	res
+}
+
+fn main() {
+	let (mut rin,mut rout) = rio();
+	const N: usize = 100000;
+
+	let mut t0 = (0..=N).map(|x| (x,0,0)).collect::<Vec<_>>();
+	t0[4] = (2,0,4);
+	for i in 1..=N {
+		if t0[i].0 > 26 {
+			println!("BAD at {} {}", i, t0[i].0);
+			assert!(false);
+		}
+
+		for j in 1..=i.min(26) {
+			let p = i + j;
+			let res = t0[i].0 + t0[j].0;
+			if p <= N && min!(t0[p].0, res) {
+				t0[p].1 = j;
+				t0[p].2 = 1;
+			}
+		}
+		let mut k = 2;
+		// while k+t0[i].0 <= 26 {
+		// 	let p = i*(k+1) + k;
+		// 	let res = t0[i].0 + k;
+		// 	if p <= N && min!(t0[p].0, res) {
+		// 		t0[p].1 = k;
+		// 		t0[p].2 = 2;
+		// 	}
+		// 	k += 2;
+		// }
+		// k = 2;
+		while k <= i && t0[i].0 + t0[k].0 <= 26 {
+			let p = i*(k+1) + k;
+			let res = t0[i].0 + t0[k].0;
+			if p <= N && min!(t0[p].0, res) {
+				t0[p].1 = k;
+				t0[p].2 = 3;
+			}
+			k += 2;
+		}
+	}
+
+	rp!{[rin.u()]
+		let n = rin.u();
+		let ans = rec(n, &mut b'a', &t0);
+		writeln!(rout, "{}", ans).unwrap();
+	}
+}
