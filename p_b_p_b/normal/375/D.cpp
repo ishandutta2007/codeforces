@@ -1,0 +1,121 @@
+#include<bits/stdc++.h>
+#define sz 100020
+#define mod 998244353
+using namespace std;
+typedef long long ll;
+struct FastIO{
+    inline FastIO& operator>>(int& x)
+    {
+        x=0;char f=0,ch=getchar();
+        while(ch>'9'||ch<'0') f|=(ch=='-'),ch=getchar();
+        while(ch<='9'&&ch>='0') x=x*10+ch-48,ch=getchar();
+        return x=(f?-x:x),*this;
+    }
+    inline FastIO& operator>>(ll& x)
+    {
+        x=0;char f=0,ch=getchar();
+        while(ch>'9'||ch<'0') f|=(ch=='-'),ch=getchar();
+        while(ch<='9'&&ch>='0') x=x*10+ch-48,ch=getchar();
+        return x=(f?-x:x),*this;
+    }
+    inline FastIO& operator>>(double& x)
+    {
+        x=0;char f=0,ch=getchar();
+        double d=0.1;
+        while(ch>'9'||ch<'0') f|=(ch=='-'),ch=getchar();
+        while(ch<='9'&&ch>='0') x=x*10+ch-48,ch=getchar();
+        if(ch=='.')
+        {
+        	ch=getchar();
+            while(ch<='9'&&ch>='0') x+=d*(ch^48),d*=0.1,ch=getchar();
+        }
+        return x=(f?-x:x),*this;
+    }
+}read;
+void file(){
+    #ifndef ONLINE_JUDGE
+    freopen("a.txt","r",stdin);
+    #endif
+}
+unsigned int log2(int x){unsigned int ret;__asm__ __volatile__ ("bsrl %1, %%eax":"=a"(ret):"m"(x));return ret;}
+inline ll mul(ll a,ll b){ll d=(ll)(a*(double)b/mod+0.5);ll ret=a*b-d*mod;if (ret<0) ret+=mod;return ret;}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+int n;
+int col[sz];
+struct hh{int t,nxt;}edge[sz<<1];
+int head[sz],ecnt;
+void make_edge(int f,int t)
+{
+	edge[++ecnt]=(hh){t,head[f]};
+	head[f]=ecnt;
+	edge[++ecnt]=(hh){f,head[t]};
+	head[t]=ecnt;
+}
+#define go(x) for (int i=head[x];i;i=edge[i].nxt)
+#define v edge[i].t
+int tr[sz<<2];
+#define lson k<<1,l,mid
+#define rson k<<1|1,mid+1,r
+void add(int k,int l,int r,int x,int w)
+{
+	tr[k]+=w;
+	if (l==r) return;
+	int mid=(l+r)>>1;
+	if (x<=mid) add(lson,x,w);
+	else add(rson,x,w);
+}
+int query(int k,int l,int r,int x,int y)
+{
+	if (x<=l&&r<=y) return tr[k];
+	int mid=(l+r)>>1,ret=0;
+	if (x<=mid) ret+=query(lson,x,y);
+	if (y>mid) ret+=query(rson,x,y);
+	return ret;
+}
+int size[sz],son[sz];
+void dfs1(int x,int fa)
+{
+	size[x]=1;
+	go(x) if (v!=fa)
+	{
+		dfs1(v,x);
+		size[x]+=size[v];
+		if (size[v]>size[son[x]]) son[x]=v;
+	}
+}
+#define pii pair<int,int>
+#define MP make_pair
+#define fir first
+#define sec second
+vector<pii>q[sz];
+int ans[sz];
+int cnt[sz];
+int S;
+void add(int x,int fa,int t)
+{
+	add(1,1,n,cnt[col[x]]+1,-1);
+	cnt[col[x]]+=t;
+	add(1,1,n,cnt[col[x]]+1,1);
+	go(x) if (v!=fa&&v!=S) add(v,x,t);
+}
+void dfs2(int x,int fa,bool keep)
+{
+	go(x) if (v!=fa&&v!=son[x]) dfs2(v,x,0);
+	if (son[x]) dfs2(son[x],x,1);
+	S=son[x];
+	add(x,fa,1);
+	for (int i=0;i<q[x].size();i++) ans[q[x][i].fir]=query(1,1,n,q[x][i].sec+1,n);
+	S=0;
+	if (!keep) add(x,fa,-1);
+}
+int main()
+{
+	file();
+	int i,j,k,x,y,z,m;
+	read>>n>>m;
+	for (i=1;i<=n;i++) read>>col[i];
+	for (i=1;i<n;i++) read>>x>>y,make_edge(x,y);
+	for (i=1;i<=m;i++) read>>x>>y,q[x].push_back(MP(i,y));
+	dfs1(1,0);dfs2(1,0,1);
+	for (i=1;i<=m;i++) printf("%d\n",ans[i]);
+}
