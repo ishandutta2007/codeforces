@@ -1,0 +1,146 @@
+#pragma GCC optimize("O3", "unroll-loops")
+#pragma GCC target("avx2")
+
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <bitset>
+#include <sstream>
+#include <deque>
+#include <queue>
+#include <complex>
+#include <random>
+#include <cassert>
+#include <chrono>
+
+using namespace std;
+
+#define FAST ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0)
+#define FIXED cout << fixed << setprecision(12)
+#define ll long long
+#define ld long double
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+#define graph vector<vector<int>>
+#define pb push_back
+#define pf push_front
+#define popb pop_back
+#define popf pop_front
+#define f first
+#define s second
+#define hashmap unordered_map
+#define hashset unordered_set
+#define eps 1e-9
+#define mod 998244353
+#define inf 3000000000000000007ll
+#define sz(a) signed(a.size())
+#define all(a) a.begin(), a.end()
+#define rall(a) a.rbegin(), a.rend()
+
+#ifdef DEBUG
+    mt19937 gen(857204);
+#else
+    mt19937 gen(chrono::high_resolution_clock::now().time_since_epoch().count());
+#endif
+
+template<class T, class U> inline void checkmin(T &x, U y) { if (y < x) x = y; }
+template<class T, class U> inline void checkmax(T &x, U y) { if (y > x) x = y; }
+template<class T, class U> inline bool ifmax(T &x, U y) { if (y > x) return x = y, true; return false; }
+template<class T, class U> inline bool ifmin(T &x, U y) { if (y < x) return x = y, true; return false; }
+template<class T> inline void sort(T &a) { sort(all(a)); }
+template<class T> inline void rsort(T &a) { sort(rall(a)); }
+template<class T> inline void reverse(T &a) { reverse(all(a)); }
+template<class T, class U> inline istream& operator>>(istream& str, pair<T, U> &p) { return str >> p.f >> p.s; }
+template<class T> inline istream& operator>>(istream& str, vector<T> &a) { for (auto &i : a) str >> i; return str; }
+template<class T> inline T sorted(T a) { sort(a); return a; }
+
+vector<int> odd(string s) {
+    s = '+' + s + '#';
+    vector<int> ans(sz(s));
+    for (int i = 1; i < sz(s) - 1; ++i) {
+        ans[i] = 0;
+        while (s[i - ans[i] - 1] == s[i + ans[i] + 1]) ++ans[i];
+    }
+    return vector<int>(ans.begin() + 1, ans.end() - 1);
+}
+
+vector<int> even(string s) {
+    s = '+' + s + '#';
+    vector<int> ans(sz(s));
+    for (int i = 1; i < sz(s) - 1; ++i) {
+        ans[i] = 0;
+        while (s[i - ans[i]] == s[i + ans[i] + 1]) ++ans[i];
+    }
+    return vector<int>(ans.begin() + 1, ans.end() - 1);
+}
+
+void solve() {
+    string s;
+    cin >> s;
+    int l = 0, r = sz(s) - 1;
+    while (l <= r && s[l] == s[r]) ++l, --r;
+    if (l > r) {
+        cout << s << '\n';
+        return;
+    }
+    vector<int> o = odd(s), e = even(s);
+    vector<pii> answer;
+    int ans = 0;
+    for (int i = l; i <= r; ++i) {
+        int cl, cr;
+        cl = i - o[i];
+        cr = i + o[i];
+        if (cl <= l + 1 || cr >= r - 1) {
+            if (cr > r) {
+                int d = cr - r;
+                cr -= d;
+                cl += d;
+            }
+            if (cl < l) {
+                int d = l - cl;
+                cr -= d;
+                cl += d;
+            }
+            if ((cl == l || cr == r) && ifmax(ans, l + sz(s) - r - 1 + cr - cl + 1))
+                answer = {{0, l - 1}, {cl, cr}, {r + 1, sz(s) - 1}};
+        }
+        cl = i + 1 - e[i];
+        cr = i + e[i];
+        if (cl < cr && (cl <= l + 1 || cr >= r - 1)) {
+            if (cr > r) {
+                int d = cr - r;
+                cr -= d;
+                cl += d;
+            }
+            if (cl < l) {
+                int d = l - cl;
+                cr -= d;
+                cl += d;
+            }
+            if ((cl == l || cr == r) && ifmax(ans, l + sz(s) - r - 1 + cr - cl + 1))
+                answer = {{0, l - 1}, {cl, cr}, {r + 1, sz(s) - 1}};
+        }
+    }
+    //cout << ans << '\n';
+    for (auto i : answer) 
+        if (i.s >= i.f) cout << s.substr(i.f, i.s - i.f + 1);
+    cout << '\n';
+}
+
+signed main() {
+    FAST; FIXED;
+    int t;
+    cin >> t;
+    while (t--) solve();
+    #ifdef DEBUG
+        cerr << "Runtime is: " << clock() * 1.0 / CLOCKS_PER_SEC << endl;
+    #endif
+    return 0;
+}
