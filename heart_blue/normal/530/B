@@ -1,0 +1,4 @@
+main =>
+	S = read_line(),
+	N = floor(S.len / 2),
+	println(S.slice(1, N).reverse() ++ S.slice(N + 1).reverse())

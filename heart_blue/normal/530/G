@@ -1,0 +1,10 @@
+table
+dist("", "") = 0.
+dist([A|B], "") = ord(A) - ord('a') + 1 + dist(B, "").
+dist("", [A|B]) = ord(A) - ord('a') + 1 + dist(B, "").
+dist([A|B], [C|D]) = min(ord(A) - ord('a') + 1 + dist(B, [C|D]), min(ord(C) - ord('a') + 1 + dist([A|B], D), abs(ord(A) - ord(C)) + dist(B, D))).
+ 
+main =>
+  A = read_line(),
+  B = read_line(),
+  print(dist(A, B)).

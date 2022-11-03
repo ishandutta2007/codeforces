@@ -1,0 +1,13 @@
+table(+,+,+,max)
+go(X,Y,K,R) ?=> (NX=X+K,NY=Y;NX=X-K,NY=Y;NX=X,NY=Y-K;NX=X,NY=Y+K),have(NX,NY),go(NX,NY,K,R).
+go(X,Y,K,R) => R=abs(X)+abs(Y).
+ 
+table(-,max)
+calc(K,R) ?=> member(K, 1..10),go(0,0,K,R).
+ 
+main =>
+	N=read_int(),F=[],
+	foreach(I in 1..N) X=read_int(),Y=read_int(),F:=[$have(X,Y)|F] end,
+	cl_facts(F),
+	calc(K,R),
+	writeln(R).

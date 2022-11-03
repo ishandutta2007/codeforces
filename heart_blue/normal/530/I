@@ -1,0 +1,15 @@
+import cp.
+import util.
+ 
+main =>
+	N = read_int(),
+	K = read_int(),
+	P = [ ( [ read_int(): _ in 1..read_int() ] ) : _ in 1..K ],
+	P := sort_remove_dups([sort(X): X in P]),
+	R = new_list(N),
+	R :: 1..N,
+	foreach (IDX in P)
+		all_different([R[I] : I in IDX])
+	end,
+	solve([$min(max(R))], R),
+	println(join([to_string(X): X in R])).

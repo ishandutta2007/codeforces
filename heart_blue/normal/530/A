@@ -1,0 +1,9 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  X=B*B-4*A*C,
+  F=(-B-sqrt(X))/2/A,
+  G=(-B+sqrt(X))/2/A,
+  if (F!=G)then println(min(F,G)) end,
+	println(max(F,G)).
