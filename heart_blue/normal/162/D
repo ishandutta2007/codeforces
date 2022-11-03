@@ -1,0 +1,2 @@
+USING: io regexp ;
+readln R/ \d/ "" re-replace print

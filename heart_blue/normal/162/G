@@ -1,0 +1,4 @@
+USING: io kernel math math.parser sequences ascii ;
+readln string>number 0 readln string>number rot
+[ readln 0 swap [ swap pick * swap dup 64 > [ 55 ] [ 48 ] if - + ] each rot + swap ] times
+>base >upper print

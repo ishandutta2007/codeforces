@@ -1,0 +1,2 @@
+USING: kernel io regexp ;
+readln R/ [HQ9]/ re-contains? [ "YES"] [ "NO"] if print
