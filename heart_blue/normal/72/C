@@ -1,0 +1,1 @@
+write(if(File standardInput readLine asNumber%4==2,"yes","no"))

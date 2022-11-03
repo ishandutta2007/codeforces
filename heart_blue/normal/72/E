@@ -1,0 +1,14 @@
+s := File standardInput readLine
+a := ""
+c := 0
+for(l,s size,1,-1,
+for(i,0,s size-l,
+	x := s slice(i,i+l)
+	t := 0
+	for(j,0,s size -l,
+		if( s slice(j,j+l) == x, t=t+1)
+	)
+	if(t>c,c=t;a=x)
+	if(t==c,if(l>=a size,if(x>a,a=x)))
+))
+a println

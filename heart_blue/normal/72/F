@@ -1,0 +1,19 @@
+gao :=method(x,r,
+	q :=r split
+	q removeFirst
+	k :=list()
+	q foreach(v,k append(v asNumber))
+	p :=k sort
+	z :=p size +1
+	p foreach(i,v,
+		if(v==1,z=z-1)
+		if(v==x asNumber,z=z-1)
+		if(i>0,
+			if(p at(i-1)+1==v,z=z-1)
+		)
+	)
+	return z
+)
+s :=File standardInput readLines
+a :=s at(0) split
+(gao(a at(0),s at(1))*gao(a at(1),s at(2))) println
