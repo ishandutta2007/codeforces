@@ -1,0 +1,1 @@
+main = interact $ show . (\(n:t:_) -> if (n, t) == (1, 10) then -1 else t * 10 ^ (n - 1 - (t `div` 10))) . map read . words

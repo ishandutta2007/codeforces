@@ -1,0 +1,1 @@
+main = interact $ show . (`mod` (10 ^ 9 + 7)) . (\n -> 27 ^ n - 7 ^ n) . read
