@@ -1,0 +1,12 @@
+print =: 1!:2&2
+read =: 1!:1[3
+in =. (read-.LF)-.CR
+minus =: -
+plus =: +
+div =: %
+umn =: *
+v =. 1 plus ". in
+p =. v umn ". in
+d =. p div 2
+q =. d plus 1
+print q
