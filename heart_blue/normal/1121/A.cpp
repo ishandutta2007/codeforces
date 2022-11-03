@@ -1,0 +1,55 @@
+#include <cstdlib>
+#include <cctype>
+#include <cstring>
+#include <cstdio>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <fstream>
+#include <numeric>
+#include <iomanip>
+#include <bitset>
+#include <list>
+#include <stdexcept>
+#include <functional>
+#include <utility>
+#include <ctime>
+using namespace std;
+typedef long long LL;
+typedef unsigned long long ULL;
+#define MEM(a,b) memset((a),(b),sizeof(a))
+const LL INF = 1e9 + 7;
+const int N = 2e2 + 10;
+int p[N];
+int s[N];
+int maxv[N];
+int main()
+{
+	//freopen("input.txt", "r", stdin);
+	//freopen("output.txt", "w", stdout);
+	int n, m, k;
+	cin >> n >> m >> k;
+	for (int i = 1; i <= n; i++) cin >> p[i];
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> s[i];
+		maxv[s[i]] = max(maxv[s[i]], p[i]);
+	}
+	int ans = 0;
+	while (k--)
+	{
+		int x;
+		cin >> x;
+		if (p[x] != maxv[s[x]])
+			ans++;
+	}
+	cout << ans << endl;
+	return 0;
+}
