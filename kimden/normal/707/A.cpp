@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef unsigned long long ull;
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> pii;
+
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+//    freopen(".in", "r", stdin);
+//    freopen(".out", "w", stdout);
+    int n, m;
+    cin >> n >> m;
+    string s;
+    bool col = false;
+    for(int i = 0; i < n; ++i){
+        for(int j = 0; j < m; ++j){
+            cin >> s;
+            if(s[0] == 'C' || s[0] == 'M' || s[0] == 'Y'){
+                cout << "#Color" << endl;
+                return 0;
+            }
+        }
+    }
+    cout << "#Black&White" << endl;
+    return 0;
+
+
+
+}
