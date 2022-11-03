@@ -1,0 +1,1 @@
+char s[201];int a[26];main(n,k,i){scanf("%d%d%s",&n,&k,s);for(i=0;i<n;i++)a[s[i]-'a']++;for(i=0;i<26;i++) if (a[i]>k) return puts("NO"),0;puts("YES");}
