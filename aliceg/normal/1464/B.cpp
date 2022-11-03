@@ -1,0 +1,124 @@
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <deque>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <iomanip>
+#include <functional>
+#include <limits>
+#include <ctime>
+#include <cassert>
+
+#define pb push_back
+#define mp make_pair
+#define rn(n) int n; cin >> n;
+#define fi(n) for (int i = 0; i < n; ++i)
+#define fie(n) for (int i = 1; i <= n; ++i)
+#define fir(l, r) for (int i = (l); i <= (r); ++i)
+#define fj(n) for (int j = 0; j < n; ++j)
+#define fje(n) for (int j = 1; j <= n; ++j)
+#define fjr(l, r) for (int j = (l); j <= (r); ++j)
+#define fv(i, n) for (int i = 0; i < n; ++i)
+#define fve(i, n) for (int i = 1; i <= n; ++i)
+#define fvr(j, l, r) for (int j = (l); j <= (r); ++j)
+#define sc(n) scanf("%d", &n)
+#define scc(n) scanf("%c", &n)
+#define scs(n) scanf("%s", &n)
+#define scl(n) scanf("%lld", &n)
+#define endl '\n'
+#define sqr(x) ((x) * (x))
+#define F first
+#define S second
+#define fll(x, a) memset(x, a, sizeof(x))
+#define clr(x) memset(x, 0, sizeof(x))
+#define IOboost ios_base::sync_with_stdio(false); cin.tie(NULL)
+#ifndef _getchar_nolock
+#define _putchar_nolock putchar_unlocked
+#define _getchar_nolock getchar_unlocked
+#endif
+#define int ll
+
+#pragma warning (disable : 4996)
+#pragma optimize ("gtsy", on)
+//#pragma comment(linker, "/STACK:536870912")
+
+using namespace std;
+
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair <int, int> pii;
+typedef vector <int> vi;
+typedef vector <vi> vvi;
+typedef vector <pii> vii;
+typedef vector <char> vc;
+
+const ld EPS = 1e-8;
+const int INF = (int)1e11 + 10;
+const int MOD = (int)1e9 + 7;
+const int N = (int)2e3 + 10;
+
+signed main() {
+#ifdef LOCALFILE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
+	IOboost;
+
+	string s;
+	cin >> s;
+	int x, y;
+	cin >> x >> y;
+	int n = s.length();
+	if (x > y) {
+		swap(x, y);
+		for (int i = 0; i < n; ++i) {
+			if (s[i] == '0')
+				s[i] = '1';
+			else if (s[i] == '1')
+				s[i] = '0';
+		}
+	}
+	vi pref(n + 1), suf(n + 1);
+	for (int i = 1; i <= n; ++i) {
+		pref[i] = pref[i - 1];
+		if (s[i - 1] == '1')
+			++pref[i];
+	}
+	for (int i = n - 1; i >= 0; --i) {
+		suf[i] = suf[i + 1];
+		if (s[i] == '1')
+			++suf[i];
+	}
+	int ans = 0, c = 0;
+	for (int i = 0; i < n; ++i) {
+		if (s[i] == '0')
+			ans += (pref[i] + c) * y;
+		else
+			ans += (i - pref[i] - c) * x;
+		if (s[i] == '?')
+			++c;
+	}
+	int res = ans;
+	int k = 0;
+	for (int i = 0; i < n; ++i) {
+		if (s[i] != '?')
+			continue;
+		ans += pref[i] * y - (i - pref[i] - k) * x + suf[i + 1] * x - (n - i - 1 - (c - k - 1) - suf[i + 1]) * y - k * x + (c - k - 1) * x;
+		++k;
+		res = min(res, ans);
+	}
+	cout << res;
+
+	return 0;
+}
