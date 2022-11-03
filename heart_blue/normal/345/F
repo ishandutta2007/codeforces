@@ -1,0 +1,78 @@
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+ 
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+ 
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+ 
+with Ada.Strings.Unbounded.Text_IO;
+use Ada.Strings.Unbounded.Text_IO;
+ 
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+ 
+with Ada.Calendar; use Ada.Calendar;
+with Gnat.Calendar; use Gnat.Calendar;
+ 
+with Ada.Containers.Ordered_Maps;
+ 
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+ 
+procedure ProbF is
+ package Associative_Map is new Ada.Containers.Ordered_Maps(Unbounded_String, Integer);
+ use Associative_Map;
+  
+  AnsMap : Map;  
+  AnsCurs : Cursor;
+  Success : Boolean;
+ 
+  Line0 : String(1..10000);
+  Line : Unbounded_String;
+  Len : Integer;
+ 
+  Idx : Integer;
+  MaxVal : Integer := -1;
+begin
+  while not End_of_File loop
+    Get_line(Line0, Len);
+    Line := To_Unbounded_String(Line0(1..Len));
+    Line := To_Unbounded_String(To_Lower(To_String(line)));
+ 
+    NoSpaces:
+    loop
+      Idx := Index(Line, "  ");
+      if Idx = 0 then
+        exit NoSpaces;
+      else
+        Line := To_Unbounded_String(Slice(Line, 1, Idx) & Slice(Line, Idx + 2, Length(Line)));
+      end if;
+    end loop NoSpaces;
+    if Slice(Line, 1, 1) = "*" then
+      Line := To_Unbounded_String(Slice(Line, 3, Length(Line)));
+      if AnsMap.Contains(Line) then
+        Idx := AnsMap.Element(Line);
+        Idx := Idx + 1;
+      else
+        Idx := 1;
+        AnsMap.Insert(Line, 0, AnsCurs, Success);
+      end if;
+      if Idx > MaxVal then
+        MaxVal := Idx;
+      end if;
+      AnsMap.Replace(Line, Idx);
+    end if;
+  end loop;    
+ 
+  AnsCurs := AnsMap.First;
+  while AnsCurs /= No_Element loop
+    if Element(AnsCurs) = MaxVal then
+      Put_Line(To_String(Key(AnsCurs)));
+    end if;
+    AnsCurs := Next(AnsCurs);
+  end loop;
+end ProbF;
