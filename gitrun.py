@@ -27,19 +27,21 @@ def cyan(text):
 ###################################################################
 
 FAST_MODE = True
-MIN_WAIT_SEC = 60
-MAX_WAIT_SEC = 110
-WAIT_SEC = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
 MAX_ITERATIONS = 10001
 
 if FAST_MODE:
     MAX_FILES_TO_ADD = 29
     SLEEP_BETWEEN_ITERATIONS = 0.2#python dropbox_binger_hp_buffer.py -r 1
     PUSH_FREQUENCY = 2
+    MIN_WAIT_SEC = 6
+    MAX_WAIT_SEC = 11
 else:
     MAX_FILES_TO_ADD = 9
     SLEEP_BETWEEN_ITERATIONS = 9
     PUSH_FREQUENCY = 1
+    MIN_WAIT_SEC = 60
+    MAX_WAIT_SEC = 110
+WAIT_SEC = random.randint(MIN_WAIT_SEC, MAX_WAIT_SEC)
 
 def compact(lst):
     return list(filter(None, lst))
