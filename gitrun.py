@@ -32,7 +32,7 @@ MAX_ITERATIONS = 10001
 if FAST_MODE:
     MAX_FILES_TO_ADD = 29
     SLEEP_BETWEEN_ITERATIONS = 0.2#python dropbox_binger_hp_buffer.py -r 1
-    PUSH_FREQUENCY = 2
+    PUSH_FREQUENCY = 3
     MIN_WAIT_SEC = 6
     MAX_WAIT_SEC = 11
 else:
