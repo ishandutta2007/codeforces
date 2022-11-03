@@ -1,0 +1,8 @@
+set c [split [gets stdin]]
+set r [split [gets stdin] ,]
+while {[gets stdin s]>0} {lappend l $s}
+foreach i [lreverse $r] {
+	scan $i "%s%s" a b
+	set l [lsort -index [lsearch $c $a] -[expr ("$b"=="ASC"?"in":"de")]creasing $l]
+}
+puts [join $l \n]
