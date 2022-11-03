@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+
+#define f first
+#define s second
+
+using namespace std;
+using li = long long;
+using ld = long double;
+using pii = pair<int, int>;
+
+const int INF = 1e9 + 13;
+const int M = 998244353;
+const int N = 311;
+
+mt19937 rnd(0);
+
+void solve() {
+    int n;
+    cin >> n;
+
+
+    for(int i = 1; i * i <= n; i++) {
+        if(i * i * 2ll == n || i * i * 4ll == n) {
+            cout << "YES" <<endl;
+            return;
+        }
+    }
+
+    cout << "NO" << endl;
+}
+
+int main() {
+    int t;
+    cin >> t;
+
+    while(t--)
+        solve();
+}
