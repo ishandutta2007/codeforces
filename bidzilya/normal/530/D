@@ -1,0 +1,38 @@
+main =>
+    N = read_int(),
+    BEG = new_list(N),
+    END = new_list(N),
+    CUR = 1,
+    while (CUR <= N)
+        BEG[CUR] := read_int(),
+        END[CUR] := read_int(),
+        CUR := CUR + 1
+    end,
+    RES = new_list(1000),
+    SIZE = 0,
+    PRET = 1,
+    CNT = 0,
+    while (PRET <= 1000)
+        CUR := 1,
+        CNT := 0,
+        while (CUR <= N)
+            if (BEG[CUR] <= PRET) then
+                if (END[CUR] >= PRET) then
+                    CNT := CNT + 1
+                end
+            end,
+            CUR := CUR + 1
+        end,
+        if (CNT == 0) then
+            SIZE := SIZE + 1,
+            RES[SIZE] := PRET
+        end,
+        PRET := PRET + 1
+    end,
+    println(SIZE),
+    CUR := 1,
+    while (CUR <= SIZE)
+        print(RES[CUR]),
+        print(" "),
+        CUR := CUR + 1
+    end.

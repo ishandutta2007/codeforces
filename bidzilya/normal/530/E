@@ -1,0 +1,29 @@
+main =>
+    N = read_int(),
+    D = read_int(),
+    Z = N - 2 + D,
+    READY = 0,
+    X = 2,
+    Y = 1,
+    AX = 0,
+    while (X <= 1000000)
+        TMP = Z + X,
+        if (READY == 0) then
+            if (TMP - (TMP // (X - 1)) * (X - 1) == 0) then
+                Y := TMP // (X - 1),
+                AX := X,
+                READY := 1
+            end
+        end,
+        X := X + 1
+    end,
+    if (READY == 1) then
+        CUR = 2,
+        while (CUR < N)
+            print("1 "),
+            CUR := CUR + 1
+        end,
+        print(AX),
+        print(" "),
+        print(Y)
+    end.

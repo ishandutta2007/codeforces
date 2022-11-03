@@ -1,0 +1,33 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    ANSX = new_list(100000),
+    ANSY = new_list(100000),
+    X = 1,
+    Y = 1,
+    SIZE = 1,
+    while (X <= 1000)
+        while (Y <= 1000)
+            if (X * A + Y * B == C) then
+                ANSX[SIZE] := X,
+                ANSY[SIZE] := Y,
+                SIZE := SIZE + 1
+             end,
+             Y := Y + 1
+        end,
+        X := X + 1,
+        Y := 1,
+        if (X == 1000) then
+            println(SIZE - 1),
+            CUR = 1,
+            while (CUR < SIZE)
+                print(ANSX[CUR]),
+                print(" "),
+                println(ANSY[CUR]),
+                CUR := CUR + 1
+            end
+
+    
+        end
+    end.

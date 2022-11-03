@@ -1,0 +1,17 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    D = B * B - 4 * A * C,
+    SD = sqrt(D),
+    RES2 = (-B + SD) / (2 * A),
+    RES1 = (-B - SD) / (2 * A),
+    if D == 0 then
+        println(RES1)
+    elseif RES1 < RES2 then
+        println(RES1),
+        println(RES2)
+    else
+        println(RES2),
+        println(RES1)
+    end.
