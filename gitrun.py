@@ -35,9 +35,11 @@ MAX_ITERATIONS = 10001
 if FAST_MODE:
     MAX_FILES_TO_ADD = 29
     SLEEP_BETWEEN_ITERATIONS = 0.2#python dropbox_binger_hp_buffer.py -r 1
+    PUSH_FREQUENCY = 2
 else:
     MAX_FILES_TO_ADD = 9
     SLEEP_BETWEEN_ITERATIONS = 9
+    PUSH_FREQUENCY = 1
 
 def compact(lst):
     return list(filter(None, lst))
@@ -219,7 +221,7 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print(green("[{}]Done git commit".format(i)))
     print("=====")
 
-    if FAST_MODE and i % 2 == 0:
+    if i % PUSH_FREQUENCY == 0:
         print("[{}]Initializing git push".format(i))
         p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
         out, err = p.communicate()
