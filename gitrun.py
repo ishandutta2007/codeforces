@@ -219,12 +219,12 @@ for i in range(1, 1 + MAX_ITERATIONS):
     print(green("[{}]Done git commit".format(i)))
     print("=====")
 
-    # if i % 2 == 0:
-    print("[{}]Initializing git push".format(i))
-    p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
-    out, err = p.communicate()
-    print(out.decode("utf-8").split("\n"))
-    print(green("[{}]Done git push".format(i)))
-    print("=====")
+    if FAST_MODE and i % 2 == 0:
+        print("[{}]Initializing git push".format(i))
+        p = subprocess.Popen(["git", "push"], stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        print(out.decode("utf-8").split("\n"))
+        print(green("[{}]Done git push".format(i)))
+        print("=====")
     print("Sleeping for {} secs".format(SLEEP_BETWEEN_ITERATIONS))
     time.sleep(SLEEP_BETWEEN_ITERATIONS)
