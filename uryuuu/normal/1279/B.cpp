@@ -1,0 +1,55 @@
+//#include <bits/stdc++.h>
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<queue>
+#include<string>
+#include<stack>
+#include<set>
+#include<map>
+#include<time.h>
+#include<cstdlib>
+typedef long long ll;
+#define mm(a) memset(a,0,sizeof(a))
+#define lr rt<<1
+#define rr rt<<1|1
+#define sync std::ios::sync_with_stdio(false);std::cin.tie(0);
+#define inf 0x3f3f3f3f
+using namespace std;
+const int maxn=200005;
+
+ll a[maxn];
+int main()
+{
+    sync;
+    int t;
+    cin>>t;
+    int s,n;
+    ll da=0;
+    while(t--)
+    {
+        da=0;
+        cin>>n>>s;
+        ll sum=0;
+        int id=0;
+        int dd=0;
+        for(int i=1;i<=n;i++)
+        {
+            cin>>a[i];
+            sum+=a[i];
+            if(da<a[i])
+            {
+                da=a[i];
+                id=i;
+            }
+            if(sum>s)
+                if(sum-da<=s)
+                    dd=id;
+        }
+        cout<<dd<<endl;
+    }
+    return 0;
+}
