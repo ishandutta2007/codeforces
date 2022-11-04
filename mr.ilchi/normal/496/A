@@ -1,0 +1,30 @@
+let solve l : int = 
+  let rec aux acc l = 
+    match l with
+    | a::b::t -> 
+        aux (max acc (b-a)) (b::t)
+    | _ -> acc
+  in aux min_int l
+
+let randc l = 
+  let rec aux acc rem = 
+    match rem with
+    | [x] -> []
+    | h::t -> 
+        (List.rev acc @ t) :: (aux (h::acc) t)
+  in aux [List.hd l] (List.tl l) 
+
+let read_int () = Scanf.bscanf Scanf.Scanning.stdib " %d " (fun x -> x)
+
+let rec read_input i n = 
+  if i = n then []
+  else(
+    let x = read_int () in 
+    x :: (read_input (succ i) n)
+  )
+
+let () = 
+  let n = read_int () in
+  let l = read_input 0 n in
+  let all = randc l in 
+  Printf.printf "%d\n" (List.fold_left (fun acc x -> min acc (solve x)) max_int all)
