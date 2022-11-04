@@ -1,0 +1,98 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<cmath>
+#include<algorithm>
+#include<set>
+#include<map>
+#include<string>
+#include<tuple>
+#include<bitset>
+#include<queue>
+using namespace std;
+int gcd(int i, int j) {
+    if (j == 0)return i;
+    else return gcd(j, i % j);
+}
+template<typename T> inline T getint() {
+    T val = 0;
+    char c;
+
+    bool neg = false;
+    while ((c = getchar()) && !(c >= '0' && c <= '9')) {
+        neg |= c == '-';
+    }
+
+    do {
+        val = (val * 10) + c - '0';
+    } while ((c = getchar()) && (c >= '0' && c <= '9'));
+
+    return val * (neg ? -1 : 1);
+}
+const long long INF = 100000000;
+const int Y = 200100;
+const long long mod = 1000000007;
+long long arr[Y];
+int tree[Y];
+int sz = 1;
+void UPD(int id, int v) {
+    id += sz;
+    while (id) {
+        tree[id] = min(tree[id], v);
+        id /= 2;
+    }
+}
+int get(int ql, int qr, int tl, int tr, int v) {
+    if (ql <= tl && tr <= qr)return tree[v];
+    int mid = (tr + tl) / 2, res = INF;
+    if (ql <= mid)res = min(res, get(ql, qr, tl, mid, 2 * v));
+    if (qr > mid)res = min(res, get(ql, qr, mid + 1, tr, 2 * v + 1));
+    return res;
+}
+int main()
+{
+    cin.tie(0);
+    cout.tie(0);
+    ios_base::sync_with_stdio(false);
+    int t;
+    cin >> t;
+    while (t--) {
+        fill(begin(tree), end(tree), INF);
+        int n, x;
+        cin >> n >> x;
+        sz = 1;
+        while (sz <= (x + 1))sz <<= 1;
+        int s = 0;
+        UPD(0, 0);
+        int len = -1;
+        for (int i = 1; i <= n; ++i) {
+            int tmp;
+            cin >> tmp;
+            s = (s + tmp) % x;
+            int yy = INF;
+            if (s != 0) {
+                yy = get(0, s - 1, 0, sz - 1, 1);
+            }
+            if (s + 1 != x) {
+                yy = min(yy, get(s + 1, x - 1, 0, sz - 1, 1));
+            }
+            if (yy != INF) {
+                len = max(len, i - yy);
+            }
+            UPD(s, i);
+        }
+        cout << len << endl;
+    }
+    return 0;
+}
+//freopen("painter.in", "r", stdin);
+//freopen("painter.out", "w", stdout);
+/*
+3
+ooo
+o..
+o..
+*/
+/* Fri May 15 2020 19:54:42 GMT+0300 (MSK) */
+
+/* Wed May 20 2020 19:33:48 GMT+0300 (MSK) */
