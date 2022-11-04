@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+
+#define endl '\n'
+#define fi first
+#define se second
+#define MOD(n,k) ( ( ((n) % (k)) + (k) ) % (k))
+#define forn(i,n) for (int i = 0; i < n; i++)
+#define forr(i,a,b) for (int i = a; i <= b; i++)
+#define all(v) v.begin(), v.end()
+#define pb(x) push_back(x)
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<ii> vii;
+
+const int MX = 300005;
+int n, m, a[MX];
+
+bool f (int mit) {
+	int act = 0;
+	for (int i = 0; i < n; i++) {
+		if (MOD(act - a[i], m) > mit) {
+			if (a[i] < act) return 0;
+			act = a[i];
+		}
+	}
+	return 1;
+}
+
+int main () {
+	ios_base::sync_with_stdio(0); cin.tie(0);
+	
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+		cin >> a[i];
+
+	int i = 0, j = m, rep = 20;
+	while (rep--) {
+		int m = (i + j) / 2;
+		if (f(m)) j = m;
+		else i = m;
+	}
+
+	cout << j << endl;
+
+	return 0;
+}
