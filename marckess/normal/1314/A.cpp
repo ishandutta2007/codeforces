@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+ 
+#define endl '\n'
+#define fi first
+#define se second
+#define MOD(n,k) ( ( ((n) % (k)) + (k) ) % (k))
+#define forn(i,n) for (int i = 0; i < n; i++)
+#define forr(i,a,b) for (int i = a; i <= b; i++)
+#define all(v) v.begin(), v.end()
+#define pb push_back
+ 
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
+
+const int MX = 200005;
+int n, a[MX], t[MX];
+ll res, s;
+priority_queue<int> pq;
+map<int, vi> mp;
+
+int main () {
+	ios_base::sync_with_stdio(0); cin.tie(0);
+	
+	cin >> n;
+	for (int i = 0; i < n; i++)
+		cin >> a[i];
+
+	for (int i = 0; i < n; i++) {
+		cin >> t[i];
+		mp[a[i]].pb(t[i]);
+	}
+
+	int act = 0;
+	for (auto it = mp.begin(); it != mp.end(); it++) {
+		while (pq.size() && act < it->fi) {
+			s -= pq.top();
+			pq.pop();
+			res += s;
+			act++;
+		}
+
+		for (int x : it->se) {
+			s += x;
+			pq.push(x);
+		}
+
+		s -= pq.top();
+		pq.pop();
+		res += s;
+		act = it->fi + 1;
+	}
+
+	while (pq.size()) {
+		s -= pq.top();
+		pq.pop();
+		res += s;
+	}
+
+	cout << res << endl;
+
+	return 0;
+}
