@@ -1,0 +1,65 @@
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<queue>
+#include<string>
+#include<stack>
+#include<set>
+#include<map>
+typedef long long ll;
+#define mm(a) memset(a,0,sizeof(a))
+#define lr rt<<1
+#define rr rt<<1|1
+#define sync std::ios::sync_with_stdio(false);std::cin.tie(0);
+#define inf 0x3f3f3f3f
+using namespace std;
+const int  maxn=100005;
+
+string s;
+int a[105],b[105];
+
+int main()
+{
+    sync
+    int n;
+    cin>>n;
+    cin>>s;
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i]>>b[i];
+    }
+    int zd=0,sum;
+    for(int i=0;i<=300;i++)
+    {
+        sum=0;
+        for(int j=0;j<n;j++)
+        {
+          if(s[j]=='1')
+          {
+              if(i<b[j])
+                  sum++;
+              else
+              {
+                  if(((i-b[j])/a[j])%2)
+                      sum++;
+              }
+          }
+            else
+            {
+                if(i<b[j])
+                    sum=sum;
+                else
+                {
+                    if(((i-b[j])/a[j])%2==0)
+                        sum++;
+                }
+            }
+        }
+        zd=max(sum,zd);
+    }
+    cout<<zd<<endl;
+    return 0;
+}
