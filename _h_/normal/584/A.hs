@@ -1,0 +1,1 @@
+main = interact $ (++"\n") . (\[n,t]-> let pad = read n - length t in if 0 > pad then "-1" else t ++ replicate pad '0') . words
