@@ -1,0 +1,1 @@
+var x,y,z:int64;begin readln(x,y);z:=x and 1;if x+z+2<=y then writeln(x+z,' ',x+z+1,' ',x+z+2) else writeln(-1) end.
