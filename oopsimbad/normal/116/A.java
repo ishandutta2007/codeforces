@@ -1,0 +1,20 @@
+import java.io.*;
+import java.text.*;
+import java.util.*;
+public class template {
+	public static void main(String[] args) throws Exception {
+		new template().run();
+	}
+	public void run() throws Exception {
+		BufferedReader f = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(f.readLine());
+		long max = 0;
+		long cur = 0;
+		while(n-->0) {
+			StringTokenizer st = new StringTokenizer(f.readLine());
+			cur += -Integer.parseInt(st.nextToken()) + Integer.parseInt(st.nextToken());
+			if(cur > max ) max = cur;
+		}
+		System.out.println(max);
+	}
+}
