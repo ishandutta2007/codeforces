@@ -1,0 +1,1 @@
+print(' '.join(input().replace("WUB", " ").split()))
