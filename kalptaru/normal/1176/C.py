@@ -1,0 +1,49 @@
+n=int(input())
+a=[int(i) for i in input().split()]
+ar=[]
+vis=[]
+ans=n
+for _ in range(6):
+    ar.append([])
+    vis.append([])
+for i in range(n):
+    if(a[i]==4):
+        ar[0].append(i)
+        vis[0].append(False)
+    elif(a[i]==8):
+        ar[1].append(i)
+        vis[1].append(False)
+    elif(a[i]==15):
+        ar[2].append(i)
+        vis[2].append(False)
+    elif(a[i]==16):
+        ar[3].append(i)
+        vis[3].append(False)
+    elif(a[i]==23):
+        ar[4].append(i)
+        vis[4].append(False)
+    elif(a[i]==42):
+        ar[5].append(i)
+        vis[5].append(False)
+i=[0]*6
+p=-1
+flag=True
+while(flag):
+    z=0
+    while(z<6):
+        if(len(ar[z])<=i[z]):
+            flag=False
+            break
+        if(ar[z][i[z]]>p):
+            if(z==5):
+                ans-=6
+                p=-1
+                i[z]+=1
+                z=6
+            else:
+                p=ar[z][i[z]]
+                i[z]+=1
+                z+=1
+        else:
+            i[z]+=1
+print(ans)
