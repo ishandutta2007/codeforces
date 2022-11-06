@@ -1,0 +1,27 @@
+//By: Luogu@rui_er(122461).
+#include <bits/stdc++.h>
+#define rep(x,y,z) for(int x=y;x<=z;x++)
+#define per(x,y,z) for(int x=y;x>=z;x--)
+#define debug printf("Running %s on line %d...\n",__FUNCTION__,__LINE__)
+using namespace std;
+typedef long long ll;
+const int N = 1e5+5;
+
+int T, n, a[N];
+template<typename T> void chkmin(T& x, T y) {if(x > y) x = y;}
+template<typename T> void chkmax(T& x, T y) {if(x < y) x = y;}
+
+int main() {
+	for(scanf("%d", &T);T;T--) {
+		scanf("%d", &n);
+		rep(i, 1, n) scanf("%d", &a[i]);
+		int ans = 1;
+		rep(i, 1, n) {
+			int now = 0, lim = min(100, i+1);
+			rep(j, 1, lim) now |= a[i] % j > 0;
+			ans &= now;
+		}
+		puts(ans?"YES":"NO");
+	}
+	return 0;
+}
