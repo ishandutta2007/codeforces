@@ -1,0 +1,1 @@
+print(*set("123")-set(input()))
