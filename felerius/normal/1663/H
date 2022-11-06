@@ -1,0 +1,15 @@
+// ??/
+begin
+// ??/
+  writeln ('Hello World')
+// ??/
+end.
+
+
+// ??/
+{
+int main() {
+    return 0;
+}
+// ??/
+}

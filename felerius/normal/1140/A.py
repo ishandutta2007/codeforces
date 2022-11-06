@@ -1,0 +1,1 @@
+print(sum(int(p == i + 1) for i, p in enumerate(__import__('itertools').accumulate(map(int, (input(), input())[1].split(' ')), max))))

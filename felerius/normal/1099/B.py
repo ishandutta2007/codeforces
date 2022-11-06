@@ -1,0 +1,1 @@
+print([int(2 * n**0.5) + int(int(n**0.5) != n**0.5) for n in [int(input())]][0])
