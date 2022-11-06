@@ -1,0 +1,42 @@
+import Array;
+
+int main()
+{
+    int n = (int)Stdio.stdin.gets();
+    array(int) state = ({});
+    array initial = Stdio.stdin.gets() / " ";
+    for (int i = 0; i < sizeof(initial); ++i) {
+        if (initial[i] == "on") {
+            state = state + ({1});
+        } else {
+            state = state + ({2});
+        }
+    }
+    int k = (int)Stdio.stdin.gets();
+    array p = Stdio.stdin.gets() / " ";
+    for (int i = 0; i < sizeof(p); ++i) {
+        p[i] = (int)p[i];
+    }
+    sort(p);
+    for (int i = 0; i < sizeof(p); ++i) {
+        if (i < sizeof(p) - 1 && p[i] == p[i+1]) {
+            i++;
+            continue;
+        }
+        int pos = p[i];
+        while(pos <= n) {
+            state[pos-1]++;
+            pos += p[i];
+        }
+    }
+    for (int i = 0; i < n; ++i) {
+        if(state[i] % 2 == 0) {
+            write("off");
+        } else {
+            write("on");
+        }
+        if (i != n-1) {
+            write(" ");
+        }
+    }
+}

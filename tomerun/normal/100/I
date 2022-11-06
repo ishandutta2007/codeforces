@@ -1,0 +1,11 @@
+
+int main()
+{
+    float angle = (int)Stdio.stdin.gets() * Math.pi / 180;
+    array pos = Stdio.stdin.gets() / " ";
+    int x = (int)pos[0];
+    int y = (int)pos[1];
+    float nx = cos(angle) * x + -sin(angle) * y;
+    float ny = sin(angle) * x + cos(angle) * y;
+    write("%f %f", nx, ny);
+}

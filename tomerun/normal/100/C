@@ -1,0 +1,29 @@
+int nth(string s, int c) {
+    if (c < sizeof(s)) {
+        return s[sizeof(s) - 1 - c] - '0';
+    }
+    return 0;
+}
+
+int main()
+{
+    string f = Stdio.stdin.gets();
+    string s = Stdio.stdin.gets();
+    int len = max(sizeof(f), sizeof(s));
+    string ans = "";
+    int carry = 0;
+    for (int i = 0; i < len; ++i) {
+        int d = nth(f,i) + nth(s,i) + carry;
+        if (d >= 10) {
+            carry = 1;
+            d -= 10;
+        } else {
+            carry = 0;
+        }
+        ans = ans + sprintf("%d", d);
+    }
+    if(carry == 1) {
+        ans = ans + "1";
+    }
+    write(reverse(ans));
+}

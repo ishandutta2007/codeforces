@@ -1,0 +1,39 @@
+int main()
+{
+    int n = (int)Stdio.stdin.gets();
+    array(int) coef = ({1});
+    for (int i = 0; i < n+1; ++i) {
+        coef = coef + ({0});
+    }
+    for (int i = 0; i < n; ++i) {
+        int a = (int)Stdio.stdin.gets();
+        for (int j = i+1; j >= 0; --j) {
+            coef[j] = coef[j] * a;
+            if (j != 0) coef[j] += coef[j-1];
+        }
+    }
+    if (n == 1) {
+        write("X");
+    } else {
+        write("X^%d", n);
+    }
+    for (int i = n-1; i > 0; --i) {
+        if (coef[i] == 0) continue;
+        if (coef[i] > 0) {
+            write("+");
+        } else {
+            write("-");
+        }
+        if (abs(coef[i]) != 1) {
+            write("%d*", abs(coef[i]));
+        }
+        if(i != 1) {
+            write("X^%d", i);
+        } else {
+            write("X");
+        }
+    }
+    if(coef[0] != 0) {
+        write("%+d", coef[0]);
+    }
+}

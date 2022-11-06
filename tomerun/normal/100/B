@@ -1,0 +1,27 @@
+
+int check(array nums)
+{
+    int c = sizeof(nums);
+    for (int i = 0; i < c; ++i) {
+        for (int j = i+1; j < c; ++j) {
+            int a = abs((int) nums[i]);
+            int b = abs((int) nums[j]);
+            if (max(a,b) % min(a,b) != 0) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+int main()
+{
+    string f = Stdio.stdin.gets();
+    string s = Stdio.stdin.gets();
+    array nums = s / ",";
+    if (check(nums)) {
+        write("FRIENDS");
+    } else {
+        write("NOT FRIENDS");
+    }
+}

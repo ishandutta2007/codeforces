@@ -1,0 +1,23 @@
+int str2int(string s)
+{
+    int ret = 0;
+    for (int i = 0; i < sizeof(s); ++i) {
+        ret *= 10;
+        ret += s[i] - '0';
+    }
+    return ret;
+}
+
+int main()
+{
+    string line = Stdio.stdin.gets();
+    array nums = line / " ";
+    int n = str2int(nums[0]);
+    int k = str2int(nums[1]);
+    int n1 = str2int(nums[2]);
+    if (n1 == n || k >= 4) {
+        write("YES");
+    } else {
+        write("NO");
+    }
+}
