@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+template <class TH> void _dbg(const char *sdbg, TH h){cerr<<sdbg<<"="<<h<<"\n";}
+template<class TH, class... TA> void _dbg(const char *sdbg, TH h, TA... a) {
+  while(*sdbg!=',')
+    cerr<<*sdbg++;
+  cerr<<"="<<h<<","; 
+  _dbg(sdbg+1, a...);
+}
+
+template<class T> ostream & operator<<(ostream & os, vector<T> V){
+  os<<"[";
+  for(auto vv: V) os << vv <<",";
+  return os << "]";
+}
+template<class L, class R> ostream & operator <<(ostream & os, pair<L,R> P){
+  return os <<"("<<P.st <<","<<P.nd <<")";
+}
+
+#ifdef DEBUG
+#define debug(...) _dbg(#__VA_ARGS__, __VA_ARGS__)
+#else
+#define debug(...) (__VA_ARGS__)
+#define cerr if(0)cout
+#endif
+
+const int N = 1000005;
+
+int n, len;
+int cntMaxi[N], cntMini[N];
+
+int main() {
+    
+    scanf("%d", &n);
+    
+    long long ans = 0;
+    int goodSeqs = 0;
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &len);
+        int mini = 1e9;
+        int maxi = -1;
+        bool isGood = false;
+        for (int j = 1; j <= len; j++) {
+            int x;
+            scanf("%d", &x);
+            if (x > mini) {
+                isGood = true;
+            }
+            mini = min(mini, x);
+            maxi = max(maxi, x);
+        }
+        
+        if (!isGood) {
+            cntMaxi[maxi]++;
+            cntMini[mini]++;
+        } else {
+            goodSeqs++;
+        }
+    }
+    
+    ans = (long long)n * goodSeqs * 2LL - (long long)goodSeqs * goodSeqs;
+    
+    int sumMaxis = 0;
+    for (int i = 1000000; i >= 0; i--) {
+        ans += (long long)cntMini[i] * sumMaxis;
+        sumMaxis += cntMaxi[i];
+    }
+    
+    printf("%lld\n", ans);
+    
+    return 0;
+}
