@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<iostream>
+#include<queue>
+using namespace std;
+int c=0,n=0,i,k[102];
+char A;
+int main()
+{
+	while(1)
+	{
+		A=getchar();
+		if(A=='\n')break;
+		n++;
+		i++;
+		if(A=='0')k[i]+=1;
+	}
+	i=0;
+	while(1)
+	{
+		A=getchar();
+		if(A!='0'&&A!='X')break;
+		i++;
+		if(A=='0')k[i]+=1;
+	}
+	for(i=1;i<=n;i++)
+	{
+		if(k[i]==2)
+		{
+			if(k[i-1]==1)
+			{
+				k[i-1]=0;
+				k[i]=0;
+				c++;
+			}
+			else
+			{
+				if(k[i+1])
+				{
+					k[i]=0;
+					k[i+1]-=1;
+					c++;
+				}
+				else
+				{
+					k[i]=0;
+				}
+			}
+		}
+	}
+	printf("%d",c);
+}
