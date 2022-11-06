@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+template <class TH> void _dbg(const char *sdbg, TH h){cerr<<sdbg<<"="<<h<<"\n";}
+template<class TH, class... TA> void _dbg(const char *sdbg, TH h, TA... a) {
+  while(*sdbg!=',')
+    cerr<<*sdbg++;
+  cerr<<"="<<h<<","; 
+  _dbg(sdbg+1, a...);
+}
+
+template<class T> ostream & operator<<(ostream & os, vector<T> V){
+  os<<"[";
+  for(auto vv: V) os << vv <<",";
+  return os << "]";
+}
+template<class L, class R> ostream & operator <<(ostream & os, pair<L,R> P){
+  return os <<"("<<P.st <<","<<P.nd <<")";
+}
+
+#ifdef DEBUG
+#define debug(...) _dbg(#__VA_ARGS__, __VA_ARGS__)
+#else
+#define debug(...) (__VA_ARGS__)
+#define cerr if(0)cout
+#endif
+
+const int N = 100005;
+
+int n, m, A[N], B[N];
+
+int main() {
+    
+    scanf("%d %d", &n, &m);
+    long long total = 0;
+    int maxi = 0;
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &A[i]);
+        maxi = max(maxi, A[i]);
+        total += A[i];
+    }
+    
+    long long ans = 0;
+    int cnt = 0;
+    for (int i = 1; i <= m; i++) {
+        scanf("%d", &B[i]);
+        if (B[i] < maxi) {
+            printf("-1\n");
+            return 0;
+        }
+        ans += total;
+        if (B[i] > maxi) {
+            cnt++;
+        }
+        ans += B[i] - maxi;
+    }
+    
+    if (cnt == m) {
+        sort(A + 1, A + 1 + n);
+        ans += A[n] - A[n - 1];
+    }
+    
+    printf("%lld\n", ans);
+    return 0;
+}
