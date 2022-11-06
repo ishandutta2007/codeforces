@@ -1,0 +1,10 @@
+def main():
+    print(2001)
+    for i in range(1, 1001):
+        print(i, 1, i, 2)
+    print(1, 1, 1, 1)
+    for i in range(1, 1001):
+        print(i, 1, i, 2)
+    
+    
+main()
