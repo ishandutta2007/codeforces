@@ -1,0 +1,17 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    if (A < 0) then
+        A := -A,
+        B := -B,
+        C := -C
+    end,
+    D = sqrt(B * B - 4 * A * C),
+    X = (-D - B) / (2 * A),
+    Y = (D - B) / (2 * A), 
+    print(X),
+    if (D != 0.0) then
+        print(" "),
+        println(Y)
+    end.

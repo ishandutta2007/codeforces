@@ -1,0 +1,20 @@
+main =>
+    N = read_int(),
+    P = [[read_int(), read_int()] : I in 1..N],
+    S = 1000000,
+    foreach (A in 1..200)
+        foreach(B in 1..200)
+            Flag = 1,
+            foreach (I in P)
+                X = I[1],
+                Y = I[2],
+                if (B * X + A * Y - A * B > 0) then
+                   Flag := 0
+                end
+            end,
+            if (Flag == 1) then
+                S := min(S, A * B)
+            end
+        end
+    end,
+    println(S / 2).

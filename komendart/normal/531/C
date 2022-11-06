@@ -1,0 +1,31 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    X = 1,
+    Y = 1,
+    N = 0,
+    while (X <= 1000)
+        Y := 1,
+        while (Y <= 1000)
+            if (A * X + B * Y == C) then
+                N := N + 1
+            end,
+            Y := Y + 1
+        end,
+        X := X + 1
+    end,
+    println(N),
+    X := 1,
+    while (X <= 1000)
+        Y := 1,
+        while (Y <= 1000)
+            if (A * X + B * Y == C) then
+                print(X),
+                print(" "),
+                println(Y)
+            end,
+            Y := Y + 1
+        end,
+        X := X + 1
+    end.
