@@ -1,0 +1,2 @@
+var i,j,n,m,f,c,a,kitten:longint;k:array [1..15] of string;begin read(n,m,f);readln;for i:=1 to n do
+readln(k[i]);a:=0;for i:=1 to m do begin c:=0;for j:=1 to n do if k[j][i]='Y' then inc(c);if c>=f then inc(a);end;writeln(a);end.
