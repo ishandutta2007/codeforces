@@ -1,0 +1,6 @@
+int main() {
+    string a = Stdio.stdin.gets();
+    string b = Stdio.stdin.gets();
+    write("%d\n", ((int)a)+((int)b));
+    return 0;
+}

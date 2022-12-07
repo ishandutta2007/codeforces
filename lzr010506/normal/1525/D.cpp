@@ -1,0 +1,60 @@
+#include <bits/stdc++.h>
+#define ull unsigned long long
+#define ll long long
+#define il inline
+#define db double
+#define ls rt << 1
+#define rs rt << 1 | 1
+#define pb push_back
+#define mp make_pair
+#define pii pair<int, int>
+#define X first
+#define Y second
+#define pcc pair<char, char>
+#define vi vector<int>
+#define vl vector<ll>
+#define rep(i, x, y) for(int i = x; i <= y; i ++)
+#define rrep(i, x, y) for(int i = x; i >= y; i --)
+#define rep0(i, n) for(int i = 0; i < (n); i ++)
+#define per0(i, n) for(int i = (n) - 1; i >= 0; i --)
+#define ept 1e-9
+#define sz(x) (x).size()
+#define All(x) (x).begin(), (x).end()
+using namespace std;
+inline int read()
+{
+	int x = 0, f = 1; char ch = getchar();
+	while (ch < '0' || ch > '9') { if (ch == '-') f = -1; ch = getchar(); }
+	while (ch >= '0' && ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); }
+	return x * f;
+}
+inline ll read1()
+{
+	ll x = 0, f = 1; char ch = getchar();
+	while (ch < '0' || ch > '9') { if (ch == '-') f = -1; ch = getchar(); }
+	while (ch >= '0' && ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); }
+	return x * f;
+}
+const int N = 5010;
+int a[N], b[N];
+int dp[N][N];
+int main()
+{
+	int n = read();
+	int nn = 0, mm = 0;
+	rep(i, 1, n)
+	{
+		int x = read();
+		if(!x) a[++ nn] = i;
+		else b[++ mm] = i;
+	}
+	sort(a + 1, a + nn + 1);
+	sort(b + 1, b + mm + 1);
+	memset(dp, 0x3f, sizeof(dp));
+	rep0(i, nn + 2) dp[0][i] = 0;
+	rep(i, 1, mm + 1)
+		rep(j, 1, nn + 1)
+			dp[i][j] = min(dp[i][j - 1], dp[i - 1][j - 1] + abs(b[i - 1] - a[j - 1]));
+	printf("%d\n", dp[mm + 1][nn + 1]);
+	return 0;
+}
