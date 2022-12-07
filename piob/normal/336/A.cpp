@@ -1,0 +1,38 @@
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
+#include <cstring>
+#include <set>
+#include <stack>
+#include <cstring>
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <queue>
+#include <cmath>
+#define FWD(a,b,c) for(int a=(b); a<(c); ++a)
+#define FOR(a,b,c) for(int a=(b); a<(c); ++a)
+#define FORD(i,a,b) for (int i=((int)(a))-1; i>=(b); --i)
+#define REP(a,b) for(int a=0; a<(b); ++a)
+#define BCK(a,b,c) for(int a=(b); a>(c); --a)
+#define FE(a,b) for(__typeof((b).end()) a=(b).begin(); a!=(b).end(); ++a)
+#define PII pair<int, int>
+#define PDD pair<long double, long double>
+#define x first
+#define y second
+#define EPS 1e-9
+#define INF 1000000009
+
+using namespace std;
+
+int main(){
+    int x, y, z;
+    scanf("%d %d", &x, &y);
+    z = abs(x) + abs(y);
+    if(x<0)
+        printf("%d 0 0 %d\n", -z, y>0?z:-z);
+    if(x>0)
+        printf("0 %d %d 0\n", y>0?z:-z, z);
+    return 0;
+}
