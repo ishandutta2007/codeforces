@@ -1,0 +1,1 @@
+print("".join([a.upper() if e == 0 else a for e, a in enumerate(input())]))
