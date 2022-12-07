@@ -1,14 +1,13 @@
 /*
-start thinking:
-BULB:
 result of thinking: Pure.
 
 CF666E
 prT1~TmSAMSAM0-
 parent tree.
+pr
 
-start coding:
-AC:
+start coding: 12:00
+AC: 17:15
 */
 #include <bits/stdc++.h>
 #define mp make_pair
@@ -30,14 +29,6 @@ bool Mbe;
 
 namespace Sgt {
   int lc[850005], rc[850005], maxi[850005], argmax[850005], V;
-
-  void dfs(int u, int l, int r) {
-    cout << u << " " << l << " " << r << " " << maxi[u] << " " << argmax[u] << endl;
-    if (lc[u])
-      dfs(lc[u], l, (l + r) >> 1);
-    if (rc[u])
-      dfs(rc[u], ((l + r) >> 1) + 1, r);
-  }
 
   void up(int u) {
     if (maxi[lc[u]] >= maxi[rc[u]])
