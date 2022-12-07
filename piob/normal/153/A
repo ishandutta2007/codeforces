@@ -1,0 +1,15 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. a.
+       
+       DATA DIVISION.
+       	WORKING-STORAGE SECTION.
+       	77 A PIC 9(15).
+       	77 B PIC 9(15).
+       	77 ANS PIC Z(15).
+       
+       PROCEDURE DIVISION.
+       	ACCEPT A.
+       	ACCEPT B.
+       	ADD A B GIVING ANS. 
+       	DISPLAY ANS.
+       	STOP RUN.
