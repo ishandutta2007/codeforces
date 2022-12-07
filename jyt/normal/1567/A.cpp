@@ -1,0 +1,36 @@
+#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+#include<cmath>
+#include<cstring>
+#include<string>
+#include<algorithm>
+#include<queue>
+#include<vector>
+#include<set>
+#include<map>
+using std::cin;using std::cerr;
+using std::max;using std::min;
+#define N 105
+#define ll long long
+#define db double
+#define dbg1(x) cerr<<#x<<"="<<(x)<<" "
+#define dbg2(x) cerr<<#x<<"="<<(x)<<"\n"
+int T,n;
+char s[N];
+int main()
+{
+	for(scanf("%d",&T);T--;)
+	{
+		scanf("%d%s",&n,s+1);
+		for(int i=1;i<=n;i++)
+		{
+			if(s[i]=='U') putchar('D');
+			if(s[i]=='D') putchar('U');
+			if(s[i]=='L') putchar('L');
+			if(s[i]=='R') putchar('R');
+		}
+		puts("");
+	}
+	return 0;
+}
