@@ -67,8 +67,8 @@ int main(){
 	}
 	for (int i = 1; i <= n; i++) {
 	  if (!nxt[i])
-	     nxt[i] = n + 1;
-	   }
+	    nxt[i] = n + 1;
+	}
 	st = ed = 1;
 	memset(dp,0x3f,sizeof(dp));
 	dp[0][0] = 0;
