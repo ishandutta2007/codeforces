@@ -1,0 +1,31 @@
+#include<stdio.h>
+main()
+{
+	long n,i,j,k,min,max;
+	int c[200000],u[200000],t,flag;
+	scanf("%d",&t);
+	while(t--)
+	{
+		scanf("%ld",&n);
+		min=max=0;
+		for(i=0;i<n;i++)
+		{
+			scanf("%d",&c[i]);
+			if(i==0)
+			{
+				u[i]=c[i]-1;
+			}
+			else
+			{
+				u[i]=u[i-1]+c[i]-c[i-1]-1;
+			}
+			if(u[i]>min)min++;
+		}
+		min=n-min;
+		for(i=n-1;i>=0;i--)
+		{
+			if(n-u[i]>max)max++;
+		}
+		printf("%ld\n",max-min+1);
+	}
+}
