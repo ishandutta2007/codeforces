@@ -1,0 +1,28 @@
+set line [gets stdin]
+set ini "az09."
+scan $line "%s" s
+set sz [string length $s]
+set ls [split $s "/"]
+set res [list]
+set bad 0
+foreach x $ls {
+    if { $x == "" || $x == "."} {
+        continue
+    }
+    if { $x == ".." } {
+        if { [llength $res] == 0 } {
+            set bad 1
+            break
+        } else {
+            set res [lreplace $res end end]
+        }
+    } else {
+        set res [linsert $res end $x]
+    }
+}
+set res [join $res "/"]
+if { $bad == 1 } {
+    puts -1
+} else {
+    puts "/$res"
+}

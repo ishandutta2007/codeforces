@@ -1,0 +1,27 @@
+set line [gets stdin]
+scan $line "%d" n
+set f $n
+set s $n
+for {} {true} {set f [expr $f-1]} {
+    set g 1
+    for {set x 2} {$x < $f} {incr x} {
+        if { [expr $f % $x] == 0 } {
+            set g 0
+        }
+    }
+    if { $g == 1 } {
+        break
+    }
+}
+for {} {true} {set s [expr $s+1]} {
+    set g 1
+    for {set x 2} {$x < $s} {incr x} {
+        if { [expr $s % $x] == 0 } {
+            set g 0
+        }
+    }
+    if { $g == 1 } {
+        break
+    }
+}
+puts "$f $s"
