@@ -1,0 +1,12 @@
+int main()
+{
+    int n,k,n1;
+    string s = Stdio.stdin->gets();
+    sscanf(s,"%d %d %d",n,k,n1);
+
+    if (n1 == n) write("YES");
+    else if(k >= 4) write("YES");
+    else write("NO");
+
+    return 0;
+}

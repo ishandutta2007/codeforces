@@ -1,0 +1,29 @@
+ set line [gets stdin] 
+ scan $line "%s" S
+ if { [ expr [ string match {*..*} $S ] ] } {
+     puts "NO"
+ } else {
+     set s [ expr [ string length $S ] - [ string last "." $S ] - 1]
+ 
+     if { [ expr 2 <= $s && $s <= 3 ] } {
+         set u [ expr [ string length $S ] ]
+         set f 0
+         
+         for { set i 0 } { $i < $u } { incr i } {
+             set a [string range $S $i $i]
+             scan $a "%c" b
+             if { [ expr [ expr 97 <= $b && $b <= 122 ] || [ expr 48 <= $b && $b <= 57 ] || [ expr $b == 46 && $i != 0 ] ] != 1 } {
+                 set f 1
+                                  break
+             }
+
+         }
+         if { $f } {
+             puts "NO"
+         } else {
+             puts "YES"
+         }
+     } else {
+         puts "NO"
+     }
+ }

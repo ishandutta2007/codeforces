@@ -1,0 +1,9 @@
+ set line [gets stdin] 
+ scan $line "%d%c%d" n s m
+
+ if { [ expr $s != 45 ] } {
+     set ss [ expr $n + $m ]
+ } else {
+     set ss [ expr $n - $m ]
+ }
+ puts $ss

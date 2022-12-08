@@ -1,0 +1,5 @@
+ set line [gets stdin] 
+ scan $line "%d %d %d" n m c
+ set c [ expr $c - 1 ]
+ set v [ expr int ( [ expr [ expr $c % $n ] * $m + [ expr floor ( [ expr $c / $n ] ) ] + 1 ] ) ]
+ puts $v
