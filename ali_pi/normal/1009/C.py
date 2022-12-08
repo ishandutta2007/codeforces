@@ -1,0 +1,23 @@
+n,m=map(int,raw_input().split())
+q1=(n*(n-1))/2
+if(n%2==0):
+    p=n/2
+    q2=(p*(p-1))/2
+    q2*=2
+    q2+=p
+else:
+    p=(n+1)/2
+    q2=(p*(p-1))/2
+    q2*=2
+s=0
+p=0
+for i in range(m):
+    x,y=map(int,raw_input().split())
+    s+=x
+    if(y>=0):
+        p+=y*q1
+    else:
+        p+=y*q2
+p=p/(float(n))
+s+=p
+print(s)

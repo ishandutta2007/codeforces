@@ -1,0 +1,1 @@
+print(2 * int(0.99999 + 2 * int(raw_input()) ** 0.5))
