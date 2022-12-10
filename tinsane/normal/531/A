@@ -1,0 +1,16 @@
+import math.
+
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    D = sqrt(B * B - 4.0 * A * C),
+    E = (-B + D) / (2.0 * A),
+    F = (-B - D) / (2.0 * A),
+    if(E==F) then
+        printf("%f", E)
+    elseif (E > F) then
+        printf("%f %f", F, E)
+    else
+        printf("%f %f", E, F)   
+    end.
