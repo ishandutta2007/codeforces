@@ -1,0 +1,30 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  Y = 0,
+  X = 1,
+  ANS = 0,
+  while(X <= 1000)
+      if((C - A * X) mod B == 0) then
+          Y := (C - A * X) / B,
+          if(Y > 0) then
+              ANS := ANS + 1
+          end
+      end,
+      X := X + 1
+  end,
+  println(ANS),
+  X := 1,
+  while(X <= 1000)
+      if((C - A * X) mod B == 0) then
+          Y := (C - A * X) div B,
+          if(Y > 0) then
+              print(X),
+              print(" "),
+              writef("%w%n", Y)
+          end
+      end,
+      X := X + 1
+  end
+.

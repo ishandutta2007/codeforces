@@ -1,0 +1,73 @@
+main =>
+  A = new_array(43, 43),
+  B = new_array(43, 43),
+  I = 1,
+  F = 1,
+  while(I <= 43)
+      F := 1,
+      while(F <= 43)
+          A[I, F] = 0,
+          B[I, F] = 0,
+          F := F + 1
+      end,
+      I := I + 1
+  end,
+  Q = read_int(),
+  X = 0,
+  Y = 0,
+  while(Q > 0)
+      X := read_int(),
+      Y := read_int(),
+      X := X + 21,
+      Y := Y + 21,
+      B[X, Y] := 1,
+      Q := Q - 1
+  end,
+  Ans = 0,
+  Shag = 1,
+  G = 0,
+  II = 0,
+  FF = 0,
+  B[21, 21] := 1,
+  while(Shag <= 10)
+      A[21, 21] := 1,
+      G := 1,
+      while(G <= 100)
+          I := 1,
+          F := 1,
+          while(I <= 43)
+              F := 1,
+              while(F <= 43)
+                  if(B[I, F] == 1) then
+                      if(A[I, F] == G) then
+                          II := I - 21,
+                          FF := F - 21,
+                          if(II < 0) then II := -II end,
+                          if(FF < 0) then FF := -FF end,
+                          if(Ans < II + FF) then Ans := II + FF end,
+                          if(I - Shag > 0) then A[I - Shag, F] := G + 1 end,
+                          if(I + Shag <= 43) then A[I + Shag, F] := G + 1 end,
+                          if(F - Shag > 0) then A[I, F - Shag] := G + 1 end,
+                          if(F + Shag <= 43) then A[I, F + Shag] := G + 1 end                                                                  
+                      end
+                  end,
+                  F := F + 1
+              end,
+              I := I + 1
+          end,
+          G := G + 1
+      end,
+      I := 1,
+      F := 1,
+      while(I <= 43)
+          F := 1,
+          while(F <= 43)
+              A[I, F] := 0,
+              F := F + 1
+          end,
+          I := I + 1
+      end,
+      Shag := Shag + 1
+  end,
+  print(Ans)
+.

@@ -1,0 +1,11 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  while(A > 2)
+      print("1 "),
+      B := B + 1,
+      A := A - 1
+  end,
+  print("2 "),
+  print(B + 2)
+.

@@ -1,0 +1,33 @@
+main =>
+  A = read_int(),
+  X = [E : E in 1 .. 1000],
+  I = 0,
+  B = 0,
+  C = 0,
+  while(I < A)
+      B := read_int(),
+      C := read_int(),
+      while(B <= C)
+          X[B] := 0,
+          B := B + 1
+      end,
+      I := I + 1
+  end,
+  Ans = 0,
+  I := 1,
+  while(I <= 1000)
+      if(X[I] != 0) then
+          Ans := Ans + 1
+      end,
+      I := I + 1
+  end,
+  print(Ans),
+  I := 1,
+  while(I <= 1000)
+      if(X[I] != 0) then
+          print(" "),
+          print(X[I])
+      end,
+      I := I + 1
+  end
+.

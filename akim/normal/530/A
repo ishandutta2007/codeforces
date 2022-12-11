@@ -1,0 +1,29 @@
+main =>
+  A = read_real(),
+  B = read_real(),
+  C = read_real(),
+  D = B * B - 4 * A * C,
+  L = 0,
+  R = D,
+  while(L + 0.00000001 < R)
+   M := (L + R) / 2,
+   if(M * M <= D) then
+    L := M
+   else
+    R := M
+   end
+  end,
+  D := L,
+  A1 = (-B + D) / (2 * A),
+  A2 = (-B - D) / (2 * A),
+  A3 = 0,
+  if(A1 > A2) then
+   A3 := A1,
+   A1 := A2,
+   A2 := A3
+  end,
+  print(A1),
+  if(A1 + 0.00001 < A2) then
+   print(" "),
+   print(A2)
+  end.

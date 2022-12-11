@@ -1,0 +1,14 @@
+main =>
+  A = read_line(),
+  L = length(A),
+  I = L div 2,
+  while(I > 0)
+      print(A[I]),
+      I := I - 1
+  end,
+  I := L,
+  while(I > L div 2)
+      print(A[I]),
+      I := I - 1
+  end
+.
