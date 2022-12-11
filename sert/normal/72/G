@@ -1,0 +1,15 @@
+n := File standardInput readLine asNumber
+a := 1
+b := 1
+c := 1
+(n < 2) ifTrue(
+n println
+) ifFalse(
+n := n - 1
+n repeat(
+c := a
+a := a + b
+b := c
+)
+a println
+)

@@ -1,0 +1,11 @@
+n := File standardInput readLine asNumber
+c := 1
+ch := 0;
+nc := 0;
+for(i, 1, n,
+  if (c == 1, c := 0, c := 1)
+  if (n % i == 0,
+    if (c == 1, ch := ch + 1, nc := nc + 1)
+  ) 
+)
+if (ch == nc, "yes" println, "no" println)
