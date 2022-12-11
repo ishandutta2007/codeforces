@@ -1,0 +1,34 @@
+set data [read stdin]
+set data [string trim $data]
+set tokens [split $data .]
+set ind 1
+foreach token $tokens {
+    set l [string length $token]
+    if {$l == 0} {
+        puts NO
+        set ind 0
+        break
+    }
+    for {set i 0} {$i < [string length $token]} {incr i} {
+        #set c [string index $token $i]
+        scan [string index $token $i] "%c" c
+        if {![expr {$c >= 97 && $c <= 122 || $c >= 48 && $c <=59}]} {
+            puts NO
+            set ind 0
+            break;
+        }
+    }   
+    if {$ind == 0} {
+        break
+    }
+}
+
+
+if {$ind == 1} {
+    if {$l < 2 || $l > 3} {
+        puts NO
+        set ind 0
+    } else {
+        puts YES
+    }
+}
