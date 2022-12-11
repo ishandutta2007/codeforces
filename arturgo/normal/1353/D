@@ -1,0 +1,39 @@
+let read () = Scanf.scanf " %d" (fun x -> x) in
+
+let comp a b = 
+   let (da, ta) = a in
+   let (db, tb) = b in
+   
+   if ta = tb then
+      da - db
+   else
+      tb - ta
+in
+
+let nbTests = read () in
+for iTest = 1 to nbTests do
+   let taille = read () in
+   
+   let tableau = Array.make taille 0 in
+   
+   let rec ajoute_inters d t l =
+      if t = 0 then
+         l
+      else if t = 1 then
+         (d, t) :: l
+      else
+         let tg = (t - 1) / 2 in
+         let td = t - tg - 1 in
+         (d, t) :: ajoute_inters d tg (ajoute_inters (d + tg + 1) td l)
+   in
+   
+   let inters = List.sort comp (ajoute_inters 0 taille []) in
+   
+   List.iteri (fun i a -> let (da, ta) = a in tableau.(da + ((ta - 1) / 2)) <- i + 1; ()) inters;
+   
+   for i = 0 to (taille - 1) do
+      print_int tableau.(i);
+      print_string " "
+   done;
+   print_newline ()
+done;

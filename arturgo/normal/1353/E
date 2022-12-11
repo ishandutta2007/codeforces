@@ -1,0 +1,43 @@
+let r_int () = Scanf.scanf " %d" (fun x -> x) in
+let r_char () = Scanf.scanf " %c" (fun x -> x) in
+
+let rec r_list = function
+| 0 -> []
+| n -> (if r_char () = '0' then 0 else 1) :: r_list (n - 1)
+in
+
+let rec calcule_cout etat =
+   let (a, b, c) = etat in
+   function
+   | [] -> c
+   | x :: r -> 
+      let a = a + x in
+      let b = min a (b + 1 - x) in
+      let c = min b (c + x) in
+      calcule_cout (a, b, c) r
+in
+
+let nbTests = r_int() in
+for iTest = 1 to nbTests do
+   let nbBits = r_int () in
+   let dist = r_int () in
+   let bits = r_list nbBits in
+   let mini = ref 1000000 in
+   
+   let nbUns = List.fold_left (+) 0 bits in
+   
+   let listes = Array.make dist [] in
+   let rec separe i = function 
+   | [] -> ()
+   | x :: r -> listes.(i) <- x :: listes.(i); separe ((i + 1) mod dist) r
+   in separe 0 bits;
+   
+   for iMod = 0 to (dist - 1) do
+      let curUns = List.fold_left (+) 0 listes.(iMod) in
+      let curCout = nbUns - curUns + (calcule_cout (0,0,0) listes.(iMod)) in
+      mini := min !mini curCout
+   done;
+   
+   print_int !mini;
+   print_newline ()
+done

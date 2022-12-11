@@ -1,0 +1,21 @@
+let nbTests = Scanf.scanf " %d" (fun x -> x);;
+
+let delta x y = Int64.abs (Int64.sub x y);;
+
+for i=1 to nbTests
+do
+   let x = Int64.of_int(Scanf.scanf " %d" (fun x -> x)) in
+   let y = Int64.of_int(Scanf.scanf " %d" (fun x -> x)) in
+   let a = Int64.of_int(Scanf.scanf " %d" (fun x -> x)) in
+   let b = min (Int64.mul 2L a) (Int64.of_int (Scanf.scanf " %d" (fun x -> x))) in
+   
+   let enleve = Int64.add (max 0L (min x y)) (min 0L (max x y)) in
+   
+   let ans = 0L in
+   let ans = Int64.add ans (Int64.mul b (delta enleve 0L)) in
+   let ans = Int64.add ans (Int64.mul a (delta x enleve)) in
+   let ans = Int64.add ans (Int64.mul a (delta y enleve)) in
+   
+   print_string (Int64.to_string ans);
+   print_newline ()
+done;;

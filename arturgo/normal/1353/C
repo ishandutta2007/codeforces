@@ -1,0 +1,14 @@
+let read () = Scanf.scanf " %d" (fun x -> x) in
+
+let rec get_somme = function
+| 0 -> 0L
+| n -> Int64.add (Int64.mul 8L (Int64.mul (Int64.of_int n) (Int64.of_int n))) (get_somme (n - 1))
+in
+
+let nbTests = read () in
+for iTest = 1 to nbTests do
+   let n = (read () - 1) / 2 in
+   
+   print_string (Int64.to_string (get_somme n));
+   print_newline()
+done;

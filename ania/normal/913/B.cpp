@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define REP(i,a,b) for (int i = (a); i <= (b); ++i)
+#define REPD(i,a,b) for (int i = (a); i >= (b); --i)
+#define FORI(i,n) REP(i,1,n)
+#define FOR(i,n) REP(i,0,int(n)-1)
+#define mp make_pair
+#define pb push_back
+#define pii pair<int,int>
+#define vi vector<int>
+#define ll long long
+#define SZ(x) int((x).size())
+#define DBG(v) cerr << #v << " = " << (v) << endl;
+#define FOREACH(i,t) for (typeof(t.begin()) i=t.begin(); i!=t.end(); i++)
+#define fi first
+#define se second
+
+int p[1010], leaf[1010], chil[1010];
+
+int main() {
+	int n;
+	scanf("%d", &n);
+	for (int i = 2; i <= n; i++) scanf("%d", &p[i]);
+	FORI(i,n) leaf[i] = 1, chil[i] = 0;
+	FORI(i,n) leaf[p[i]] = 0;
+	FORI(i,n) if (leaf[i]) chil[p[i]]++;
+	bool ok = true;
+	FORI(i,n) if (!leaf[i] && chil[i]<3) ok=false;
+	printf("%s\n", ok ? "Yes" : "No");
+	return 0;
+}

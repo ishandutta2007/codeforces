@@ -1,0 +1,26 @@
+n := File standardInput readLine asNumber
+prime := List clone
+
+for (i, 0, n, prime append(1))
+
+for (i, 2, n, 
+    if ((prime at(i)) == 1) then (
+        j := i * 2
+        while (j <= n, 
+            prime atPut(j, 0)
+            j := j + i
+        )
+    )
+)
+
+init := n
+
+while (n > 0, 
+    curr := n
+    while ((prime at(curr)) == 0, curr := curr - 1)
+    write(curr)
+    n := n - curr
+    if (n > 0) then (write("+"))
+)
+
+write("=", init)

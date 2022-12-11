@@ -1,0 +1,28 @@
+set line [gets stdin]
+scan $line "%d%d%d" a b c
+
+set x 2
+set y 2
+set z 2
+
+if {$a >= $b && $a >= $c} {
+    set x 1
+} elseif {$b >= $a && $b >= $c} {
+    set y 1
+} elseif {$x != 1 && $y != 1 && $c >= $a && $c >= $b} {
+    set z 1
+}
+
+if {$x == 2 && $a <= $b && $a <= $c} {
+    set x 3
+} elseif {$y == 2 && $b <= $a && $b <= $c} {
+    set y 3
+} elseif {$z == 2 && $c <= $a && $c <= $b} {
+    set z 3
+}
+
+puts -nonewline $x
+puts -nonewline " "
+puts -nonewline $y
+puts -nonewline " "
+puts -nonewline $z

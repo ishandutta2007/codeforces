@@ -1,0 +1,1 @@
+main(x){scanf("%d",&x);printf("%d",__builtin_popcount(x));}

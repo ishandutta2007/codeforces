@@ -1,0 +1,112 @@
+set line [gets stdin]
+
+set columns {}
+set i 0
+set n [string length $line]
+
+while {$i < $n} {
+    set j $i
+    while {[expr $j + 1] < $n && [string index $line [expr $j + 1]] != " "} {
+        incr j
+    }
+    lappend columns [string range $line $i $j] 
+    set i [expr $j + 2]
+}
+
+set k [llength $columns]
+
+
+
+set line [gets stdin]
+set num {}
+set order {}
+set i 0
+set n [string length $line]
+
+while {$i < $n} {
+    set j $i
+    while {[expr $j + 1] < $n && [string index $line [expr $j + 1]] != " "} {
+        incr j
+    }
+    set name [string range $line $i $j] 
+    lappend num [lsearch $columns $name]
+    set i [expr $j + 2]
+    if {[string index $line $i] == "A"} {
+        lappend order 1
+        set i [expr $i + 2]
+    } else {
+        lappend order -1
+        set i [expr $i + 3]
+    }
+    incr i
+    if {$i == $n} {
+        break
+    }
+    incr i
+    incr i
+}
+
+set a {}
+
+while {1 > 0} {
+    set line [gets stdin]
+    if {$line == ""} {
+        break
+    }
+    set curr {}
+    set i 0
+    set n [string length $line]
+    while {$i < $n} {
+        set j $i
+        while {[expr $j + 1] < $n && [string index $line [expr $j + 1]] != " "} {
+            incr j
+        }
+        lappend curr [string range $line $i $j] 
+        set i [expr $j + 2]
+    }
+    lappend a $curr
+}
+
+while {[llength $a] > 0} {
+    set best 0
+    set i 1
+    while {$i < [llength $a]} {
+        set better false
+        set j 0
+        while {$j < [llength $num]} {
+            set pos [lindex $num $j]
+            set x [lindex [lindex $a $i] $pos]
+            set y [lindex [lindex $a $best] $pos]
+            if {[lindex $order $j] == -1} {
+                if {[string compare $x $y] == 1} {
+                    set better true
+                } elseif {[string compare $x $y] == -1} {
+                    break
+                }
+            } else {
+                if {[string compare $x $y] == -1} {
+                    set better true
+                } elseif {[string compare $x $y] == 1} {
+                    break
+                }
+            }
+            
+            incr j
+        }
+        
+        if {$better == true} {
+            set best $i
+        }
+        incr i
+    }
+    
+    foreach x [lindex $a $best] {
+        puts -nonewline $x
+        puts -nonewline " "
+    }
+    puts ""
+    set a [lreplace $a $best $best]
+}
+
+
+#puts -nonewline "/"

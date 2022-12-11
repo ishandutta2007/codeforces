@@ -1,0 +1,161 @@
+fRev := method(u,
+    ans := List clone
+    for (i, 0, (u size) - 1, ans append((u at((u size) - i - 1)) asCharacter))
+    ans := ans join
+)
+
+fCon := method(u, v,
+    ans := List clone
+    for (i, 0, (u size) - 1, ans append(u at(i) asCharacter))
+    for (i, 0, (v size) - 1, ans append(v at(i) asCharacter))
+    ans := ans join
+)
+
+fSub1 := method(u, a, b,
+    ans := List clone
+    for (i, a - 1, b - 1, ans append(u at(i) asCharacter))
+    ans := ans join
+)
+
+fSub2 := method(u, a, b, c,
+    ans := List clone
+    for (i, a - 1, b - 1,
+        if (i % c == (a - 1) % c, ans append(u at(i) asCharacter))
+    )
+    ans := ans join
+)
+
+s := File standardInput readLine asString
+n := (s size)
+
+L := List clone
+R := List clone
+ANS := List clone
+
+fGet := method(i, j,
+    ans := "?"
+    for (k, 0, (L size) - 1,
+        if (L at(k) == i and R at(k) == j,
+            ans := (ANS at(k))
+            break
+        )
+    )
+    return ans
+)
+
+l := List clone
+r := List clone
+l append(0)
+r append(n - 1)
+
+quote := "\""
+reverse := "r"
+concat := "c"
+open := "("
+close := ")"
+comma := ","
+substr := "s"
+
+while (l size > 0,
+    a := (l at((l size) - 1))
+    b := (r at((r size) - 1))
+    if ((s at(a)) asCharacter == quote,
+        L append(a)
+        R append(b)
+        ANS append(s slice(a + 1, b))
+        l := l slice(0, (l size) - 1)
+        r := r slice(0, (r size) - 1)
+        continue
+    )
+    
+    if ((s at(a)) asCharacter asLowercase == reverse,
+        z := fGet(a + 8, b - 1)
+        if (z == "?",
+            l append(a + 8)
+            r append(b - 1)
+            continue
+        )
+        L append(a)
+        R append(b)
+        ANS append(fRev(z))
+        l := l slice(0, (l size) - 1)
+        r := r slice(0, (r size) - 1)
+        continue
+    )
+    
+    if ((s at(a)) asCharacter asLowercase == concat,
+        balance := 1
+        pos := -1
+        for (i, a + 7, b - 1,
+            if ((s at(i)) asCharacter == open, balance := balance + 1)
+            if ((s at(i)) asCharacter == close, balance := balance - 1)
+            if ((s at(i)) asCharacter == comma and balance == 1,
+                pos := i
+                break
+            )
+        )
+        bad := 0
+        z1 := fGet(a + 7, pos - 1)
+        if (z1 == "?",
+            l append(a + 7)
+            r append(pos - 1)
+            bad := 1
+        )
+        z2 := fGet(pos + 1, b - 1)
+        if (z2 == "?",
+            l append(pos + 1)
+            r append(b - 1)
+            bad := 1
+        )
+        if (bad == 1, continue)
+        L append(a)
+        R append(b)
+        ANS append(fCon(z1, z2))
+        l := l slice(0, (l size) - 1)
+        r := r slice(0, (r size) - 1)
+        continue
+    )
+    
+    if ((s at(a)) asCharacter asLowercase == substr,
+        balance := 1
+        pos := -1
+        for (i, a + 7, b - 1,
+            if ((s at(i)) asCharacter == open, balance := balance + 1)
+            if ((s at(i)) asCharacter == close, balance := balance - 1)
+            if ((s at(i)) asCharacter == comma and balance == 1,
+                pos := i
+                break
+            )
+        )
+        z := fGet(a + 7, pos - 1)
+        if (z == "?",
+            l append(a + 7)
+            r append(pos - 1)
+            continue
+        )
+
+        numbers := (s slice(pos + 1, b)) split(comma)
+        lf := (numbers at(0)) asNumber
+        rg := (numbers at(1)) asNumber
+        
+        if (numbers size == 2,
+            L append(a)
+            R append(b)
+            ANS append(fSub1(z, lf, rg))
+            l := l slice(0, (l size) - 1)
+            r := r slice(0, (r size) - 1)
+            continue
+        )
+        
+        step := (numbers at(2)) asNumber
+        L append(a)
+        R append(b)
+        ANS append(fSub2(z, lf, rg, step))
+        l := l slice(0, (l size) - 1)
+        r := r slice(0, (r size) - 1)
+        continue
+    )
+)
+
+//if ((L at(0)) == 0 and (R at(0)) == 11, ANS at(0) println)
+write(quote, fGet(0, n - 1), quote)

@@ -1,0 +1,76 @@
+n := File standardInput readLine asNumber
+space := " "
+semicolon := ";"
+bracket := "["
+equals := "="
+
+sections := List clone
+sections append("")
+l := List clone
+l append(List clone)
+r := List clone
+r append(List clone)
+currSection := 0
+
+for (i, 1, n, 
+    s := File standardInput readLine asString
+    t := List clone
+    for (j, 0, (s size) - 1, if ((s at(j)) != (space at(0)), t append(s at(j) asCharacter)))
+    if ((t at(0)) == semicolon, continue)
+    if ((t at(0)) == bracket, 
+        f := -1
+        name := (t slice(1, (t size) - 1)) join
+        for (j, 0, (sections size) - 1, if ((sections at(j)) == name, f := j))
+        if (f == -1, 
+            sections append(name)
+            l append(List clone)
+            r append(List clone)
+            f := (sections size) - 1
+        )
+        currSection := f
+        continue
+    )
+    pos := -1
+    for (j, 0, (t size) - 1, if ((t at(j)) == equals, pos := j))
+    x := (t slice(0, pos)) join
+    y := (t slice(pos + 1, (t size))) join
+    was := -1
+    for (j, 0, (l at(currSection)) size - 1, if (((l at(currSection)) at(j)) == x, was := j))
+    if (was != -1, (r at(currSection)) atPut(was, y))
+    if (was == -1, 
+        (l at(currSection)) append(x)
+        (r at(currSection)) append(y)
+    )
+)
+
+used := List clone
+for (i, 0, (sections size) - 1, used append(0))
+
+for (step, 1, (sections size),
+    min := -1
+    for (i, 0, (sections size) - 1,
+        if ((used at(i)) == 1, continue)
+        if (min == -1 or (sections at(i)) < (sections at(min)), min := i)
+    )
+    name := (sections at(min))
+    if (name size > 0,
+        write("[")
+        for (j, 0, (name size) - 1, write((name at(j)) asCharacter))
+        write("]\n")
+    )
+    
+    vis := List clone
+    n := (l at(min)) size
+    for (j, 0, n - 1, vis append(0))
+    for (st, 0, n - 1,
+        z := -1
+        for (i, 0, n - 1, 
+            if ((vis at(i)) == 1, continue)
+            if (z == -1 or ((l at(min)) at(i)) < ((l at(min)) at(z)), z := i)
+        )
+        write(((l at(min)) at(z)), "=", ((r at(min)) at(z)), "\n")
+        vis atPut(z, 1)
+    )
+    
+    used atPut(min, 1)
+)

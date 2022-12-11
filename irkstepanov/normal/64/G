@@ -1,0 +1,46 @@
+set line [gets stdin]
+scan $line "%s" s
+set n [string length $s]
+
+set stack {}
+#lappend stack s1
+#lappend stack s2
+#puts [lindex $stack 0]
+
+set i 1
+set l 0
+
+
+while {$i < $n} {
+    set j $i
+    while {[expr $j + 1] < $n && [string index $s [expr $j + 1]] != "/"} {
+        incr j
+    }
+    set curr [string range $s $i $j]
+    
+    if {$curr == "."} {
+        
+    } elseif {$curr == ".."} {
+        if {$l == 0} {
+            puts -1
+            return
+        } else {
+            set stack [lreplace $stack [expr $l - 1] [expr $l - 1]]
+            incr l -1
+        }
+    } else {
+        lappend stack $curr
+        incr l
+    }
+    
+    set i [expr $j + 2]
+}
+
+if {$l == 0} {
+    puts "/"
+}
+
+foreach x $stack {
+    puts -nonewline "/"
+    puts -nonewline $x
+}

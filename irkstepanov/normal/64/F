@@ -1,0 +1,60 @@
+proc correct {s} {
+    set n [string length $s]
+    set i 0
+    while {$i < $n} {
+        set c [string index $s $i]
+        set ok false
+        if {[string compare $c a] != -1 && [string compare $c z] != 1} {
+            set ok true
+        }
+        if {[string compare $c 0] != -1 && [string compare $c 9] != 1} {
+            set ok true
+        }
+        if {$c == "."} {
+            set ok true
+        }
+        
+        set j [expr $i + 1]
+        
+        if {$j < $n && [string index $s $i] == "." && [string index $s $j] == "."} {
+            set ok false
+        }
+        
+        if {$i == 0 && $c == "."} {
+            set ok false
+        }
+        
+        if {$ok == false} {
+            return false
+        }
+        
+        incr i
+    }
+    
+    set fp 0
+    set i 0
+    while {$i < $n} {
+        set c [string index $s $i]
+        if {$c == "."} {
+            set fp [expr $i + 1]
+        }
+        incr i
+    }
+    
+    if {$fp != [expr $n - 2] && $fp != [expr $n - 3]} {
+        return false
+    }
+    
+    return true
+}
+
+set line [gets stdin]
+scan $line "%s" s
+
+set ans [correct $s]
+
+if {$ans == true} {
+    puts YES
+} else {
+    puts NO
+}

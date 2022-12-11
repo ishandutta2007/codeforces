@@ -1,0 +1,23 @@
+let r_long () = Int64.of_int (Scanf.scanf " %d" (fun x -> x)) in
+let r_int () = Scanf.scanf " %d" (fun x -> x) in
+
+let rec max_diff maxi = function
+| 0 -> 0L
+| nbNombres -> 
+   let nombre = r_long () in
+   let nouvMax = max nombre maxi in
+   max (Int64.sub maxi nombre) (max_diff nouvMax (nbNombres - 1))
+in
+
+let rec log = function
+| 0L -> 0
+| n -> 1 + log (Int64.div n 2L)
+in
+
+let nbTests = r_int () in
+for iTest = 1 to nbTests do
+   let nbNombres = r_int () in
+   let diff = max_diff (r_long ()) (nbNombres - 1) in
+   print_int (log diff);
+   print_newline ()
+done;

@@ -1,0 +1,12 @@
+set line [gets stdin]
+scan $line "%d%d%d" n m k
+incr k -1
+
+set col [expr $k / $n]
+set row [expr $k % $n]
+
+puts [expr $row * $m + $col + 1]
+
+# set y [expr{$k % $n}]
+# set y [expr{10 / 2}]
+# puts $y

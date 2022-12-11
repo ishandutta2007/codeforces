@@ -1,0 +1,26 @@
+s := File standardInput readLine asString
+best := ""
+cnt := 0
+
+for (i, 0, (s size) - 1, 
+    for (j, i, (s size) - 1,
+        test := (s slice(i, j + 1))
+        len := (test size)
+        curr := 0
+        for (z, 0, (s size) - len,
+            if (test == (s slice(z, z + len))) then (curr := curr + 1)
+        )
+        if (curr > cnt) then (
+            best := test
+            cnt := curr
+        )
+        if (curr == cnt and (best size) < (test size)) then (
+            best := test
+        )
+        if (curr == cnt and (best size) == (test size) and best < test) then (
+            best := test
+        )
+    )
+)
+
+best println
