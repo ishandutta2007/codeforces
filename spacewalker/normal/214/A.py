@@ -1,0 +1,1 @@
+print((lambda inp: len(["yeet" for a in range(inp[0] + 1) for b in range(inp[1] + 1) if a**2 + b == inp[0] and a + b**2 == inp[1]]))(list(map(int, input().split()))))

@@ -1,0 +1,1 @@
+print([i for i in range(int(input()) + 1, 10235) if len(set(str(i))) == len(str(i))][0])
