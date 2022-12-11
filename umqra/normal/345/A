@@ -1,0 +1,31 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure program is
+    Text: String(1..50);
+    Length: Natural;
+    I: integer := 1;
+    p: Float;
+    t: FLoat := 0.0;
+begin
+    Get_Line(Text, Length);
+    Get(p);
+    loop
+      if Character'Pos(Text(I)) = 49 then 
+          t := t + Float(1);
+      end if;
+      if Character'Pos(Text(I)) = 63 then
+          t := t + p;
+      end if;
+      I := I + 1; 
+      exit when I > Length;
+   end loop;
+   t := t / Float(Length);
+   Put(t, Aft => 5, Exp => 0);
+end program;

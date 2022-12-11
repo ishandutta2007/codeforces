@@ -1,0 +1,69 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+
+procedure prog is
+
+    type Strip is array(0..100) of Integer;
+    type Grid is array(-100 .. 100, -100 .. 100) of Integer;
+    g : Grid;
+    used : Strip;
+    c : Character;
+    n: Integer;
+    i, s, res, TT : Integer := 0;
+    begin
+    declare 
+        function dfs(v, e : Integer) return Integer is
+        to, trash : Integer;
+        begin
+            if v = e then
+                res := res + 1;
+                return 0;
+            end if;
+            if used(v) = 1 then
+                return 0;
+            end if;
+            used(v) := 1;
+            to := 0;
+            loop 
+                if to = n then
+                    exit;
+                end if;
+                if g(v, to) = 1 then
+                    trash := dfs(to, e);
+                end if;
+                to := to + 1;
+            end loop;    
+            return 0;
+        end dfs;    
+begin
+    Get(n);
+    loop 
+        if i = n then
+            exit;
+        end if;
+        s := 0;
+        loop 
+            if s = n then
+                exit;
+            end if;
+            Get(c);
+            if Character'Pos(c) = 49 then ------'
+                g(i, s) := 1;
+            else
+                g(i, s) := 0;
+            end if;
+            s := s + 1;
+        end loop;
+        i := i + 1;
+    end loop;
+    TT := dfs(0, n - 1);
+    Put(res);
+end;
+end prog;
