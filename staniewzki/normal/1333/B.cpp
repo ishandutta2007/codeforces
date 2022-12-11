@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ostream& operator<<(ostream &out, string str) {
+	for(char c : str) out << c;
+	return out;
+}
+ 
+template<class L, class R> ostream& operator<<(ostream &out, pair<L, R> p) {
+	return out << "(" << p.first << ", " << p.second << ")";
+}
+ 
+template<class T> auto operator<<(ostream &out, T a) -> decltype(a.begin(), out) {
+	out << "{";
+	for(auto it = a.begin(); it != a.end(); it = next(it))
+		out << (it != a.begin() ? ", " : "") << *it;
+	return out << "}";
+}
+ 
+void dump() { cerr << "\n"; }
+template<class T, class... Ts> void dump(T a, Ts... x) {
+	cerr << a << ", ";
+	dump(x...);
+}
+
+#ifdef DEBUG
+#  define debug(...) cerr << "[" #__VA_ARGS__ "]: ", dump(__VA_ARGS__)
+#else
+#  define debug(...) false
+#endif
+ 
+#define REP(i, n) for(int i = 0; i < n; i++)
+#define FOR(i, a, b) for(int i = a; i <= b; i++)
+#define ST first
+#define ND second
+ 
+template<class T> int size(T && a) { return a.size(); }
+ 
+using LL = long long;
+using PII = pair<int, int>;
+
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	int t;
+	cin >> t;
+	REP(_t, t) {
+		int n;
+		cin >> n;
+		vector<int> a(n), b(n);
+		REP(i, n) cin >> a[i];
+		REP(i, n) cin >> b[i];
+
+		vector<array<bool, 3>> x(n + 1, {0, 0, 0});
+		REP(i, n) {
+			x[i + 1] = x[i];
+			x[i + 1][a[i] + 1] = true;
+		}
+
+		bool ok = true;
+		REP(i, n) {
+			if(a[i] < b[i]) ok &= x[i][2];
+			if(a[i] > b[i]) ok &= x[i][0];
+		}
+
+		cout << (ok ? "YES\n" : "NO\n");
+	}
+}

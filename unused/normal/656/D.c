@@ -1,0 +1,1 @@
+b;main(a){scanf("%d",&a);while(a){if(a%8==1)++b;a/=8;}printf("%d",b);}

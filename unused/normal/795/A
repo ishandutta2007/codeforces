@@ -1,0 +1,35 @@
+open Printf;;
+open String;;
+
+let ( +| ) a b = Int64.add a b;;
+let ( -| ) a b = Int64.sub a b;;
+let ( *| ) a b = Int64.mul a b;;
+let ( /| ) a b = Int64.div a b;;
+
+let inp = Str.split (Str.regexp " ") (read_line());;
+let n = int_of_string (List.nth inp 0);;
+let c1 = Int64.of_string (List.nth inp 1);;
+let c2 = Int64.of_string (List.nth inp 2);;
+let s = read_line();;
+
+let rec count_one idx =
+    if idx = n then 0
+    else (if (String.get s idx) = '1' then 1 else 0) + (count_one (idx + 1));;
+    
+let adults = count_one 0;;
+
+let calc_single x = c1 +| (c2 *| ((x -| 1L) *| (x -| 1L)));;
+        
+let calc_total x = 
+    let nn = Int64.of_int n in
+    let r = Int64.rem nn x in
+    (r *| calc_single((nn /| x) +| 1L)) +|
+    ((x -| r) *| calc_single(nn /| x));;
+    
+
+let rec process i ans = 
+    if i > adults then printf "%Ld\n" ans else
+    let newcost = calc_total (Int64.of_int i) in
+    process (i + 1) (if ans > newcost then newcost else ans);;
+    
+let _ = process 1 Int64.max_int;;
