@@ -1,0 +1,1 @@
+gets;p gets.split.map(&:to_i).sort.each_with_index.inject(0){|s,(v,i)| s+(v-i-1).abs}
