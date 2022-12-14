@@ -1,0 +1,1 @@
+main(n){scanf("%d",&n);if(n<=2)printf("-1");else while(n)printf("%d ",n--);return 0;}
