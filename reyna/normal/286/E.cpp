@@ -13,8 +13,6 @@ template<class P, class Q> inline P smax(P &a, Q b) { if (a < b) a = b; return a
 
 #define rep(i, n) for (int i = 0, _n = (int)(n); i < _n; i++)
 
-#define scan(x) do{while((x=getchar())<'0'); for(x-='0'; '0'<=(_=getchar()); x=(x<<3)+(x<<1)+_-'0');}while(0)
-char _;
 
 int read() { int x; cin >> x; return x; }
 
@@ -28,26 +26,35 @@ inline point operator +(const point &a, const point &b) { return point(a.real + 
 inline point operator *(const point &a, const point &b) { return point(a.real * b.real - a.imag * b.imag, a.real * b.imag + a.imag * b.real); }
 const int N = 1 << 21, lg = 21;
 int rev[N];
+point w[N];
 void FFT(point a[], bool inverse) {
-	rep(i, N)
+	rep(i, N) {
+//		int rev = 0;
+//		rep(j, lg)
+//			if (i >> j & 1)
+//				rev |= 1 << lg - j - 1;
 		if (rev[i] > i)
 			swap(a[rev[i]], a[i]);
+	}
 	double arg = acos(-1.0);
 	for (int len = 2; len <= N; len <<= 1, arg /= 2) {
 		point wn = point(cos(arg), inverse == 0? sin(arg): -sin(arg));
+		w[0] = point(1, 0);
+		rep(j, len - 1)
+			w[j + 1] = w[j] * wn;
 		for (int j = 0; j < N; j += len) {
-			point w = point(1, 0);
+//			point w = point(1, 0);
 			for (int x = j, y = j + len / 2; y < j + len; ++x, ++y) {
-				point u = a[x], v = a[y] * w;
+				point u = a[x], v = a[y] * w[x - j];
 				a[x] = u + v;
 				a[y] = u - v;
-				w = w * wn;
+//				w = w * wn;
 			}
 		}
 	}
 	if (inverse)
 		rep(i, N)
-			a[i].real /= N;
+			a[i].real /= N, a[i].imag /= N;
 }
 
 
@@ -63,34 +70,31 @@ void gen(int bit = lg - 1, int x = 0, int y = 0) {
 	gen(bit - 1, x + (1 << bit), y + (1 << lg - bit - 1));
 }
 
-int main() {
+int32_t main() {
 //	ios_base :: sync_with_stdio(false); cin.tie(0); cout.tie(0);
+	gen();
 	int n, m;
-//	scanf("%d %d", &n, &m);
-	scan(n);
-	scan(m);
+	scanf("%d %d", &n, &m);
 	rep(i, n) {
-		int x; //scanf("%d", &x);
-		scan(x);
+		int x; scanf("%d", &x);
 		a[x].real = a[x].real + 1;
 		mark[x]++;
 	}
-	gen();
 	FFT(a, false);
 	rep(i, N)
 		b[i] = a[i] * a[i];
 	FFT(b, true);
 	rep(i, m + 1) {
-		int x = (b[i].real > 0.5);
+		int x = round(b[i].real);
 		int y = mark[i];
 		if (x && !y) {
-			puts("NO");
+			cout << "NO\n";
 			return 0;
 		} else if (y && x == 0) {
 			res[k++] = i;
 		}
 	}
-	puts("YES");
+	printf("YES\n");
 	
 	printf("%d\n", k);
 	rep(i, k)
