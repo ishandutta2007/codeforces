@@ -1,0 +1,1 @@
+main(n){scanf("%d",&n);printf("%d",n/5+!!(n%5));}
