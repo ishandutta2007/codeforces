@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define K(x...){cerr<<"BEGIN    "<<#x<<"->";Err(x);cerr<<"   END"<<endl;}
+void Err(){}
+template<class T,class... A>void Err(T a,A... x){cerr<<a<<',';Err(x...);}
+template<class X,class Y,class...A>void Err(pair<X,Y> a,A... x){cerr<<'('<<a.first<<','<<a.second<<')';Err(x...);}
+template<template<class...> class T,class t,class...A>void Err(T<t>a,A...x){cerr<<a.size()<<":{";for(auto v:a)Err(v);cerr<<"},";Err(x...);}
+typedef long long ll;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+ll rnd(ll l,ll r){return uniform_int_distribution<ll>(l,r)(rng);}
+template<class T>void Min(T &a,const T b){if(b<a)a=b;}
+template<class T>void Max(T &a,const T b){if(a<b)a=b;}
+#define fi first
+#define se second
+#define lo (o<<1)
+#define ro (o<<1|1)
+#define mid (l+r>>1)
+#define endl '\n'
+#define F(x){x;}
+#ifdef ONLINE_JUDGE
+#define freopen(a,b,c)
+#define K(a...)
+#define F(x)
+#endif
+typedef pair<int,int>pii;
+typedef pair<ll,ll>pll;
+typedef vector<int>vi;
+typedef vector<ll>vl;
+const ll linf=0x3f3f3f3f3f3f3f3f;
+const int inf=0x3f3f3f3f;
+const int N=2e5+10,M=200+10;
+const ll mod=1e9+97;
+
+int n,f[N],x[N],y[N],cr[N][2],cc[N][2];
+vi r[N],c[N];
+vi edg[N];
+void dfs(int u,int col){
+    f[u]=col;
+    for(auto v:edg[u])if(f[v]==-1)dfs(v,!col);
+}
+int main(){
+    ios::sync_with_stdio(0),cin.tie(0);
+    freopen("A.in","r",stdin);
+    memset(f,-1,sizeof(f));
+    cin>>n;
+    for(int i=1;i<=n;i++){
+        cin>>x[i]>>y[i];
+        r[x[i]].push_back(i);
+        c[y[i]].push_back(i);
+    }
+    for(int i=0;i<N;i++){
+        for(int j=1;j<r[i].size();j+=2){
+            edg[r[i][j]].push_back(r[i][j-1]);
+            edg[r[i][j-1]].push_back(r[i][j]);
+        }
+        for(int j=1;j<c[i].size();j+=2){
+            edg[c[i][j]].push_back(c[i][j-1]);
+            edg[c[i][j-1]].push_back(c[i][j]);
+        }
+    }
+    for(int i=1;i<=n;i++){
+        if(f[i]==-1)dfs(i,0);
+        cout<<(f[i]?'b':'r');
+    }
+}
