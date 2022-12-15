@@ -1,0 +1,226 @@
+//By TheOneYouWant
+#pragma GCC optimize ("-O2")
+#include <bits/stdc++.h>
+using namespace std;
+#define fastio ios_base::sync_with_stdio(0);cin.tie(0)
+#define pb push_back
+#define mp make_pair
+#define fi first
+#define se second
+#define all(x) x.begin(),x.end()
+#define memreset(a) memset(a,0,sizeof(a))
+#define testcase(t) int t;cin>>t;while(t--)
+#define forstl(i,v) for(auto &i: v)
+#define forn(i,e) for(int i=0;i<e;++i)
+#define forsn(i,s,e) for(int i=s;i<e;++i)
+#define rforn(i,s) for(int i=s;i>=0;--i)
+#define rforsn(i,s,e) for(int i=s;i>=e;--i)
+#define bitcount(a) __builtin_popcount(a) // set bits (add ll)
+#define ln '\n'
+#define getcurrtime() cerr<<"Time = "<<((double)clock()/CLOCKS_PER_SEC)<<endl
+#define dbgarr(v,s,e) cerr<<#v<<" = "; forsn(i,s,e) cerr<<v[i]<<", "; cerr<<endl
+#define inputfile freopen("input.txt", "r", stdin)
+#define outputfile freopen("output.txt", "w", stdout)
+#define dbg(args...) { string _s = #args; replace(_s.begin(), _s.end(), ',', ' '); \
+stringstream _ss(_s); istream_iterator<string> _it(_ss); err(_it, args); }
+void err(istream_iterator<string> it) { cerr<<endl; }
+template<typename T, typename... Args>
+void err(istream_iterator<string> it, T a, Args... args) {
+	cerr << *it << " = " << a << "\t"; err(++it, args...);
+}
+template<typename T1,typename T2>
+ostream& operator <<(ostream& c,pair<T1,T2> &v){
+	c<<"("<<v.fi<<","<<v.se<<")"; return c;
+}
+template <template <class...> class TT, class ...T>
+ostream& operator<<(ostream& out,TT<T...>& c){
+    out<<"{ ";
+    forstl(x,c) out<<x<<" ";
+    out<<"}"; return out;
+}
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair<ll,ll> p64;
+typedef pair<int,int> p32;
+typedef pair<int,p32> p96;
+typedef vector<ll> v64;
+typedef vector<int> v32; 
+typedef vector<v32> vv32;
+typedef vector<v64> vv64;
+typedef vector<p32> vp32;
+typedef vector<p64> vp64;
+typedef vector<vp32> vvp32;
+typedef map<int,int> m32;
+const int LIM=1e6+5,MOD=1e9+7;
+const ld EPS = 1e-9;
+
+int read(){
+    int xx=0,ff=1;char ch=getchar();
+    while(ch>'9'||ch<'0'){if(ch=='-')ff=-1;ch=getchar();}
+    while(ch>='0'&&ch<='9'){xx=(xx<<3)+(xx<<1)+ch-'0';ch=getchar();}
+    return xx*ff;
+}
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+v32 adj[LIM];
+
+int link[LIM] = {0};
+int sz[LIM] = {0};
+
+int find(int x){
+	if(x==link[x]) return x;
+	return link[x] = find(link[x]);
+}
+
+void unite(int a, int b){
+	a = find(a);
+	b = find(b);
+	if(a == b) return;
+	if(sz[a]<sz[b]) swap(a,b);
+	sz[a]+=sz[b];
+	link[b] = a;
+}
+
+int n, m, k;
+bool visited[LIM];
+bool pos;
+int col[LIM];
+int c[LIM];
+
+void dfs(int node){
+	visited[node] = 1;
+	forstl(r,adj[node]){
+		if(c[r] != c[node]) continue;
+		if(visited[r]){
+			if(col[r] == col[node]) pos = 0;
+			continue;
+		} 
+		unite(node, r);
+		col[r] = 3-col[node];
+		dfs(r);
+	}
+}
+
+bool vis2[LIM];
+int col2[LIM];
+v32 adj2[LIM];
+
+bool pos2;
+
+void dfs2(int node){
+	vis2[node] = 1;
+	forstl(r,adj2[node]){
+		if(vis2[r]){
+			if(col2[r] == col2[node]) pos2 = 0;
+			continue;
+		}
+		col2[r] = 3-col2[node];
+		dfs2(r);
+	}
+}
+
+int main(){
+	fastio;
+
+	cin>>n>>m>>k;
+
+	bool imp[k] = {0};
+
+	vector<int> v[k];
+
+	forn(i,n){
+		cin>>c[i];
+		c[i]--;
+		v[c[i]].pb(i);
+	}
+
+	forn(i,m){
+		int a, b;
+		cin>>a>>b;
+		a--; b--;
+		adj[a].pb(b);
+		adj[b].pb(a);
+	}
+
+	forn(i,LIM){
+		link[i] = i;
+		sz[i] = 1;
+	}
+
+	ll tot = 0;
+	ll ans = 0;
+
+	forn(i,k){
+		pos = 1;
+		forstl(r,v[i]){
+			if(visited[r]) continue;
+			col[r] = 1;
+			dfs(r);
+		}
+		// cout<<"component for colour "<<i<<ln;
+		// forstl(r,v[i]){
+		// 	cout<<r<<" "<<find(r)<<" "<<col[r]<<ln;
+		// }
+		if(pos == 0){
+			imp[i] = 1;
+			continue;
+		} 
+		ll sub = 0;
+		map<int,int> flip;
+		m32 rem;
+		map<int, set<p32>> m;
+
+		forstl(r,v[i]){
+			forstl(k,adj[r]){
+				int c1 = i, c2 = c[k];
+				if(c1 <= c2) continue;
+				if(imp[c2]) continue;
+				int f = find(r), g = find(k);
+				int e1 = 2*f+col[r]-1, e2 = 2*g+col[k]-1;
+				m[c2].insert(mp(e1,e2));
+				m[c2].insert(mp(2*f,2*f+1));
+				m[c2].insert(mp(2*g,2*g+1));
+			}
+		}
+
+		forstl(r,m){
+			int cnt = 1;
+			map<int,int> mp;
+			forstl(k,r.se){
+				if(mp[k.fi]==0){
+					mp[k.fi] = cnt;
+					cnt++;
+				}
+				if(mp[k.se]==0){
+					mp[k.se] = cnt;
+					cnt++;
+				}
+				
+			}
+			forn(i,cnt) adj2[i].clear();
+			forstl(k,r.se){
+				adj2[mp[k.fi]-1].pb(mp[k.se]-1);
+				adj2[mp[k.se]-1].pb(mp[k.fi]-1);
+			}
+			forn(i,cnt) vis2[i] = 0;
+			pos2 = 1;
+			forn(h,cnt){
+				if(vis2[h]) continue;
+				col2[h] = 1;
+				dfs2(h);
+			}
+			if(!pos2){
+				sub++;
+			} 
+		}
+
+		ans += tot - sub;
+		tot++;
+	}
+
+	cout<<ans<<ln;
+
+	return 0;
+}
