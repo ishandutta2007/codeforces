@@ -1,0 +1,84 @@
+#include<cstdio>
+#include<iostream>
+#include<cstdlib>
+#include<cmath>
+#include<vector>
+#include<algorithm>
+#include<set>
+#include<map>
+#include<queue>
+#include<cstring>
+
+#define FOR(i,a,b) for(int i=(a);i<(b);++i)
+#define FORD(i, a, b) for(int i = (a); i >= (b); --i)
+#define VAR(v, i) __typeof(i) v=(i)
+#define FORE(i, c) for(VAR(i, (c).begin()); i != (c).end(); ++i)
+
+#define VI vector<int>
+#define PII pair<int,int>
+#define st first
+#define nd second
+#define mp make_pair
+#define pb push_back
+#define lint long long int
+
+#define debug(x) {cerr <<#x <<" = " <<x <<endl; }
+#define debug2(x,y) {cerr <<#x <<" = " <<x << ", "<<#y<<" = "<< y <<endl; } 
+#define debug3(x,y,z) {cerr <<#x <<" = " <<x << ", "<<#y<<" = "<< y << ", " << #z << " = " << z <<endl; } 
+#define debugv(x) {{cerr <<#x <<" = "; FORE(itt, (x)) cerr <<*itt <<", "; cerr <<endl; }}
+#define debugt(t,n) {{cerr <<#t <<" = "; FOR(it,0,(n)) cerr <<t[it] <<", "; cerr <<endl; }}
+
+#define make( x) int (x); scanf("%d",&(x));
+#define make2( x, y) int (x), (y); scanf("%d%d",&(x),&(y));
+#define make3(x, y, z) int (x), (y), (z); scanf("%d%d%d",&(x),&(y),&(z));
+#define make4(x, y, z, t) int (x), (y), (z), (t); scanf("%d%d%d%d",&(x),&(y),&(z),&(t));
+#define IOS ios_base::sync_with_stdio(0)
+#define HEAP priority_queue
+
+#define read( x) scanf("%d",&(x));
+#define read2( x, y) scanf("%d%d",&(x),&(y));
+#define read3(x, y, z) scanf("%d%d%d",&(x),&(y),&(z));
+#define read4(x, y, z, t) scanf("%d%d%d%d",&(x),&(y),&(z),&(t));
+
+using namespace std;
+#define max_n 100015
+
+
+int dist(int x,int y){
+	return max(x-y,y-x);
+}
+
+int dist2(int a,int b){
+	if(a==b) return 0;
+	if(a>b) return dist2(b,a);
+	return min(b-a,26+a-b);
+}
+
+int main(){
+	IOS;
+	int n,p; cin>>n>>p;
+	p--;
+	string s; cin>>s;
+	lint res = 0;
+	if(p > n-1-p) p = n-1-p;
+	VI bad; bad.clear();
+	
+	for(int i = 0; i < n-i-1 ; i++){
+		if(s[i]!=s[n-1-i]){
+			res+= dist2(int (s[i]-'a'), int (s[n-1-i]-'a'));
+			bad.pb(i);
+		}
+	}
+	if(bad.size()==1){
+		res+= max(p-bad[0],bad[0]-p);
+	}
+	else if(bad.size()>1){
+		int start = bad[0];
+		int meta = bad[bad.size()-1];
+		int x1 = dist(p,start)+dist(start,meta);
+		int x2 = dist(p,meta) + dist(start,meta);
+		res+= min(x1,x2);
+	}
+	cout<<res<<endl;
+	
+}
