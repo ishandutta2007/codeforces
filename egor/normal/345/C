@@ -1,0 +1,83 @@
+with Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+
+procedure Program is
+
+  Date        : STRING(1..10);
+  Count       : INTEGER;
+  Answer      : INTEGER;
+  Day         : INTEGER;
+  Month       : INTEGER;
+  Year        : INTEGER;
+  Index       : INTEGER;
+  I           : INTEGER;
+
+begin
+
+  Get(Count);
+  
+  Answer := 0;
+  
+  for I in 1..Count loop
+    Get(Date);
+    Day := (CHARACTER'POS(Date(9)) - CHARACTER'POS('0')) * 10 + (CHARACTER'POS(Date(10)) - CHARACTER'POS('0'));
+    Month := (CHARACTER'POS(Date(6)) - CHARACTER'POS('0')) * 10 + (CHARACTER'POS(Date(7)) - CHARACTER'POS('0'));
+    Year := (CHARACTER'POS(Date(1)) - CHARACTER'POS('0')) * 1000 + (CHARACTER'POS(Date(2)) - CHARACTER'POS('0')) * 100 + (CHARACTER'POS(Date(3)) - CHARACTER'POS('0')) * 10 + (CHARACTER'POS(Date(4)) - CHARACTER'POS('0'));
+    
+    Index := Day;
+    if (Month > 1) then
+      Index := Index + 31;
+    end if;
+    if (Month > 2) then
+      Index := Index + 28;
+    end if;
+    if (Month > 3) then
+      Index := Index + 31;
+    end if;
+    if (Month > 4) then
+      Index := Index + 30;
+    end if;
+    if (Month > 5) then
+      Index := Index + 31;
+    end if;
+    if (Month > 6) then
+      Index := Index + 30;
+    end if;
+    if (Month > 7) then
+      Index := Index + 31;
+    end if;
+    if (Month > 8) then
+      Index := Index + 31;
+    end if;
+    if (Month > 9) then
+      Index := Index + 30;
+    end if;
+    if (Month > 10) then
+      Index := Index + 31;
+    end if;
+    if (Month > 11) then
+      Index := Index + 30;
+    end if;
+    if (Month > 2) And (Year mod 4 = 0) then
+      Index := Index + 1;
+    end if;
+    if (Month > 2) And (Year mod 100 = 0) then
+      Index := Index - 1;
+    end if;
+    if (Month > 2) And (Year mod 400 = 0) then
+      Index := Index + 1;
+    end if;
+    Year := Year - 1601;
+    Index := Index + 365 * Year;
+    Index := Index + Year / 4;
+    Index := Index - Year / 100;
+    Index := Index + Year / 400;
+    Index := Index mod 7;
+    if (Index = 5 And Day = 13) then
+      Answer := Answer + 1;
+    end if;
+  end loop;
+
+  Put(Answer, 0);
+
+end Program;

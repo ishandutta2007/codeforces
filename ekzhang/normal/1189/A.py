@@ -1,0 +1,1 @@
+print((lambda _, s: f'1\n{s}' if s.count('0') != s.count('1') else f'2\n{s[0]} {s[1:]}')(input(), input()))

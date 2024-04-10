@@ -1,0 +1,4 @@
+set in [gets stdin]
+scan $in "%d %d %d" n m k
+set k [expr {$k - 1}]
+puts [expr { ($k % $n) * $m + ($k / $n) + 1}]

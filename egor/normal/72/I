@@ -1,0 +1,13 @@
+n := File standardInput readLine asNumber
+nc := 0
+nc = n
+d := List clone
+for (i, 0, 9, (
+    if (nc != 0, d append(nc % 10))
+    nc = nc - nc % 10
+    nc = nc / 10
+))
+hc := 0
+ah := 1
+d foreach(i, dd, if (dd != 0, if (n % dd == 0, hc = hc + 1, ah = 0), ah = 0))
+if (ah != 0, writeln("happier"), if (hc != 0, writeln("happy"), writeln("upset")))

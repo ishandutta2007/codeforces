@@ -1,0 +1,1 @@
+print(__import__('collections').Counter(input()for _ in range(int(input()))).most_common()[0][1])

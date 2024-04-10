@@ -1,0 +1,21 @@
+proc isPrime p {
+if {$p == 2} {return true}
+if {$p % 2 == 0} {return false} 
+set i 3
+for {set i 3} {$i * $i <= $p} {incr i 2} {
+    if {$p % $i == 0} {return false}
+}
+return true
+}
+set in [gets stdin]
+set a $in
+while true {
+if [isPrime $a] break
+incr a -1
+}
+set b $in
+while true {
+if [isPrime $b] break
+incr b
+}
+puts "$a $b"

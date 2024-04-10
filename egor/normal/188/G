@@ -1,0 +1,61 @@
+iin [0]
+eq [600] [0] 1
+if [600]
+iin [1]
+if [600]
+iout [1]
+if [600]
+ac
+set [1] 10
+add [2] [0] 10
+co read{
+iin [[1]]
+add [1] [1] 1
+eq [3] [1] [2]
+if [3]
+ac
+}
+ca read
+set [1] 10
+co step{
+sub [6] [5] 1
+gt [7] [[6]] [[5]]
+if [7]
+set [8] [[6]]
+if [7]
+set [[6]] [[5]]
+if [7]
+set [[5]] [8]
+eq [7] [6] [1]
+set [5] [6]
+if [7]
+ac
+}
+co debug{
+ac
+}
+set [500] 10
+ca debug
+sub [4] [2] 1
+co sort {
+sub [5] [2] 1
+ca step
+set [500] 10
+ca debug
+add [1] [1] 1
+eq [3] [1] [4]
+if [3]
+ac
+}
+ca sort
+set [1] 10
+co print{
+iout [[1]]
+cout 32
+add [1] [1] 1
+eq [3] [1] [2]
+if [3]
+ac
+}
+ca print
+ac

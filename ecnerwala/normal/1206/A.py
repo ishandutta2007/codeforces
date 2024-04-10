@@ -1,0 +1,1 @@
+i=lambda:max(map(int,input().split()));print(i()*0+i(),i()*0+i())

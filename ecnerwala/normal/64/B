@@ -1,0 +1,2 @@
+set i [gets stdin]
+puts [expr {[string index $i 0] + [string index $i 2] * [expr {[string index $i 1]=="+"? "1" : "-1"}]}]

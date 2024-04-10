@@ -1,0 +1,3 @@
+a := File standardInput readLine asNumber
+b := a % 4
+if (b == 2) then (writeln("yes")) else (writeln("no"))

@@ -1,0 +1,10 @@
+main =>
+A = read_int(),
+B = read_int(),
+C = read_int(),
+K = sqrt(B*B-4*A*C),
+Root1 = (-B+K)/(2*A),
+Root2 = (-B-K)/(2*A),
+print( min( Root1 , Root2 ) ),
+if Root1 != Root2 then print( " " ),println( max( Root1 , Root2 ) )
+end.

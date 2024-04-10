@@ -1,0 +1,1 @@
+const int (*a) = 0; int main() { }; //*) = 0; begin end.

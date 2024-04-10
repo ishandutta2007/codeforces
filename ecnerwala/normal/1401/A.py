@@ -1,0 +1,1 @@
+for l in[*open(0)][1:]:N,K=map(int,l.split());print(max(K-N,K+N&1))

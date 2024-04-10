@@ -1,0 +1,57 @@
+#define _USE_MATH_DEFINES
+#include <bits/stdc++.h>
+using namespace std;
+#define FOR(i,m,n) for(int i=(m);i<(n);++i)
+#define REP(i,n) FOR(i,0,n)
+#define ALL(v) (v).begin(),(v).end()
+using ll = long long;
+constexpr int INF = 0x3f3f3f3f;
+constexpr long long LINF = 0x3f3f3f3f3f3f3f3fLL;
+constexpr double EPS = 1e-8;
+constexpr int MOD = 1000000007;
+// constexpr int MOD = 998244353;
+constexpr int dy[] = {1, 0, -1, 0}, dx[] = {0, -1, 0, 1};
+constexpr int dy8[] = {1, 1, 0, -1, -1, -1, 0, 1}, dx8[] = {0, -1, -1, -1, 0, 1, 1, 1};
+template <typename T, typename U> inline bool chmax(T &a, U b) { return a < b ? (a = b, true) : false; }
+template <typename T, typename U> inline bool chmin(T &a, U b) { return a > b ? (a = b, true) : false; }
+struct IOSetup {
+  IOSetup() {
+    std::cin.tie(nullptr);
+    std::ios_base::sync_with_stdio(false);
+    std::cout << fixed << setprecision(20);
+  }
+} iosetup;
+
+void solve() {
+  int n; cin >> n;
+  vector<int> u(n); REP(i, n) cin >> u[i], --u[i];
+  vector<vector<ll>> s(n);
+  REP(i, n) {
+    int si; cin >> si;
+    s[u[i]].emplace_back(si);
+  }
+  ll str = 0;
+  vector<ll> ans(n + 1, 0);
+  REP(i, n) {
+    int u = s[i].size();
+    if (u == 0) continue;
+    sort(ALL(s[i]));
+    FOR(j, 1, u) s[i][j] += s[i][j - 1];
+    FOR(j, 1, u) {
+      if (u % j > 0) {
+        ans[j] -= s[i][u % j - 1];
+        ans[j + 1] += s[i][u % j - 1];
+      }
+    }
+    if (u + 1 <= n) ans[u + 1] -= s[i].back();
+    str += s[i].back();
+  }
+  REP(i, n) ans[i + 1] += ans[i];
+  FOR(i, 1, n + 1) cout << str + ans[i] << " \n"[i == n];
+}
+
+int main() {
+  int t; cin >> t;
+  while (t--) solve();
+  return 0;
+}

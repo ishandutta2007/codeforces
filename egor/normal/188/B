@@ -1,0 +1,17 @@
+iin [0]
+set [2] 1
+co X {
+cin [3]
+eq [4] [3] 10
+if [4]
+ac
+sub [3] [3] 48
+mul [5] [2] [3]
+mul [2] [2] 10
+add [1] [1] [5]
+}
+cin [9]
+ca X
+add [2] [0] [1]
+iout [2]
+ac

@@ -1,0 +1,18 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  D = (B * B) - (4 * A * C),
+  if (D == 0) then
+    println(-B / (2 * A))
+  else
+    if A > 0 then
+      print(((-B) - sqrt(D)) / (2 * A)),
+      print(" "),
+      print(((-B) + sqrt(D)) / (2 * A))
+    else
+      print(((-B) + sqrt(D)) / (2 * A)),
+      print(" "),
+      print(((-B) - sqrt(D)) / (2 * A))
+    end
+  end.

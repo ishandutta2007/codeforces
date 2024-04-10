@@ -1,0 +1,1 @@
+print([''.join([str(i) for i in range(1, n+1)])[n-1] for n in [int(input())]][0])

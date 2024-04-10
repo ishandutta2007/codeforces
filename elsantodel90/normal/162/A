@@ -1,0 +1,12 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+
+IN: template
+
+! : foo ( n -- answer )
+!    
+!     ;
+
+readln string>number
+dup dup
+    * 3 * swap - 2 /
+number>string print

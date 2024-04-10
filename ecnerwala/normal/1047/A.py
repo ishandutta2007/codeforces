@@ -1,0 +1,1 @@
+a=input();x=a%3or 1;print 1,x,a-x-1

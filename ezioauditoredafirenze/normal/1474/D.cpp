@@ -1,0 +1,145 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long N = 1000000000000000;
+void solve(){
+	long long n,i,f=1,l=0,ff=1;
+	cin>>n;
+	long long a[n],p[n],o[n],e[n];
+	for(i=0;i<n;i++){
+		cin>>a[i];
+	}
+	if(n==1){
+		cout<<"NO"<<endl;
+		return;
+	}
+	for(i=0;i<n;i++){
+		long long r=a[i]-l;
+		if(i==0){
+			p[i]=r;
+		}
+		else{
+			p[i]=min(p[i-1],r);
+		}
+		if(r<0){
+			f=0;
+		}
+		swap(l,r);
+	}
+	if(l!=0){
+		f=0;
+	}
+	if(f){
+		cout<<"YES"<<endl;
+		return;
+	}
+	e[0]=a[0];o[0]=0;e[1]=a[0];o[1]=a[1];
+	for(i=2;i<n;i++){
+		e[i]=e[i-1];o[i]=o[i-1];
+		if(i%2==0){
+			e[i]=e[i]+a[i];
+		}
+		else{
+			o[i]=o[i]+a[i];
+		}
+	}
+	long long se[n],so[n];
+	for(i=n-1;i>=0;--i){
+		if(i%2==1){
+			if(i==n-1 || i==n-2){
+				so[i]=o[i]-e[i];
+			}
+			else{
+				so[i]=min(o[i]-e[i],so[i+2]);
+			}
+			if(i==n-1){
+				se[i]=N;
+			}
+			else{
+				se[i]=se[i+1];
+			}
+		}
+		else{
+			if(i==n-1 || i==n-2){
+				se[i]=e[i]-o[i];
+			}
+			else{
+				se[i]=min(e[i]-o[i],se[i+2]);
+			}
+			if(i==n-1){
+				so[i]=N;
+			}
+			else{
+				so[i]=so[i+1];
+			}
+		}
+	}
+	for(i=1;i<n;i++){
+		ff=1;
+		if(i!=1 && p[i-2]<0){
+			ff=0;
+		}
+		if(i%2==1){
+			if(se[i]+2*(a[i]-a[i-1])<0){
+				ff=0;
+			}
+			if(so[i]+2*(a[i-1]-a[i])<0){
+				ff=0;
+			}
+			if(e[i-1]-o[i-1]+a[i]-a[i-1]<0){
+				ff=0;
+			}
+			if(n%2==0){
+				if(o[n-1]-e[n-1]+2*(a[i-1]-a[i])!=0){
+					ff=0;
+				}
+			}
+			else{
+				if(e[n-1]-o[n-1]+2*(a[i]-a[i-1])!=0){
+					ff=0;
+				}
+			}
+		}
+		else{
+			if(se[i]+2*(a[i-1]-a[i])<0){
+				ff=0;
+			}
+			if(so[i]+2*(a[i]-a[i-1])<0){
+				ff=0;
+			}
+			if(o[i-1]-e[i-1]+a[i]-a[i-1]<0){
+				ff=0;
+			}
+			if(n%2==0){
+				if(o[n-1]-e[n-1]+2*(a[i]-a[i-1])!=0){
+					ff=0;
+				}
+			}
+			else{
+				if(e[n-1]-o[n-1]+2*(a[i-1]-a[i])!=0){
+					ff=0;
+				}
+			}
+		}
+		if(ff){
+			f=1;
+		}
+	}
+	if(f){
+		cout<<"YES";
+	}
+	else{
+		cout<<"NO";
+	}
+	cout<<endl;
+}
+int main(){
+	ios_base::sync_with_stdio(0);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	long long t=1;
+	cin>>t;
+	while(t--){
+		solve();
+	}
+	return 0;
+}

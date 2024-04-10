@@ -1,0 +1,1 @@
+i=input;print("YNeos"[int(i())==len({*i()})>1::2])

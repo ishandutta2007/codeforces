@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define FOR(i,a,b) for(int i = (a); i <= (b); ++i)
+#define FORD(i,a,b) for(int i = (a); i >= (b); --i)
+#define RI(i,n) FOR(i,1,(n))
+#define REP(i,n) FOR(i,0,(n)-1)
+#define mini(a,b) a=min(a,b)
+#define maxi(a,b) a=max(a,b)
+#define mp make_pair
+#define pb push_back
+#define st first
+#define nd second
+#define sz(w) (int) w.size()
+typedef vector<int> vi;
+typedef long long ll;
+typedef long double ld;
+typedef pair<int,int> pii;
+const int inf = 1e9 + 5;
+const int nax = 1e6 + 5;
+
+vi w[nax];
+int par[nax];
+int sub[nax];
+double ans[nax];
+
+void dfs_sub(int a) {
+    sub[a] = 1;
+    for(int b : w[a]) {
+        dfs_sub(b);
+        sub[a] += sub[b];
+    }
+}
+
+void dfs(int a, double so_far) {
+    so_far += 1;
+    ans[a] = so_far;
+    for(int b : w[a])
+        dfs(b, so_far + (sub[a] - sub[b] - 1) / 2.);
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    FOR(i,2,n) {
+        scanf("%d", &par[i]);
+        w[par[i]].pb(i);
+    }
+    dfs_sub(1);
+    dfs(1, 0.);
+    RI(i, n) printf("%.10lf ", ans[i]);;
+    return 0;
+}

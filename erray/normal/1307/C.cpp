@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;long long b[123][123],c[123],a,i,q;string s;main(){cin>>s;for(i=0;i<s.size();i++){for(q=97;q<123;q++){b[q][s[i]]+=c[q];a=max(a,b[q][s[i]]);}a=max(a,++c[s[i]]);}cout<<a;}

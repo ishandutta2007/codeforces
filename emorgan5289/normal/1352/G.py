@@ -1,0 +1,1 @@
+for s in[*open(0)][1:]:n=int(s);print(*[[*range(n-n%2,4,-2),2,4,*range(1,n+1,2)],[-1]][n<4])

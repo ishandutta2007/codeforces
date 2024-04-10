@@ -1,0 +1,1 @@
+print('YNEOS'[not set('HQ9')&set(input())::2])

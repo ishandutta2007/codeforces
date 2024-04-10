@@ -1,0 +1,1 @@
+R=lambda:map(int,input().split());T,=R();exec('a,b,c=R();d,e,f=R();print(min(c,e,d+e-b)*2);'*T)

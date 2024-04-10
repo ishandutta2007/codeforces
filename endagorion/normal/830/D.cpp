@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+
+#define mp make_pair
+#define mt make_tuple
+#define fi first
+#define se second
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define forn(i, n) for (int i = 0; i < (int)(n); ++i)
+#define for1(i, n) for (int i = 1; i <= (int)(n); ++i)
+#define ford(i, n) for (int i = (int)(n) - 1; i >= 0; --i)
+#define fore(i, a, b) for (int i = (int)(a); i <= (int)(b); ++i)
+
+using namespace std;
+
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<pii> vpi;
+typedef vector<vi> vvi;
+typedef long long i64;
+typedef vector<i64> vi64;
+typedef vector<vi64> vvi64;
+typedef pair<i64, i64> pi64;
+typedef double ld;
+
+template<class T> bool uin(T &a, T b) { return a > b ? (a = b, true) : false; }
+template<class T> bool uax(T &a, T b) { return a < b ? (a = b, true) : false; }
+
+const int maxn = 410;
+const i64 P = 1000000000 + 7;
+i64 dp[maxn][maxn];
+
+void add(i64 &x, i64 y) {
+    x += y;
+    x %= P;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.precision(10);
+    cout << fixed;
+#ifdef LOCAL_DEFINE
+    freopen("input.txt", "rt", stdin);
+#endif
+
+    int n;
+    cin >> n;
+    dp[1][0] = 1;
+    dp[1][1] = 1;
+    fore(i, 2, n) {
+        forn(a, n + 1) forn(b, n - a + 2) {
+            i64 L = dp[i - 1][a], R = dp[i - 1][b];
+            i64 V = L * R % P;
+            add(dp[i][a + b], V);
+            add(dp[i][a + b + 1], V);
+            add(dp[i][a + b], V * (a + b) * 2);
+            if (a && b) add(dp[i][a + b - 1], V * a * b * 2);
+            if (a > 1) add(dp[i][a + b - 1], V * a * (a - 1));
+            if (b > 1) add(dp[i][a + b - 1], V * b * (b - 1));
+        }
+    }
+
+    cout << dp[n][1] << '\n';
+
+#ifdef LOCAL_DEFINE
+    cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
+#endif
+    return 0;
+}

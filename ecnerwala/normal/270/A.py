@@ -1,0 +1,1 @@
+for _ in range(input()):print 'YNEOS'[360%(180-input())>0::2]

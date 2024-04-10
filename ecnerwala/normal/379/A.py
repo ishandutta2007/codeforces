@@ -1,0 +1,1 @@
+a,b=map(int,input().split());d=lambda v:v//b and v//b+d(v//b+v%b);print(d(a*b))

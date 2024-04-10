@@ -1,0 +1,5 @@
+input()
+R=lambda:map(int,input().split())
+a=list(R())
+b=set(R())
+print(' '.join(str(i) for i in a if i in b))

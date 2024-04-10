@@ -1,0 +1,28 @@
+USING: io kernel locals math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+
+IN: template
+
+:: foo ( ac x ret -- ac2 n2 ret2 )
+   x 0 = [ ac x ret ] [ ac 10 *   x 2/    ret ac x 2 mod *  + foo  foo ]
+   if ;
+
+!   x 0 = [ ac x ret ] [ acc2 x2 cuenta foo ]
+
+! ret ac x 2 mod *  + foo :> cuenta
+!    x 2 / :> x2
+!    10 * :> acc2
+
+readln
+
+:: sirve ( x -- s )
+    x 72 =
+    x 81 =
+    x 57 =
+    or
+    or ;
+    
+    
+[ sirve ] filter
+
+
+"" = [  "NO" print ] [  "YES" print ] if
