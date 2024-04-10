@@ -1,0 +1,1 @@
+for i in range(int(input())): print(2 * i//3 , 2*i %3)

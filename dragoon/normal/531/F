@@ -1,0 +1,45 @@
+main =>
+    N = read_int(),
+    X = new_array(120),
+    Y = new_array(120),
+    foreach (I in 1..N)
+        X[I] := read_int(),
+        Y[I] := read_int()
+    end,
+    X[N + 1] = 0,
+    Y[N + 1] = 0,
+    N := N + 1,
+    ANS = 0,
+    foreach (T in 1..10)
+        VISITED = new_array(120),
+        foreach(I in 1..N)
+            VISITED[I] := 0
+        end,
+        VISITED[N] := 1,
+        foreach(Z in 1..N)
+        foreach(I in 1..N)
+            if VISITED[I] == 1 then
+                foreach(J in 1..N)
+                    K = abs(Y[I] - Y[J]),
+                    if (X[I] == X[J], K == T) then
+                        VISITED[J] := 1
+                    end,
+                    K := abs(X[I] - X[J]),
+                    if (Y[I] == Y[J], K == T) then
+                        VISITED[J] := 1
+                    end
+                end
+
+            end
+        end
+        end,
+        foreach(I in 1..N)
+            if VISITED[I] == 1 then
+                K := abs(X[I]) + abs(Y[I]),
+                if ANS @< K then
+                    ANS := K
+                end
+            end
+        end
+    end,
+    println(ANS).

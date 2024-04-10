@@ -1,0 +1,32 @@
+/* 	* In the name of GOD 
+	* Thanks God */
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+#define F first
+#define S second
+const int N = 104;
+int a[N];
+
+void solve() {
+	int n, ans = 0;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		int x;
+		cin >> x;
+		if (x != 2)
+			ans++;
+	}
+	cout << ans << ' ';
+}
+
+int32_t main() {
+	int t = 1;
+	cin >> t;
+	while (t--) {
+		solve();
+	}
+}

@@ -1,0 +1,10 @@
+main =>
+    N = read_int(),
+    D = read_int(),
+    X = N + D,
+    Y = 2,
+    N := N - 2,
+    foreach (I in 1..N)
+        printf("1 ")
+    end,
+    printf("%d %d%n", Y, X).

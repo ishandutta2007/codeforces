@@ -1,0 +1,20 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    D = 0,
+    foreach(X in 1..1000)
+        foreach(Y in 1..1000)
+            if A * X + B * Y == C then
+                D := D + 1
+            end
+        end
+    end,
+    println(D),
+    foreach(X in 1..1000)
+        foreach(Y in 1..1000)
+            if A * X + B * Y == C then
+                printf("%d %d%n", X, Y)
+            end
+        end
+    end.

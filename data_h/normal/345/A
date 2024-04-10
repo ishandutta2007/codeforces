@@ -1,0 +1,32 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions,
+     Ada.Characters,
+     Ada.Characters.Handling;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+     
+ 
+procedure HelloWorld is
+  str: String(1..100);
+  length: Natural; 
+  ans, p: float;
+  I: Integer:= 1;
+begin
+  Get_Line(str, length);
+  Get(p);
+  loop
+    if Character'Pos(str(I)) = 63 then
+       ans := ans + p;
+    else if Character'Pos(str(I)) = 49 then
+        ans := ans + 1.0;
+    end if;
+    end if;
+   I := I + 1;
+   exit when I > length;
+   end loop;
+   Put(ans / float(length), 5, 5, 0);
+end;

@@ -1,0 +1,1 @@
+print((lambda n, m, process, print_ans: print_ans(process(n, m, [tuple(map(int, input().split())) for _ in range(n)])))(*map(int, input().split()), lambda n, m, a: [i for i in range(1, m + 1) if all(i < f[0] or i > f[1] for f in a)], lambda ans: str(len(ans)) + '\n' + ' '.join(map(str, ans))))

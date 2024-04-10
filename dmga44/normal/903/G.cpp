@@ -1,0 +1,199 @@
+#pragma GCC optimize("Ofast,no-stack-protector,unroll-loops","omit-frame-pointer","inline")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,sse4.1,sse4.2,popcnt,abm,mmx,avx,avx2,fma,tune=native")
+#pragma GCC option("arch=native","no-zero-upper") //Enable AVX
+
+///UH Top
+#include <bits/stdc++.h>
+#define db(x) cerr << #x << ':' << (x) << '\n';
+#define all(v) (v).begin(),(v).end()
+#define allr(v) (v).rbegin(),(v).rend()
+#define int ll
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+// typedef __int128_t int128;
+typedef pair<ll,ll> pii;
+typedef pair<ld,ll> pdi;
+typedef pair<ld,ld> pdd;
+typedef pair<ld,pdd> pdp;
+typedef pair<string,ll> psi;
+typedef pair<ll,string> pls;
+typedef pair<string,string> pss;
+typedef pair<ll,pii> pip;
+typedef pair<pii,pii> ppp;
+typedef complex<ld> point;
+typedef vector<point> polygon;
+typedef vector<ll> vi;
+typedef pair<point,int> ppi;
+#define prec(n) cout.precision(n); cout<<fixed
+const ll mod=(1e9+7);
+const ld eps=(1e-9);
+const ll oo=(ll)(1e18+5);
+#define pi acos(-1)
+#define MAXN (ll)(2e5+5)
+
+template <typename T>
+struct ST{
+    vector< T > st,lazy;
+    int sz;
+    T neutroL;
+
+    ST (int n,T neutrol) : sz(n),st(4*n),lazy(4*n),neutroL(neutrol) {}
+
+    T merge(T v1,T v2)
+    {
+        return min(v1,v2);
+    }
+
+    void up(int p,int l,int r,T v)
+    {
+        st[p]+=v;
+        lazy[p]+=v;
+    }
+
+    void push(int p,int l,int r)
+    {
+        if(l==r)
+        {
+            lazy[p]=neutroL;
+            return ;
+        }
+        if(lazy[p]==neutroL)
+            return ;
+        ///(basic) up to code
+        T v=lazy[p];
+        up((p<<1),l,(l+r)>>1,v);
+        up((p<<1)+1,((l+r)>>1)+1,r,v);
+        lazy[p]=neutroL;
+    }
+
+    void build(vector<T> &arr) { build(1,0,sz-1,arr); }
+
+    void build(int p,int l,int r,vector<T> &arr)
+    {
+        if(l==r)
+        {
+            st[p]=arr[l];
+            lazy[p]=neutroL;
+            return ;
+        }
+        int mid=(l+r)>>1;
+
+        build(p<<1,l,mid,arr);
+        build((p<<1)+1,mid+1,r,arr);
+
+        st[p]=merge(st[p<<1],st[(p<<1)+1]);
+        lazy[p]=neutroL;
+    }
+
+    void build(T *arr) { build(1,0,sz-1,arr); }
+
+    void build(int p,int l,int r,T *arr)
+    {
+        if(l==r)
+        {
+            st[p]=arr[l];
+            lazy[p]=neutroL;
+            return ;
+        }
+        int mid=(l+r)>>1;
+
+        build(p<<1,l,mid,arr);
+        build((p<<1)+1,mid+1,r,arr);
+
+        st[p]=merge(st[p<<1],st[(p<<1)+1]);
+        lazy[p]=neutroL;
+    }
+
+    void update(int L,int R,T v) { update(1,0,sz-1,L,R,v); }
+
+    void update(int p,int l,int r,int L,int R,T v)
+    {
+        push(p,l,r);
+        if(L<=l && r<=R)
+        {
+            up(p,l,r,v);
+            return ;
+        }
+
+        int mid=(l+r)>>1;
+
+        if(L<=mid)
+            update(p<<1,l,mid,L,R,v);
+        if(R>mid)
+            update((p<<1)+1,mid+1,r,L,R,v);
+
+        st[p]=merge(st[p<<1],st[(p<<1)+1]);
+    }
+
+    T query(int L,int R) { return query(1,0,sz-1,L,R); }
+
+    T query(int p,int l,int r,int L,int R)
+    {
+        push(p,l,r);
+        if(L<=l && r<=R)
+            return st[p];
+
+        int mid=(l+r)>>1;
+
+        if(R<=mid)
+            return query(p<<1,l,mid,L,R);
+        if(L>mid)
+            return query((p<<1)+1,mid+1,r,L,R);
+        return merge(query(p<<1,l,mid,L,R),query((p<<1)+1,mid+1,r,L,R));
+    }
+};
+
+int32_t main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+
+    int n,m,q;
+    cin >> n >> m >> q;
+    ST<ll> best(n,0);
+    ST<ll> st(n,0);
+    vector<int> a(n),b(n);
+    for(int i=0;i<n-1;i++)
+    {
+        cin >> a[i] >> b[i];
+        st.update(i,i,a[i]);
+        best.update(i+1,i+1,b[i]);
+    }
+    // for(int i=0;i<n;i++)
+    //     cout << best.query(i,i) << ' ';
+    // cout << '\n';
+    vector<vector<pii>> g(n);
+    for(int i=0;i<m;i++)
+    {
+        int u,v,w;
+        cin >> u >> v >> w;
+        u--,v--;
+        g[u].push_back(pii(v,w));
+    }
+
+    for(int i=0;i<n;i++)
+    {
+        for(auto y : g[i])
+            best.update(0,y.first,y.second);
+        // for(int i=0;i<n;i++)
+        //     cout << best.query(i,i) << ' ';
+        // cout << '\n';
+        st.update(i,i,best.query(0,n-1));
+    }
+
+    cout << st.query(0,n-1) << '\n';
+    while(q--)
+    {
+        int u,w;
+        cin >> u >> w;
+        u--;
+        st.update(u,u,w-a[u]);
+        a[u]=w;
+
+        cout << st.query(0,n-1) << '\n';
+    }
+
+    return 0;   
+}

@@ -1,0 +1,15 @@
+n := File standardInput readLine asNumber
+x := n
+y := 0
+k := 0
+r := 0
+while(x>=1,
+    k = k+1
+    y = x%10
+    if(y!=0,
+        if(n%y==0,r=r+1)
+    )
+    x = x-y
+    x = x/10
+)
+if(k==r,"happier" println,if(r==0,"upset" println,"happy" println))

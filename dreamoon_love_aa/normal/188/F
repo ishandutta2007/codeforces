@@ -1,0 +1,22 @@
+co tran{
+    eq [30] [0] 0
+    if [30]
+        ac
+    mod [[31]] [0] 2
+    div [0] [0] 2
+    inc [31]
+}
+co print{
+    iout [[31]]
+    eq [32] [31] [33]
+    if [32]
+       ac
+    dec [31]
+}
+iin [0]
+set [31] 1
+set [33] 1
+ca tran
+dec [31]
+ca print
+ac

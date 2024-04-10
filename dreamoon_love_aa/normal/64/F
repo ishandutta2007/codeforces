@@ -1,0 +1,22 @@
+proc valid {s len} {
+    for {set i 0} {$i < $len} {incr i 1} {
+        if { [string is digit [string range $s $i $i]] == 0 && [string is lower [string  range $s $i $i]] == 0 && [string range $s $i $i] != "." } { return 0 }
+        if { $i > 0 } {
+            if { [string index $s $i] == "." && [string index $s $i] == [string index $s [expr $i-1]] } {return 0}
+        }
+    }
+    return 1
+}
+set line [gets stdin]
+set len [string length $line]
+if { [valid $line $len] == 0 || [string index $line 0] == "." || [string index $line [expr $len-1]] == "."} {
+    puts "NO"
+} else {
+    set list [split $line "."]
+    set tmp [string length [lindex $list end]]
+    if { $tmp != 2 && $tmp != 3 } {
+        puts "NO"
+    } else {
+        puts "YES"
+    }
+}

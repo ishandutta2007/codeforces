@@ -1,0 +1,1 @@
+print('\n'.join(''.join(map(lambda ch: 'U' if ch == 'D' else 'D' if ch == 'U' else ch, (input(), input())[1])) for i in range(int(input()))))

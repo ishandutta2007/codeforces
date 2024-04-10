@@ -1,0 +1,1 @@
+print((lambda rec, a: 'YES' if rec(rec, a, 0, 0) else 'NO')(lambda self_fn, a, i, cur_sum: (cur_sum == 0) if i == 4 else self_fn(self_fn, a, i + 1, cur_sum + a[i]) or self_fn(self_fn, a, i + 1, cur_sum - a[i]), tuple(int(i) for i in input().split())))

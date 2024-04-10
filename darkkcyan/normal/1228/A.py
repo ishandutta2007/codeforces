@@ -1,0 +1,1 @@
+print((lambda u, v: ([i for i in range(u, v + 1) if len(set(str(i))) == len(str(i))] + [-1])[0])(*map(int, input().split())))

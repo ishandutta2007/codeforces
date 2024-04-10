@@ -1,0 +1,97 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int               long long
+#define pb                push_back
+#define ppb               pop_back
+#define pf                push_front
+#define ppf               pop_front
+#define all(x)            (x).begin(),(x).end()
+#define uniq(v)           (v).erase(unique(all(v)),(v).end())
+#define sz(x)             (int)((x).size())
+#define fr                first
+#define sc                second
+#define pii               pair<int,int>
+#define rep(i,a,b)        for(int i=a;i<b;i++)
+#define mem1(a)           memset(a,-1,sizeof(a))
+#define mem0(a)           memset(a,0,sizeof(a))
+#define ppc               __builtin_popcount
+#define ppcll             __builtin_popcountll
+
+template<typename T1,typename T2>istream& operator>>(istream& in,pair<T1,T2> &a){in>>a.fr>>a.sc;return in;}
+template<typename T1,typename T2>ostream& operator<<(ostream& out,pair<T1,T2> a){out<<a.fr<<" "<<a.sc;return out;}
+template<typename T,typename T1>T amax(T &a,T1 b){if(b>a)a=b;return a;}
+template<typename T,typename T1>T amin(T &a,T1 b){if(b<a)a=b;return a;}
+
+const long long INF=1e18;
+const int32_t M=1e9+7;
+const int32_t MM=998244353;
+
+const int N=0;
+
+pii x[15],y[15];
+
+int check(pii x,pii y){
+	if(x == y)return 0;
+	if(x.fr == y.fr || x.sc == y.fr)return y.fr; 
+	if(x.fr == y.sc || x.sc == y.sc)return y.sc;
+	return 0;
+}
+
+void solve(){
+	int n,m;
+	cin>>n>>m;
+	rep(i,0,n){
+		cin>>x[i];
+		if(x[i].fr>x[i].sc)swap(x[i].fr,x[i].sc);
+	}
+	rep(i,0,m){
+		cin>>y[i];
+		if(y[i].fr>y[i].sc)swap(y[i].fr,y[i].sc);
+	}
+	
+	bool zero = 1;
+	set<int> c;
+	
+	rep(i,0,n){
+		rep(j,0,m){
+			if(check(x[i],y[j])){
+				int z = check(x[i],y[j]);
+				c.insert(z);
+				rep(k,0,m){
+					if(j==k)continue;
+					if(check(x[i],y[k]) && check(x[i],y[k]) != z) zero = 0;//,cout<<i<<" "<<j<<" "<<k<<"\n";
+				}
+				rep(k,0,n){
+					if(i==k)continue;
+					if(check(x[k],y[j]) && check(x[k],y[j]) != z) zero = 0;//,cout<<i<<" "<<j<<" "<<k<<"\n";;
+				}
+			}
+		}
+	}
+	
+	if(sz(c) == 1){
+		cout<<*c.begin();
+	}
+	else if(zero){
+		cout<<0;
+	}
+	else{
+		cout<<-1;
+	}
+}
+signed main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);cout.tie(0);
+	//freopen("input.txt", "r", stdin);
+	//freopen("output.txt", "w", stdout);
+	#ifdef SIEVE
+		sieve();
+	#endif
+	#ifdef NCR
+		init();
+	#endif
+	int t=1;
+	//cin>>t;
+	while(t--) solve();
+	return 0;
+}

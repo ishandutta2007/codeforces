@@ -1,0 +1,1 @@
+print(*((lambda x, y, a, b: (y - x) // (a + b) if (y - x) % (a + b) == 0 else -1)(*map(int, input().split())) for i in range(int(input()))), sep = '\n')

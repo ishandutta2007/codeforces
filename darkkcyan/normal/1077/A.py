@@ -1,0 +1,1 @@
+print('\n'.join((lambda a, b, k: str(k // 2 * (a - b) + k % 2 * a))(*map(int, input().split())) for i in range(int(input()))))

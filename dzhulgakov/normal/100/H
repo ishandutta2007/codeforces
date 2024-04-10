@@ -1,0 +1,51 @@
+int solve()
+{
+	array(string) a = ({"000000000000"});
+	for (int i = 0; i < 10; ++i)
+		a = a + ({"0"+Stdio.stdin->gets()+"0"});
+	a = a + ({"000000000000"});
+	array(int) cnt = ({0,0,0,0,0});
+	for (int is = 0; is < 12; ++is) for (int js = 0; js < 12; ++js) if (a[is][js] == '*')
+	{
+		int dx = 0, dy = 0;
+		if (a[is+1][js] == '*')
+			dx = 1;
+		else
+			dy = 1;
+		int k = 0;
+		while (a[is+k*dx][js+k*dy] == '*')
+		{
+			a[is+k*dx][js+k*dy] = '?';
+			++k;
+		}
+		if (k > 4) return 0;
+		cnt[k]++;
+		//write("found %d\n",k);
+		//write("%O\n",a);
+		for (int i = is-1; i <= is+1+dx*(k-1); i++) for (int j = js-1; j <= js+1+dy*(k-1); j++)
+			if (a[i][j] != '?' && a[i][j] != '0')
+				return 0;
+		for (int i = 0; i < k; i++)
+			a[is+i*dx][js+i*dy] = '#';
+	}
+	//write("done\n");
+	for (int i = 1; i <= 4; i++)
+		if (cnt[i] != 5-i)
+			return 0;
+	return 1;
+}
+
+int main()
+{
+	sscanf(Stdio.stdin->gets(), "%d", int n);
+	for (int s = 0; s < n; s++)
+	{
+		if (s > 0)
+			Stdio.stdin->gets();
+		if (solve())
+			write("YES\n");
+		else
+			write("NO\n");
+	}
+	return 0;
+}

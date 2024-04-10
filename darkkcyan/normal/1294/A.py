@@ -1,0 +1,1 @@
+print(*((lambda a, b, c, n: "YES" if (a + b + c + n) % 3 == 0 and max(a, b, c) <= (a + b + c + n) // 3 else "NO")(*map(int, input().split())) for test in range(int(input()))), sep='\n')

@@ -1,0 +1,1 @@
+(function(){var c,a,f,e,b,d,g;g=[6,2,5,5,4,5,6,3,7,6];f=function(a){var b;for(b=0;0<a;)b+=g[a%10],a=Math.floor(a/10);return b};a=readline().split(" ").map(function(a){return+a});c=a[0];a=a[1];d=0;for(e=b=c;c<=a?b<=a:b>=a;e=c<=a?++b:--b)d+=f(e);print(d)}).call(this);

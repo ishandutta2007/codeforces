@@ -1,0 +1,15 @@
+int main()
+{
+	sscanf(Stdio.stdin->gets(), "%d", int n);
+	string s1 = Stdio.stdin->gets();
+	string s2 = Stdio.stdin->gets();
+	int n1 = sizeof(s1);
+	int n2 = sizeof(s2);
+	int k = 0;
+	while (k < n1 && k < n2 && s1[k] == s2[k]) ++k;
+	if (n1-k + n2-k <= n)
+		write("YES\n");
+	else
+		write("NO\n");
+	return 0;
+}

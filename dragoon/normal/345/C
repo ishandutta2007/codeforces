@@ -1,0 +1,84 @@
+with Ada.Strings;
+use  Ada.Strings;
+with Ada.Text_IO;
+use  Ada.Text_IO;
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+procedure Main is
+  Last, i, n : Natural;
+  Str  : String (1..60);
+  y, month, ans, date, calc, year : Natural;
+  
+begin
+    Get(Item => n);
+    Ada.Text_IO.Get_Line (Str, Last);
+
+    ans := 0;    
+    FOR i IN 1..n LOOP
+        Ada.Text_IO.Get_Line (Str, Last);
+        year := Integer'Value(Str(1..4));
+        month := Integer'Value(Str(6..7));
+        date := Integer'Value(Str(9..10));
+        
+        
+
+        calc := 0;
+        calc := calc + (year - 1974)*365;
+        
+        y := 1976;
+        while y <= 2030 loop
+            if (y < year) or (year = y and 2 < month) then
+                calc := calc + 1;
+            end if;
+            
+            y := y + 4;
+        end loop;
+        
+        if month > 1 then
+            calc := calc + 31;
+        end if;
+        if month > 2 then
+            calc := calc + 28;
+        end if;
+        if month > 3 then
+            calc := calc + 31;
+        end if;
+        if month > 4 then
+            calc := calc + 30;
+        end if;
+        if month > 5 then
+            calc := calc + 31;
+        end if;
+        if month > 6 then
+            calc := calc + 30;
+        end if;
+        if month > 7 then
+            calc := calc + 31;
+        end if;
+        if month > 8 then
+            calc := calc + 31;
+        end if;
+        if month > 9 then
+            calc := calc + 30;
+        end if;
+        if month > 10 then
+            calc := calc + 31;
+        end if;
+        if month > 11 then
+            calc := calc + 30;
+        end if;
+        
+        calc := calc + date;
+        
+        calc := calc MOD 7;
+        
+        if calc = 4 and date = 13 then
+            ans := ans + 1;
+        end if;    
+
+    END LOOP;
+        PUT(Item => ans);
+end;

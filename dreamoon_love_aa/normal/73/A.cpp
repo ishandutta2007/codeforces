@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<algorithm>
+using namespace std;
+main(){
+    long long a[3],k,an=1;
+    scanf("%I64d%I64d%I64d%I64d",&a[0],&a[1],&a[2],&k);
+    sort(a,a+3);
+    if(k/3<a[0]){
+        an*=(k/3+1);
+        k-=k/3;
+    }
+    else{
+        an*=a[0];
+        k-=a[0]-1;
+    }
+    if(k/2<a[1]){
+        an*=(k/2+1);
+        k-=k/2;
+    }
+    else{
+        an*=a[1];
+        k-=a[1]-1;
+    }
+    if(k<a[2])
+        an*=k+1;
+    else
+        an*=a[2];
+    printf("%I64d\n",an);
+}

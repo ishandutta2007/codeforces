@@ -1,0 +1,1 @@
+print(*((lambda n, co: "YES" if co > 0 and (co % 2 == 1 or n > co) else "NO")(int(input()), sum(int(i) % 2 for i in input().split()))for test in range(int(input()))), sep = '\n')

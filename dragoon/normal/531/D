@@ -1,0 +1,27 @@
+main =>
+    A = new_array(1005),
+    foreach (I in 1..1000)
+        A[I] := 0
+    end,
+    N = read_int(),
+    P = 0,
+    Q = 0,
+    foreach (I in 1..N)
+        P := read_int(),
+        Q := read_int(),
+        foreach (J in P..Q)
+            A[J] := 1
+        end
+    end,
+    C = 0,
+    foreach (I in 1..1000)
+        if A[I] == 0 then
+            C := C + 1
+        end
+    end,
+    printf("%d", C),
+    foreach (I in 1..1000)
+        if A[I] == 0 then
+            printf(" %d", I)
+        end
+    end.
