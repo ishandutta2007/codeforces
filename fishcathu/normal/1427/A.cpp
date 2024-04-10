@@ -1,0 +1,31 @@
+#include<cstdio>
+#include<algorithm>
+const int N=50;
+int read()
+{ 	
+    int a=0;char b=1,c; 
+	do if((c=getchar())==45)b=-1;while(!(c&16)); 
+    do a=(a<<3)+(a<<1)+(c&15);while((c=getchar())&16); 
+    return a*b; 
+} 
+void write(int x) 
+{
+    if(x<0)putchar('-'),x=-x; 
+    char a[10],s=0; 
+    do a[s++]=x%10|48;while(x/=10); 
+    do putchar(a[--s]);while(s);
+}
+int a[N];
+int main()
+{
+	for(int x=read();x--;)
+	{
+		int n=read(),s=0;
+		for(int i=n;i--;)s+=a[i]=read();
+		std::sort(a,a+n);
+		puts(s?"YES":"NO");
+		if(s<0)for(int i=0;i<n;++i)write(a[i]),putchar(i==n-1?'\n':' ');
+		if(s>0)for(int i=n;i--;)write(a[i]),putchar(i?' ':'\n');	
+	} 
+	return 0;
+}

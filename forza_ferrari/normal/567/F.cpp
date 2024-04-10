@@ -1,0 +1,271 @@
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<string>
+using namespace std;
+int n,m;
+long long dp[2][75][75],ans;
+vector<pair<int,int> > v[71];
+int main()
+{
+    cin>>n>>m;
+    for(int i=1;i<=m;++i)
+    {
+        int x,y;
+        string s;
+        cin>>x>>s>>y;
+        if(s=="<")
+        {
+            v[x].emplace_back(y,1);
+            v[y].emplace_back(x,2);
+        }
+        if(s==">")
+        {
+            v[x].emplace_back(y,2);
+            v[y].emplace_back(x,1);
+        }
+        if(s=="<=")
+        {
+            v[x].emplace_back(y,3);
+            v[y].emplace_back(x,4);
+        }
+        if(s==">=")
+        {
+            v[x].emplace_back(y,4);
+            v[y].emplace_back(x,3);
+        }
+        if(s=="=")
+        {
+            v[x].emplace_back(y,5);
+            v[y].emplace_back(x,5);
+        }
+    }
+    int now=0;
+    dp[0][0][n+n+1]=1;
+    for(int p=1;p<=n;++p)
+    {
+        now^=1;
+        for(int i=0;i<=n+n+1;++i)
+            for(int j=0;j<=n+n+1;++j)
+                dp[now][i][j]=0;
+        for(int i=0;i<=n+n;++i)
+            for(int j=i+1;j<=n+n+1;++j)
+                if(dp[now^1][i][j])
+                {
+                    bool flag=1;
+                    if(p<n)
+                    {
+                        for(auto k:v[i+1])
+                        {
+                            if(k.second==1)
+                                if(k.first<=i+2||k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==2)
+                                if(k.first>=i+1&&k.first<j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==3)
+                                if(k.first<=i&&k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==4)
+                                if(k.first>i+2&&k.first<j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==5)
+                                if(k.first<=i||k.first>i+2)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                        }
+                        for(auto k:v[i+2])
+                        {
+                            if(k.second==1)
+                                if(k.first<=i+2||k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==2)
+                                if(k.first>=i+1&&k.first<j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==3)
+                                if(k.first<=i&&k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==4)
+                                if(k.first>i+2&&k.first<j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==5)
+                                if(k.first<=i||k.first>i+2)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                        }
+                        if(flag)
+                            dp[now][i+2][j]+=dp[now^1][i][j];
+                        flag=1;
+                        for(auto k:v[j-1])
+                        {
+                            if(k.second==1)
+                                if(k.first<=i||k.first>=j-2)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==2)
+                                if(k.first>i&&k.first<=j-1)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==3)
+                                if(k.first<=i&&k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==4)
+                                if(k.first>i&&k.first<j-2)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==5)
+                                if(k.first<j-2||k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                        }
+                        for(auto k:v[j-2])
+                        {
+                            if(k.second==1)
+                                if(k.first<=i||k.first>=j-2)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==2)
+                                if(k.first>i&&k.first<=j-1)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==3)
+                                if(k.first<=i&&k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==4)
+                                if(k.first>i&&k.first<j-2)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                            if(k.second==5)
+                                if(k.first<j-2||k.first>=j)
+                                {
+                                    flag=0;
+                                    break;
+                                }
+                        }
+                        if(flag)
+                            dp[now][i][j-2]+=dp[now^1][i][j];
+                    }
+                    flag=1;
+                    for(auto k:v[i+1])
+                    {
+                        if(k.second==1)
+                            if(k.first<=i+1||k.first>=j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==2)
+                            if(k.first>=i+1&&k.first<=j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==3)
+                            if(k.first<=i&&k.first>=j)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==4)
+                            if(k.first>i+1&&k.first<j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==5)
+                            if(k.first!=i+1&&k.first!=j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                    }
+                    for(auto k:v[j-1])
+                    {
+                        if(k.second==1)
+                            if(k.first<=i+1||k.first>=j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==2)
+                            if(k.first>=i+1&&k.first<=j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==3)
+                            if(k.first<=i&&k.first>=j)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==4)
+                            if(k.first>i+1&&k.first<j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                        if(k.second==5)
+                            if(k.first!=i+1&&k.first!=j-1)
+                            {
+                                flag=0;
+                                break;
+                            }
+                    }
+                    if(flag)
+                        dp[now][i+1][j-1]+=dp[now^1][i][j];
+                }
+    }
+    for(int i=0;i<=n+n;++i)
+        ans+=dp[now][i][i+1];
+    cout<<ans<<'\n';
+    return 0;
+}

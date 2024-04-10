@@ -1,0 +1,19 @@
+main =>
+  A = read_line(),
+  B = read_line(),
+  edit(A, B, D),
+  println(D).
+
+table(+,+,min)
+edit([],[],D) => D=0.
+edit([X|Xs],[X|Ys],D) => % copy
+  edit(Xs,Ys,D).
+edit(Xs,[_Y|Ys],D) ?=> % insert
+  edit(Xs,Ys,D1),
+  D=D1+ord(_Y)-ord('a')+1.
+edit([_X|Xs],Ys,D) ?=> % delete
+  edit(Xs,Ys,D1),
+  D=D1+ord(_X)-ord('a')+1.
+edit([X|Xs],[Y|Ys],D) ?=> % copy
+  edit(Xs,Ys,D1),
+  D=D1+abs(ord(Y)-ord(X)).

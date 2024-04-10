@@ -1,0 +1,30 @@
+#include<cstdio>
+int main()
+{
+ printf("9?");
+ puts("?>>??0");
+ for (int i=0;i<=8;++i)
+  printf("%d?",i),printf("?<>%d\n",i+1);
+ printf("?");
+ puts("?<>1");
+ puts("?0>>0?");
+ puts("?1>>1?");
+ puts("?2>>2?");
+ puts("?3>>3?");
+ puts("?4>>4?");
+ puts("?5>>5?");
+ puts("?6>>6?");
+ puts("?7>>7?");
+ puts("?8>>8?");
+ puts("?9>>9?");
+ puts("0>>0?");
+ puts("1>>1?");
+ puts("2>>2?");
+ puts("3>>3?");
+ puts("4>>4?");
+ puts("5>>5?");
+ puts("6>>6?");
+ puts("7>>7?");
+ puts("8>>8?");
+ puts("9>>9?");
+}

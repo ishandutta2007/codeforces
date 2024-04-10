@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+#define ll long long
+ll n,a,b,c,i,hz,hs;
+using namespace std;
+int main()
+{
+	cin>>n>>a>>b>>c;
+	hz=1;
+	for(i=1;i<n;i++)
+	{
+		if(hz==1)
+		{
+			if(a<b)
+			{
+				hz=2;
+				hs=hs+a;
+			}
+			else
+			{
+				hz=3;
+				hs=hs+b;
+			}
+		}
+		else
+		if(hz==2)
+		{
+			if(a<c)
+			{
+				hz=1;
+				hs=hs+a;
+			}	
+			else
+			{
+				hz=3;
+				hs=hs+c;
+			}
+		}
+		else
+		{
+			if(b<c)
+			{
+				hz=1;
+				hs=hs+b;
+			}
+			else
+			{
+				hz=2;
+				hs=hs+c;
+			}
+		}
+	}
+	cout<<hs<<"\n";
+}

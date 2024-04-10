@@ -1,0 +1,21 @@
+set [1] 0
+co char{
+  cin [0]
+  eq [2] [0] 10
+  if [2] ac
+  eq [2] [0] 72
+  if [2] set [1] 1
+  eq [2] [0] 81
+  if [2] set [1] 1
+  eq [2] [0] 57
+  if [2] set [1] 1
+}
+ca char
+if [1] cout 89
+if [1] cout 69
+if [1] cout 83
+
+sub [1] 1 [1]
+if [1] cout 78
+if [1] cout 79
+ac

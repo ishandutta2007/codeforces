@@ -1,0 +1,22 @@
+bool isdigit(int c){
+	return c>='0'&&c<='9';
+}
+int rd(){
+  int x,c,f=1;while(!isdigit(c=Stdio.stdin->getchar()))f=c!='-';x=c-'0';
+  while(isdigit(c=Stdio.stdin->getchar()))x=x*10+c-'0';return f?x:-x;
+}
+int main() {
+	/*string s=Stdio.stdin->gets();
+	float t=(float)s;
+	t=sin(3.14159265357/6.0);
+	write((string)t);*/
+	int k=rd();
+	int x=rd(),y=rd();
+	float u=cos(k/180.0*3.1415926535897931);
+	float v=sin(k/180.0*3.1415926535897931);
+	float a=x*u-v*y;
+	float b=x*v+u*y;
+
+	Stdio.stdout->printf("%f %f\n",a,b);
+	return 0;
+}

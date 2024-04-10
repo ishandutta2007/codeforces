@@ -1,0 +1,1 @@
+print sum(map(int, __import__("s"+"y"+"s").stdin.readline().split()))

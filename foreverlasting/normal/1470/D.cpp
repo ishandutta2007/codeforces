@@ -1,0 +1,158 @@
+//2021.7.15 by ljz
+//email 573902690@qq.com
+//if you find any bug in my code
+//please tell me
+#include<bits/stdc++.h>
+//#include<ext/pb_ds/tree_policy.hpp>
+//#include<ext/pb_ds/assoc_container.hpp>
+using namespace std;
+//using namespace __gnu_pbds;
+//using namespace __gnu_cxx;
+#define res int
+#define LL long long
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f
+//#define unl __int128
+#define eps 5.6e-8
+#define RG
+#define db double
+//#define pc(x) __builtin_popcount(x)
+//#define ctz(x) __builtin_ctz(x)
+//#define pc(x) __builtin_popcountll(x)
+typedef pair<int,int> Pair;
+#define mp make_pair
+#define fi first
+#define se second
+#define pi acos(-1.0)
+#define pb push_back
+#define ull unsigned LL
+#define lowbit(x) (x&-x)
+#define gc getchar
+//template <class T>using Tree=tree<T,null_type,less<T>,rb_tree_tag,tree_order_statistics_node_update>;
+// inline char gc() {
+//    static char buf[100000],*p1,*p2;
+//    return p1==p2&&(p2=(p1=buf)+fread(buf,1,100000,stdin),p1==p2)?EOF:*p1++;
+// }
+//inline int read() {
+//    res s=0,ch=gc();
+//    while(ch<'0'||ch>'9')ch=gc();
+//    while(ch>='0'&&ch<='9')s=s*10+ch-'0',ch=gc();
+//    return s;
+//}
+// char sr[1<<21],z[20];
+// int C=-1,Z=0;
+// inline void Ot(){fwrite(sr,1,C+1,stdout),C=-1;}
+// inline void print(res x){
+//    if(C>1<<20)Ot();if(x<0)sr[++C]='-',x=-x;
+//    while(z[++Z]=x%10+48,x/=10);
+//    while(sr[++C]=z[Z],--Z);
+// }
+inline int read() {
+    res s=0,ch=gc(),w=1;
+    while(ch<'0'||ch>'9'){if(ch=='-')w=-1;ch=gc();}
+    while(ch>='0'&&ch<='9')s=s*10+ch-'0',ch=gc();
+    return s*w;
+}
+inline LL Read() {
+    RG LL s=0;
+    res ch=gc();
+    while(ch<'0'||ch>'9')ch=gc();
+    while(ch>='0'&&ch<='9')s=s*10+ch-'0',ch=gc();
+    return s;
+}
+//inline LL Read() {
+//    RG LL s=0;
+//    res ch=gc(),w=1;
+//    while(ch<'0'||ch>'9'){if(ch=='-')w=-1;ch=gc();}
+//    while(ch>='0'&&ch<='9')s=s*10+ch-'0',ch=gc();
+//    return s*w;
+//}
+//inline void write(RG unl x){
+//    if(x>10)write(x/10);
+//    putchar(int(x%10)+'0');
+//}
+inline void swap(res &x,res &y) {
+    x^=y^=x^=y;
+}
+int kcz=998244353;
+inline void add(res &x,const res &y){
+    x+=y,x>=kcz?x-=kcz:(x<0?x+=kcz:1);
+}
+inline int Add(const res &x,const res &y){
+    return x+y>=kcz?x+y-kcz:(x+y<0?x+y+kcz:x+y);
+}
+inline int mul(const res &x,const res &y){
+    return int(1LL*x*y%kcz);
+}
+inline int mul(const res &x,const res &y,const res &d){
+    return int(1LL*x*y/d%kcz);
+}
+inline int qpow(res x,res y=kcz-2){
+    if(y<=0)return 1;
+    res ret=1;
+    while(y){
+        if(y&1)ret=mul(ret,x);
+        x=mul(x,x),y>>=1;
+    }
+    return ret;
+}
+//mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+//clock_t start=clock();
+//inline void ck(){
+//    if(1.0*(clock()-start)/CLOCKS_PER_SEC>0.1)exit(0);
+//}
+//2021.7.15 by ljz
+//email 573902690@qq.com
+//if you find any bug in my code
+//please tell me
+const int N=3e5+10;
+namespace MAIN{
+    int mus[N],vis[N],col[N];
+    vector<int> G[N];
+    int Q[N],fa[N];
+    inline int find(res x){
+        while(x!=fa[x])x=fa[x]=fa[fa[x]];
+        return fa[x];
+    }
+    inline void MAIN(){
+        res T=read();
+        while(T--){
+            res n=read(),m=read();
+            for(res i=1;i<=n;i++)fa[i]=i,vector<int>().swap(G[i]),col[i]=vis[i]=mus[i]=0;
+            for(res i=1;i<=m;i++){
+                res u=read(),v=read();
+                G[u].pb(v),G[v].pb(u);
+                res fu=find(u),fv=find(v);
+                if(fu!=fv)fa[fu]=fv;
+            }
+            res sx=0;
+            for(res i=1;i<=n;i++)sx+=(find(i)==i);
+            if(sx>1){puts("NO");continue;}
+            res he=1,ta=0;
+            Q[++ta]=1;
+            while(he<=ta){
+                res x=Q[he++];
+                if(!mus[x])col[x]=1;
+                for(auto tox:G[x]){
+                    if(col[x])mus[tox]=1;
+                    if(vis[tox])continue;
+                    Q[++ta]=tox,vis[tox]=1;
+                }
+            }
+            puts("YES");
+            sx=0;
+            for(res i=1;i<=n;i++)sx+=col[i];
+            printf("%d\n",sx);
+            for(res i=1;i<=n;i++)if(col[i])printf("%d ",i);
+            puts("");
+        }
+    }
+}
+int main(){
+//    srand(19260817);
+    // freopen("tracing.in","r",stdin);
+    // freopen("tracing.out","w",stdout);
+    MAIN::MAIN();
+//    Ot();
+    return 0;
+}

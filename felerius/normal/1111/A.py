@@ -1,0 +1,1 @@
+print('Yes' if all(a is not None and b is not None and ((a in 'aeiou') == (b in 'aeiou')) for a, b in __import__('itertools').zip_longest(input(), input())) else 'No')

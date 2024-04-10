@@ -1,0 +1,1 @@
+print(int(int(input()) % 4 not in {3, 0}))

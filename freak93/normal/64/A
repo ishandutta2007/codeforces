@@ -1,0 +1,12 @@
+set line [gets stdin]
+
+scan $line "%d" n
+
+set i 1
+set rez 1
+while {$i <= $n} {
+    set rez [expr {$rez * $i}]
+    set i [expr {$i + 1}]
+}
+
+puts $rez;

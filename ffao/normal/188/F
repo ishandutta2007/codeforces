@@ -1,0 +1,54 @@
+iin [0]
+
+co pow {
+    eq [44] [30] 19
+    if [44]
+    ac
+    
+    mul [1] [1] 2
+
+    inc [30]
+}
+
+set [1] 1
+ca pow
+
+set [34] 0
+
+co dyt {
+    sub [0] [0] [1]
+    set [56] 0
+    iout 1
+    set [34] 1
+    ac
+}
+
+co zero {
+    if [34]
+    iout 0
+    ac
+}
+
+co bin {
+    eq [44] [1] 0
+    if [44]
+    ac
+    
+    set [56] 1
+
+    gt [44] [0] [1]
+    if [44]
+    ca dyt
+
+    eq [44] [0] [1]
+    if [44]
+    ca dyt
+
+    if [56]
+    ca zero
+
+    div [1] [1] 2
+}
+
+ca bin
+ac

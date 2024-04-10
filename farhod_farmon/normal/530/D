@@ -1,0 +1,28 @@
+main =>
+  A = read_int(),
+  S = new_array(1001),
+  B = new_array(1001),
+  C = new_array(1001),
+  foreach( I in 1..1000 )
+    S[I] := 0
+  end,
+  foreach( I in 1..A )
+    B[I] := read_int(),
+    C[I] := read_int(),
+    foreach( J in B[I]..C[I] )
+      S[J] := 101
+    end
+  end,
+  G = 0,
+  foreach( I in 1..1000 )
+    if S[I] == 0 then
+      G := G + 1
+    end
+  end,
+  print(G),
+  foreach( I in 1..1000 )
+    if S[I] == 0 then
+      print(" "),
+      print(I)
+    end
+  end.

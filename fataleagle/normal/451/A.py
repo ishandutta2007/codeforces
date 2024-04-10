@@ -1,0 +1,1 @@
+print "Akshat" if min(map(int, raw_input().split()))&1 else "Malvika"

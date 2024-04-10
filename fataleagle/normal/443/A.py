@@ -1,0 +1,1 @@
+print len(eval(raw_input().replace('{', '{" ').replace('}', '"}').replace(',', '","'))-{' '})

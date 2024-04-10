@@ -1,0 +1,49 @@
+iin [111]
+set [112] 0
+set [[111]] 111
+co input{
+  eq [1111] [112] [111]
+  if [1111] ac
+  iin [[112]]
+  inc [112]
+}
+ca input
+
+co swap{
+  set [115] [[114]]
+  set [[114]] [[113]]
+  set [[113]] [115]
+  ac
+}
+
+co bubble{
+  inc [113]
+  sub [114] [113] 1
+
+  gt [1111] [[114]] [[113]]
+  if [1111] ca swap
+
+  eq [1111] [113] [111]
+  if [1111] ac
+}
+
+set [112] 0
+co sort{
+  eq [1111] [112] [111]
+  if [1111] ac
+  set [113] 0
+  ca bubble
+  inc [112]
+}
+ca sort
+
+set [112] 0
+co print{
+  eq [1111] [112] [111]
+  if [1111] ac
+  iout [[112]]
+  cout 32
+  inc [112]
+}
+ca print
+ac

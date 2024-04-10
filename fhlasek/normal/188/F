@@ -1,0 +1,26 @@
+iin [0]
+set [1] 1048576
+set [222] 0
+
+co print1{
+  set [222] 1
+  sub [0] [0] [1]
+  iout 1
+  ac
+}
+co print0{
+  if [222] iout 0
+  ac
+}
+co loop{
+  eq [111] [1] 0
+  if [111] ac
+  add [3] [0] 1
+  gt [111] [3] [1]
+  if [111] ca print1
+  sub [111] 1 [111]
+  if [111] ca print0
+  div [1] [1] 2
+}
+ca loop
+ac

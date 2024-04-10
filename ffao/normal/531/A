@@ -1,0 +1,32 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  D = (B*B - 4*A*C),
+  S = (-B + nthroot(D,2)) / (2.0 * A),
+  SS = (-B - nthroot(D,2)) / (2.0 * A),
+  
+  if (SS < S) then
+    SSS = SS,
+    SSSS = S
+  else
+    SSS = S,
+    SSSS = SS
+  end,
+
+  if (D = 0) then
+    println(S)
+  else
+    printf("%f %f", SSS, SSSS)
+  end.
+
+nthroot(A,N) = nthroot(A,N,0.000001).
+
+nthroot(A,N,Precision) = X1 => 
+  NF = N * 1.0, % float version of N
+  X0 = A / NF,
+  X1 = 1.0,
+  do 
+      X0 := X1,
+      X1 := (1.0 / NF)*((NF - 1.0)*X0 + (A / (X0 ** (NF - 1))))
+  while( abs(X0-X1) > Precision).

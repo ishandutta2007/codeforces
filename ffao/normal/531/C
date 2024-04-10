@@ -1,0 +1,30 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  XX = new_array(1000001),
+  YY = new_array(1000001),
+  I = 1,
+  X = 1,
+  Y = 1,
+
+  while (X <= 1000)
+    Y := 1,
+    while (Y <= 1000)
+      if (A * X + B * Y == C) then
+        XX[I] = X,
+        YY[I] = Y,
+        I := I+1
+      end,
+      Y := Y+1
+    end,
+    X := X+1
+  end,
+
+  println(I-1),
+
+  J = 1,
+  while (J < I) 
+    printf("%d %d%n", XX[J], YY[J]),
+    J := J+1
+  end.

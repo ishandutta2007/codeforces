@@ -1,0 +1,16 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  D = B * B - ( 4 * A * C ),
+  X1 = ( - B - sqrt ( D ) ) / ( 2 * A ),
+  X2 = ( - B + sqrt ( D ) ) / ( 2 * A ),
+  if X1 == X2 then
+    writef("%w", X1)
+  end,
+  if X1 > X2 then
+    writef("%w %w", X2, X1)
+  end,
+  if X1 < X2 then
+    writef("%w %w", X1, X2)
+  end.

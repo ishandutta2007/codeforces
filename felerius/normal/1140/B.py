@@ -1,0 +1,1 @@
+print('\n'.join((str(min(s[::-1].find('<') % n, s.find('>') % n)) for n, s in ((int(input()), input()) for _ in range(int(input()))))))

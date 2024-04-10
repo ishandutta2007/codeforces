@@ -1,0 +1,13 @@
+main =>
+  A = read_line(),
+  G = A.length,
+  G1 = 1,
+  while ( G1 < A.length / 2 )
+    G1 := G1 + 1
+  end,
+  foreach( I in 1..G1 )
+    print(A[G1+1-I])
+  end,
+  foreach( I in 1..G1 )
+    print(A[G+1-I])
+  end.

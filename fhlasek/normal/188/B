@@ -1,0 +1,16 @@
+iin [0]
+iin [1]
+set [2] [0]
+set [3] 0
+co loop{
+  eq [111] [1] 0
+  if [111] ac
+  mod [4] [1] 10
+  div [1] [1] 10
+  mul [3] [3] 10
+  add [3] [3] [4]
+}
+ca loop
+add [2] [2] [3]
+iout [2]
+ac

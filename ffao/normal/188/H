@@ -1,0 +1,58 @@
+co push {
+    sub [1] [0] 48
+    set [[999]] [1]
+    inc [999]
+    ac
+}
+
+co domul {
+    dec [999]
+    set [2] [[999]]
+    dec [999]
+    mul [[999]] [2] [[999]]
+    inc [999]
+
+    ac
+}
+
+co doadd {
+    dec [999]
+    set [2] [[999]]
+    dec [999]
+    add [[999]] [2] [[999]]
+    inc [999]
+
+    ac
+}
+
+co op {
+    eq [1] [0] 42
+    if [1] ca domul
+
+    sub [1] 1 [1]
+    if [1] ca doadd
+    
+    ac
+}
+
+co main {
+    cin [0]
+
+    eq [44] [0] 10
+    if [44]
+    ac
+
+    gt [44] [0] 44
+    if [44]
+    ca push
+
+    sub [44] 1 [44]
+    if [44]
+    ca op
+}
+
+set [999] 1000
+ca main
+dec [999]
+iout [[999]]
+ac

@@ -1,0 +1,27 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  X = 1,
+  Y = 1,
+  F = new_array(1000),
+  F1 = new_array(1000),
+  G = 1,
+  while( X < 1000 )
+    Y := 1,
+    while ( Y < 1000 )
+      if A * X + B * Y == C then
+        F[G] = X,
+        F1[G] = Y,
+        G := G + 1
+      end,
+      Y := Y + 1
+    end,
+    X := X + 1
+  end,
+  println(G-1),
+  foreach( I in 1..G-1 )
+    print(F[I]),
+    print(" "),
+    println(F1[I])
+  end.
