@@ -1,0 +1,416 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+
+int compare_char(char *a,char *b){
+	return strcmp(a,b);
+}
+
+int intsort(const void *a, const void *b){
+	return *(int*)b - *(int*)a;
+	/*qsort(a,a,sizeof(int),intsort);*/
+}
+
+int longsort(const void *a, const void *b){
+	long *A=(long *)a;
+	long *B=(long *)b;
+	if(*A>*B) return -1;
+	if(*A<*B) return 1;
+	return 0;
+}
+
+int main(){
+	int i,N,j,p,a[4]={0},b[i],cnt=0,min,ans=0,x,y,z,day=0;
+	for(i=0;i<3;i++){
+	scanf("%d",&a[i]);
+	}
+/*	if(a[0]%3==0){
+*/	
+	
+b[0]=a[0]/3;
+min=b[0];
+/*	}else{
+		b[0]=a[0]/3+1;
+	}
+	if(a[1]%2==0){
+*/
+b[1]=a[1]/2;
+if(min>b[1])min=b[1];
+/*	}else{
+		b[1]=a[1]/2+1;
+	}
+	if(a[2]%2==0){
+*/
+b[2]=a[2]/2;
+if(min>b[2])min=b[2];
+/*	}else{
+		b[2]=a[2]/2+1;
+	}
+*/
+
+ans=min*7;
+a[0]-=3*min;
+a[1]-=2*min;
+a[2]-=2*min;
+min=0;
+x=a[0];
+y=a[1];
+z=a[2];
+	//sun
+	while(1){
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	min=day;
+	
+	day=0;
+	x=a[0];	
+	y=a[1];
+	z=a[2];
+				//
+	while(1){
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	if(min<day)min=day;
+	
+	day=0;
+	x=a[0];
+	y=a[1];
+	z=a[2];
+			//
+	while(1){
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	if(min<day)min=day;
+	
+	day=0;
+	x=a[0];
+	y=a[1];
+	z=a[2];
+			//
+	while(1){
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	if(min<day)min=day;
+	
+	day=0;
+	x=a[0];
+	y=a[1];
+	z=a[2];
+			//
+	while(1){
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;	
+	}else{	
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	if(min<day)min=day;
+	
+	day=0;
+	x=a[0];
+	y=a[1];
+	z=a[2];
+			//
+	while(1){
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	if(min<day)min=day;
+
+day=0;
+x=a[0];
+y=a[1];
+z=a[2];
+
+			//
+	while(1){
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(y>0){
+	y--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	if(x>0){
+	x--;
+	day++;
+	}else{
+	break;
+	}
+	if(z>0){
+	z--;
+	day++;
+	}else{
+	break;
+	}
+	}
+	if(min<day)min=day;
+
+printf("%d\n",ans+min);
+	return 0;
+}

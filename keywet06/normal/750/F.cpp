@@ -1,0 +1,270 @@
+// oct code title CF/CF750F.cpp
+
+#ifndef OCT_CODE_INSERT_PREx2dDOCUMENT  // oct code insert pre-document
+#define OCT_CODE_INSERT_PREx2dDOCUMENT
+
+// #define LUOGU
+#if defined(ONLINE_JUDGE) && !defined(LUOGU)
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+#endif
+
+#ifndef STL_BITS__2F_STDCx2Bx2Bx2FH
+#define STL_BITS__2F_STDCx2Bx2Bx2FH
+#include <bits/stdc++.h>
+#endif
+
+#define debug std::cerr << "Debug(" << __LINE__ << "): "
+#ifdef ONLINE_JUDGE
+#define cerr cout
+#endif
+#define pub push_back
+#define pob pop_back
+#define pup push
+#define mkp make_pair
+#define fir first
+#define sec second
+#define ite iterator
+#define lob lower_bound
+#define upb upper_bound
+#define reg register
+
+using uint8 = unsigned char;
+using uint16 = unsigned short int;
+using uint32 = unsigned int;
+using uint64 = unsigned long long;
+using int8 = signed char;
+using int16 = short int;
+using int32 = int;
+using int64 = long long;
+using ldb = long double;
+using pi5 = std::pair<int32, int32>;
+using pi6 = std::pair<int64, int64>;
+using pi56 = std::pair<int32, int64>;
+using pi65 = std::pair<int64, int32>;
+
+namespace oct {
+
+template <typename _Tp>
+class priority_queue
+    : public std::priority_queue<_Tp, std::vector<_Tp>, std::greater<_Tp> > {};
+
+/* Array tn4 is the 4-direction changes in coordinate system.
+ * The directions in order is {right, up, left, down}.
+ */
+const int tn4[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+const int tn8[8][2] = {{1, 0},  {1, 1},   {0, 1},  {-1, 1},
+                       {-1, 0}, {-1, -1}, {0, -1}, {1, -1}};
+const double exp = 1e-8;
+
+void sync(int pre = 8);
+template <typename _Tp>
+_Tp &mad(_Tp &x, _Tp y);
+template <typename _Tp>
+_Tp &mid(_Tp &x, _Tp y);
+template <typename _Tp>
+bool in(_Tp x, _Tp l, _Tp r);
+template <typename _Tp>
+bool in(_Tp x, _Tp y, _Tp l, _Tp r);
+template <typename _Tp>
+_Tp sqr(_Tp x);
+template <typename _Tp>
+_Tp power(_Tp x, int64 m);
+template <typename _Tp>
+void sort(_Tp &x, _Tp &y);
+template <typename _Tp1, typename _Tp2>
+std::pair<_Tp1, _Tp2> operator+(std::pair<_Tp1, _Tp2> x,
+                                std::pair<_Tp1, _Tp2> y);
+template <typename _Tp>
+_Tp &operator+=(_Tp &x, _Tp y);
+template <typename _Tp>
+_Tp gcd(_Tp &x, _Tp &y);
+
+inline void sync(int pre) {
+    std::ios::sync_with_stdio(0);
+    std::cin.tie(0), std::cout.tie(0);
+    std::cout.flags(std::ios::fixed);
+    std::cout.precision(pre);
+    std::cout.setf(std::ios::showpoint);
+}
+template <typename _Tp>
+inline _Tp &mad(_Tp &x, _Tp y) {
+    return x = std::max(x, y);
+}
+template <typename _Tp>
+inline _Tp &mid(_Tp &x, _Tp y) {
+    return x = std::min(x, y);
+}
+template <typename _Tp>
+inline bool in(_Tp x, _Tp l, _Tp r) {
+    return l <= x && x <= r;
+}
+template <typename _Tp>
+inline bool in(_Tp x, _Tp y, _Tp l, _Tp r) {
+    return l <= x && y <= r;
+}
+template <typename _Tp>
+inline _Tp sqr(_Tp x) {
+    return x * x;
+}
+template <typename _Tp>
+inline _Tp power(_Tp x, int64 m) {
+    return m == 1 ? x : (m & 1 ? power(x * x, m / 2) * x : power(x * x, m / 2));
+}
+template <typename _Tp>
+inline void sort(_Tp &x, _Tp &y) {
+    if (x > y) std::swap(x, y);
+}
+template <typename _Tp1, typename _Tp2>
+inline std::pair<_Tp1, _Tp2> operator+(std::pair<_Tp1, _Tp2> x,
+                                       std::pair<_Tp1, _Tp2> y) {
+    return x.fir += y.fir, x.sec += y.sec, x;
+}
+template <typename _Tp>
+inline _Tp &operator+=(_Tp &x, _Tp y) {
+    return x = x + y;
+}
+template <typename _Tp>
+inline _Tp gcd(_Tp &x, _Tp &y) {
+    return std::__gcd(x, y);
+}
+
+}  // namespace oct
+
+#endif  // oct code end pre-document
+
+const int C = 4;
+const int K = 8;
+const int N = 1 << K;
+
+bool used[N];
+int H, T, head, tail;
+int l[N], q[N];
+int a[N][C];
+
+inline void get(int x) {
+    if (used[x]) return;
+    printf("? %d\n", x);
+    fflush(stdout);
+    used[x] = true;
+    scanf("%d", &l[x]);
+    for (int i = 1; i <= l[x]; i++) scanf("%d", &a[x][i]);
+}
+inline void print(int x) {
+    printf("! %d\n", x);
+    fflush(stdout);
+}
+inline void solve() {
+    memset(used, 0, sizeof(used));
+    scanf("%d", &H);
+    get(1);
+    head = tail = 20;
+    if (l[1] == 2) {
+        print(1);
+        return;
+    }
+    q[20] = 1;
+    if (l[1] != 1) {
+        q[++tail] = a[1][1];
+        while (true) {
+            get(q[tail]);
+            if (l[q[tail]] == 1) break;
+            for (int i = 1; i <= l[q[tail]]; i++)
+                if (a[q[tail]][i] != q[tail - 1]) {
+                    q[tail + 1] = a[q[tail]][i];
+                    tail++;
+                    break;
+                }
+        }
+        q[--head] = a[1][2];
+        while (true) {
+            get(q[head]);
+            if (l[q[head]] == 1) break;
+            for (int i = 1; i <= l[q[head]]; i++)
+                if (a[q[head]][i] != q[head + 1]) {
+                    q[head - 1] = a[q[head]][i];
+                    head--;
+                    break;
+                }
+        }
+    }
+    int dep = H - (tail - head) / 2, cur = q[head + tail >> 1];
+    while (true) {
+        if (dep <= 4) {
+            if (dep == 1) {
+                print(cur);
+                return;
+            }
+            for (int i = 1; i <= l[cur]; i++)
+                if (!used[a[cur][i]]) {
+                    cur = a[cur][i];
+                    break;
+                }
+            dep--;
+            if (dep == 1) {
+                print(cur);
+                return;
+            }
+            if (dep == 2) {
+                int tmp[20], len = 0;
+                get(cur);
+                for (int i = 1; i <= l[cur]; i++)
+                    if (!used[a[cur][i]]) tmp[++len] = a[cur][i];
+                for (int i = 1; i < len; i++) {
+                    get(tmp[i]);
+                    if (l[tmp[i]] == 2) {
+                        print(tmp[i]);
+                        return;
+                    }
+                }
+                print(tmp[len]);
+                return;
+            } else {
+                int tmp[20], len = 0;
+                int tmp2[20], len2 = 0;
+                get(cur);
+                for (int i = 1; i <= l[cur]; i++)
+                    if (!used[a[cur][i]]) tmp[++len] = a[cur][i];
+                for (int i = 1; i <= len; i++) {
+                    get(tmp[i]);
+                    for (int j = 1; j <= l[tmp[i]]; j++)
+                        if (!used[a[tmp[i]][j]]) tmp2[++len2] = a[tmp[i]][j];
+                }
+                for (int i = 1; i < len2; i++) {
+                    get(tmp2[i]);
+                    if (l[tmp2[i]] == 2) {
+                        print(tmp2[i]);
+                        return;
+                    }
+                }
+                print(tmp2[len2]);
+                return;
+            }
+        }
+        head = tail = 0;
+        q[tail] = cur;
+        while (true) {
+            get(q[tail]);
+            if (l[q[tail]] == 1 && tail > 0) break;
+            if (l[q[tail]] == 2) {
+                print(q[tail]);
+                return;
+            }
+            for (int i = 1; i <= l[q[tail]]; i++)
+                if (!used[a[q[tail]][i]]) {
+                    q[tail + 1] = a[q[tail]][i];
+                    tail++;
+                    break;
+                }
+        }
+        int D = H - dep;
+        cur = q[tail - D >> 1];
+        dep -= (tail - D >> 1);
+    }
+}
+
+int main() {
+    scanf("%d", &T);
+    while (T--) solve();
+}

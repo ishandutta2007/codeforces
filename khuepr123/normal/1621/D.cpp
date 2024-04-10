@@ -1,0 +1,51 @@
+/*
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
+*/
+// lethal option
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define all(flg) flg.begin(), flg.end()
+#define int long long
+#define pb push_back
+#define fi first
+#define se second
+#define endl "\n"
+#define eb emplace_back
+#define ii pair<int, int>
+#define PI 3.141592653589793238462643383279502884
+#define ll long long
+#define for1(i, ff, gg) for(int i = ff; i <= gg; ++i)
+#define for2(i, ff, gg) for(int i = ff; i >= gg; --i)
+const ll mod = 1e9 + 7;
+const int maxN = 300005;
+const ll oo = 1e18 + 7;
+int n;
+int x, y, z, k;
+
+int a[255][255];
+
+signed main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int o; cin >> o;
+    while(o--){
+        cin >> n;
+        int ans = 0;
+        int mn = oo;
+        for1(i, 1, n * 2) for1(j, 1, n * 2){
+            cin >> x;
+            if(i > n && j > n) ans += x;
+            if(i <= n && j <= n) continue;
+            if(i >  n && j >  n) continue;
+            if(i == n || i == n + 1 || i == 1 || i == n * 2)
+            if(j == n || j == n + 1 || j == 1 || j == n * 2)
+            mn = min(mn, x);
+        }
+        cout << ans + mn << endl;
+    }
+}

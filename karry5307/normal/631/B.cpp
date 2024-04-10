@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef int ll; 
+typedef long long int li;
+const ll MAXN=2e5+51;
+ll n,m,kk,op,x,y;
+ll r[MAXN],rt[MAXN],ct[MAXN];
+inline ll read()
+{
+    register ll num=0,neg=1;
+    register char ch=getchar();
+    while(!isdigit(ch)&&ch!='-')
+    {
+        ch=getchar();
+    }
+    if(ch=='-')
+    {
+        neg=-1;
+        ch=getchar();
+    }
+    while(isdigit(ch))
+    {
+        num=(num<<3)+(num<<1)+(ch-'0');
+        ch=getchar();
+    }
+    return num*neg;
+}
+int main()
+{
+	n=read(),m=read(),kk=read();
+	for(register int i=1;i<=kk;i++)
+	{
+		op=read(),x=read(),y=read(),r[i]=y,op==1?rt[x]=i:ct[x]=i;
+	}
+	for(register int i=1;i<=n;i++)
+	{
+		for(register int j=1;j<=m;j++)
+		{
+			printf("%d ",rt[i]>ct[j]?r[rt[i]]:r[ct[j]]);
+		}
+		puts("");
+	}
+}

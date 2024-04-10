@@ -1,0 +1,1 @@
+var F,I,T,M=[];function com(){var r=0;for(var i=0; i<I; ++i){var c=0;for (var f=0;f<F;++f){if(M[f][i]=='Y')c+=1;}if(c>=T)r+=1;}return r;};function handle(line){if(!F){r=line.split(' ');F=r[0]|0;I=r[1]|0;T=r[2]|0;}else{M.push(line);if (M.length===F){print(com());}}};handle(readline());for(var i=0;i<F;++i){handle(readline());}//kitten

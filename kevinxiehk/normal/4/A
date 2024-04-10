@@ -1,0 +1,6 @@
+let solve n =
+    if n <= 2 || n mod 2 = 1 then "NO"
+    else "YES"
+    
+let n = read_int() in
+solve n |> print_string |> print_newline
