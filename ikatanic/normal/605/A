@@ -1,0 +1,9 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x)
+
+let () =
+  let n = read_int () in
+  let a = Array.init n (fun _ -> read_int ()) in
+  let bio = Array.make (n+1) 0 in
+  let _ = Array.iter (fun x -> bio.(x) <- bio.(x-1) + 1) a in
+  let ans = n - (Array.fold_left max 0 bio) in
+  Printf.printf "%d\n" ans

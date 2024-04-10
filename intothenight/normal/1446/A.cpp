@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+int main(){
+	cin.tie(0)->sync_with_stdio(0);
+	cin.exceptions(ios::badbit | ios::failbit);
+	auto __solve_tc = [&](int __tc_num){
+		int n;
+		long long th;
+		cin >> n >> th;
+		vector<array<int, 2>> a(n);
+		for(auto i = 0; i < n; ++ i){
+			cin >> a[i][0], a[i][1] = i;
+		}
+		sort(a.rbegin(), a.rend());
+		vector<int> res;
+		long long sum = 0;
+		for(auto [w, i]: a){
+			if(th >= sum + w){
+				sum += w;
+				res.push_back(i);
+			}
+		}
+		if(2 * sum < th){
+			cout << "-1\n";
+		}
+		else{
+			sort(res.begin(), res.end());
+			cout << (int)res.size() << "\n";
+			for(auto i: res){
+				cout << i + 1 << " ";
+			}
+			cout << "\n";
+		}
+		return 0;
+	};
+	int __tc_cnt;
+	cin >> __tc_cnt;
+	for(auto __tc_num = 0; __tc_num < __tc_cnt; ++ __tc_num){
+		__solve_tc(__tc_num);
+	}
+	return 0;
+}
+
+/*
+
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                    //
+//                                   Coded by Aeren                                   //
+//                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////

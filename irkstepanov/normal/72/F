@@ -1,0 +1,52 @@
+s := File standardInput readLine asString
+list := (s split)
+n := (list at(0)) asNumber
+m := (list at(1)) asNumber
+
+alive := List clone
+for (i, 0, n - 1, alive append(1))
+
+s := File standardInput readLine asString
+list := (s split)
+
+cnt := (list at(0)) asNumber
+for (i, 1, cnt, 
+    pos := (list at(i)) asNumber
+    pos := pos - 1
+    alive atPut(pos, 0)
+)
+
+x := 0
+curr := 0
+for (i, 0, n - 1,
+    if ((alive at(i)) == 0 and curr == 1) then (curr := 0) elseif ((alive at(i)) == 1 and curr == 0) then (
+        curr := 1
+        x := x + 1
+    )
+)
+
+
+
+alive := List clone
+for (i, 0, m - 1, alive append(1))
+
+s := File standardInput readLine asString
+list := (s split)
+
+cnt := (list at(0)) asNumber
+for (i, 1, cnt, 
+    pos := (list at(i)) asNumber
+    pos := pos - 1
+    alive atPut(pos, 0)
+)
+
+y := 0
+curr := 0
+for (i, 0, m - 1,
+    if ((alive at(i)) == 0 and curr == 1) then (curr := 0) elseif ((alive at(i)) == 1 and curr == 0) then (
+        curr := 1
+        y := y + 1
+    )
+)
+
+(x * y) println

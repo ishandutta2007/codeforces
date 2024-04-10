@@ -1,0 +1,1 @@
+print("MEahhambo u d"[int(input())%2::2])

@@ -1,0 +1,113 @@
+let rec range ?(left: int = 0) (right: int): int list =
+	if left >= right then [] else left :: range ~left:(left + 1) right
+
+let split_on_space (str: string): string list =
+	let length = String.length str in
+	let is_space: int -> bool = 
+		fun index ->
+			if (index < 0) || (index >= length) then true
+			else str.[index] = ' '
+	in
+	let is_start: int -> bool =
+		fun index -> not (is_space index) && is_space (index - 1)
+	in
+	let is_end: int -> bool =
+		fun index -> not (is_space index) && is_space (index + 1)
+	in
+	let indices = range length in
+	let start_pos = List.filter is_start indices in 
+	let end_pos = List.filter is_end indices in
+	let make_substring: string list -> int -> int -> string list =
+		fun tokens left right ->
+			let new_token = String.sub str left (right - left + 1) in
+			new_token :: tokens
+	in
+	let tokens = List.fold_left2 make_substring [] start_pos end_pos in
+	List.rev tokens
+			
+class reader channel =
+	object (this)
+
+	val mutable tokens = []
+
+  method private get_tokens () =
+    let new_line = read_line () in
+    let tokens = split_on_space new_line in
+    match tokens with
+    | [] -> this#get_tokens ()
+    | _ -> tokens
+
+	method next_string () =
+    if (List.length tokens = 0) then tokens <- this#get_tokens();
+    let result = List.hd tokens in
+    tokens <- List.tl tokens; result
+
+  method next_int () =
+    let str = this#next_string() in (Int64.of_string) str
+
+  method next_float () =
+    let str = this#next_string() in (float_of_string) str
+    
+end
+
+let reader = new reader stdin
+
+let ( +. ) = Int64.add
+let ( -. ) = Int64.sub
+let ( *. ) = Int64.mul
+let ( /. ) = Int64.div
+let ( %. ) = Int64.rem
+
+let get_digits (number: int64): int array =
+	let char_to_int: char -> int =
+		fun c -> (Char.code c) - (Char.code '0')
+	in
+	let str = Int64.to_string number in
+	let num_digit = String.length str in
+	Array.init num_digit (fun index -> char_to_int str.[num_digit - index - 1])
+	
+let rec count_number (left: int64) (right: int64): int64 =
+	if right < left then Int64.zero else
+		if left > Int64.zero then (count_number Int64.zero right) -. (count_number Int64.zero (left -. Int64.one)) else
+			let digits = get_digits right in
+			let num_digit = Array.length digits in
+			
+			let init_1d: int -> int64 = fun _ -> Int64.zero in
+			let init_2d: int -> int64 array = fun _ -> Array.init 2 init_1d in
+			let init_3d: int -> int64 array array = fun _ -> Array.init 4 init_2d in
+			let f: int64 array array array = Array.init (num_digit + 1) init_3d in
+			f.(0).(0).(1) <- Int64.one;
+			
+			let pos_range = range num_digit in
+			let used_range = range 4 in
+			let comp_range = range 2 in
+			let next_range = range 10 in
+			
+			List.iter (fun pos -> 
+				List.iter (fun used ->
+					List.iter (fun comp -> 
+						let cur = f.(pos).(used).(comp) in
+						if cur > Int64.zero then
+							List.iter (fun next ->
+								let used' = if next = 0 then used else used + 1 in
+								let comp' = if next = digits.(pos) then comp else 
+									if next < digits.(pos) then 1 else 0
+								in
+								if used' <= 3 then
+									f.(pos + 1).(used').(comp') <- f.(pos + 1).(used').(comp') +. cur
+								) next_range
+						) comp_range
+					) used_range
+				) pos_range;
+			
+			List.fold_left (fun sum used -> sum +. f.(num_digit).(used).(1) ) Int64.zero used_range
+				
+let () =
+	let q = reader#next_int () in
+	let q = Int64.to_int q in
+	for i = 1 to q do
+		let l = reader#next_int () in
+		let r = reader#next_int () in
+		let res = count_number l r in
+		print_endline (Int64.to_string res)
+	done

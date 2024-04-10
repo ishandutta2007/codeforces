@@ -1,0 +1,22 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x)
+
+let is_prime n =
+  let rec go d =
+    if d * d > n then true else
+      if n mod d = 0 then false else
+        go (d+1)
+  in
+  go 2
+
+let rec gen_primes n ans =
+  if n <= 1 then ans else
+    if is_prime n then gen_primes (n-1) (n::ans) else
+      gen_primes (n-1) ans
+                   
+let () =
+  let n = read_int () in
+  let rec f p a b = if b > n then a else (f p (b::a) (b*p)) in
+  let g a p = f p a p in
+  let ans = List.fold_left g [] (gen_primes n []) in
+  Printf.printf "%d\n" (List.length ans);
+  List.iter (Printf.printf "%d ") ans;;

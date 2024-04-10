@@ -1,0 +1,56 @@
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <set>
+#include <queue>
+#include <string>
+#include <cmath>
+#include <algorithm>
+#include <assert.h>
+#include <vector>
+#include <cstring>
+#include <bitset>
+#include <random>
+
+#define all(a) (a).begin(), (a).end()
+#define sz(a) (int)(a).size()
+#define pb push_back
+
+using namespace std;
+
+typedef long long ll;
+//typedef __int128 ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef double ld;
+
+int main() {
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    int n;
+    cin >> n;
+
+    map<int, int> mapa;
+
+    for (int i = 0; i < n; ++i) {
+        int x;
+        cin >> x;
+        mapa[x] = i;
+    }
+
+    vector<pii> v;
+    for (auto it : mapa) {
+        v.pb({it.second, it.first});
+    }
+    sort(all(v));
+    cout << sz(v) << "\n";
+
+    for (pii p : v) {
+        cout << p.second << " ";
+    }
+
+    cout << "\n";
+}

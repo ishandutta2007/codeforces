@@ -1,0 +1,53 @@
+set channel {stdin}
+
+gets $channel n
+
+set i  0
+while {$i < $n} {
+    gets $channel s
+    
+    scan $s "%s %d" nextName nextScore
+    
+    set name($i) $nextName
+    set score($i) $nextScore
+    
+    set i [expr $i + 1]
+}
+
+set i 0
+while {$i + 1 < $n} {
+    set j 0
+    while {$j + 1 < $n} {
+        if { $score($j) < $score([expr $j+1]) || $score($j) == $score([expr $j+1]) && [string compare $name($j) $name([expr $j+1])] == 1 } {
+            set tmp $score($j)
+            set score($j) $score([expr $j+1])
+            set score([expr $j+1]) $tmp
+            
+            set tmp $name($j)
+            set name($j) $name([expr $j+1])
+            set name([expr $j+1]) $tmp
+        }
+        set j [expr $j + 1]
+    }
+    set i [expr $i + 1]
+}
+
+set i 0
+while {$i < $n} {
+    set a $i
+    while {$a > 0 && $score([expr $a - 1]) == $score($a)} {
+        set a [expr $a - 1]
+    }
+    set b $i
+    while {$b + 1 < $n && $score([expr $b + 1]) == $score($b)} {
+        set b [expr $b + 1]
+    }
+    set a [expr $a + 1]
+    set b [expr $b + 1]
+    if {$a == $b} {
+        puts [concat $a " " $name($i)]
+    } else {
+        puts [concat $a-$b " " $name($i)]
+    }
+    set i [expr $i + 1]
+}

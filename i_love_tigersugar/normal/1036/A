@@ -1,0 +1,72 @@
+let split_on_space (str: string): string list =
+	let length = String.length str in
+	let is_space: int -> bool = 
+		fun index ->
+			if (index < 0) || (index >= length) then true
+			else str.[index] = ' '
+	in
+	let is_start: int -> bool =
+		fun index -> not (is_space index) && is_space (index - 1)
+	in
+	let is_end: int -> bool =
+		fun index -> not (is_space index) && is_space (index + 1)
+	in
+	let indices = Array.init length (fun i -> i) in
+	let indices = Array.to_list indices in
+	let start_pos = List.filter is_start indices in 
+	let end_pos = List.filter is_end indices in
+	let make_substring: string list -> int -> int -> string list =
+		fun tokens left right ->
+			let new_token = String.sub str left (right - left + 1) in
+			new_token :: tokens
+	in
+	let tokens = List.fold_left2 make_substring [] start_pos end_pos in
+	List.rev tokens
+			
+
+class reader channel =
+	object (this)
+
+	val mutable tokens = []
+
+  method private get_tokens () =
+    let new_line = read_line () in
+    let tokens = split_on_space new_line in
+    match tokens with
+    | [] -> this#get_tokens ()
+    | _ -> tokens
+
+	method next_string () =
+    if (List.length tokens = 0) then tokens <- this#get_tokens();
+    let result = List.hd tokens in
+    tokens <- List.tl tokens; result
+
+  method next_int () =
+    let str = this#next_string() in (Int64.of_string) str
+
+  method next_float () =
+    let str = this#next_string() in (float_of_string) str
+    
+end
+
+let reader = new reader stdin
+
+let ( + ) = Int64.add
+let ( - ) = Int64.sub
+let ( * ) = Int64.mul
+let ( / ) = Int64.div
+let ( % ) = Int64.rem
+
+let compare = Int64.compare
+let ( = ) a b = compare a b = 0
+let ( < ) a b = compare a b < 0
+let ( > ) a b = compare a b > 0
+let ( <= ) a b = compare a b <= 0
+let ( >= ) a b = compare a b >= 0
+
+let () =
+  let n = reader#next_int () in
+  let k = reader#next_int () in 
+  let res = k / n in
+  let res = if k % n = Int64.zero then res else res + Int64.one in 
+  print_endline (Int64.to_string res);

@@ -1,0 +1,109 @@
+// Retired?
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef long unsigned long ull;
+typedef double long ld;
+
+struct sieve {
+	const int maxn;
+	vector<int> f, primes;
+
+	sieve(int maxn) : maxn(maxn), f(maxn) {
+		for (int i=2; i<maxn; i++) {
+			if (f[i] == 0) {
+				f[i] = i;
+				primes.push_back(i);
+			}
+
+			for (int p : primes) {
+				if (p > f[i] || i * p >= maxn) {
+					break;
+				}
+
+				f[i*p] = p;
+			}
+		}
+	}
+
+ 	auto factor_small(int x) const {
+		vector<pair<int, int>> v;
+		while (x > 1) {
+			int p = f[x], c = 0;
+			while (x % p == 0) {
+				x /= p;
+				c++;
+			}
+			v.emplace_back(p, c);
+		}
+		return v;
+	}
+
+	template<class T>
+	auto factor(T x) const {
+		vector<pair<T, int>> v;
+		for (int p : primes) {
+			if ((ll)p*p > x) {
+				break;
+			}
+
+			if (x % p == 0) {
+				int c = 0;
+				while (x % p == 0) {
+					x /= p;
+					c++;
+				}
+				v.emplace_back(p, c);
+			}
+		}
+
+		if (x > 1) {
+			v.emplace_back(x, 1);
+		}
+
+		return v;
+	}
+} s(200005);
+
+int n;
+vector<int> e[200005];
+int occ[200005];
+
+int main() {
+	ios::sync_with_stdio(!cin.tie(0));
+
+	cin >> n;
+	for (int i=0; i<n; i++) {
+		int x;
+		cin >> x;
+		for (auto [p, a] : s.factor_small(x)) {
+			e[p].emplace_back(a);
+			occ[p]++;
+		}
+	}
+
+	ll q = 1;
+
+	auto mul = [&](ll p, ll e) {
+		while (e--) {
+			q *= p;
+		}
+	};
+
+	for (int p=2; p<=200000; p++) {
+		if (s.f[p] == p) {
+			if (n - occ[p] >= 2) {
+				continue;
+			} else if (n - occ[p] == 1) {
+				int l = *min_element(begin(e[p]), end(e[p]));
+				mul(p, l);
+			} else {
+				sort(begin(e[p]), end(e[p]));
+				mul(p, e[p][1]);
+			}
+		}
+	}
+
+	cout << q << '\n';
+}

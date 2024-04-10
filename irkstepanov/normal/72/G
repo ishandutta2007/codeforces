@@ -1,0 +1,13 @@
+n := File standardInput readLine asNumber
+f := List clone
+
+f append(1)
+f append(1)
+
+for (i, 2, 30,
+    x := f at(i - 1)
+    y := f at(i - 2)
+    f append(x + y)
+)
+
+(f at(n)) println

@@ -1,0 +1,79 @@
+//#pragma GCC optimize("O3")
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//defines
+typedef long long ll;
+typedef long double ld;
+#define TIME clock() * 1.0 / CLOCKS_PER_SEC
+#define prev _prev
+#define y0 y00
+
+//permanent constants
+const ld pi = acos(-1.0);
+const int day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int digarr[10] = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
+const int dx[4] = {0, 1, 0, -1};
+const int dy[4] = {1, 0, -1, 0};
+const int dxo[8] = {-1, -1, -1, 0, 1, 1, 1, 0};
+const int dyo[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
+const int alf = 26;
+const int dig = 10;
+const int two = 2;
+const int th = 3;
+const ll prost = 239;
+const ll bt = 30;
+const ld eps = 1e-9;
+const ll INF = (ll)(1e18 + 239);
+const int BIG = (int)(2e9 + 239);
+const int MOD = 1e9 + 7; //998244353;
+const ll MOD2 = (ll)MOD * (ll)MOD;
+
+//random
+mt19937_64 rnd(239); //(chrono::high_resolution_clock::now().time_since_epoch().count());
+
+//constants
+const int M = (int)(2e5 + 239);
+const int N = (int)(2e3 + 239);
+const int L = 20;
+const int T = (1 << 20);
+const int B = (int)sqrt(M);
+const int X = 4010;
+
+int dp[two][X], n, c[X][X];
+
+int32_t main()
+{
+#ifdef ONPC
+    freopen("input.txt", "r", stdin);
+#endif
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    cin >> n;
+    for (int i = 0; i <= n; i++)
+        c[i][0] = 1;
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= i; j++)
+        {
+            c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
+            if (c[i][j] >= MOD) c[i][j] -= MOD;
+        }
+    dp[0][0] = 1;
+    dp[1][0] = 0;
+    for (int k = 1; k <= n; k++)
+    {
+        for (int s = 0; s <= k - 1; s++)
+        {
+            dp[0][k] += 1LL * dp[0][k - 1 - s] * c[k - 1][s] % MOD;
+            if (dp[0][k] >= MOD) dp[0][k] -= MOD;
+            dp[1][k] += 1LL * dp[1][k - 1 - s] * c[k - 1][s] % MOD;
+            if (dp[1][k] >= MOD) dp[1][k] -= MOD;
+        }
+        dp[1][k] += dp[0][k - 1];
+        if (dp[1][k] >= MOD) dp[1][k] -= MOD;
+        dp[1][k] += dp[1][k - 1];
+        if (dp[1][k] >= MOD) dp[1][k] -= MOD;
+    }
+    cout << dp[1][n];
+    return 0;
+}

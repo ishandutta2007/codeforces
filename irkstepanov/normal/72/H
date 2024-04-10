@@ -1,0 +1,18 @@
+s := File standardInput readLine asString
+minus := "-"
+first := 0
+zero := "0"
+
+if ((s at(0)) == (minus at(0))) then (first := 1)
+
+left := first
+while (left < (s size) and (s at(left)) == (zero at(0)), (left := left + 1))
+
+right := (s size) - 1
+while (right >= 0 and (s at(right)) == (zero at(0)), (right := right - 1))
+
+if (left <= right) then (
+    if (first == 1) then (write("-"))
+    for (i, left, right, write( (s at(right + left - i)) - (zero at(0))))
+)
+if (left > right) then (0 println)

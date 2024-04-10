@@ -1,0 +1,121 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// DEBUG BEGIN
+#ifdef LOCAL
+template<class L, class R> ostream &operator<<(ostream &out, const pair<L, R> &p){
+	return out << "(" << p.first << ", " << p.second << ")";
+}
+template<class Tuple, size_t N> struct TuplePrinter{
+	static ostream &print(ostream &out, const Tuple &t){ return TuplePrinter<Tuple, N-1>::print(out, t) << ", " << get<N-1>(t); }
+};
+template<class Tuple> struct TuplePrinter<Tuple, 1>{
+	static ostream &print(ostream &out, const Tuple& t){ return out << get<0>(t); }
+};
+template<class... Args> ostream &print_tuple(ostream &out, const tuple<Args...> &t){
+	return TuplePrinter<decltype(t), sizeof...(Args)>::print(out << "(", t) << ")";
+}
+template<class ...Args> ostream &operator<<(ostream &out, const tuple<Args...> &t){
+	return print_tuple(out, t);
+}
+template<class T> ostream &operator<<(enable_if_t<!is_same<T, string>::value, ostream> &out, const T &arr){
+	out << "{"; for(auto &x: arr) out << x << ", ";
+	return out << (arr.size() ? "\b\b" : "") << "}";
+}
+template<size_t S> ostream &operator<<(ostream &out, const bitset<S> &b){
+	for(int i = 0; i < S; ++ i) out << b[i];
+	return out;
+}
+void debug_out(){ cerr << "\b\b " << endl; }
+template<class Head, class... Tail>
+void debug_out(Head H, Tail... T){ cerr << H << ", ", debug_out(T...); }
+void debug2_out(){ cerr << "-----DEBUG END-----\n"; }
+template<class Head, class... Tail>
+void debug2_out(Head H, Tail... T){ cerr << "\n"; for(auto x: H) cerr << x << "\n"; debug2_out(T...); }
+#define debug(...) cerr << "[" << #__VA_ARGS__ << "]: ", debug_out(__VA_ARGS__)
+#define debug2(...) cerr << "----DEBUG BEGIN----\n[" << #__VA_ARGS__ << "]:", debug2_out(__VA_ARGS__)
+#else
+#define debug(...) 42
+#define debug2(...) 42
+#endif
+// DEBUG END
+
+int main(){
+	cin.tie(0)->sync_with_stdio(0);
+	cin.exceptions(ios::badbit | ios::failbit);
+	int n;
+	cin >> n;
+	vector<vector<int>> adj(n);
+	vector<int> init(n, -1), leaves;
+	vector<string> type(n);
+	for(auto u = 0; u < n; ++ u){
+		cin >> type[u];
+		if(type[u] == "AND" || type[u] == "OR" || type[u] == "XOR"){
+			int v, w;
+			cin >> v >> w, -- v, -- w;
+			adj[u].push_back(v), adj[u].push_back(w);
+		}
+		else if(type[u] == "NOT"){
+			int v;
+			cin >> v, -- v;
+			adj[u].push_back(v);
+		}
+		else{
+			cin >> init[u];
+			leaves.push_back(u);
+		}
+	}
+	sort(leaves.begin(), leaves.end());
+	function<void(int)> dfs = [&](int u){
+		if(type[u] == "AND" || type[u] == "OR" || type[u] == "XOR"){
+			for(auto v: adj[u]){
+				dfs(v);
+			}
+			auto merge = [&](int x, int y){
+				return type[u] == "AND" ? x & y : type[u] == "OR" ? x | y : x ^ y;
+			};
+			init[u] = merge(init[adj[u][0]], init[adj[u][1]]);
+		}
+		else if(type[u] == "NOT"){
+			int v = adj[u][0];
+			dfs(v);
+			init[u] = !init[v];
+		}
+	};
+	dfs(0);
+	debug(init);
+	vector<array<int, 2>> dp(n, {0, 1});
+	function<void(int)> solve = [&](int u){
+		if(type[u] == "AND" || type[u] == "OR" || type[u] == "XOR"){
+			auto merge = [&](int x, int y){
+				return type[u] == "AND" ? x & y : type[u] == "OR" ? x | y : x ^ y;
+			};
+			for(auto v: adj[u]){
+				int w = v ^ adj[u][0] ^ adj[u][1];
+				dp[v] = {dp[u][merge(0, init[w])], dp[u][merge(1, init[w])]};
+				solve(v);
+			}
+		}
+		else if(type[u] == "NOT"){
+			int v = adj[u][0];
+			dp[v] = {dp[u][1], dp[u][0]};
+			solve(v);
+		}
+	};
+	solve(0);
+	for(auto u: leaves){
+		cout << dp[u][!init[u]];
+	}
+	cout << "\n";
+	return 0;
+}
+
+/*
+
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                    //
+//                                   Coded by Aeren                                   //
+//                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////

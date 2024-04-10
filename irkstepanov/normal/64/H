@@ -1,0 +1,78 @@
+set line [gets stdin]
+scan $line "%d" n
+
+set name {}
+set pts {}
+
+set i 0
+
+while {$i < $n} {
+    set line [gets stdin]
+    scan $line "%s%d" nn pp
+    lappend name $nn
+    lappend pts $pp
+    incr i
+}
+
+set res_name {}
+set res_pts {}
+
+set i 0
+
+while {[llength $name] > 0} {
+    set best 0
+    set j 1
+
+    while {$j < [llength $name]} {
+        if {[lindex $pts $j] > [lindex $pts $best]} {
+            set best $j
+        } elseif {[lindex $pts $j] == [lindex $pts $best]} {
+            set a [lindex $name $j]
+            set b [lindex $name $best]
+            
+            if {[string compare $a $b] == -1} {
+                set best $j
+            }
+        }
+        incr j
+    }
+    lappend res_name [lindex $name $best]
+    lappend res_pts [lindex $pts $best]
+    set name [lreplace $name $best $best]
+    set pts [lreplace $pts $best $best]
+}
+
+set i 0
+
+while {$i < $n} {
+    if {$i == [expr $n - 1]} {
+        puts -nonewline $n
+        puts -nonewline " "
+        puts [lindex $res_name $i]
+        return
+    }
+    if {[lindex $res_pts $i] != [lindex $res_pts [expr $i + 1]]} {
+        puts -nonewline [expr $i + 1]
+        puts -nonewline " "
+        puts [lindex $res_name $i]
+        incr i
+    } else {
+        set j [expr $i + 1]
+        while {[expr $j + 1] < $n && [lindex $res_pts [expr $j + 1]] == [lindex $res_pts $j]} {
+            incr j
+        }
+        set k $i
+        while {$k <= $j} {
+            puts -nonewline [expr $i + 1]
+            puts -nonewline "-"
+            puts -nonewline [expr $j + 1]
+            puts -nonewline " "
+            puts [lindex $res_name $k]
+            incr k
+        }
+        
+        set i [expr $j + 1]
+    }
+}
+
+#puts -nonewline "/"

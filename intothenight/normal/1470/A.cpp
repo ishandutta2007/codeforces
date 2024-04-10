@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+int main(){
+	cin.tie(0)->sync_with_stdio(0);
+	cin.exceptions(ios::badbit | ios::failbit);
+	auto __solve_tc = [&](int __tc_num){
+		int n, m;
+		cin >> n >> m;
+		vector<int> k(n), c(m);
+		for(auto i = 0; i < n; ++ i){
+			cin >> k[i], -- k[i];
+		}
+		for(auto i = 0; i < m; ++ i){
+			cin >> c[i];
+		}
+		sort(k.rbegin(), k.rend());
+		int cur = 0;
+		long long res = 0;
+		for(auto i: k){
+			if(cur < i){
+				res += c[cur ++];
+			}
+			else{
+				res += c[i];
+			}
+		}
+		cout << res << "\n";
+		return 0;
+	};
+	int __tc_cnt;
+	cin >> __tc_cnt;
+	for(auto __tc_num = 0; __tc_num < __tc_cnt; ++ __tc_num){
+		__solve_tc(__tc_num);
+	}
+	return 0;
+}
+
+/*
+
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                    //
+//                                   Coded by Aeren                                   //
+//                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,10 @@
+set channel {stdin}
+
+gets $channel inp
+
+scan $inp "%d %d %d" n m k
+
+set cc [expr ($k - 1) / $n]
+set rr [expr ($k - 1) % $n]
+
+puts [expr $m * $rr + $cc + 1]

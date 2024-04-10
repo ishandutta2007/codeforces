@@ -1,0 +1,3 @@
+#include<bits/stdc++.h>
+#define MAX 100100
+int a[MAX];int f[MAX][3];int s[MAX];char tmp[MAX];int n;void maximize(int &x,const int &y){if(x<y)x=y;}void swap(int &a,int &b){int sw;sw=a;a=b;b=sw;}void init(){scanf("%d",&n);int i;for(i=1;i<=n;i=i+1)scanf("%d",&a[i]);scanf("%s",tmp);for(i=0;i<n;i=i+1)s[i+1]=tmp[i]-48;for(i=1;i<=n;i=i+1){if(i>=n+1-i)break;swap(a[i],a[n+1-i]);swap(s[i],s[n+1-i]);}}void optimize(){int i,j,k;memset(f,-1,sizeof f);f[0][0]=0;for(i=0;i<n;i=i+1)for(j=0;j<2;j=j+1)if(f[i][j]>=0)for(k=0;k<2;k=k+1)if(j||(k<=s[i+1]))maximize(f[i+1][j||(k<s[i+1])],f[i][j]+a[i+1]*k);if(f[n][0]>f[n][1])printf("%d",f[n][0]);else printf("%d",f[n][1]);}int main(){init();optimize();return 0;}

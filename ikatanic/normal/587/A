@@ -1,0 +1,15 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x);;
+
+let () =
+  let m = 1_000_100 in
+  let a = Array.make m 0 in
+  let n = read_int() in
+  for i = 1 to n do
+    let x = read_int() in
+    a.(x) <- a.(x) + 1
+  done;
+  let rec go i carry acc =
+    if i = m then acc
+    else go (i+1) ((carry + a.(i)) / 2) (acc + ((carry + a.(i)) mod 2))
+  in
+  Printf.printf "%d\n" (go 0 0 0);;

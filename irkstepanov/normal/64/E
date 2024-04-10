@@ -1,0 +1,29 @@
+set line [gets stdin]
+scan $line "%d" n
+
+proc prime {p} {
+    set d 2
+    while { [expr $d * $d] <= $p} {
+        if {[expr $p % $d] == 0} {
+            return false
+        }
+        incr d
+    }
+    return true
+}
+
+set lf $n
+
+while {[prime $lf] == false} {
+    incr lf -1
+}
+
+set rg $n
+
+while {[prime $rg] == false} {
+   incr rg
+}
+
+puts -nonewline $lf
+puts -nonewline " "
+puts -nonewline $rg

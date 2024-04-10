@@ -1,0 +1,10 @@
+a := File standardInput readLine asNumber
+b := 0
+c := 1
+while (a > 0,
+	d := b + c
+	b := c
+	c := d
+	a := a - 1
+)
+c print

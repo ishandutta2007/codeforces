@@ -1,0 +1,53 @@
+set channel {stdin}
+
+gets $channel path
+
+set path [concat $path/]
+
+set len [string length $path]
+
+set cur ""
+
+set i 1
+set pos 0
+
+while {$i < $len} {
+    set c [string index $path $i]
+    if {[string compare $c /] == 0} {
+        if {[string compare $cur .] == 0} {
+            set i [expr $i + 1]
+            set cur ""
+            continue
+        }
+        if {[string compare $cur ..] == 0} {
+            if {$pos == 0} {
+                puts "-1"
+                exit
+            }
+            set pos [expr $pos - 1]
+            set i [expr $i + 1]
+            set cur ""
+            continue
+        }
+        
+        set normPath($pos) $cur
+        set pos [expr $pos + 1]
+                
+        set cur ""
+    } else {
+        set cur [concat $cur$c]
+    }
+    set i [expr $i + 1]
+}
+
+if {$pos == 0} {
+    puts "/"
+} else {
+    set i 0
+    set res ""
+    while {$i < $pos} {
+        set res [concat $res/$normPath($i)]
+        set i [expr $i + 1]
+    }
+    puts $res
+}

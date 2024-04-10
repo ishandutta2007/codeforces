@@ -1,0 +1,40 @@
+open Printf
+open Scanf
+
+let read_int () = Scanf.scanf " %d " (fun x -> x)
+
+let () =
+  let n = read_int () in
+  let q = read_int () in
+  let h = Array.init n (fun _ -> read_int ()) in
+  let a = Array.init (n-1) (fun i -> abs (h.(i+1) - h.(i))) in
+  let n = n - 1 in
+  let rec pop_lte stk x cmp =
+    match stk with
+    | hd::tl when cmp a.(hd) x -> pop_lte tl x cmp
+    | _ -> stk
+  in
+  let push cmp (stk, ans) i =
+    let stk' = pop_lte stk a.(i) cmp in
+    match stk' with
+    | [] -> (i::stk', (-1)::ans)
+    | hd::tl -> (i::stk', hd::ans)
+  in
+  let is = Array.init n (fun i -> i) in
+  let _, prev = Array.fold_left (push (<)) ([], []) is in
+  let prev = Array.of_list prev in
+  let push_rev i (stk, ans) = push (<=) (stk, ans) i in
+  let _, next = Array.fold_right push_rev is ([], []) in
+  let next = Array.of_list next in
+  let next = Array.map (fun x -> if x = -1 then n else x) next in
+  for i = 1 to q do
+    let l = (read_int ()) - 1 in
+    let r = (read_int ()) - 2 in
+    let ans = ref (Int64.of_int 0) in
+    for j = l to r do
+      let left = Int64.of_int (j - (max l (prev.(n-j-1) + 1)) + 1) in
+      let right = Int64.of_int ((min r (next.(j) - 1)) - j + 1) in
+      ans := Int64.add !ans (Int64.mul (Int64.mul left right) (Int64.of_int a.(j)));
+    done;
+    Printf.printf "%s\n" (Int64.to_string !ans)
+  done;

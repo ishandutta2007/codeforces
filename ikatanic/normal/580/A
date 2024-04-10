@@ -1,0 +1,10 @@
+let read_int () = Scanf.scanf " %d " (fun x -> x);;
+let () =
+  let n = read_int () in
+  let a = Array.init n (fun _ -> read_int()) in
+  let rec go i prev cnt best =
+    if i = n then max cnt best else
+      if a.(i) >= prev then go (i+1) a.(i) (cnt+1) best else
+        go (i+1) a.(i) 1 (max cnt best)
+  in
+  Printf.printf "%d\n" (go 0 0 0 0);;

@@ -1,0 +1,22 @@
+proc bad x {
+    set y 2
+    while {$y < $x} {
+        if {[expr ($x/$y)*$y] == $x} {
+            return -1;
+        }
+        set y [expr $y+1]
+    }
+    return 1;
+}
+
+set line [gets stdin]
+scan $line "%d" n
+set up $n
+while {[bad $up] <= 0} {
+    set up [expr $up + 1]
+}
+set down $n
+while {[bad $down] <= 0} {
+    set down [expr $down - 1]
+}
+puts "$down $up"

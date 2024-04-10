@@ -1,0 +1,13 @@
+int main() {
+	float k, x, y;
+	sscanf(Stdio.stdin.gets(), "%f", k);
+	sscanf(Stdio.stdin.gets(), "%f %f", x, y);
+	k = k / 180 * 3.14159265358979323;
+
+	float xx = x * cos(k) - y * sin(k);
+	float yy = y * cos(k) + x * sin(k);
+
+	string s = sprintf("%f %f", xx, yy);
+	write(s);
+	return 0;
+}
