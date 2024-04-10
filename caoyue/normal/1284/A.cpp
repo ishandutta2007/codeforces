@@ -1,0 +1,36 @@
+#include<iostream>
+#include<cstring>
+#include<cassert>
+#include<cmath>
+#include<map>
+#include<set>
+#include<queue>
+#include<stack>
+#include<vector>
+#include<time.h>
+#include<bitset>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+#define REP(i,x,y) for(int i=x;i<=y;i++)
+#define rep(i,n) REP(i,1,n)
+#define rep0(i,n) REP(i,0,n-1)
+#define repG(i,x) for(int i=pos[x];~i;i=e[i].next)
+#define ll long long
+#define db double
+const int N=57;
+const int INF=1e9+7;
+int n,m,q;
+char s1[N][N],s2[N][N];
+int main(){
+	scanf("%d%d",&n,&m);
+	rep(i,n)scanf("%s",s1[i]);
+	rep(i,m)scanf("%s",s2[i]);
+	scanf("%d",&q);
+	while(q--){
+		int x; scanf("%d",&x);
+		printf("%s",s1[1+(x-1)%n]);
+		printf("%s\n",s2[1+(x-1)%m]);
+	}
+	return 0;
+}

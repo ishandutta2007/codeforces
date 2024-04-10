@@ -1,0 +1,2 @@
+#import<bits/stdc++.h>
+using namespace std;__int64 a,b,c,d,L,R,T,z;main(){cin>>a>>b>>c>>d>>L>>R;if(a<c)swap(a,c),swap(b,d);for(;b<=R&&((b-d)%c+c)%c;b+=a)T++>c?b=R+1:1;T=a/__gcd(a,c)*c;b+=max(z,max(L,d)-b+T-1)/T*T;cout<<max(z,R-b+T)/T;}

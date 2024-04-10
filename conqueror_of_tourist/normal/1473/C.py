@@ -1,0 +1,1 @@
+for _ in [0]*int(input()):n,k=map(int,input().split());p=list(range(1,k+1));o=p[:k-n-1]+p[:k-n-2:-1];print(*o)

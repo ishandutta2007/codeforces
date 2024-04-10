@@ -1,0 +1,204 @@
+#include<cstdio>
+#include<cstring>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+const int N=300005,md=998244353;
+struct node
+{
+	int l,r;
+}p1[N],p2[N],q1[N],q2[N];
+int n,m,head[N],adj[N*2],nxt[N*2],l1,l2,cnt1,cnt2,i,j,k,x,y,z,hs1[N],hs2[N],pw[N],dep[N],fa[N],lt,rt,mid,id[N],h[N],tp[N],size[N],son[N];
+char s[N],ch[N];
+int Abs(int a)
+{
+	return a>0?a:-a;
+}
+int Hash(int l,int r)
+{
+	if(l<=r)
+		return (hs1[r]-1ll*hs1[l-1]*pw[r-l+1]%md+md)%md;
+	else
+		return (hs2[r]-1ll*hs2[l+1]*pw[l-r+1]%md+md)%md;
+}
+void dfs(int x,int dad)
+{
+	size[x]=1;
+	for(int y=head[x];y;y=nxt[y])
+		if(adj[y]!=dad)
+		{
+			dep[adj[y]]=dep[x]+1;
+			fa[adj[y]]=x;
+			dfs(adj[y],x);
+			size[x]+=size[adj[y]];
+			if(!son[x]||size[adj[y]]>size[son[x]])
+				son[x]=adj[y];
+		}
+}
+void Dfs(int x,int dad)
+{
+	id[x]=++i;
+	h[i]=x;
+	if(son[x])
+	{
+		tp[son[x]]=tp[x];
+		Dfs(son[x],x);
+	}
+	for(int y=head[x];y;y=nxt[y])
+		if(adj[y]!=dad&&adj[y]!=son[x])
+		{
+			tp[adj[y]]=adj[y];
+			Dfs(adj[y],x);
+		}
+}
+int main()
+{
+	scanf("%d",&n);
+	pw[0]=1;
+	for(i=1;i<=n;++i)
+		pw[i]=pw[i-1]*131ll%md;
+	scanf("%s",s+1);
+	for(i=1;i<n;++i)
+	{
+		scanf("%d%d",&j,&k);
+		adj[i*2-1]=k;
+		nxt[i*2-1]=head[j];
+		head[j]=i*2-1;
+		adj[i*2]=j;
+		nxt[i*2]=head[k];
+		head[k]=i*2;
+	}
+	dfs(1,-1);
+	tp[1]=1;
+	i=0;
+	Dfs(1,-1);
+	for(i=1;i<=n;++i)
+	{
+		ch[i]=s[h[i]];
+		hs1[i]=(hs1[i-1]*131ll+ch[i])%md;
+	}
+	for(i=n;i>=1;--i)
+		hs2[i]=(hs2[i+1]*131ll+ch[i])%md;
+	scanf("%d",&m);
+	while(m--)
+	{
+		scanf("%d%d",&i,&j);
+		l1=l2=0;
+		while(tp[i]!=tp[j])
+		{
+			if(dep[tp[i]]>dep[tp[j]])
+			{
+				p1[++l1]=(node){id[i],id[tp[i]]};
+				i=fa[tp[i]];
+			}
+			else
+			{
+				p2[++l2]=(node){id[tp[j]],id[j]};
+				j=fa[tp[j]];
+			}
+		}
+		if(dep[i]>dep[j])
+			p1[++l1]=(node){id[i],id[j]};
+		else
+			p2[++l2]=(node){id[i],id[j]};
+		cnt1=0;
+		for(i=1;i<=l1;++i)
+			q1[++cnt1]=p1[i];
+		for(i=l2;i>=1;--i)
+			q1[++cnt1]=p2[i];
+		scanf("%d%d",&i,&j);
+		l1=l2=0;
+		while(tp[i]!=tp[j])
+		{
+			if(dep[tp[i]]>dep[tp[j]])
+			{
+				p1[++l1]=(node){id[i],id[tp[i]]};
+				i=fa[tp[i]];
+			}
+			else
+			{
+				p2[++l2]=(node){id[tp[j]],id[j]};
+				j=fa[tp[j]];
+			}
+		}
+		if(dep[i]>dep[j])
+			p1[++l1]=(node){id[i],id[j]};
+		else
+			p2[++l2]=(node){id[i],id[j]};
+		cnt2=0;
+		for(i=1;i<=l1;++i)
+			q2[++cnt2]=p1[i];
+		for(i=l2;i>=1;--i)
+			q2[++cnt2]=p2[i];
+		i=j=1,x=q1[1].l,y=q2[1].l,z=0;
+		while(i<=cnt1&&j<=cnt2)
+		{
+			if(Abs(q1[i].r-x)<Abs(q2[j].r-y))
+			{
+				if(Hash(x,q1[i].r)==Hash(y,y+Abs(q1[i].r-x)*(q2[j].l<q2[j].r?1:-1)))
+				{
+					z+=Abs(q1[i].r-x)+1;
+					y=y+(Abs(q1[i].r-x)+1)*(q2[j].l<q2[j].r?1:-1);
+					if(Abs(y-q2[j].l)+Abs(y-q2[j].r)!=Abs(q2[j].l-q2[j].r))
+					{
+						++j;
+						y=q2[j].l;
+					}
+					++i;
+					x=q1[i].l;
+				}
+				else
+				{
+					if(ch[x]==ch[y])
+					{
+						lt=1,rt=Abs(q1[i].r-x)+1;
+						while(lt<rt)
+						{
+							mid=(lt+rt+1)/2;
+							if(Hash(x,x+(mid-1)*(q1[i].l<q1[i].r?1:-1))==Hash(y,y+(mid-1)*(q2[j].l<q2[j].r?1:-1)))
+								lt=mid;
+							else
+								rt=mid-1;
+						}
+						z+=lt;
+					}
+					break;
+				}
+			}
+			else
+			{
+				if(Hash(y,q2[j].r)==Hash(x,x+Abs(q2[j].r-y)*(q1[i].l<q1[i].r?1:-1)))
+				{
+					z+=Abs(q2[j].r-y)+1;
+					x=x+(Abs(q2[j].r-y)+1)*(q1[i].l<q1[i].r?1:-1);
+					if(Abs(x-q1[i].l)+Abs(x-q1[i].r)!=Abs(q1[i].l-q1[i].r))
+					{
+						++i;
+						x=q1[i].l;
+					}
+					++j;
+					y=q2[j].l;
+				}
+				else
+				{
+					if(ch[x]==ch[y])
+					{
+						lt=1,rt=Abs(q2[j].r-y)+1;
+						while(lt<rt)
+						{
+							mid=(lt+rt+1)/2;
+							if(Hash(x,x+(mid-1)*(q1[i].l<q1[i].r?1:-1))==Hash(y,y+(mid-1)*(q2[j].l<q2[j].r?1:-1)))
+								lt=mid;
+							else
+								rt=mid-1;
+						}
+						z+=lt;
+					}
+					break;
+				}
+			}
+		}
+		printf("%d\n",z);
+	}
+	return 0;
+}

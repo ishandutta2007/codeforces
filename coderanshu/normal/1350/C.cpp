@@ -1,0 +1,108 @@
+#include<bits/stdc++.h>
+using namespace std ;
+
+#define M 1000000007
+#define MM 998244353 
+#define ll long long 
+#define pb push_back
+#define mem0(a) memset(a,0,sizeof(a))
+#define mem1(a) memset(a,-1,sizeof(a))
+#define memf(a) memset(a,false,sizeof(a))
+#define all(v) v.begin(),v.end()
+#define sz(a) (ll)a.size()
+#define F first
+#define S second
+#define INF 2000000000000000000
+#define endl "\n"
+#define _time_ 1.0 * clock() / CLOCKS_PER_SEC
+#define popcount(x) __builtin_popcountll(x)
+#define pll pair<ll,ll> 
+
+const long double PI = acos(-1);
+
+//RNG based on mersenne_twister 
+mt19937 rng(chrono::high_resolution_clock::now().time_since_epoch().count());
+ll power(ll b,ll e,ll m)
+{
+	if(e==0) return 1;
+	if(e&1) return b*power(b*b%m,e/2,m)%m;
+	return power(b*b%m,e/2,m);
+}
+ll power( ll b, ll e)
+{
+	if(e==0) return 1;
+	if(e&1) return b*power(b*b,e/2);
+	return power(b*b,e/2);
+}
+template<typename T, typename U> static inline void amin(T &x, U y){ if(y<x) x=y; }
+template<typename T, typename U> static inline void amax(T &x, U y){ if(x<y) x=y; }
+#define runSieve
+bool notPrime[1000005];
+ll divPrime[1000005];
+void sieve(int n=1000000)
+{
+	int k=sqrt(n);
+	memf(notPrime);
+	notPrime[1]=true;
+	for(int i=2;i<=k;++i)
+	{
+		if(!notPrime[i])
+		{
+			for(int k=i*i;k<=n;k+=i)
+			{
+				notPrime[k]=true;
+				divPrime[k]=i;
+			}
+		}
+	}
+}
+map<int,vector<int>> m;
+int _runtimeTerror_()
+{
+	ll n;
+	cin>>n;
+	ll a[n],x=0,i;
+	for(int i=0;i<n;++i)
+		cin>>a[i];
+	for(int i=0;i<n;++i)
+	{
+		ll k=a[i];
+		while(k!=1 && notPrime[k])
+		{
+			ll z=divPrime[k],cnt=0;
+			while(k%z==0)k/=z,++cnt;
+			m[z].pb(cnt);
+		}
+		if(k!=1)
+			m[k].pb(1);
+	}
+	ll ans=1;
+	for(auto &j:m)
+	{
+		if(sz(j.S)<=n-2)
+			continue;
+		while(sz(j.S)<n)
+			j.S.pb(0);
+		sort(all(j.S));
+		ans*=power(j.F,j.S[1]);
+	}
+	cout<<ans<<endl;
+	return 0;
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	#ifdef runSieve
+		sieve();
+	#endif
+	#ifdef NCR
+		initialize();
+	#endif
+	int TESTS=1;
+	//cin>>TESTS;
+	while(TESTS--)
+		_runtimeTerror_();
+	cerr<<"\n"<<_time_;
+	return 0;
+}

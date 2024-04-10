@@ -1,0 +1,88 @@
+int good(int i, int j) {
+    if (i >= 0 && i < 10 && j >= 0 && j < 10) return 1;
+    else return 0;
+}
+
+int goodCell(array(string) a, int i, int j) {
+    array(int) dx = ({0, 0, 1, 1, 1, -1, -1, -1});
+    array(int) dy = ({1, -1, 0, 1, -1, 0, 1, -1});
+    for (int it = 0; it < 8; it++) {
+        int i1 = i + dx[it];
+        int j1 = j + dy[it];
+        if (good(i1,j1) == 0) continue;
+        if (a[i1][j1] == '*') return 0;
+    }
+    return 1;
+}
+
+int oneship(array(string) a, int i, int j) {
+    if (a[i][j] != '*') return 0;
+    return goodCell(a, i, j);
+}
+
+
+int shipSize(array(string)a, int i, int j) {
+    if (a[i][j] != '*') return 0;
+    int size = 0;
+    array(int) dx = ({0, 1});
+    array(int) dy = ({1, 0});
+    if (oneship(a, i, j)) {
+        a[i][j] = '0';
+        return 1;
+    }
+    for (int it = 0; it < 2; it++) {
+        int size = 0;
+        for (;; size++) {
+            int i1 = i + size * dx[it];
+            int j1 = j + size * dy[it];
+            if (good(i1,j1) == 0 || a[i1][j1] != '*') break;
+        }
+        if (size > 4) return -1;
+        if (size == 1) continue;
+        for (int t = 0; t < size; t++) {
+            a[i + t * dx[it]][j + t * dy[it]] = '0';
+        }
+        for (int t = 0; t < size; t++) {
+            if (goodCell(a, i + t * dx[it], j + t * dy[it]) == 0) return -1;
+        }
+        return size;
+    }
+    return -1;
+}
+
+int okay(array(string) a) {
+    array(int) cnt = allocate(5);
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (a[i][j] == '*') {
+                int s = shipSize(a, i, j);
+                if (s < 0) return 0;
+                cnt[s]++;
+            }
+        }
+    }
+    return (cnt[4] == 1 && cnt[3] == 2 && cnt[2] == 3 && cnt[1] == 4)?1: 0;
+
+}
+
+void onetest() {
+    array(string) a = allocate(10);
+    for (int i = 0; i < 10; i++) {
+        do {
+        a[i] = Stdio.stdin->gets();
+        } while (a[i] == "");
+    }
+    int res = okay(a);
+    write(res == 0? "NO\n": "YES\n");
+}
+
+
+int main() {
+    int n, m;
+    string s = Stdio.stdin->gets();
+    sscanf(s,"%d",n);
+    for (int i = 0; i < n; i++) {
+        onetest();
+    }
+    return 0;
+}

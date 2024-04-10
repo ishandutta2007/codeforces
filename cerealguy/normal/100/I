@@ -1,0 +1,14 @@
+int main() {
+  int k;
+  float x, y;
+  string s = Stdio.stdin->gets();
+  sscanf(s,"%d",k);
+  s = Stdio.stdin->gets();
+  sscanf(s, "%f %f", x, y);
+  float a = k * 3.1415926535 / 180;
+  float v = sin(a), u = cos(a);
+  float x1 = x * u - y * v, y1 = x * v + y * u;
+  Stdio.stdout->printf("%.6f %.6f", x1, y1);
+  
+  return 0;
+}

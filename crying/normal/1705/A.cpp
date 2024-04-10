@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+#define rep(i,a,b) for(int i=(a);i<=(b);i++)
+#define per(i,a,b) for(int i=(a);i>=(b);i--)
+#define op(x) ((x&1)?x+1:x-1)
+#define odd(x) (x&1)
+#define even(x) (!odd(x))
+#define lc(x) (x<<1)
+#define rc(x) (lc(x)|1)
+#define lowbit(x) (x&-x)
+#define mp(x,y) make_pair(x,y)
+typedef long long ll;
+typedef unsigned long long ull;
+typedef double db;
+using namespace std;
+const int MAXN=210;
+int T,n,x,h[MAXN];
+void solve(){
+    cin>>n>>x;
+    rep(i,1,2*n)cin>>h[i];
+    sort(h+1,h+1+2*n);
+    rep(i,1,n)if(h[i]+x>h[i+n]){
+        cout<<"NO\n";return;
+    }
+    cout<<"YES\n";
+}
+int main(){
+    cin>>T;
+    while(T--)solve();
+
+
+    return 0;
+}

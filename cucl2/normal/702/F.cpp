@@ -1,0 +1,5 @@
+#import<bits/stdc++.h>
+#define C(i,n)for(U i=1;i<=n;++i)
+#define J j]
+#define F 1<<18]
+using namespace std;typedef long long L;typedef int U;U N,Q,P[F,D[F,Y[F,Z[F,H[F;pair<L,U>V[F;L A[F,B[F;L W[F,X[F;vector<pair<L,U>>I[F;main(){scanf("%d",&N);C(j,N){U a,b;scanf("%d%d",&a,&b);V[J=make_pair(-b,a);}sort(V+1,V+N+1);scanf("%d",&Q);C(j,Q)scanf("%d",B+j);C(j,N)A[J=V[J.second,D[J=63-__builtin_clzll(A[J);for(U i=40;~i;--i){C(j,N)W[J=W[j-1]+A[J,X[J=X[j-1]+(D[J!=i)*A[J,Y[J=Y[j-1]+(A[J>0),Z[J=Z[j-1]+(D[J<i),I[j-1].clear();C(j,Q){L S=W[P[J]+B[J;U R=upper_bound(W+1,W+N+1,S)-W-1;if(P[J<R)H[J+=Y[R]-Y[P[J],B[J-=W[R]-W[P[J],P[J=R;if(P[J<N)I[P[J].push_back(make_pair(B[J+X[P[J],j));}priority_queue<pair<L,U>>G;C(j,N){for(U k=0;k<I[j-1].size();++k)G.push(I[j-1][k]);if(D[J==i){while(G.size()&&G.top().first>=X[J+A[J){pair<L,U>E=G.top();G.pop();U K=E.second;B[K]=E.first-X[J-A[J;H[K]+=Z[J-Z[P[K]]+1;P[K]=j;}A[J=0;}}}C(j,Q)printf("%d ",H[J);}

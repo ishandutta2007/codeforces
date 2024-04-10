@@ -1,0 +1,2 @@
+101    WRITE (*,"(A)") 'FORTRAN 77'
+102    END

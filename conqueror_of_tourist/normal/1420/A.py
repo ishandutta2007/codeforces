@@ -1,0 +1,1 @@
+for _ in [0]*int(input()):n=int(input());a=list(map(int,input().split()));print('NO'if all(a[i]>a[i+1] for i in range(n-1)) else 'YES')

@@ -1,0 +1,1 @@
+for l in[*open(0)][1:]:b=sorted([*map(int,l.split())]);print(b[0]*b[2])

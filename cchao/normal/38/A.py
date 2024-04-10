@@ -1,0 +1,5 @@
+R = lambda: map(int, raw_input().split())
+R()
+a = R()
+l, r = R()
+print sum(a[l-1:r-1])

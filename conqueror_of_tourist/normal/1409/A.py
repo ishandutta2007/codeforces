@@ -1,0 +1,1 @@
+for l in [*open(0)][1:]:a,b=map(int,l.split());print((abs(b-a)+9)//10)

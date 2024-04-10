@@ -1,0 +1,92 @@
+#include <bits/stdc++.h>
+#define mp make_pair
+#define pb push_back
+#define X first
+#define Y second
+#define y0 y12
+#define y1 y22
+#define INF 987654321987654321
+#define PI 3.141592653589793238462643383279502884
+#define fup(i,a,b,c) for(int (i)=(a);(i)<=(b);(i)+=(c))
+#define fdn(i,a,b,c) for(int (i)=(a);(i)>=(b);(i)-=(c))
+#define MEM0(a) memset((a),0,sizeof(a))
+#define MEM_1(a) memset((a),-1,sizeof(a))
+#define ALL(a) a.begin(),a.end()
+#define COMPRESS(a) sort(ALL(a));a.resize(unique(ALL(a))-a.begin())
+#define SYNC ios_base::sync_with_stdio(false);cin.tie(0)
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef double db;
+typedef unsigned int uint;
+typedef unsigned long long ull;
+typedef pair<int, int> Pi;
+typedef pair<ll, ll> Pll;
+typedef pair<ld, ld> Pd;
+typedef vector<int> Vi;
+typedef vector<ll> Vll;
+typedef vector<ld> Vd;
+typedef vector<Pi> VPi;
+typedef vector<Pll> VPll;
+typedef vector<Pd> VPd;
+typedef tuple<int, int, int> iii;
+typedef tuple<int, int, int, int> iiii;
+typedef tuple<ll, ll, ll> LLL;
+typedef vector<iii> Viii;
+typedef vector<LLL> VLLL;
+typedef complex<double> base;
+const int MOD = 1000000007;
+ll POW(ll a, ll b, ll MMM = MOD) { ll ret = 1; for (; b; b >>= 1, a = (a*a) % MMM)if (b & 1)ret = (ret*a) % MMM; return ret; }
+int dx[] = { 0,1,0,-1,1,1,-1,-1 }, dy[] = { 1,0,-1,0,1,-1,1,-1 };
+int ddx[] = { -1,-2,1,-2,2,-1,2,1 }, ddy[] = { -2,-1,-2,1,-1,2,1,2 };
+
+ll fac[1001],inv[1001];
+ll d[1001][1001];
+ll nCr(int n,int r){
+	if(n<0 || r>n)return 0;
+	ll c=fac[n];
+	c=c*inv[r]%MOD;
+	c=c*inv[n-r]%MOD;
+	return c;
+}
+void solve(){
+	int n,k;
+	scanf("%d%d",&n,&k);
+	if(k==1){
+		puts("1");
+		return;
+	}
+	if(n==1){
+		puts("2");
+		return;
+	}
+	n--,k--;
+	d[0][1]=1;
+	ll ans=2;
+	fup(i,1,k,1){
+		ll s=0;
+		if(i&1){
+			fup(j,1,n,1){
+				s=(s+d[i-1][j])%MOD;
+				d[i][j]=s;
+				ans=(ans+d[i][j])%MOD;
+			}
+		}else{
+			fdn(j,n,1,1){
+				s=(s+d[i-1][j])%MOD;
+				d[i][j]=s;
+				ans=(ans+d[i][j])%MOD;
+			}
+		}
+	}
+	printf("%lld\n",ans);
+}
+int main() {
+	fac[0]=inv[0]=1;
+	fup(i,1,1000,1)fac[i]=fac[i-1]*i%MOD;
+	inv[1000]=POW(fac[1000],MOD-2);
+	fdn(i,999,1,1)inv[i]=inv[i+1]*(i+1)%MOD;
+	int tc;
+	scanf("%d",&tc);
+	while(tc--)solve();
+}

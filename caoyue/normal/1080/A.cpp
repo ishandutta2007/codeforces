@@ -1,0 +1,24 @@
+#include<iostream>
+#include<cstring>
+#include<cmath>
+#include<map>
+#include<queue>
+#include<stack>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+#define REP(i,x,y) for(int i=x;i<=y;i++)
+#define rep(i,n) REP(i,1,n)
+#define rep0(i,n) REP(i,0,n-1)
+#define repG(i,x) for(int i=pos[x];~i;i=e[i].next)
+#define ll long long
+#define db double
+const int N=7;
+const int INF=1e9+7;
+
+int main(){
+	int n,k; cin>>n>>k;
+	int f1=2*n,f2=5*n,f3=8*n;
+	printf("%d\n",(f1-1)/k+(f2-1)/k+(f3-1)/k+3); 
+	return 0;
+}

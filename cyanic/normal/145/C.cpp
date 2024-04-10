@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+#define rep(i,a,b) for(int i=(a);i<=(b);i++)
+#define per(i,a,b) for(int i=(a);i>=(b);i--)
+#define REP(i,n) for(int i=0;i<(n);i++)
+#define fi first
+#define se second
+#define pb push_back
+#define mp make_pair
+using namespace std;
+typedef pair<int,int> pii;
+typedef vector<int> vi;
+typedef long long ll;
+
+template<class T> void read(T &x){
+	int f=0; x=0; char ch=getchar();
+	for(;!isdigit(ch);ch=getchar()) f|=(ch=='-');
+	for(;isdigit(ch);ch=getchar()) x=x*10+ch-'0';
+	if(f) x=-x;
+}
+
+const int N=100005,mod=1e9+7;
+int f[N],fac[N],rev[N],rem,n,m,K,ans;
+map<int,int> cnt;
+
+int power(int x,int p){
+	int res=1;
+	for(;p;p>>=1,x=(ll)x*x%mod)
+		if(p&1) res=(ll)res*x%mod;
+	return res;
+}
+
+int C(int n,int m){
+	return m<0||n<m?0:(ll)fac[n]*rev[m]%mod*rev[n-m]%mod;
+}
+
+void init(){
+	fac[0]=1;
+	rep(i,1,n) fac[i]=(ll)fac[i-1]*i%mod;
+	rev[n]=power(fac[n],mod-2);
+	per(i,n,1) rev[i-1]=(ll)rev[i]*i%mod;
+}
+
+int main(){
+	read(n),read(K);
+	init();
+	rep(i,1,n){
+		int x,y,flag=0;
+		read(x),y=x;
+		while(y){
+			if(y%10!=4&&y%10!=7) flag=1;
+			y/=10;
+		}
+		if(!flag) cnt[x]++;
+		else rem++;
+	}
+	f[0]=1;
+	for(auto x:cnt){
+		per(j,m,0){
+			f[j+1]=(f[j+1]+(ll)x.se*f[j])%mod;
+		}
+		m++;
+	}
+	rep(i,0,min(K,m)){
+		int owo=f[i];
+		owo=(ll)owo*C(rem,K-i)%mod;
+		ans=(ans+owo)%mod;
+	}
+	cout<<ans<<endl;
+
+	return 0;
+}

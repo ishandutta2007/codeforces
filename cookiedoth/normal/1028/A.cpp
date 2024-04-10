@@ -1,0 +1,101 @@
+/*
+
+Code for problem A by savkinsd2089
+Generated 27 Aug 2018 at 07.28 pm
+The Moon is Waning Gibbous (99% of Full)
+
+
+
+
+
+
+
+
+
+
+(@)(@)(@)(@)(@)
+
+\_()_/
+-_-
+z_z
+
+*/
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <set>
+#include <map>
+#include <algorithm>
+#include <iomanip>
+#include <cmath>
+#include <ctime>
+#include <functional>
+#include <unordered_set>
+#include <unordered_map>
+#include <string>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <complex>
+#include <cassert>
+#include <random>
+#include <cstring>
+#define ll long long
+#define ld long double
+#define null NULL
+#define all(a) a.begin(), a.end()
+#define debug(a) cerr << #a << " = " << a << endl
+#define forn(i, n) for (int i = 0; i < n; ++i)
+
+#ifndef TESTING
+	#define endl '\n'
+#endif
+
+using namespace std;
+
+template<class T> int chkmax(T &a, T b) {
+	if (b > a) {
+		a = b;
+		return 1;
+	}
+	return 0;
+}
+
+template<class T> int chkmin(T &a, T b) {
+	if (b < a) {
+		a = b;
+		return 1;
+	}
+	return 0;
+}
+
+template<class iterator> void output(iterator begin, iterator end, ostream& out = cerr) {
+	while (begin != end) {
+		out << (*begin) << " ";
+		begin++;
+	}
+	out << endl;
+}
+
+template<class T> void output(T x, ostream& out = cerr) {
+	output(x.begin(), x.end(), out);
+}
+
+int sum_x, sum_y, cnt, n, m;
+
+signed main() {
+	cin >> n >> m;
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < m; ++j) {
+			char c;
+			cin >> c;
+			if (c == 'B') {
+				cnt++;
+				sum_x += i;
+				sum_y += j;
+			}
+		}
+	}
+	cout << sum_x / cnt + 1 << " " << sum_y / cnt + 1 << endl;
+}
