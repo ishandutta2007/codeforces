@@ -1,0 +1,5 @@
+		program test
+		
+		print*,"FORTRAN 77"
+		
+		end program test

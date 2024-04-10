@@ -1,0 +1,42 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+    l: array (1..12) of Integer := (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    x, n, y, m, d: Integer;
+    c: Character;
+    ans: Integer;
+begin
+    Get(n);
+    Skip_Line;
+    ans := 0;
+    for i in 1..n loop
+        Get(y);
+        Get(c);
+        Get(m);
+        Get(c);
+        Get(d);
+        if y mod 400 = 0 or (y mod 4 = 0 and y mod 100 /= 0) then
+            l(2) := 29;
+        else
+            l(2) := 28;
+        end if;
+        y := y - 1;
+        x := y * 365 + y / 400 - y / 100 + y / 4;
+        for i in 1..m-1 loop
+            x := x + l(i);
+        end loop;
+        x := x + d;
+        x := (x-1) mod 7 + 1;
+        if x = 5 and d = 13 then
+            ans := ans + 1;
+        end if;
+    end loop;
+    Put(Item=>ans, Width=>1);
+end Solution;

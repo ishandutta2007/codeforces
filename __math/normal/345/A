@@ -1,0 +1,24 @@
+with Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+with Ada.Strings;
+use  Ada.Strings;
+
+procedure Main is
+  Str  : String (1..100);
+  p : Float;
+  ans : Float := 0.0;
+  Last : Natural;
+  i,j : Integer := 2;
+begin
+  Ada.Text_IO.Get_Line (Str, Last);
+  Get(Item => p);
+  for i in 1..Last loop
+    if Str(i) = '1' then
+      ans := ans + 1.0;
+    elsif Str(i) = '?' then
+      ans := ans + p;
+    end if;
+  end loop;
+  ans := ans / float(Last);
+  Ada.Float_Text_IO.put (Item => ans, Fore => 0, Aft => 5, Exp => 0);
+end;

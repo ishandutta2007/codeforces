@@ -1,0 +1,3 @@
+       program fortran
+       WRITE(*,*)'FORTRAN 77'
+       end

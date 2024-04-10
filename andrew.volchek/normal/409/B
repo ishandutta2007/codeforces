@@ -1,0 +1,5 @@
+       program test
+       x = 0.025
+       write(*,100) 'FORTRAN 77'
+  100 format (A)
+       end program test

@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long n,i,j,ans,tot,s,cnt,m;
+int vis[10000005],k,phi[10000005],p[2000005],mn[10000005],c[10000005],y[10000005];
+int main()
+{
+	cin>>n;
+	phi[1]=1;
+	for(i=2;i<=n;++i)
+	{
+		if(vis[i]==0)
+		{
+			p[++k]=i;
+			mn[i]=1;
+			phi[i]=i-1;
+			++c[i];
+			y[i]=i;
+		}
+		for(j=1;j<=k&&i*p[j]<=n;++j)
+		{
+			int t=i*p[j];
+			y[t]=p[j];
+			++c[p[j]];
+			vis[t]=1;
+			if(i%p[j]==0)
+				mn[t]=mn[i];
+			else
+				mn[t]=i;
+			if(mn[t]==1)
+				phi[t]=phi[t/p[j]]*p[j];
+			else
+				phi[t]=phi[mn[t]]*phi[t/mn[t]];
+			if(i%p[j]==0)
+				break;
+		}
+	}
+	tot=n-1;
+	for(i=2;i<=n;++i)
+	{
+		c[i]+=c[i-1];
+		if(vis[i]==0&&i>n/2)
+		{
+			--tot;
+			++m;
+		}
+		else
+			ans+=phi[i]-1-m;
+	}
+	for(i=2;i<=n/2;++i)
+		if(!vis[i])
+		{
+			cnt+=c[n/2]-c[n/i];
+			if(i*i>n)
+				for(j=i;j<=n;j+=i)
+					if(y[j]*i>n)
+						--cnt;
+		}
+	for(i=2;i<=n;++i)
+		c[i]=c[i-1]+(vis[i]==0);
+	for(i=2;i<=n/2;++i)
+		if(!vis[i])
+			cnt-=c[n/2]-c[max(n/i,i)];
+	cout<<(tot*(tot-1)/2-ans)+(ans-cnt)*2+cnt*3<<endl;
+}

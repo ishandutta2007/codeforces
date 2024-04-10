@@ -1,0 +1,17 @@
+import Math;
+
+int main(){
+float ang=(float)Stdio.stdin->gets();
+array tmp=Stdio.stdin->gets()/" ";
+float x=(float)tmp[0];
+float y=(float)tmp[1];
+float sn,cs;
+Angle an=Angle();
+an->create(ang*3.1415926535897932384626433832795/180);
+sn=an->sin();
+cs=an->cos();
+float a=x*cs-y*sn;
+float b=x*sn+y*cs;
+write(""+a+" "+b);
+return 0;
+}

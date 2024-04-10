@@ -1,0 +1,1 @@
+for s in[*open(0)][1:]:i=s.find(m:=min(s[:-1]));print(m,s[:i]+s[i+1:])

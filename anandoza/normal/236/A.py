@@ -1,0 +1,1 @@
+print "IGNORE HIM!" if (len(set(raw_input())) % 2) else "CHAT WITH HER!"

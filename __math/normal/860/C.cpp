@@ -1,0 +1,177 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define FOR(i,n) for(int i = 0; i < (n); i++)
+#define sz(c) ((int)c.size())
+#define ten(n) ((int)1e##n)
+using ll = long long;
+using Pii = pair<int, int>;
+using Pll = pair<ll, ll>;
+
+template<typename ...> static inline int getchar_unlocked(void) { return getchar(); }
+template<typename ...> static inline void putchar_unlocked(int c) { putchar(c); }
+#define mygc(c) (c)=getchar_unlocked()
+#define mypc(c) putchar_unlocked(c)
+void reader(int& x) { int k, m = 0; x = 0; for (;;) { mygc(k); if (k == '-') { m = 1; break; }if ('0' <= k&&k <= '9') { x = k - '0'; break; } }for (;;) { mygc(k); if (k<'0' || k>'9')break; x = x * 10 + k - '0'; }if (m) x = -x; }
+void reader(ll& x) { int k, m = 0; x = 0; for (;;) { mygc(k); if (k == '-') { m = 1; break; }if ('0' <= k&&k <= '9') { x = k - '0'; break; } }for (;;) { mygc(k); if (k<'0' || k>'9')break; x = x * 10 + k - '0'; }if (m) x = -x; }
+int reader(char c[]) { int i, s = 0; for (;;) { mygc(i); if (i != ' '&&i != '\n'&&i != '\r'&&i != '\t'&&i != EOF) break; }c[s++] = i; for (;;) { mygc(i); if (i == ' ' || i == '\n' || i == '\r' || i == '\t' || i == EOF) break; c[s++] = i; }c[s] = '\0'; return s; }
+int reader(string& c) { int i; for (;;) { mygc(i); if (i != ' '&&i != '\n'&&i != '\r'&&i != '\t'&&i != EOF) break; }c.push_back(i); for (;;) { mygc(i); if (i == ' ' || i == '\n' || i == '\r' || i == '\t' || i == EOF) break; c.push_back(i); }; return sz(c); }
+template <class T, class S> void reader(T& x, S& y) { reader(x); reader(y); }
+template <class T, class S, class U> void reader(T& x, S& y, U& z) { reader(x); reader(y); reader(z); }
+template <class T, class S, class U, class V> void reader(T& x, S& y, U& z, V & w) { reader(x); reader(y); reader(z); reader(w); }
+void writer(int x, char c) { int s = 0, m = 0; char f[10]; if (x<0)m = 1, x = -x; while (x)f[s++] = x % 10, x /= 10; if (!s)f[s++] = 0; if (m)mypc('-'); while (s--)mypc(f[s] + '0'); mypc(c); }
+void writer(ll x, char c) { int s = 0, m = 0; char f[20]; if (x<0)m = 1, x = -x; while (x)f[s++] = x % 10, x /= 10; if (!s)f[s++] = 0; if (m)mypc('-'); while (s--)mypc(f[s] + '0'); mypc(c); }
+void writer(const char c[]) { int i; for (i = 0; c[i] != '\0'; i++)mypc(c[i]); }
+void writer(const string& x, char c) { int i; for (i = 0; x[i] != '\0'; i++)mypc(x[i]); mypc(c); }
+void writer(const char x[], char c) { int i; for (i = 0; x[i] != '\0'; i++)mypc(x[i]); mypc(c); }
+template<class T> void writerLn(T x) { writer(x, '\n'); }
+template<class T, class S> void writerLn(T x, S y) { writer(x, ' '); writer(y, '\n'); }
+template<class T, class S, class U> void writerLn(T x, S y, U z) { writer(x, ' '); writer(y, ' '); writer(z, '\n'); }
+template<class T> void writerArr(T x[], int n) { if (!n) { mypc('\n'); return; }FOR(i, n - 1)writer(x[i], ' '); writer(x[n - 1], '\n'); }
+template<class T> void writerArr(vector<T>& x) { writerArr(x.data(), (int)x.size()); }
+
+template<class T> void chmin(T& a, const T& b) { if (a > b) a = b; }
+template<class T> void chmax(T& a, const T& b) { if (a < b) a = b; }
+
+template<class T> T gcd(T a, T b) { return b ? gcd(b, a % b) : a; }
+template<class T> T lcm(T a, T b) { return a / gcd(a, b) * b; }
+ll mod_pow(ll a, ll n, ll mod) {
+	ll ret = 1;
+	ll p = a % mod;
+	while (n) {
+		if (n & 1) ret = ret * p % mod;
+		p = p * p % mod;
+		n >>= 1;
+	}
+	return ret;
+}
+template<class T> T extgcd(T a, T b, T& x, T& y) { for (T u = y = 1, v = x = 0; a;) { T q = b / a; swap(x -= q * u, u); swap(y -= q * v, v); swap(b -= q * a, a); } return b; }
+template<class T> T mod_inv(T a, T m) { T x, y; extgcd(a, m, x, y); return (m + x % m) % m; }
+
+int to_i(const string& s) {
+	int ret = 0;
+	for (auto c : s) {
+		int x = c - '0';
+		if (ret == 0 && x == 0) return -1;
+		if (x < 0 || x >= 10) return -1;
+		ret = ret * 10 + x;
+	}
+	return ret;
+}
+
+int main() {
+	int n; reader(n);
+	vector<pair<string, int>> vp(n);
+	int examples = 0;
+	FOR(i, n) {
+		reader(vp[i].first, vp[i].second);
+		examples += vp[i].second;
+		vp[i].second = 1 - vp[i].second;
+	}
+
+	set<int> vacants[2];
+	FOR(i, n) {
+		if (i < examples) vacants[0].insert(i + 1);
+		else vacants[1].insert(i + 1);
+	}
+
+	set<int> invalid[2];
+	set<int> input_numbers;
+	vector<pair<string, int>> ignore_firstly;
+
+	for (auto& si : vp) {
+		int id = to_i(si.first);
+		if (id == -1) {
+			ignore_firstly.push_back(si);
+			continue;
+		}
+		input_numbers.insert(id);
+
+		int cur_place;
+		if (1 <= id && id <= examples) {
+			cur_place = 0;
+		} else if (examples < id && id <= n) {
+			cur_place = 1;
+		} else {
+			cur_place = 2;
+		}
+		if (cur_place == 2) {
+			ignore_firstly.push_back(si);
+			continue;
+		}
+		vacants[cur_place].erase(id);
+
+		if (cur_place != si.second) {
+			invalid[cur_place].insert(id);
+		}
+	}
+	int extra_vacant = n + 1;
+	while (input_numbers.count(extra_vacant)) extra_vacant++;
+
+	int extra_should_be_moved_to = -1;
+
+	vector<string> anses;
+	while (sz(invalid[0]) + sz(invalid[1])) {
+		bool used = false;
+
+		FOR(i, 2) {
+			if (sz(invalid[i]) > 0 && sz(vacants[1-i]) > 0) {
+				int from = *invalid[i].begin();
+				int to = *vacants[1-i].begin();
+
+				char buf[32];
+				sprintf(buf, "move %d %d", from, to);
+				anses.push_back(buf);
+
+				invalid[i].erase(from);
+				vacants[i].insert(from);
+				vacants[1 - i].erase(to);
+				used = true;
+				break;
+			}
+		}
+		if (used) continue;
+
+		if (extra_should_be_moved_to != -1) {
+			//abort
+			printf("%d\n", 10 / min(sz(invalid[0]), sz(invalid[1])));
+		}
+		if (sz(invalid[0])) extra_should_be_moved_to = 1;
+		else extra_should_be_moved_to = 0;
+
+		int from = *invalid[1 - extra_should_be_moved_to].begin();
+
+		char buf[32];
+		sprintf(buf, "move %d %d", from, extra_vacant);
+		anses.push_back(buf);
+
+		invalid[1 - extra_should_be_moved_to].erase(from);
+		vacants[1 - extra_should_be_moved_to].insert(from);
+	}
+
+
+	if (extra_should_be_moved_to != -1) {
+		int to = *vacants[extra_should_be_moved_to].begin();
+
+		char buf[32];
+		sprintf(buf, "move %d %d", extra_vacant, to);
+		anses.push_back(buf);
+
+		vacants[extra_should_be_moved_to].erase(to);
+	}
+
+	for (auto& si : ignore_firstly) {
+		int to = *vacants[si.second].begin();
+
+		char buf[32];
+		sprintf(buf, "move %s %d", si.first.c_str(), to);
+		anses.push_back(buf);
+
+		vacants[si.second].erase(to);
+	}
+
+	writerLn(sz(anses));
+	for (auto& l : anses) writerLn(l);
+
+	return 0;
+}

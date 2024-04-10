@@ -1,0 +1,1 @@
+print ["no", "yes"][str(int(raw_input())).count("0")>5]

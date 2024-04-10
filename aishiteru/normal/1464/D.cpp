@@ -1,0 +1,148 @@
+#include<bits/stdc++.h>
+using namespace std; 
+const int N=1000005,M=1000000007;
+const long double PI=3.1415926535897932384626;
+int n,m,i,T,vis[N],a[N],k,t[3],p[N],j;
+int main()
+{
+#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+#endif
+	scanf("%d",&T);
+	while(T--)
+	{
+		scanf("%d",&n);
+		for(i=1;i<=n;++i)
+		{
+			scanf("%d",&p[i]);
+			vis[i]=0;
+		}
+		for(i=1;i<=k;++i)
+			a[i]=0;
+		k=0;
+		for(i=1;i<=n;++i)
+			if(!vis[i])
+			{
+				++k;
+				a[k]=0;
+				for(j=i;!vis[j];j=p[j])
+				{
+					++a[k];
+					vis[j]=1;
+				}
+			}
+		long long s=1;
+		int ans=0;
+		int c=n;
+		if(n%3==1)
+		{
+			s=4;
+			c-=4;
+		}
+		if(n%3==2)
+		{
+			s=2;
+			c-=2;
+		}
+		for(i=3;i<=c;i+=3)
+			s=s*3%M;
+		printf("%lld ",s);
+		t[0]=t[1]=t[2]=0;
+		if(n%3==0)
+		{
+			for(i=1;i<=k;++i)
+			{
+				++t[a[i]%3];
+				ans+=(a[i]-1)/3;
+			}
+			ans+=min(t[1],t[2]);
+			if(t[1]>t[2])
+				ans+=(t[1]-t[2])/3*2;
+			else
+				ans+=t[2]-t[1];
+		}
+		if(n%3==2)
+		{
+			for(i=1;i<=k;++i)
+			{
+				++t[a[i]%3];
+				ans+=(a[i]-1)/3;
+			}
+			if(t[2]==0)
+				ans+=t[1]/3*2+1;
+			else
+			{
+				--t[2];
+				ans+=min(t[1],t[2]);
+				if(t[1]>t[2])
+					ans+=(t[1]-t[2])/3*2;
+				else
+					ans+=t[2]-t[1];
+			}
+		}
+		if(n%3==1)
+		{
+			bool flag=false;
+			for(i=1;i<=k;++i)
+			{
+				if(a[i]>=4&&a[i]%3==1)
+					flag=true;
+				++t[a[i]%3];
+				ans+=(a[i]-1)/3;
+			}
+			if(flag)
+			{
+				int s=ans;
+				--ans;
+				--t[1];
+				ans+=min(t[1],t[2]);
+				if(t[1]>t[2])
+					ans+=(t[1]-t[2])/3*2;
+				else
+					ans+=t[2]-t[1];
+				++t[1];
+				if(t[2]>=2)
+				{
+					t[2]-=2;
+					s+=min(t[1],t[2]);
+					if(t[1]>t[2])
+						s+=(t[1]-t[2])/3*2;
+					else
+						s+=t[2]-t[1];
+					ans=min(ans,s);
+				}
+			}
+			else
+			{
+				//2 2 3 1 1 1
+				if(t[2]>=2)
+				{
+					t[2]-=2;
+					ans+=min(t[1],t[2]);
+					if(t[1]>t[2])
+						ans+=(t[1]-t[2])/3*2;
+					else
+						ans+=t[2]-t[1];
+				}
+				else
+				{
+					if(t[2]==1)
+					{
+						t[1]-=2;
+						++ans;
+						ans+=t[1]/3*2;
+					}
+					else
+					{
+						if(t[1]>=4)
+							ans+=2+(t[1]-4)/3*2;
+						else
+							++ans;
+					}
+				}
+			}
+		}
+		printf("%d\n",ans);
+	}
+}

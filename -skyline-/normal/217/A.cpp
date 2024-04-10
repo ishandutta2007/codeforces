@@ -1,0 +1,97 @@
+#include<cmath>
+#include<math.h>
+#include<ctype.h>
+#include<algorithm>
+#include<bitset>
+#include<cassert>
+#include<cctype>
+#include<cerrno>
+#include<cfloat>
+#include<ciso646>
+#include<climits>
+#include<clocale>
+#include<complex>
+#include<csetjmp>
+#include<csignal>
+#include<cstdarg>
+#include<cstddef>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include<ctime>
+#include<cwchar>
+#include<cwctype>
+#include<deque>
+#include<exception>
+#include<fstream>
+#include<functional>
+#include<iomanip>
+#include<ios>
+#include<iosfwd>
+#include<iostream>
+#include<istream>
+#include<iterator>
+#include<limits>
+#include<list>
+#include<locale>
+#include<map>
+#include<memory>
+#include<new>
+#include<numeric>
+#include<ostream>
+#include<queue>
+#include<set>
+#include<sstream>
+#include<stack>
+#include<stdexcept>
+#include<streambuf>
+#include<string>
+#include<typeinfo>
+#include<utility>
+#include<valarray>
+#include<vector>
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+using namespace std;
+int a[105][105],x[105],y[105],k[105],zt[105];
+int main()
+{
+	int n,i,j;
+	cin>>n;
+	for(i=1;i<=n;i++){
+					  cin>>x[i]>>y[i];
+					  for(j=1;j<i;j++){
+					  					if(x[j]==x[i]||y[j]==y[i]){
+																   k[i]++;
+																   a[i][k[i]]=j;
+																   k[j]++;
+																   a[j][k[j]]=i;
+									    }
+	                  }
+    }
+    queue<int>q;
+    int ans=0,l=n;
+    while(l>0){
+			   int t;
+			   for(i=1;i<=n;i++){
+			   					 if(zt[i]==0){
+								 			  t=i;
+											  break;
+				                 }
+               }
+               q.push(t);
+               zt[t]=1;
+			   while(!q.empty()){
+			   					 t=q.front();
+								 q.pop();
+								 l--;
+								 for(i=1;i<=k[t];i++)if(zt[a[t][i]]==0){q.push(a[t][i]),zt[a[t][i]]=1;};
+			   
+			   }
+			   ans++;
+	}
+	cout<<ans-1<<endl;										   
+	//system("pause");
+	return 0;
+}

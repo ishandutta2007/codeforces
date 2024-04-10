@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define repeat(i,a,b) for(int i=(a),_=(b);i<_;i++)
+#define repeat_back(i,a,b) for(int i=(b)-1,_=(a);i>=_;i--)
+int cansel_sync=(ios::sync_with_stdio(0),cin.tie(0),0);
+const int N=400010; typedef long long ll; const int inf=~0u>>2; const ll INF=~0ull>>2; ll read(){ll x; if(scanf("%lld",&x)==-1)exit(0); return x;} typedef double lf;
+//#define int ll
+int a[N],s[N];
+#define sgn(x) ((x)>0?1:-1)
+void add(int x,int y,int d){
+	//cout<<x<<' '<<y<<' '<<d<<endl;
+	s[x]+=d;
+	s[y+1]-=d;
+}
+signed main(){
+	for(int T=read();T--;){
+		int n=read(),k=read();
+		fill(s,s+2*k+2,0);
+		repeat(i,0,n)a[i]=read();
+		repeat(i,0,n/2){
+			int x=a[i],y=a[n-i-1];
+			if(x>y)swap(x,y);
+			add(0,x,2);
+			add(x+1,x+y-1,1);
+			add(x+y+1,y+k,1);
+			add(y+k+1,k*2,2);
+		}
+		int ans=inf;
+		repeat(i,1,k*2+1){
+			s[i]+=s[i-1];
+			ans=min(ans,s[i]);
+		}
+		//orzarr(s,k*2+1);
+		cout<<ans<<endl;
+	}
+	return 0;
+}

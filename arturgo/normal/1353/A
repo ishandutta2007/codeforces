@@ -1,0 +1,18 @@
+open Scanf;;
+
+let read () = Scanf.scanf " %d" (fun x -> x) in
+
+let nbTests = read () in
+for iTest = 1 to nbTests do
+   let nbEntiers = read() in
+   let somme = read() in
+   
+   if nbEntiers = 1 then
+      print_int 0
+   else if nbEntiers = 2 then
+      print_int somme
+   else
+      print_string (Int64.to_string (Int64.mul 2L (Int64.of_int somme)))
+   ;
+   print_newline ()
+done;

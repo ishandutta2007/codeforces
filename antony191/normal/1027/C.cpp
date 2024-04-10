@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <cmath>
+#include <stdio.h>
+#include <queue>
+#include <deque>
+#include <bitset>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <random>
+#include <ctime>
+#include <utility>
+
+#pragma GCC optimize("O3")
+#pragma comment(linker, "/STACK:256000000")
+#pragma warning(disable:4996)
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef vector<int> vi1;
+typedef vector<vi1> vi2;
+typedef vector<ll> vll1;
+typedef vector<vll1> vll2;
+
+const int inf = 1e9;
+const ll llinf = 1e18;
+const ld pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825;
+
+#define all(v) v.begin(), v.end()
+
+int main() {
+	srand(time(NULL));
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int tt;
+	cin >> tt;
+	while (tt--) {
+		int n;
+		cin >> n;
+		map<int, int> a;
+		for (int i = 0; i < n; ++i) {
+			int tmp;
+			cin >> tmp;
+			a[tmp]++;
+		}
+		vector<int> k;
+		for (auto i = a.begin(); i != a.end(); i++) {
+			if (i->second > 1) {
+				k.push_back(i->first);
+				if (i->second > 3)
+					k.push_back(i->first);
+			}
+		}
+		int mn = 0;
+		for (int i = 1; i < (int)k.size() - 1; ++i) {
+			if (k[i + 1] * k[mn] < k[i] * k[mn + 1])
+				mn = i;
+		}
+		cout << k[mn] << ' ' << k[mn] << ' ' << k[mn + 1] << ' ' << k[mn + 1] << '\n';
+	}
+#ifdef _DEBUG
+	system("pause");
+#endif
+	return 0;
+}

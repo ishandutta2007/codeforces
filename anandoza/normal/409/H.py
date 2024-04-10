@@ -1,0 +1,1 @@
+print sum(int(x) for x in raw_input().split(" ")) # i want this out of my "unsolved problems" please

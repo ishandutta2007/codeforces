@@ -1,0 +1,43 @@
+int main(){
+int n=(int)Stdio.stdin->gets();
+array(int) cur=allocate(15);
+cur[0]=1;
+for(int i=0;i<n;++i){
+int a=(int)Stdio.stdin->gets();
+for(int j=14;j>0;--j)
+cur[j]=cur[j]*a+cur[j-1];
+cur[0]*=a;
+}
+
+int first=1;
+for(int k=14;k>=0;--k){
+    int c;
+    c=cur[k];
+    if(c!=0){
+        string s;
+        if(k==0){
+            s=""+c;
+        }else if(k==1){
+            if(c==1)
+                s="X";
+            else if(c==-1)
+                s="-X";
+            else
+                s=""+c+"*X";
+        }else{
+            if(c==1)
+                s="X^"+k;
+            else if(c==-1)
+                s="-X^"+k;
+            else
+                s=""+c+"*X^"+k;
+        }
+        if(first == 0 && s[0] != '-')
+            s="+"+s;
+        first=0;
+        write(s);
+    }
+}
+
+return 0;
+}

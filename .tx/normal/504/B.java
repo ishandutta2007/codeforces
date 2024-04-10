@@ -1,0 +1,178 @@
+import java.io.*;
+import java.util.*;
+
+import static java.lang.Math.*;
+
+public class Main extends PrintWriter {
+    BufferedReader in;
+    StringTokenizer stok;
+    final Random rand = new Random(31);
+    final int inf = (int) 1e9;
+    final long linf = (long) 1e18;
+
+    class Fenw {
+        int[] a;
+
+        Fenw(int n) {
+            a = new int[n];
+        }
+
+        void add(int x, int i) {
+            for (; i < a.length; i |= (i + 1)) {
+                a[i] += x;
+            }
+        }
+
+        int get(int i) {
+            int sum = 0;
+            for (; i >= 0; i = (i & (i + 1)) - 1) {
+                sum += a[i];
+            }
+            return sum;
+        }
+    }
+
+    int[] getNum(int[] a) {
+        int[] res = new int[a.length - 1];
+        Fenw f = new Fenw(a.length);
+        for (int i = 0; i < res.length; i++) {
+            res[i] = a[i] - f.get(a[i]);
+            f.add(1, a[i]);
+        }
+        return res;
+    }
+
+    int[] byNum(int[] a) {
+        int[] res = new int[a.length + 1];
+        Fenw f = new Fenw(a.length + 1);
+        for (int i = 0; i < a.length + 1; i++) {
+            int x = i < a.length ? a[i] : 0;
+            int l = -1, r = res.length - 1, m;
+            while (r - l > 1) {
+                m = (l + r) >> 1;
+                if (m - f.get(m) < x) {
+                    l = m;
+                } else {
+                    r = m;
+                }
+            }
+            res[i] = r;
+            f.add(1, r);
+        }
+        return res;
+    }
+
+    void solve() throws IOException {
+        int n = nextInt();
+        int[] a = nextIntArray(n);
+        int[] b = nextIntArray(n);
+        int[] aNum = getNum(a);
+        int[] bNum = getNum(b);
+        int[] rNum = new int[n - 1];
+        int m = 2;
+        for (int i = n - 2; i >= 0; i--) {
+            rNum[i] += aNum[i] + bNum[i];
+            if (i > 0) {
+                rNum[i - 1] += rNum[i] / m;
+            }
+            rNum[i] %= m;
+            m++;
+        }
+        int[] r = byNum(rNum);
+        for (int i : r) {
+            print(i);
+            print(" ");
+        }
+    }
+
+    void run() {
+        try {
+            solve();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(abs(-1));
+        } finally {
+            close();
+        }
+    }
+
+    Main() throws IOException {
+        super(System.out);
+        in = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    Main(String filename) throws IOException {
+        super("".equals(filename) ? "output.txt" : filename + ".out");
+        in = new BufferedReader(new FileReader("".equals(filename) ? "input.txt" : filename + ".in"));
+    }
+
+    public static void main(String[] args) throws IOException {
+        new Main().run();
+    }
+
+    String next() throws IOException {
+        while (stok == null || !stok.hasMoreTokens()) {
+            String s = in.readLine();
+            if (s == null) {
+                return null;
+            }
+            stok = new StringTokenizer(s);
+        }
+        return stok.nextToken();
+    }
+
+    int nextInt() throws IOException {
+        return Integer.parseInt(next());
+    }
+
+    double nextDouble() throws IOException {
+        return Double.parseDouble(next());
+    }
+
+    long nextLong() throws IOException {
+        return Long.parseLong(next());
+    }
+
+    int[] nextIntArray(int len) throws IOException {
+        int[] res = new int[len];
+        for (int i = 0; i < len; i++) {
+            res[i] = nextInt();
+        }
+        return res;
+    }
+
+    void shuffle(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int x = rand.nextInt(i + 1);
+            int _ = a[i];
+            a[i] = a[x];
+            a[x] = _;
+        }
+    }
+
+    boolean nextPerm(int[] p) {
+        for (int a = p.length - 2; a >= 0; --a)
+            if (p[a] < p[a + 1])
+                for (int b = p.length - 1; ; --b)
+                    if (p[b] > p[a]) {
+                        int t = p[a];
+                        p[a] = p[b];
+                        p[b] = t;
+                        for (++a, b = p.length - 1; a < b; ++a, --b) {
+                            t = p[a];
+                            p[a] = p[b];
+                            p[b] = t;
+                        }
+                        return true;
+                    }
+        return false;
+    }
+
+    <T> List<T>[] createAdjacencyList(int countVertex) {
+        List<T>[] res = new List[countVertex];
+        for (int i = 0; i < countVertex; i++) {
+            res[i] = new ArrayList<T>();
+        }
+        return res;
+    }
+}

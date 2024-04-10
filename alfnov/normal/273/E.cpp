@@ -1,0 +1,135 @@
+#include<bits/stdc++.h>
+#define mod 1000000007
+using namespace std;
+int a[1005],b[1005],f[4][1005],tot=0;
+void init(){
+	;++tot;a[tot]=1,b[tot]=0
+	;++tot;a[tot]=3,b[tot]=1
+	;++tot;a[tot]=4,b[tot]=2
+	;++tot;a[tot]=5,b[tot]=1
+	;++tot;a[tot]=7,b[tot]=2
+	;++tot;a[tot]=9,b[tot]=0
+	;++tot;a[tot]=13,b[tot]=1
+	;++tot;a[tot]=15,b[tot]=2
+	;++tot;a[tot]=19,b[tot]=0
+	;++tot;a[tot]=27,b[tot]=1
+	;++tot;a[tot]=39,b[tot]=2
+	;++tot;a[tot]=40,b[tot]=0
+	;++tot;a[tot]=57,b[tot]=2
+	;++tot;a[tot]=58,b[tot]=1
+	;++tot;a[tot]=81,b[tot]=2
+	;++tot;a[tot]=85,b[tot]=0
+	;++tot;a[tot]=120,b[tot]=2
+	;++tot;a[tot]=121,b[tot]=1
+	;++tot;a[tot]=174,b[tot]=2
+	;++tot;a[tot]=179,b[tot]=0
+	;++tot;a[tot]=255,b[tot]=2
+	;++tot;a[tot]=260,b[tot]=1
+	;++tot;a[tot]=363,b[tot]=2
+	;++tot;a[tot]=382,b[tot]=0
+	;++tot;a[tot]=537,b[tot]=2
+	;++tot;a[tot]=544,b[tot]=1
+	;++tot;a[tot]=780,b[tot]=2
+	;++tot;a[tot]=805,b[tot]=0
+	;++tot;a[tot]=1146,b[tot]=2
+	;++tot;a[tot]=1169,b[tot]=1
+	;++tot;a[tot]=1632,b[tot]=2
+	;++tot;a[tot]=1718,b[tot]=0
+	;++tot;a[tot]=2415,b[tot]=2
+	;++tot;a[tot]=2447,b[tot]=1
+	;++tot;a[tot]=3507,b[tot]=2
+	;++tot;a[tot]=3622,b[tot]=0
+	;++tot;a[tot]=5154,b[tot]=2
+	;++tot;a[tot]=5260,b[tot]=1
+	;++tot;a[tot]=7341,b[tot]=2
+	;++tot;a[tot]=7730,b[tot]=0
+	;++tot;a[tot]=10866,b[tot]=2
+	;++tot;a[tot]=11011,b[tot]=1
+	;++tot;a[tot]=15780,b[tot]=2
+	;++tot;a[tot]=16298,b[tot]=0
+	;++tot;a[tot]=23190,b[tot]=2
+	;++tot;a[tot]=23669,b[tot]=1
+	;++tot;a[tot]=33033,b[tot]=2
+	;++tot;a[tot]=34784,b[tot]=0
+	;++tot;a[tot]=48894,b[tot]=2
+	;++tot;a[tot]=49549,b[tot]=1
+	;++tot;a[tot]=71007,b[tot]=2
+	;++tot;a[tot]=73340,b[tot]=0
+	;++tot;a[tot]=104352,b[tot]=2
+	;++tot;a[tot]=106510,b[tot]=1
+	;++tot;a[tot]=148647,b[tot]=2
+	;++tot;a[tot]=156527,b[tot]=0
+	;++tot;a[tot]=220020,b[tot]=2
+	;++tot;a[tot]=222970,b[tot]=1
+	;++tot;a[tot]=319530,b[tot]=2
+	;++tot;a[tot]=330029,b[tot]=0
+	;++tot;a[tot]=469581,b[tot]=2
+	;++tot;a[tot]=479294,b[tot]=1
+	;++tot;a[tot]=668910,b[tot]=2
+	;++tot;a[tot]=704371,b[tot]=0
+	;++tot;a[tot]=990087,b[tot]=2
+	;++tot;a[tot]=1003364,b[tot]=1
+	;++tot;a[tot]=1437882,b[tot]=2
+	;++tot;a[tot]=1485130,b[tot]=0
+	;++tot;a[tot]=2113113,b[tot]=2
+	;++tot;a[tot]=2156822,b[tot]=1
+	;++tot;a[tot]=3010092,b[tot]=2
+	;++tot;a[tot]=3169669,b[tot]=0
+	;++tot;a[tot]=4455390,b[tot]=2
+	;++tot;a[tot]=4515137,b[tot]=1
+	;++tot;a[tot]=6470466,b[tot]=2
+	;++tot;a[tot]=6683084,b[tot]=0
+	;++tot;a[tot]=9509007,b[tot]=2
+	;++tot;a[tot]=9705698,b[tot]=1
+	;++tot;a[tot]=13545411,b[tot]=2
+	;++tot;a[tot]=14263510,b[tot]=0
+	;++tot;a[tot]=20049252,b[tot]=2
+	;++tot;a[tot]=20318116,b[tot]=1
+	;++tot;a[tot]=29117094,b[tot]=2
+	;++tot;a[tot]=30073877,b[tot]=0
+	;++tot;a[tot]=42790530,b[tot]=2
+	;++tot;a[tot]=43675640,b[tot]=1
+	;++tot;a[tot]=60954348,b[tot]=2
+	;++tot;a[tot]=64185794,b[tot]=0
+	;++tot;a[tot]=90221631,b[tot]=2
+	;++tot;a[tot]=91431521,b[tot]=1
+	;++tot;a[tot]=131026920,b[tot]=2
+	;++tot;a[tot]=135332446,b[tot]=0
+	;++tot;a[tot]=192557382,b[tot]=2
+	;++tot;a[tot]=196540379,b[tot]=1
+	;++tot;a[tot]=274294563,b[tot]=2
+	;++tot;a[tot]=288836072,b[tot]=0
+	;++tot;a[tot]=405997338,b[tot]=2
+	;++tot;a[tot]=411441844,b[tot]=1
+	;++tot;a[tot]=589621137,b[tot]=2
+	;++tot;a[tot]=608996006,b[tot]=0
+	;++tot;a[tot]=866508216,b[tot]=2
+	;++tot;a[tot]=884431705,b[tot]=1
+	;++tot;a[tot]=1000000001,b[tot]=0
+	;
+}
+int main(){
+	init();
+	int n,p;
+	cin>>n>>p;
+	long long A=0,B=0,C=0;
+	for(int i=1;i<tot;++i){
+		int L=a[i],R=a[i+1]-1,zz=b[i];
+		if(L>p)break;
+		if(R>p)R=p;
+		long long LL=1ll*(R-L+1)*p-1ll*(L+R)*(R-L+1)/2;
+		LL%=mod;
+		if(zz==0)A+=LL;
+		if(zz==1)B+=LL;
+		if(zz==2)C+=LL;
+	}
+	A%=mod,B%=mod,C%=mod;
+	f[0][0]=1;
+	for(int i=1;i<=n;++i)for(int j=0;j<4;++j){
+		f[j][i]=(f[j][i]+1ll*A*f[j^0][i-1])%mod;
+		f[j][i]=(f[j][i]+1ll*B*f[j^1][i-1])%mod;
+		f[j][i]=(f[j][i]+1ll*C*f[j^2][i-1])%mod;
+	}
+	cout<<(0ll+f[1][n]+f[2][n]+f[3][n])%mod<<endl;
+	return 0;
+}

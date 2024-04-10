@@ -1,0 +1,160 @@
+//Arayi
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <algorithm>
+#include <math.h>
+#include <vector>
+#include <cstring>
+#include <ctime>
+#include <set>
+#include <bitset>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <iomanip>
+#include <ctime>
+#include <climits>
+#include <cassert>
+#include <chrono>
+#include <random>
+#include <complex>
+
+#define fr first
+#define sc second
+#define MP make_pair
+#define ad push_back
+#define PB push_back
+#define fastio ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+#define lli long long int
+#define y1 arayikhalatyan
+#define j1 jigglypuff
+#define ld long double
+#define itn int
+#define pir pair<int, int> 
+#define all(x) (x).begin(), (x).end()
+#define str string
+#define enl endl
+#define en endl
+#define cd complex<long double>
+#define vcd vector<cd>
+#define vii vector<int>
+#define vlli vector<lli>
+using namespace std;
+
+lli gcd(lli a, lli b) { return (b == 0LL ? a : gcd(b, a % b)); }
+ld dist(ld x, ld y1, ld x2, ld y2)
+{
+    return sqrt((x - x2) * (x - x2) + (y1 - y2) * (y1 - y2));
+}
+lli S(lli a)
+{
+    return (a * (a + 1LL)) / 2;
+}
+mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
+char vow[] = { 'a', 'e', 'i', 'o', 'u' };
+int dx[] = { 0, -1, 0, 1, -1, -1, 1, 1, 0 };
+int dy[] = { -1, 0, 1, 0, -1, 1, -1, 1, 0 };
+
+
+const int N = 2e6 + 30;
+const lli mod = 1e9 + 7;
+const ld pi = acos(-1);
+const int T = 238;
+const ld e = 1e-13;
+
+lli bp(lli a, lli b = mod - 2LL)
+{
+    lli ret = 1;
+    while (b)
+    {
+        if (b & 1) ret *= a, ret %= mod;
+        a *= a;
+        a %= mod;
+        b >>= 1;
+    }
+    return ret;
+}
+ostream& operator<<(ostream& c, pir a)
+{
+    c << a.fr << " " << a.sc;
+    return c;
+}
+struct pt
+{
+    lli x, y;
+    int ind;
+    int bl;
+    bool operator==(const pt& a)
+    {
+        return ind == a.ind;
+    }
+    bool operator<(const pt& b)
+    {
+        if (x == b.x) return y < b.y;
+        return x < b.x;
+    }
+};
+
+
+
+
+
+
+
+int n;
+lli a[N], r1, r2, r3, d, dp[N], b[N][3], mn = LLONG_MAX, pat;
+int main()
+{
+    fastio;
+    cin >> n >> r1 >> r2 >> r3 >> d;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+        b[i][0] = a[i] * r1 + r3;
+        b[i][1] = min(a[i] * r1 + r1, r2) + r1;
+        b[i][2] = min(b[i][0], b[i][1]);
+    }
+    dp[0] = b[0][0];
+    mn = 2LL * d * (lli)n + b[0][2];
+    for (int i = 1; i < n; i++)
+    {
+        dp[i] = dp[i - 1] + b[i][0];
+        mn += b[i][2];
+        dp[i] = min(dp[i], mn - 2LL * d * (lli)(n - i));
+        mn = min(mn, 2LL * d * (lli)(n - i) + b[i][2] + dp[i - 1]);
+    }
+    pat = dp[n - 1];
+    lli sum = 0;
+    for (int i = n - 1; i > 0; i--)
+    {
+        if (i == n - 1)
+        {
+            sum += min(b[i][0], b[i][2] + 2LL * d);
+        }
+        else
+        {
+            sum += b[i][2];
+        }
+        pat = min(pat, sum + d * (lli)(n - i - 1) + dp[i - 1]);
+    }
+    sum += b[0][2];
+    pat = min(pat, sum + d * (lli)(n - 1));
+    cout << pat + d * (lli)(n - 1) << endl;
+    return 0;
+}
+
+/*
+
+  __
+*(><)*
+  \/ /
+  ||/
+--||
+  ||
+  /\
+ /  \
+/    \
+*/

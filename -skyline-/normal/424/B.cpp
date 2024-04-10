@@ -1,0 +1,74 @@
+#include<cmath>
+#include<math.h>
+#include<ctype.h>
+#include<algorithm>
+#include<bitset>
+#include<cassert>
+#include<cctype>
+#include<cerrno>
+#include<cfloat>
+#include<ciso646>
+#include<climits>
+#include<clocale>
+#include<complex>
+#include<csetjmp>
+#include<csignal>
+#include<cstdarg>
+#include<cstddef>
+#include<cstdio>
+#include<cstdlib>
+#include<cstring>
+#include<ctime>
+#include<cwchar>
+#include<cwctype>
+#include<deque>
+#include<exception>
+#include<fstream>
+#include<functional>
+#include<iomanip>
+#include<ios>
+#include<iosfwd>
+#include<iostream>
+#include<istream>
+#include<iterator>
+#include<limits>
+#include<list>
+#include<locale>
+#include<map>
+#include<memory>
+#include<new>
+#include<numeric>
+#include<ostream>
+#include<queue>
+#include<set>
+#include<sstream>
+#include<stack>
+#include<stdexcept>
+#include<streambuf>
+#include<string>
+#include<typeinfo>
+#include<utility>
+#include<valarray>
+#include<vector>
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<Windows.h>
+using namespace std;
+vector<pair<int,int> >v;//cout<<i<<"    "<<v[i].first<<"  "<<v[i].second<<endl
+int main()
+{
+    cout.setf(ios::fixed);
+    cout.precision(15);
+    int n,s,i,j,x,y,z;
+    cin>>n>>s;
+    for(i=1;i<=n;i++){
+                      cin>>x>>y>>z;
+                      v.push_back(make_pair(x*x+y*y,z));
+    }
+    sort(v.begin(),v.end());
+    for(i=0;(i<int(v.size()))&&(s<1000000);i++)s+=v[i].second,x=v[i].first;
+    cout<<(s<1000000?-1:sqrt(x));                  
+	//system("pause");
+	return 0;
+}

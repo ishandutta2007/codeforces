@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#define fr(i, n) for (ll i = 0; i < n; ++i)
+#define pb push_back
+#define mp make_pair
+#define frab(i, a, b) for (ll i = a; i < b; ++i)
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+
+const ll MOD = 1e9 + 7;
+const int INF = 2e9 + 10;
+const ld EPS = 1e-9;
+const int M = 1e2 + 12;
+const int N = 1e6 + 10;
+
+
+
+int main() {
+    //freopen("a.in", "r", stdin);
+    ios_base::sync_with_stdio(false);
+
+    string s;
+    cin >> s;
+    string t = "heidi";
+    int cur = 0;
+    fr(i, s.size()) {
+        if (cur < t.size() && s[i] == t[cur])
+            cur++;
+    }
+    if (cur == t.size())
+        cout << "YES";
+    else
+        cout << "NO";
+}

@@ -1,0 +1,184 @@
+#include<cstdio>
+#include<cstring>
+#include<cmath>
+#include<algorithm>
+#include<vector>
+using namespace std;
+const int N=200005;
+vector<int> g[N];
+int n,K,q,i,j,k,x,a[N],b[N],c[N],s[N],ans,w,bl[N],id[N],len[N],st[N],ed[N],h[1005][1005],cnt[N],num,col[N],v[1005][17000],add[N],sum[N],ksum[N],p;
+char ch[20];
+inline void Read(int &x)
+{
+	char c;
+	while((c=getchar())<'0'||c>'9');
+	x=c-'0';
+	while((c=getchar())>='0'&&c<='9')
+		x=x*10+c-'0';
+}
+void work(int x,int y)
+{
+	int i,j;
+	if(K>w)
+	{
+		i=x;
+		for(;i<=n;i+=K);
+		if(s[i-K])
+		{
+			if(i-K!=n-K+1)
+			--p;
+		}
+		for(;x<=n;x+=K)
+		{
+			if(s[x]==0)
+				++ans;
+			s[x]^=y;
+			if(s[x]==0)
+				--ans;
+		}
+		if(s[x-K])
+		{
+			if(x-K!=n-K+1)
+			++p;
+		}
+		return;
+	}
+	ans+=v[bl[x]][add[bl[x]]];
+	for(i=1;h[bl[x]][i]<x;++i);
+	for(;i<=cnt[bl[x]];++i)
+		v[bl[x]][s[h[bl[x]][i]]]--;
+	c[x]^=y;
+	for(i=1;h[bl[x]][i]<x;++i);
+	for(;i<=cnt[bl[x]];++i)
+	{
+		s[h[bl[x]][i]]^=y;
+		v[bl[x]][s[h[bl[x]][i]]]++;
+	}
+	ans-=v[bl[x]][add[bl[x]]];
+	for(i=bl[x]+1;i<=num&&col[i]==col[i-1];++i)
+	{
+		ans+=v[i][add[i]];
+		add[i]^=y;
+		ans-=v[i][add[i]];
+	}
+	if(sum[x%K]==0)
+		++p;
+	sum[x%K]^=y;
+	if(sum[x%K]==0)
+		--p;
+}
+int main()
+{
+	Read(n);Read(K);Read(q);
+	for(i=0;i<K;++i)
+		g[i].push_back(0);
+	for(i=1;i<=n;++i)
+	{
+		Read(a[i]);
+		g[i%K].push_back(i);
+		id[i]=++len[i%K];
+	}
+	for(i=1;i<=n;++i)
+	{
+		Read(b[i]);
+		c[i]=a[i]^b[i]^a[i-1]^b[i-1];
+	}
+	w=max((int)sqrt(n),5);
+	if(K>w)
+	{
+		ans=n;
+		for(i=1;i<=n;++i)
+			s[i]=(i>K?s[i-K]:0)^c[i];
+		for(i=0;i<K;++i)
+		{
+			for(x=(i==0?K:i);x<=n;x+=K)
+				if(s[x]==0)
+					--ans;
+			if(s[x-K])
+			{
+				if(x-K!=n-K+1)
+				++p;
+			}
+		}
+		printf("%d\n",p?-1:ans);
+		while(q--)
+		{
+		    scanf("%s",ch);
+			Read(j);Read(k);
+			if(ch[0]=='a')
+			{
+				k^=a[j];
+				a[j]^=k;
+			}
+			else
+			{
+				k^=b[j];
+				b[j]^=k;
+			}
+			work(j,k);
+			if(j+1<=n)
+				work(j+1,k);
+			printf("%d\n",p?-1:ans);
+		}
+		return 0;
+	}
+	for(i=0;i<K;++i)
+	{
+		++num;
+		col[num]=i;
+		h[num][cnt[num]=1]=g[i][1];
+		bl[g[i][1]]=num;
+		st[i]=num;
+		if(i>0)
+			ed[i-1]=num-1;
+		for(j=2;j<=len[i];++j)
+		{
+			if(j/w!=(j-1)/w)
+			{
+				++num;
+				col[num]=i;
+			}
+			h[num][++cnt[num]]=g[i][j];
+			bl[g[i][j]]=num;
+		}
+	}
+	ed[K-1]=num;
+	ans=n;
+	for(i=1,k=0;i<=num;++i)
+	{
+		for(j=1;j<=cnt[i];++j)
+		{
+			k^=c[h[i][j]];
+			v[i][k]++;
+			s[h[i][j]]=k;
+		}
+		sum[col[i]]=k;
+		ans-=v[i][0];
+		if(col[i+1]!=col[i])
+			k=0;
+	}
+	for(i=0;i<K;++i)
+		if(sum[i])
+			++p;
+	printf("%d\n",(p>1||p==1&&!sum[(n-K+1)%K]?-1:ans));
+	while(q--)
+	{
+	    scanf("%s",ch);
+		Read(j);Read(k);
+		if(ch[0]=='a')
+		{
+			k^=a[j];
+			a[j]^=k;
+		}
+		else
+		{
+			k^=b[j];
+			b[j]^=k;
+		}
+		work(j,k);
+		if(j+1<=n)
+			work(j+1,k);
+		printf("%d\n",(p>1||p==1&&!sum[(n-K+1)%K]?-1:ans));
+	}
+	return 0;
+}

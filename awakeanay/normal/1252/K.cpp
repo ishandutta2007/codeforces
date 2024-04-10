@@ -1,0 +1,33 @@
+#include <iostream>
+
+#define int long long
+
+signed main() {
+  int t;
+  std::cin >> t;
+
+  while(t--) {
+    int n;
+    std::cin >> n;
+
+    int a[n];
+    for(int i = 0; i < n; i++)
+      std::cin >> a[i];
+
+    int ans = 0;
+    for(int i = 0; i+1 < n; i++) {
+      int min = std::min(a[i], a[i+1]);
+      int max = std::max(a[i], a[i+1]);
+
+      int cp = min;
+      while(cp*2 < max) {
+        cp *= 2;
+        ans++;
+      }
+    }
+
+    std::cout << ans << std::endl;
+  }
+  
+  return 0;
+}

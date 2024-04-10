@@ -1,0 +1,12 @@
+proc isPrime x {
+    for {set i 2} {$i < $x} {incr i} {
+        if { [expr $x % $i] == 0 } { return "false" }
+    }
+    return "true"
+}
+scan [gets stdin] "%d" n
+set l $n
+set r $n
+while {[isPrime $l] == "false"} { incr l -1 }
+while {[isPrime $r] == "false"} { incr r +1 }
+puts "$l $r"

@@ -1,0 +1,180 @@
+//Arayi
+//#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <algorithm>
+#include <math.h>
+#include <vector>
+#include <cstring>
+#include <ctime>
+#include <set>
+#include <bitset>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <iomanip>
+#include <ctime>
+#include <climits>
+#include <cassert>
+#include <chrono>
+#include <random>
+#include <complex>
+
+#define fr first
+#define sc second
+#define MP make_pair
+#define ad push_back
+#define PB push_back
+#define fastio ios_base::sync_with_stdio(false); cin.tie(0);
+#define lli long long int
+#define y1 arayikhalatyan
+#define j1 jigglypuff
+#define ld long double
+#define itn int
+#define pir pair<int, int> 
+#define all(x) (x).begin(), (x).end()
+#define str string
+#define enl endl
+#define en endl
+#define cd complex<long double>
+#define vcd vector<cd>
+#define vii vector<int>
+#define vlli vector<lli>
+using namespace std;
+
+lli gcd(lli a, lli b) { return (b == 0LL ? a : gcd(b, a % b)); }
+ld dist(ld x, ld y1, ld x2, ld y2)
+{
+    return sqrt((x - x2) * (x - x2) + (y1 - y2) * (y1 - y2));
+}
+lli S(lli a)
+{
+    return (a * (a + 1LL)) / 2;
+}
+mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
+char vow[] = { 'a', 'e', 'i', 'o', 'u' };
+int dx[] = { 1, -1, 0, 0, -1, -1, 1, 1, 0 };
+int dy[] = { 0, 0, 1, -1, -1, 1, -1, 1, 0 };
+
+
+const int N = 1e6 + 30;
+const lli mod = 1e9 + 7;
+const ld pi = acos(-1);
+const int T = 238;
+const ld e = 1e-13;
+
+lli bp(lli a, lli b = mod - 2LL)
+{
+    lli ret = 1;
+    while (b)
+    {
+        if (b & 1) ret *= a, ret %= mod;
+        a *= a;
+        a %= mod;
+        b >>= 1;
+    }
+    return ret;
+}
+ostream& operator<<(ostream& c, pir a)
+{
+    c << a.fr << " " << a.sc;
+    return c;
+}
+struct pt
+{
+    lli x, y;
+    int ind;
+    int bl;
+    bool operator==(const pt& a)
+    {
+        return ind == a.ind;
+    }
+    bool operator<(const pt& b)
+    {
+        if (x == b.x) return y < b.y;
+        return x < b.x;
+    }
+};
+
+
+
+
+int t;
+itn n, m;
+vector <pir > g[N], pat;
+vii ans;
+bool col[N];
+void dfs(int v)
+{
+    col[v] = true;
+    for (auto p : g[v])
+    {
+        if (p.fr && !col[p.sc]) dfs(p.sc);
+    }
+    ans.ad(v);
+}
+
+int main()
+{
+    fastio;
+    cin >> t;
+    while (t--)
+    {
+        cin >> n >> m;
+        for (int i = 0; i < m; i++)
+        {
+            int x, a, b;
+            cin >> x >> a >> b;
+            g[a].ad(MP(x, b));
+            if (!x) g[b].ad(MP(x, a));
+        }
+        for (int i = 1; i <= n; i++)
+        {
+            if (!col[i])
+                dfs(i);
+        }
+        reverse(all(ans));
+        for (int i = 0; i <= n; i++)
+            col[i] = false;
+        bool bl = true;
+        for (auto p : ans)
+        {
+            col[p] = true;
+            for (auto p1 : g[p])
+            {
+                if (p1.fr && col[p1.sc]) bl = false;
+                if (!col[p1.sc])
+                    pat.ad(MP(p, p1.sc));
+            }
+        }
+        if (bl)
+        {
+            cout << "YES\n";
+            for (auto p : pat) cout << p.fr << " " << p.sc << "\n";
+        }
+        else
+        {
+            cout << "NO\n";
+        }
+        pat.clear();
+        ans.clear();
+        for (int i = 0; i <= n; i++) col[i] = false, g[i].clear();
+    }
+    return 0;
+}
+
+/*
+
+
+  __
+*(><)*
+  \/ /
+  ||/
+--||
+  ||
+  /\
+ /  \
+/    \
+*/

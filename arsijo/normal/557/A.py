@@ -1,0 +1,7 @@
+n = int(input())
+a1, b1 = map(int, input().split())
+a2, b2 = map(int, input().split())
+a3, b3 = map(int, input().split())
+x = min(b1, n - a2 - a3)
+y = min(b2, n - x - a3)
+print(str(x) + ' ' + str(y) + ' ' + str(n - x - y))

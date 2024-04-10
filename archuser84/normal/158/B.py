@@ -1,0 +1,8 @@
+n = int(input())
+g = input().split()
+F = g.count('4')
+Th = g.count('3')
+T = g.count('2')
+O = int((max(g.count('1') - 2*(T%2) - Th, 0) + 3) / 4)
+T = int((T + 1)/2)
+print(O + T + Th + F)

@@ -1,0 +1,209 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <bitset>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <utility>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cmath>
+#include <cstdlib>
+#include <cctype>
+#include <string>
+#include <cstring>
+#include <ctime>
+#include <cassert>
+#include <string.h>
+#include <unordered_set>
+#include <unordered_map>
+
+using namespace std;
+
+typedef long long int64;
+typedef unsigned long long uint64;
+#define two(X) (1<<(X))
+#define twoL(X) (((int64)(1))<<(X))
+#define contain(S,X) (((S)&two(X))!=0)
+#define containL(S,X) (((S)&twoL(X))!=0)
+const double pi=acos(-1.0);
+const double eps=1e-11;
+template<class T> inline void ckmin(T &a,T b){if(b<a) a=b;}
+template<class T> inline void ckmax(T &a,T b){if(b>a) a=b;}
+template<class T> inline T sqr(T x){return x*x;}
+typedef pair<int,int> ipair;
+#define SIZE(A) ((int)A.size())
+#define LENGTH(A) ((int)A.length())
+#define MP(A,B) make_pair(A,B)
+#define PB(X) push_back(X)
+#define FOR(i,a,b) for(int i=(a);i<(b);++i)
+#define REP(i,a) for(int i=0;i<(a);++i)
+#define ALL(A) A.begin(),A.end()
+
+template<typename base_type, base_type _MOD>
+class IntMod
+{
+public:
+	static const int INVERSE_CACHE_SIZE = (1 << 18);
+	static base_type MOD;
+	static void set_mod(base_type new_mod) { MOD = new_mod; }
+
+	base_type n;
+
+	IntMod(long long d = 0) { n = (d >= 0 ? d % MOD : (d % MOD + MOD) % MOD); }
+	virtual ~IntMod() = default;
+
+	IntMod operator-() const { return build(n == 0 ? 0 : MOD - n); }
+	IntMod& operator+=(IntMod a) { n = (n >= MOD - a.n ? n - MOD + a.n : n + a.n); return *this; }
+	IntMod& operator-=(IntMod a) { n = (n >= a.n) ? n - a.n : n - a.n + MOD; return *this; }
+	IntMod& operator*=(IntMod a) { *this = *this * a; return *this; }
+	IntMod& operator/=(IntMod a) { *this = *this / a; return *this; }
+
+	static IntMod build(base_type n) { IntMod r; r.n = n; return r; }
+
+	static base_type inverse_cache[INVERSE_CACHE_SIZE];
+	static bool inverse_cache_ready;
+	friend IntMod inverse(IntMod n) { return build(inverse_internal(n.n)); }
+	static base_type inverse_internal(base_type n)
+	{
+		if (!inverse_cache_ready) 
+		{
+			inverse_cache_ready=true;
+			inverse_cache[0] = 0;
+			inverse_cache[1] = 1;
+			for (int n = 2; n < INVERSE_CACHE_SIZE; ++n) inverse_cache[n] = (MOD - (base_type)((long long)inverse_cache[MOD % n] * (MOD / n) % MOD));
+		}
+		return n < INVERSE_CACHE_SIZE ? inverse_cache[n] : MOD - (base_type)((long long)inverse_internal(MOD % n) * (MOD / n) % MOD);
+	}
+
+	friend bool operator==(IntMod a, IntMod b) { return a.n == b.n; }
+	friend bool operator!=(IntMod a, IntMod b) { return a.n != b.n; }
+	friend IntMod operator+(IntMod a, IntMod b) { return build(a.n >= MOD - b.n ? a.n - MOD + b.n : a.n + b.n); }
+	friend IntMod operator-(IntMod a, IntMod b) { return build(a.n >= b.n ? a.n - b.n : a.n - b.n + MOD); }
+	friend IntMod operator*(IntMod a, IntMod b) { return build(static_cast<base_type>(static_cast<long long>(a.n) * b.n % MOD)); }
+	friend IntMod operator/(IntMod a, IntMod b) { return a * inverse(b); }
+	friend IntMod pow(IntMod p, long long e)
+	{
+		if (e <= 0) return IntMod(1);
+		IntMod r = IntMod(1);
+		while (1) { if (e & 1) r *= p; e /= 2; if (e) p = p * p; else break; }
+		return r;
+	}
+
+	friend istream& operator>>(istream &stream, IntMod &a) { stream >> a.n; return stream; }
+	friend ostream& operator<<(ostream &stream, const IntMod &a) { stream << a.n; return stream; }
+};
+template<typename base_type, base_type _MOD> base_type IntMod<base_type, _MOD>::inverse_cache[INVERSE_CACHE_SIZE];
+template<typename base_type, base_type _MOD> bool IntMod<base_type, _MOD>::inverse_cache_ready;
+template<typename base_type, base_type _MOD> base_type IntMod<base_type, _MOD>::MOD = _MOD;
+
+using Int = IntMod<int, 998244353>;
+
+const int maxn=2048;
+
+int n;
+int a[maxn][maxn];
+Int f[maxn][maxn];
+Int permutation[maxn];
+int used[maxn];
+int current[maxn],previous[maxn];
+int s_current[maxn],s_overlap[maxn];
+
+void update(int s[],int p,int d)
+{
+	for (;p<=n;p=(p|(p-1))+1) s[p]+=d;
+}
+int calc(int s[],int p)
+{
+	int r=0;
+	for (;p;p&=(p-1)) r+=s[p];
+	return r;
+}
+int main()
+{
+#ifdef _MSC_VER
+	freopen("input.txt","r",stdin);
+#endif
+	std::ios::sync_with_stdio(false);
+	while (cin>>n)
+	{
+		permutation[0]=1;
+		FOR(i,1,n+1) permutation[i]=permutation[i-1]*i;
+		f[0][0]=1;
+		REP(c0,n+1) REP(c1,n-c0+1) if (c0+c1)
+		{
+			f[c0][c1]=0;
+			if (c1>0)
+			{
+				f[c0][c1]+=f[c0][c1-1]*c1;
+				if (c0>0) f[c0][c1]+=f[c0-1][c1]*c0;
+			}
+			else
+			{
+				if (c0>=2) f[c0][c1]+=f[c0-2][1]*(c0-1);
+			}
+		}
+		REP(i,n) REP(j,n) { cin>>a[i][j]; --a[i][j]; }
+		Int ret=0;
+		memset(used,0,sizeof(used));
+		REP(j,n) 
+		{
+			int cnt=0;
+			REP(k,a[0][j]) if (!used[k]) ++cnt;
+			ret+=cnt*permutation[n-1-j]*pow(f[n][0],n-1);
+			used[a[0][j]]=1;
+		}
+		FOR(i,1,n)
+		{
+			Int weight=pow(f[n][0],n-1-i);
+			int overlap=n;
+			REP(j,n) current[j]=previous[j]=1;
+			memset(s_current,0,sizeof(s_current));
+			memset(s_overlap,0,sizeof(s_overlap));
+			REP(j,n) update(s_current,j+1,1);
+			REP(j,n) update(s_overlap,j+1,1);
+			REP(j,n)
+			{
+				int c=a[i][j],p=a[i-1][j];
+				if (current[p] && previous[p])
+				{
+					--overlap;
+					update(s_overlap,p+1,-1);
+				}
+				--previous[p];
+
+				int c0=0,c1=0;
+				c1=calc(s_overlap,a[i][j]);
+				c0=calc(s_current,a[i][j])-c1;
+				if (p<a[i][j] && current[p]) 
+					if (previous[p]) --c1;
+					else --c0;
+				ret+=weight*c0*f[overlap][n-j-1-overlap];
+				ret+=weight*c1*f[overlap-1][n-j-1-(overlap-1)];
+				if (current[c] && previous[c])
+				{
+					--overlap;
+					update(s_overlap,c+1,-1);
+				}
+				--current[c];
+				update(s_current,c+1,-1);
+			}
+		}
+		printf("%d\n",ret.n);
+#ifndef _MSC_VER
+		break;
+#endif
+	}
+	return 0;
+}

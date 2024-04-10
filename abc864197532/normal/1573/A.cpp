@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+int main () {int t; std::cin >> t; while (t--) {int n; std::string s; std::cin >> n >> s; std::cout << std::accumulate(s.begin(), s.end() - 1, 0, [&](int x, char c) {return x + (c != '0');}) + std::accumulate(s.begin(), s.end(), 0, [&](int x, char c) {return x + c - '0';}) << std::endl;}}

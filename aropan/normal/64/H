@@ -1,0 +1,34 @@
+proc opr_sort {a b} {
+    scan $a "%s %d" as ax
+    scan $b "%s %d" bs bx
+    if {$ax == $bx && $as == $bs} { return 0 }
+    if {$ax > $bx || $ax == $bx && $as < $bs} { return -1 } { return 1 }
+}
+
+proc check {a b} {
+    scan $a "%s %d" as ax
+    scan $b "%s %d" bs bx
+    if {$ax == $bx} {return "true"} {return "false"}
+}
+
+scan [gets stdin] "%d" n
+set s [gets stdin]
+for {set i 1} {$i < $n} {incr i} {
+    set s $s.[gets stdin]
+}
+set list [split $s .]
+set list [lsort -command opr_sort $list]
+#foreach x $list { puts $x }
+
+for {set i 0} {$i < $n} {incr i} {
+    set l $i
+    set r $i
+    while {0 < $l && [check [lindex $list $i] [lindex $list [expr $l - 1]]] == "true"} { incr l -1}
+    while {$r < [expr $n -1] && [check [lindex $list $i] [lindex $list [expr $r + 1]]] == "true"} { incr r +1}
+    
+    scan [lindex $list $i] "%s" s
+    incr l 1
+    incr r 1
+    if {$l == $r} {set s "$l $s"} {set s "$l-$r $s"}
+    puts $s
+}

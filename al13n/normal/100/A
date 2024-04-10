@@ -1,0 +1,16 @@
+int main(){
+string line = Stdio.stdin->gets();
+array(string) ar = line / " ";
+int n = (int)ar[0];
+int k = (int)ar[1];
+int n1 = (int)ar[2];
+
+//write(""+((n+n1-1)/n1)*((n+n1-1)/n1));
+
+if (((n+n1-1)/n1)*((n+n1-1)/n1)<=k)
+    write("YES");
+else
+    write("NO");
+    
+return 0;
+}

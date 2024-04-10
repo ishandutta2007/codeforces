@@ -1,0 +1,203 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define _USE_MATH_DEFINES
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <bits/stdc++.h>
+/*#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")*/
+
+using namespace __gnu_pbds;
+using namespace std;
+
+#define ll long long
+#define ld long double
+#define mp make_pair
+#define what_is(x) cerr << #x << " is " << x << endl;
+
+typedef tree<
+        int,
+        null_type,
+        less<int>,
+        rb_tree_tag,
+        tree_order_statistics_node_update>
+        ordered_set;
+
+/*
+const int p = 1e9 + 7;
+
+
+int mul(int a, int b) {
+    return (1LL * a * b) % p;
+}
+
+int add(int a, int b) {
+    int s = (a+b);
+    s = s%p;
+    if (s<0) s+=p;
+    return s;
+}
+
+int sub(int a, int b) {
+    int s = (a-b);
+    s = s%p;
+    if (s<0) s+=p;
+    return s;
+}
+
+int po(int a, int deg)
+{
+    if (deg==0) return 1;
+    if (deg%2==1) return mul(a, po(a, deg-1));
+    int t = po(a, deg/2);
+    return mul(t, t);
+}
+
+int inv(int n)
+{
+    return po(n, p-2);
+}
+*/
+vector<int> Z(vector<int> s)
+{
+    int n = s.size();
+    vector<int> z(n);
+    int L = 0, R = 0;
+    for (int i = 1; i < n; i++) {
+        if (i > R) {
+            L = R = i;
+            while (R < n && s[R-L] == s[R]) R++;
+            z[i] = R-L; R--;
+        } else {
+            int k = i-L;
+            if (z[k] < R-i+1) z[i] = z[k];
+            else {
+                L = i;
+                while (R < n && s[R-L] == s[R]) R++;
+                z[i] = R-L; R--;
+            }
+        }
+    }
+    return z;
+}
+
+mt19937 rnd(time(0));
+/*
+struct Line {
+    mutable ll k, m, p;
+    bool operator<(const Line& o) const { return k < o.k; }
+    bool operator<(ll x) const { return p < x; }
+};
+
+struct CHT : multiset<Line, less<>> {
+    // (for doubles, use inf = 1/.0, div(a,b) = a/b)
+    const ll inf = LLONG_MAX;
+    ll div(ll a, ll b) { // floored division
+        return a / b - ((a ^ b) < 0 && a % b); }
+    bool isect(iterator x, iterator y) {
+        if (y == end()) { x->p = inf; return false; }
+        if (x->k == y->k) x->p = x->m > y->m ? inf : -inf;
+        else x->p = div(y->m - x->m, x->k - y->k);
+        return x->p >= y->p;
+    }
+    void add(ll k, ll m) {
+        auto z = insert({k, m, 0}), y = z++, x = y;
+        while (isect(y, z)) z = erase(z);
+        if (x != begin() && isect(--x, y)) isect(x, y = erase(y));
+        while ((y = x) != begin() && (--x)->p >= y->p)
+            isect(x, erase(y));
+    }
+    ll query(ll x) {
+        assert(!empty());
+        auto l = *lower_bound(x);
+        return l.k * x + l.m;
+    }
+};
+*/
+
+
+const ll N = 2*1e12;
+
+const ll M = 1e6+1;
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(nullptr);
+
+    ll n, m, k;
+    cin>>n>>m>>k;
+    vector<pair<int, pair<int, int>>> inside;
+    vector<pair<int, pair<int, int>>> outside;
+    int d, f, t, c;
+    for (int i = 0; i<m; i++)
+    {
+        cin>>d>>f>>t>>c;
+        if (f==0) outside.push_back(mp(d, mp(t, c)));
+        if (t==0) inside.push_back(mp(d, mp(f, c)));
+    }
+    sort(inside.begin(), inside.end());
+    sort(outside.begin(), outside.end());
+    vector<ll> min_cost_before(M+2);
+    vector<ll> min_cost_after(M+2);
+    vector<ll> prof_before(n+1, N);
+    vector<ll> prof_after(n+1, N);
+
+    min_cost_before[0] = N*n;
+    min_cost_after[M+1] = N*n;
+    //cout<<inside.size()<<' '<<outside.size()<<endl;
+    int bef = 0;
+    for (int i = 1; i<=M; i++)
+    {
+        min_cost_before[i] = min_cost_before[i-1];
+        while (bef<inside.size() && inside[bef].first==i)
+        {
+            //cout<<">> "<<bef<<endl;
+            auto it = inside[bef];
+            if (it.second.second<prof_before[it.second.first])
+            {
+                //cout<<">>>>"<<endl;
+                min_cost_before[i]-=prof_before[it.second.first];
+                prof_before[it.second.first] = it.second.second;
+                min_cost_before[i]+=prof_before[it.second.first];
+                //cout<<min_cost_before[i]<<endl;
+                //cout<<bef<<' '<<i<<' '<<min_cost_before[i]<<endl;
+            }
+            bef++;
+        }
+
+    }
+
+    if (outside.empty()) {cout<<-1; return 0;}
+    int aft = outside.size()-1;
+    for (int i = M; i>=1; i--)
+    {
+        min_cost_after[i] = min_cost_after[i+1];
+        while (aft>=0 && outside[aft].first==i)
+        {
+            auto it = outside[aft];
+            if (it.second.second<prof_after[it.second.first])
+            {
+                min_cost_after[i]-=prof_after[it.second.first];
+                prof_after[it.second.first] = it.second.second;
+                min_cost_after[i]+=prof_after[it.second.first];
+            }
+            aft--;
+        }
+    }
+
+    /*for (int i = 0; i<=4000; i++) cout<<min_cost_before[i]<<' ';
+    cout<<endl;*/
+
+    /*for (int i = 1; i<=4000; i++) cout<<min_cost_after[i]<<' ';
+    cout<<endl;*/
+
+    ll minn = 1e18;
+
+    for (int i = 2; i+k<=M; i++) minn = min(minn, min_cost_before[i-1] + min_cost_after[i+k]);
+    
+    if (minn>=N) {cout<<-1; return 0;}
+    cout<<minn;
+
+
+
+}

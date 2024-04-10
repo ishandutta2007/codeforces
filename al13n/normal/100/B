@@ -1,0 +1,26 @@
+int main(){
+int n=(int)Stdio.stdin->gets();
+string line=Stdio.stdin->gets();
+array(string) ar = line / ",";
+
+for(int i=0;i<n;++i){
+    for(int j=0;j<i;++j){
+        int a=(int)ar[i];
+        int b=(int)ar[j];
+        a=abs(a);
+        b=abs(b);
+        if(b<a){
+            int t=a;
+            a=b;
+            b=t;
+        }
+        if(a>0&&b%a>0){
+            write("NOT FRIENDS");
+            return 0;
+        }
+    }
+}
+write("FRIENDS");
+
+return 0;
+}

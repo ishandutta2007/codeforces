@@ -1,0 +1,30 @@
+let read () = Scanf.scanf " %d" (fun x -> x) in
+
+let rec read_list = function
+| 0 -> []
+| n -> read() :: read_list (n - 1)
+in
+
+let rec print_list = function
+| [] -> ()
+| x :: r -> print_int x; print_newline (); print_list r
+in
+
+let rec biggest_sum a b nb = function
+| 0 -> 0
+| n -> if List.hd a < List.hd b && nb != 0 then
+      (List.hd b) + (biggest_sum a (List.tl b) (nb - 1) (n - 1))
+   else
+      (List.hd a) + (biggest_sum (List.tl a) b nb (n - 1))
+in
+
+let nbTests = read () in
+for iTest = 1 to nbTests do
+   let nbElems = read () in
+   let nbEchanges = read () in
+   let a = List.rev (List.sort (-) (read_list nbElems)) in
+   let b = List.rev (List.sort (-) (read_list nbElems)) in
+   
+   print_int (biggest_sum a b nbEchanges nbElems);
+   print_newline ()
+done;

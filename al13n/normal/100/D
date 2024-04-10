@@ -1,0 +1,20 @@
+int main(){
+int n=(int)Stdio.stdin->gets();
+string a=Stdio.stdin->gets();
+string b=Stdio.stdin->gets();
+int l=0;
+int l1=strlen(a);
+int l2=strlen(b);
+int ll=l1;
+if(l2<ll)
+ll=l2;
+while(l<ll && a[l]==b[l])
+++l;
+int p=l1+l2-l-l;
+if(p<=n)
+write("YES");
+else
+write("NO");
+//write("\n"+p+" "+l+" "+l1+" "+l2+" "+ll);
+return 0;
+}

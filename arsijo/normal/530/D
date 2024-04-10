@@ -1,0 +1,28 @@
+import cp.
+import math.
+main => 
+	N = read_int(),
+	A = new_array(1000),
+
+	foreach (J in 1 .. N)
+		L = read_int(),
+		R = read_int(),
+		foreach (I in L .. R)
+			A[I] := 1
+		end
+	end,
+	
+	Ans = 0,
+	foreach (Q in 1 .. 1000)
+		if (A[Q] == 1) then
+			Ans := Ans + 1
+		end
+	end,
+	println(1000 - Ans),
+	foreach (Q in 1 .. 1000)
+		if (A[Q] == 1) then
+			Ans := Ans + 1
+		else 
+			println(Q)
+		end
+	end.

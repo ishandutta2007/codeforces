@@ -1,0 +1,123 @@
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <stack>
+#include <string>
+#include <vector>
+#include <variant>
+#include <sstream>
+#include <memory>
+
+using namespace std;
+
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define reunique(v) v.resize(std::unique(v.begin(), v.end()) - v.begin())
+#define sz(v) ((int)(v).size())
+
+#define vec1d(x) vector<x>
+#define vec2d(x) vector<vec1d(x)>
+#define vec3d(x) vector<vec2d(x)>
+#define vec4d(x) vector<vec3d(x)>
+
+#define ivec1d(x, n, v) vec1d(x)(n, v)
+#define ivec2d(x, n, m, v) vec2d(x)(n, ivec1d(x, m, v))
+#define ivec3d(x, n, m, k, v) vec3d(x)(n, ivec2d(x, m, k, v))
+#define ivec4d(x, n, m, k, l, v) vec4d(x)(n, ivec3d(x, m, k, l, v))
+
+#ifdef LOCAL
+#include "pretty_print.h"
+#define dbg(...) cerr << "[" << #__VA_ARGS__ << "]: ", debug_out(__VA_ARGS__)
+#else
+#define dbg(...) 42
+#endif
+
+#define nl "\n"
+
+typedef long double ld;
+typedef long long ll;
+typedef unsigned long long ull;
+
+template <typename T> T sqr(T x) { return x * x; }
+template <typename T> T abs(T x) { return x < 0? -x : x; }
+template <typename T> T gcd(T a, T b) { return b? gcd(b, a % b) : a; }
+template <typename T> bool chmin(T &x, const T& y) { if (x > y) { x = y; return true; } return false; }
+template <typename T> bool chmax(T &x, const T& y) { if (x < y) { x = y; return true; } return false; }
+
+auto random_address = [] { char *p = new char; delete p; return (uint64_t) p; };
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count() * (random_address() | 1));
+mt19937_64 rngll(chrono::steady_clock::now().time_since_epoch().count() * (random_address() | 1));
+
+
+int main(int /* argc */, const char** /* argv */)
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+#ifdef LOCAL
+    assert(freopen("i.txt", "r", stdin));
+    assert(freopen("o.txt", "w", stdout));
+#endif
+
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> a(m);
+        vector<int> p(m);
+        for (int i = 0; i < m; ++i) {
+            p[i] = i;
+            int k;
+            cin >> k;
+            a[i].resize(k);
+            for (int j = 0; j < k; ++j) {
+                cin >> a[i][j];
+                --a[i][j];
+            }
+        }
+        sort(all(p), [&](const int& i, const int& j) { return a[i].size() < a[j].size(); });
+
+        vector<int> c(n, (m + 1) / 2);
+        vector<int> ans(m);
+
+        bool ok = true;
+        for (auto& i : p) {
+            int opt = -1;
+            for (auto& x : a[i]) {
+                if (opt == -1 || c[x] > c[opt]) {
+                    opt = x;
+                }
+            }
+            ans[i] = opt;
+            if (--c[opt] < 0) {
+                ok = false;
+                break;
+            }
+        }
+        if (ok) {
+            cout << "YES" << nl;
+            for (int i = 0; i < m; ++i) {
+                i && cout << " ";
+                cout << ans[i] + 1;
+            }
+            cout << nl;
+        } else {
+            cout << "NO" << nl;
+        }
+    }
+
+#ifdef LOCAL
+    cerr << "Time execute: " << clock() / (double)CLOCKS_PER_SEC << " sec" << endl;
+#endif
+    return 0;
+}

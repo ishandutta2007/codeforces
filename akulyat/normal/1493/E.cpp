@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+#pragma GCC optimize ("O3", "unroll-all-loops")
+#pragma GCC target ("sse4.2")
+
+using namespace std;
+
+#define F first
+#define S second
+typedef long long       ll;
+typedef long double     ld;
+typedef pair<ll, ll>   pll; 
+typedef pair<int, int> pii; 
+
+ifstream in;
+ofstream out;
+
+const long long kk = 1000;
+const long long ml = kk * kk;
+const long long mod = ml * kk + 7;
+const long long inf = ml * ml * ml + 7; 
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+ll n;
+vector<ll> v;
+string l, r;
+bool viv = false;
+
+
+void solve() {
+	cin >> n;
+	cin >> l >> r;
+	if (l == r) {
+		cout << l << '\n';
+		return;
+	}
+
+	int pl = 0;
+	while (l[pl] == r[pl])
+		pl++;
+
+	bool have = false;
+	for (int i = 0; i < pl; i++)
+		if (r[i] == '1')
+			have = true;
+	if (have == true) {
+		bool all = true;
+		for (int i = pl + 1; i < n; i++)
+			if (l[i] == '0')
+				all = false;
+		if (!all || (pl < n - 2 && (r[n - 2] == '1')))
+			r.back() = '1';
+		cout << r << '\n';
+		return;
+	}
+	for (auto &i : r)
+		i = '1';
+	cout << r << '\n';
+	return;
+}
+
+int main() {
+	// viv = true;
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	ll t = 1; 
+	// cin >> t;
+	while (t--)
+		solve();
+
+	return 0;
+}

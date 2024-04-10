@@ -1,0 +1,78 @@
+array(array(int)) was;
+array(int) cura, curb;
+array(string) src;
+array(int) dx=({-1,-1,-1, 0,0, 1,1,1});
+array(int) dy=({-1, 0, 1,-1,1,-1,0,1});
+
+void dfs(int a,int b){
+    if(a<0||a>=10||b<0||b>=10||was[a][b]||src[a][b]=='0')
+        return;
+    was[a][b]=1;
+    cura=cura+({a});
+    curb=curb+({b});
+    for(int i=0;i<8;++i){
+        int aa=a+dx[i];
+        int bb=b+dy[i];
+        dfs(aa,bb);
+    }
+}
+
+int curstraight2(){
+    for(int i=0;i<sizeof(cura);++i)
+        if(cura[i]!=cura[0])
+            return false;
+    return true;
+}
+int curstraight1(){
+    for(int i=0;i<sizeof(curb);++i)
+        if(curb[i]!=curb[0])
+            return false;
+    return true;
+}
+int curstraight(){
+    return curstraight1() || curstraight2();
+}
+
+int solve(){
+    array(int) cntsz=allocate(5);
+    src=allocate(10);
+    was=allocate(10);
+    for(int i=0;i<10;++i){
+        src[i]=Stdio.stdin->gets();
+        was[i]=allocate(10);
+    }
+    Stdio.stdin->gets();
+    for(int i=0;i<10;++i){
+        for(int j=0;j<10;++j){
+            if(src[i][j]=='*' && was[i][j]==0){
+                cura=({});
+                curb=({});
+                dfs(i,j);
+                if(!curstraight())
+                    return 0;
+                int s=sizeof(cura);
+                if(s<1||s>4)
+                    return 0;
+                ++cntsz[s];
+            }
+        }
+    }
+    for(int i=1;i<=4;++i)
+        if(cntsz[i]!=5-i)
+            return 0;
+    return 1;
+}
+
+int main(){
+
+int n=(int)Stdio.stdin->gets();
+
+for(int q=0;q<n;++q){
+    if(solve())
+        write("YES\n");
+    else
+        write("NO\n");
+}
+
+return 0;
+}

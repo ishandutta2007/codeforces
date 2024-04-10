@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <set>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <deque>
+#include <string>
+#include <memory.h>
+
+#define sci(a) scanf("%d", &a)
+#define scii(a, b) scanf("%d%d", &a, &b)
+#define sciii(a, b, c) scanf("%d%d%d", &a, &b, &c)
+
+#define scid(a) int a; sci(a)
+#define sciid(a, b) int a, b; scii(a, b)
+#define sciiid(a, b, c) int a, b, c; sciii(a, b, c)
+
+#define rea(a, n) for (int i = 0; i < n; i++) sci(a[i])
+
+#define init_cin ios_base::sync_with_stdio(false); cin.tie(0);
+
+typedef long long lint;
+
+using namespace std;
+
+pair<int, int> cnt[26];
+int wd[26];
+
+int main() {
+    init_cin
+    string s;
+    cin >> s;
+    int k;
+    cin >> k;
+    for (int i = 0; i < 26; i++) {
+        cnt[i] = {0, i};
+    }
+    for (char c : s) {
+        cnt[c - 'a'].first++;
+    }
+    sort(cnt, cnt + 26);
+    for (int i = 0; i < 26; i++) {
+        int t = min(cnt[i].first, k);
+        k -= t;
+        wd[cnt[i].second] += t;
+    }
+    string t = "";
+    set<char> sm;
+    for (char c : s) {
+        if (wd[c - 'a'] > 0) {
+            wd[c - 'a']--;
+        } else {
+            t += c;
+            sm.insert(c);
+        }
+    }
+    cout << sm.size() << "\n";
+    cout << t;
+
+
+    return 0;
+}

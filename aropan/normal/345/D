@@ -1,0 +1,49 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure Solution is
+    a: array (Integer range 1..50, Integer range 1..50) of Integer;
+    f: array (1..50) of Boolean;
+    n, l, ans: Integer;
+    s: String(1..50);
+begin
+    Get(n);
+    Skip_Line;
+    for i in 1..n loop
+        Get_Line(s, l);
+        for j in 1..n loop
+            if s(j) = '1' then
+                a(i, j) := 1;
+            else
+                a(i, j) := 0;
+            end if;
+        end loop;
+    end loop;
+
+    f(1) := true;
+    for i in 1..n loop
+        for j in 1..n-1 loop
+            if f(j) then
+                for k in 1..n loop
+                    if a(j, k) = 1 then
+                        f(k) := true;
+                    end if;
+                end loop;
+            end if;
+        end loop;
+    end loop;
+
+    ans := 0;
+    for i in 1..n-1 loop
+        if f(i) and a(i, n) = 1 then
+            ans := ans + 1;
+        end if;
+    end loop;
+    Put(Item=>ans, Width=>1);
+end Solution;
