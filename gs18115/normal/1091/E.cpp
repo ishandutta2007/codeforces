@@ -1,0 +1,156 @@
+#include<iostream>
+#include<vector>
+#include<deque>
+#include<algorithm>
+using namespace std;
+typedef long long LL;
+const LL INF=1e18;
+deque<LL>deq;
+LL N,i,j,S,S2,P,P2;
+LL mini,maxi;
+LL A[1234567],B[1234567];
+bool flag;
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cin>>N;
+    for(i=0;i<N;i++)
+        cin>>A[i];
+    sort(A,A+N,greater<LL>());
+    for(i=0;i<N;i++)
+        deq.push_back(A[i]);
+    maxi=N*(N+1);
+    for(i=0;i<N;i++)
+    {
+        S+=A[i];
+        while(!deq.empty())
+        {
+            if(deq.back()<=i+1)
+            {
+                S2+=deq.back();
+                deq.pop_back();
+            }
+            else
+                break;
+        }
+        if(A[i]<=i+1)
+            S2-=A[i];
+        else
+            deq.pop_front();
+        P=i*(i+1)+S2+deq.size()*(i+1);
+        P2=(i+1)*(i+2)+S2+deq.size()*(i+2);
+        if(S>P+min(A[i],i+1)&&S+A[i]>P2)
+            return cout<<-1<<endl,0;
+        mini=max(mini,min(A[i],S-P));
+        maxi=min(maxi,max(A[i],P2-S));
+    }
+    maxi=min(maxi,N*(N+1)-S);
+    maxi=min(maxi,N);
+    if((maxi^S)&1)
+        maxi--;
+    if((mini^S)&1)
+        mini++;
+    for(j=maxi;j>maxi-1;j-=2)
+    {
+        for(i=0;i<N;i++)
+            B[i]=A[i];
+        B[N]=j;
+        for(i=N;i>0;i--)
+        {
+            if(B[i]>B[i-1])
+                swap(B[i],B[i-1]);
+            else
+                break;
+        }
+        for(i=0;i<=N;i++)
+            deq.push_back(B[i]);
+        S=S2=0;
+        flag=false;
+        for(i=0;i<=N;i++)
+        {
+            S+=B[i];
+            while(!deq.empty())
+            {
+                if(deq.back()<=i+1)
+                {
+                    S2+=deq.back();
+                    deq.pop_back();
+                }
+                else
+                    break;
+            }
+            if(B[i]<=i+1)
+                S2-=B[i];
+            else
+                deq.pop_front();
+            P=i*(i+1)+S2+deq.size()*(i+1);
+            if(S>P)
+            {
+                flag=true;
+                break;
+            }
+        }
+        if(flag)
+            maxi-=2;
+        else
+            break;
+    }
+    for(j=mini;j<mini+1;j+=2)
+    {
+        for(i=0;i<N;i++)
+            B[i]=A[i];
+        B[N]=j;
+        for(i=N;i>0;i--)
+        {
+            if(B[i]>B[i-1])
+                swap(B[i],B[i-1]);
+            else
+                break;
+        }
+        for(i=0;i<=N;i++)
+            deq.push_back(B[i]);
+        S=S2=0;
+        flag=false;
+        for(i=0;i<=N;i++)
+        {
+            S+=B[i];
+            while(!deq.empty())
+            {
+                if(deq.back()<=i+1)
+                {
+                    S2+=deq.back();
+                    deq.pop_back();
+                }
+                else
+                    break;
+            }
+            if(B[i]<=i+1)
+                S2-=B[i];
+            else
+                deq.pop_front();
+            P=i*(i+1)+S2+deq.size()*(i+1);
+            if(S>P)
+            {
+                flag=true;
+                break;
+            }
+        }
+        if(flag)
+            mini+=2;
+        else
+            break;
+    }
+    S=0;
+    for(i=0;i<N;i++)
+        S+=A[i];
+    if(mini>maxi)
+        return cout<<-1<<endl,0;
+    S++;
+    if(mini==maxi&&((S^mini)&1)==0)
+        return cout<<-1<<endl,0;
+    for(i=mini;i<=maxi;i+=2)
+        cout<<i<<' ';
+    cout<<endl;
+    return 0;
+}

@@ -1,0 +1,19 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    Cnt = 0, 
+    LFirst = [],
+    LLast = [],
+    foreach (X in 1 .. 500000) 
+        Y = (C - A * X) div B,
+        if (Y > 0) && (A * X + B * Y == C) then
+            LFirst := LFirst ++ [X],
+            LLast := LLast ++ [Y],
+            Cnt := Cnt + 1
+        end
+    end,
+    writef("%d\n", Cnt),
+    foreach(I in 1 .. Cnt)
+        writef("%d %d\n", LFirst[I], LLast[I])
+    end.

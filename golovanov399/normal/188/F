@@ -1,0 +1,22 @@
+co lol{
+div [2] [0] [1]
+eq [3] [2] 0
+if [3] ac
+mul [1] [1] 2
+}
+
+co hey{
+and [2] [0] [1]
+gt [3] [2] 0
+add [3] [3] 48
+cout [3]
+eq [3] [1] 1
+if [3] ac
+div [1] [1] 2
+}
+
+iin [0]
+set [1] 1
+ca lol
+div [1] [1] 2
+yi hey

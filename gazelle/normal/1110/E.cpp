@@ -1,0 +1,60 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<set>
+#include<map>
+#include<unordered_map>
+#include<stack>
+#include<queue>
+#include<iomanip>
+#include<math.h>
+#include<bitset>
+#include<cassert>
+#include<random>
+#include<time.h>
+#include<functional>
+using namespace std;
+using ll=long long;
+using ld=long double;
+using pint=pair<int,int>;
+using pll=pair<ll,ll>;
+#define MOD 1000000007LL
+#define INF 1000000000LL
+#define EPS 1e-10
+#define FOR(i,n,m) for(ll i=n;i<(ll)m;i++)
+#define REP(i,n) FOR(i,0,n)
+#define DUMP(a) REP(d,a.size()){cout<<a[d];if(d!=a.size()-1)cout<<" ";else cout<<endl;}
+#define ALL(v) v.begin(),v.end()
+#define UNIQUE(v)  sort(ALL(v));v.erase(unique(ALL(v)),v.end());
+#define pb push_back
+
+int main() {
+	cin.tie(0);
+	ios::sync_with_stdio(false);
+	ll n;
+	cin >> n;
+	vector<ll> c(n);
+	REP(i, n) cin >> c[i];
+	vector<ll> t(n);
+	REP(i, n) cin >> t[i];
+	if(c[0] != t[0]) {
+		cout << "No" << endl;
+		return 0;
+	}
+	vector<ll> diff1;
+	vector<ll> diff2;
+	REP(i, n - 1) diff1.pb(c[i + 1] - c[i]);
+	REP(i, n - 1) diff2.pb(t[i + 1] - t[i]);
+	sort(ALL(diff1));
+	sort(ALL(diff2));
+	REP(i, n - 1) {
+		if(diff1[i] != diff2[i]) {
+			cout << "No" << endl;
+			return 0;
+		}
+	}
+	cout << "Yes" << endl;
+	return 0;
+}
+
+/* --------------------------------------- */

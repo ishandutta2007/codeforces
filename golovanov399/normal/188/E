@@ -1,0 +1,34 @@
+co win{
+cout 89
+cout 69
+cout 83
+ac
+}
+
+co lol{
+cin [0]
+set [2] 0
+set [3] 0
+set [4] 0
+gt [6] [0] 126
+lt [5] [0] 33
+if [6] ac
+if [5] ac
+eq [2] [0] 72
+eq [3] [0] 81
+eq [4] [0] 57
+if [2] yi win
+if [2] ac
+if [3] yi win
+if [3] ac
+if [4] yi win
+if [4] ac
+}
+
+ca lol
+if [2] ac
+if [3] ac
+if [4] ac
+cout 78
+cout 79
+ac

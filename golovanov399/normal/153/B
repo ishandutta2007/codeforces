@@ -1,0 +1,28 @@
+       PROGRAM-ID. QWE.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       
+       01 A PIC 9(10).
+       01 B PIC 9(1).
+       01 C PIC 9(10).
+       01 RES PIC X(64).
+       01 QQ PIC X(64).
+       01 STR PIC X(10).
+       
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO A
+         MOVE "" TO RES
+         MOVE "" TO QQ
+         PERFORM UNTIL A = 0
+           DIVIDE A BY 2 GIVING C REMAINDER B
+           MOVE RES TO QQ
+           MOVE "" TO RES
+           STRING RES DELIMITED BY SPACE
+             B DELIMITED BY SIZE
+             QQ DELIMITED BY SIZE INTO RES
+           MOVE C TO A
+         END-PERFORM.
+         DISPLAY RES
+         STOP RUN.

@@ -1,0 +1,30 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =. (read-.LF)-.CR
+
+in1 =. 1 { in 
+
+ifJan =: (0 { in = 'J') * (1 { in = 'a')
+ifFeb =: (0 { in = 'F') * (1 { in = 'e')
+ifMar =: (0 { in = 'M') * (1 { in = 'a') * (2 { in = 'r')
+ifApr =: (0 { in = 'A') * (1 { in = 'p')
+ifMay =: (0 { in = 'M') * (1 { in = 'a') * (2 { in = 'y')
+ifJun =: (0 { in = 'J') * (1 { in = 'u') * (2 { in = 'n')
+ifJul =: (0 { in = 'J') * (1 { in = 'u') * (2 { in = 'l')
+ifAug =: (0 { in = 'A') * (1 { in = 'u')
+ifSep =: (0 { in = 'S') * (1 { in = 'e')
+ifOct =: (0 { in = 'O') * (1 { in = 'c')
+ifNov =: (0 { in = 'N') * (1 { in = 'o')
+ifDec =: (0 { in = 'D') * (1 { in = 'e')
+
+case =:        (ifDec * 1) + (ifJan * 1) + (ifFeb * 1)  
+case =: case + (ifMar * 2) + (ifApr * 2) + (ifMay * 2) 
+case =: case + (ifJun * 3) + (ifJul * 3) + (ifAug * 3)
+case =: case + (ifSep * 4) + (ifOct * 4) + (ifNov * 4)
+
+
+a =:    ((6 * (case = 1)) $ 'winter') , ((6 * (case = 2)) $ 'spring')
+a =: a, ((6 * (case = 3)) $ 'summer') , ((6 * (case = 4)) $ 'autumn')
+
+print a

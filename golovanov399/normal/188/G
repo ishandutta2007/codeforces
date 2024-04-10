@@ -1,0 +1,45 @@
+co hey{
+gt [3] [2] [0]
+if [3] ac
+gt [3] [[1]] [[2]]
+if [3] xor [[1]] [[1]] [[2]]
+if [3] xor [[2]] [[1]] [[2]]
+if [3] xor [[1]] [[1]] [[2]]
+add [2] [2] 1
+}
+
+co lol{
+add [1] [1] 1
+gt [2] [1] [0]
+if [2] ac
+set [2] [1]
+ca hey
+}
+
+co read{
+eq [2] [1] 0
+if [2] ac
+iin [[3]]
+add [3] [3] 1
+sub [1] [1] 1
+}
+
+co write{
+gt [2] [1] [0]
+if [2] ac
+iout [[1]]
+neq [2] [1] [0]
+if [2] cout 32
+add [1] [1] 1
+}
+
+iin [0]
+set [1] [0]
+set [3] 4
+ca read
+set [1] 3
+add [0] [0] 3
+ca lol
+set [1] 4
+ca write
+ac

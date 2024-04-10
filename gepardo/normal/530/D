@@ -1,0 +1,20 @@
+main =>
+    S = 1 .. 1000,
+    N = read_int(),
+    foreach (I in 1 .. N)
+        A = read_int(),
+        B = read_int(),
+        foreach (J in A .. B)
+            S[J] := 0
+        end
+    end,
+    Ans = [],
+    foreach (I in S)
+        if (I != 0) then
+            Ans := Ans ++ [I]
+        end
+    end,
+    writef("%d ", length(Ans)),
+    foreach(I in Ans)
+        writef("%d ", I)
+    end.

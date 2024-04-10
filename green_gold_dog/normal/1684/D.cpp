@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef double db;
+typedef long double ldb;
+typedef complex<double> cd;
+
+const ll INF64 = 9'000'000'000'000'000'000, INF32 = 2'000'000'000, MOD = 1'000'000'007;
+const db PI = acos(-1);
+
+mt19937 rnd32(time(0));
+mt19937_64 rnd64(time(0));
+
+template<typename T>
+bool assign_max(T& a, T b) {
+	if (b > a) {
+		a = b;
+		return true;
+	}
+	return false;
+}
+
+template<typename T>
+bool assign_min(T& a, T b) {
+	if (b < a) {
+		a = b;
+		return true;
+	}
+	return false;
+}
+
+template<typename T>
+T square(T a) {
+	return a * a;
+}
+
+template<>
+struct std::hash<pair<ll, ll>> {
+	ll operator() (pair<ll, ll> p) {
+		return ((__int128)p.first * MOD + p.second) % INF64;
+	}
+};
+
+void solve() {
+	ll n, k;
+	cin >> n >> k;
+	vector<ll> arr(n, 0);
+	ll sum = 0;
+	for (ll i = 0; i < n; i++) {
+		cin >> arr[i];
+		sum += arr[i];
+	}
+	multiset<ll> all;
+	for (ll i = 0; i < n; i++) {
+		all.insert(arr[i] - (n - i - 1));
+	}
+	for (ll i = 0; i < k; i++) {
+		sum -= *all.rbegin();
+		all.erase(all.find(*all.rbegin()));
+	}
+	cout << sum - k * (k - 1) / 2 << '\n';
+}
+
+int main() {
+    	ios_base::sync_with_stdio(false);
+    	cin.tie(0);
+    	cout.tie(0);
+	ll t = 1;
+	cin >> t;
+	for (ll i = 0; i < t; i++) {
+		solve();
+	}
+}

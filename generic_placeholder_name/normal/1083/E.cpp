@@ -1,0 +1,3 @@
+#include<bits/stdc++.h>
+#define p(n) for(int i=1;i<=n;i++)
+using namespace std;typedef long long L;const int N=1e6+5;struct O{int x,y;L v;}a[N];int n;L d[N];int l,r,q[N];double S(int i,int j){return 1.0*(d[i]-d[j])/(a[i].x-a[j].x);}int main(){scanf("%d",&n);p(n)scanf("%d%d%lld",&a[i].x,&a[i].y,&a[i].v);sort(a+1,a+1+n,[](O x,O y){return x.x<y.x;});l=r=1;p(n){while(l+1<=r&&S(q[l],q[l+1])>=a[i].y)l++;int j=q[l];d[i]=max(d[i-1],d[j]+(L)a[i].y*(a[i].x-a[j].x)-a[i].v);while(l+1<=r&&S(q[r-1],q[r])<=S(q[r],i))r--;q[++r]=i;}printf("%lld",d[n]);}

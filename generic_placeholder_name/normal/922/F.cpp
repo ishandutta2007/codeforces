@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int n,k,i,j,c,d[300001],a[300001];int main(){cin>>n>>k;for(i=1;i<=n;i++){for(j=2*i;j<=n;j+=i)d[j]++;d[i]+=d[i-1];}if(d[n]<k)return puts("No"),0;n=lower_bound(d+1,d+n+1,k)-d;for(i=1;i<=n;i++)if(d[i]-d[i-1]==1&&d[n]-k>=n/i)k+=n/i;else a[++c]=i;printf("Yes\n%d\n",c);for(i=1;i<=c;i++)cout<<a[i]<<endl;}

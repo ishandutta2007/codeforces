@@ -1,0 +1,7 @@
+main =>
+    N = read_int(),
+    D = read_int(),
+    foreach (I in 1 .. (N - 2))
+        writef("%d ", 1)
+    end,
+    writef("%d %d", 2, N + D).

@@ -1,0 +1,17 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  if A < 0 then
+    A := -A,
+    B := -B,
+    C := -C
+  end,
+  D = B * B - 4 * A * C,
+  if D == 0 then
+    writef("%.6f", (-B) / (2.0 * A))
+  else
+    X1 = (-B - sqrt(D)) / (2.0 * A),
+    X2 = (-B + sqrt(D)) / (2.0 * A),
+    writef("%.6f %.6f", X1, X2)
+  end.
