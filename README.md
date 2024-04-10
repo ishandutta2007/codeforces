@@ -26,7 +26,7 @@ echo "benq" >> .git/info/sparse-checkout
 
 only pulls root folder:
 ```
-git pull --depth=1 origin master
+git pull --depth=1 origin main
 ```
 
 https://unix.stackexchange.com/questions/233327/is-it-possible-to-clone-only-part-of-a-git-project
