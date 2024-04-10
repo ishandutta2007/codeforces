@@ -1,0 +1,212 @@
+#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+ 
+// hloya template v26
+ 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+ 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+bool dbg = 0;
+  
+clock_t start_time = clock();
+#define current_time fixed<<setprecision(6)<<(ld)(clock()-start_time)/CLOCKS_PER_SEC
+  
+#define f first
+#define s second
+#define mp make_pair
+#define mt make_tuple
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
+#define sz(v) ((int)(v).size())
+#define sqr(x) ((x) * (x))
+ 
+#define ull unsigned long long
+#define ll long long
+#define ld long double
+#define pii pair<int,int>
+#define umap unordered_map<int, int>
+ 
+#define files1 freopen("input.txt","r",stdin)
+#define files2 freopen("output.txt","w",stdout)
+#define files files1;files2
+#define fast_io ios_base::sync_with_stdio(0);cin.tie(0)
+ 
+// #define endl '\n'
+#define ln(i,n) " \n"[(i) == (n) - 1]
+ 
+void bad(string mes = "NO"){cout << mes;exit(0);}
+void bad(int mes){cout << mes;exit(0);}
+ 
+template<typename T>
+string bin(T x, int st = 2){
+    string ans = "";
+    while (x > 0){
+        ans += char('0' + x % st);
+        x /= st;
+    }
+    reverse(ans.begin(), ans.end());
+    return ans.empty() ? "0" : ans;
+}
+ 
+mt19937_64 mt_rand(
+    chrono::system_clock::now().time_since_epoch().count()
+);
+ 
+template<typename T1, typename T2> inline bool upmax(T1& a, T2 b) { return (a < b ? (a = b, true) : false); }
+template<typename T1, typename T2> inline bool upmin(T1& a, T2 b) { return (b < a ? (a = b, true) : false); }
+ 
+// inline int popcount(int x){
+//     int count = 0;
+//     __asm__ volatile("POPCNT %1, %0;":"=r"(count):"r"(x):);
+//     return count;
+// }
+  
+template<typename T>
+T input(){
+    T ans = 0, m = 1;
+    char c = ' ';
+  
+    while (!((c >= '0' && c <= '9') || c == '-')) {
+        c = getchar();
+    }
+  
+    if (c == '-')
+        m = -1, c = getchar();
+    while (c >= '0' && c <= '9'){
+        ans = ans * 10 + (c - '0'), c = getchar();
+    }
+    return ans * m;
+}
+ 
+template<typename T>
+T gcd (T a, T b) { while (b) { a %= b; swap (a, b); } return a; }
+  
+template<typename T> void read(T& a) { a = input<T>(); }
+template<typename T> void read(T& a, T& b) { read(a), read(b); }
+template<typename T> void read(T& a, T& b, T& c) { read(a, b), read(c); }
+template<typename T> void read(T& a, T& b, T& c, T& d) { read(a, b), read(c, d); }
+ 
+const int inf = 1e9 + 20;
+const short short_inf = 3e4 + 20;
+const long double eps = 1e-12;
+const int maxn = (int)2e5 + 3, base = 998244353;
+const ll llinf = 2e18 + 5;
+ 
+int binpow(int a, int s) { 
+    int res = 1;
+    while (s) {
+        if (s % 2) {
+            res = 1ll * res * a % base;
+        }
+        a = 1ll * a * a % base;
+        s /= 2;
+    }
+    return res;
+}
+
+int a[maxn];
+int sum[maxn * 4], prod[maxn * 4];
+
+void build(int v, int tl, int tr) {
+	if (tl == tr) {
+		sum[v] = prod[v] = a[tl];
+		return;
+	}
+	int tm = (tl + tr) >> 1;
+	build(v<<1, tl, tm );
+	build(v<<1|1, tm + 1, tr);
+	prod[v] = 1ll * prod[v<<1] * prod[v<<1|1] % base;
+	sum[v] = (1ll * sum[v<<1] * prod[v<<1|1] % base + 1ll * sum[v<<1|1]) % base;
+}
+
+pii mrg(pii a, pii b) {
+	return mp((1ll * a.f * b.s % base + b.f) % base, 1ll * a.s * b.s % base);
+}
+
+pii get(int v, int tl, int tr, int l, int r) {
+	if (l > r) {
+		return mp(0, 1);
+	}
+	if (tl == l && tr == r) {
+		return mp(sum[v], prod[v]);
+	}
+	int tm = (tl + tr) >> 1;
+	return mrg(get(v<<1, tl, tm, l, min(r, tm)), get(v<<1|1, tm + 1, tr, max(l, tm + 1), r));
+}
+
+int main() {
+	// files1;
+	fast_io;
+
+	int n, q;
+	cin >> n >> q;
+
+	for (int i = 0; i < n; i++) {
+		int p;
+		cin >> p;
+
+		p = 1ll * p * binpow(100, base - 2) % base;
+		int f = binpow(p, base - 2);
+		// int f = 1ll * (1 - p) * (1 - p) % base;
+		// if (f < 0) f += base;
+		// // f = binpow(f, base - 2);
+
+		// f = 1ll * f * binpow(p, base - 2) % base;
+		a[i] = f;
+	}
+
+	// cout << (1ll * a[0] + 1ll * a[1] * a[2] % base * a[3] % base * a[4] % base + 1ll * a[2] % base * a[3] % base * a[4] % base  + 1ll * a[3] * a[4] % base  + a[4]) % base;
+	// return 0;
+
+	build(1, 0, n - 1);
+	int ans = get(1, 0, n - 1, 0, n - 1).f;
+	
+	set<int> cp;
+	cp.insert(0);
+	cp.insert(n);
+
+	for (int i = 0; i < q; i++) {
+		int p;
+		cin >> p;
+		p--;
+
+		if (cp.count(p)) {
+			auto it = cp.find(p);
+			it--;
+			int prev = *it;
+			it++;
+			it++;
+			int nxt = *it;
+
+			ans = (ans + get(1, 0, n - 1, prev, nxt - 1).f) % base;
+			ans = (ans - get(1, 0, n - 1, prev, p - 1).f + base) % base;
+			ans = (ans - get(1, 0, n - 1, p, nxt - 1).f + base) % base;
+
+			cp.erase(p);
+		} else {
+			auto it = --cp.upper_bound(p);
+			int prev = *it;
+			++it;
+			int nxt = *it;
+			ans = (ans - get(1, 0, n - 1, prev, nxt - 1).f + base) % base;
+			ans = (ans + get(1, 0, n - 1, prev, p - 1).f) % base;
+			ans = (ans + get(1, 0, n - 1, p, nxt - 1).f) % base;
+			cp.insert(p);
+		}
+		cout << ans << "\n";
+	}
+	return 0;
+}

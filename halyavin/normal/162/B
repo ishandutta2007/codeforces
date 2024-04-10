@@ -1,0 +1,30 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+
+IN: template
+
+: bin ( n -- answer )
+  dup
+  0 =
+  [ ]
+  [
+    dup
+    2 mod
+    0 =
+    [
+     2 /i
+     bin
+     "0" write
+    ]
+    [
+      2 /i
+      bin
+      "1" write
+    ]
+    if
+  ] 
+  if ;
+
+readln string>number
+bin
+drop
+"" print

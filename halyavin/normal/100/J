@@ -1,0 +1,80 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int readInt() {
+  string in;
+  int result;
+  in = trim(Stdio.stdin->gets());
+  sscanf(in,"%d",result);
+  return result;
+}
+array(int) readInts() {
+  string in;
+  array(string) ins;
+  array(int) results;
+  int i;
+  in = trim(Stdio.stdin->gets());
+  ins = in/" ";
+  results = allocate(sizeof(ins));
+  for (i = 0; i<sizeof(ins); i++) {
+    sscanf(ins[i],"%d",results[i]);
+  }
+  return results;
+}
+
+int main(){
+  int n = readInt();
+  array(int) as = allocate(n);
+  array(int) bs = allocate(n);
+  for (int i=0;i<n;i++) {
+    string in = trim(Stdio.stdin->gets());
+    array(string) ins = in / ",";
+    if (ins[0][0..0]=="[") {
+      sscanf(ins[0],"[%d",as[i]);
+      as[i]=2*as[i];
+    } else {
+      sscanf(ins[0],"(%d",as[i]);
+      as[i]=2*as[i]+1;
+    }
+    sscanf(ins[1],"%d",bs[i]);
+    if (ins[1][strlen(ins[1])-1..strlen(ins[1])-1]=="]") {
+      bs[i]=2*bs[i];
+    } else {
+      bs[i]=2*bs[i]-1;
+    }
+  }
+  if (n<=2) {
+    write("1\n");
+    return 0;
+  }
+  Array.sort(as);
+  Array.sort(bs);
+  array(int) blockStart = allocate(n);
+  array(int) blockEnd = allocate(n);
+  int blocks = 0;
+  int i = 0;
+  while (i<n) {
+    int j=i+1;
+    while (j<n && as[j]<=bs[i]) {
+      j++;
+    }
+    blockStart[blocks] = as[i];
+    blockEnd[blocks] = bs[j-1];
+    blocks++;
+    i = j;
+  }
+  int colors = 1;
+  int j=0;
+  for (i=0;i<blocks;i++) {
+    while (j<blocks && blockStart[j]<=blockEnd[i]) {
+      j++;
+    }
+    colors = max(colors,j-i); 
+  }
+  write(sprintf("%d\n",colors));
+}

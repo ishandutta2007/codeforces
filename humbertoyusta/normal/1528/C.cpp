@@ -1,0 +1,143 @@
+    /**   Created by: Humberto Yusta
+          Codeforces User: humbertoyusta
+          Country: Cuba                    */
+#include<bits/stdc++.h>
+using namespace std;
+/// Pragmas
+#pragma GCC optimize("Ofast","unroll-loops","omit-frame-pointer","inline","03") // Optimization flags
+//#pragma GCC option("arch=native","tune=native","no-zero=upper") // Enable AVX
+//#pragma GCC target("avx2") // Enable AVX
+//#pragma comment(linker, "/STACK:1024000000,1024000000") // Increase stack limit
+//#pragma GCC target("sse,sse2,sse,ssse3,sse4,popcnt,abm,mmx,avx,tune=native") // I don't know what it is
+/// Macros:
+#define int long long
+#define f first
+#define s second
+#define db(x) cerr << #x << ": " << (x) << '\n';
+#define pb push_back
+#define lb lower_bound
+#define up upper_bound
+#define all(x) x.begin() , x.end()
+#define rall(x) x.rbegin() , x.rend()
+#define enl '\n'
+typedef pair<int,int> ii;
+typedef long double ld;
+typedef unsigned long long ull;
+/// Constraints:
+const int maxn = 1000010;
+const int mod = 1000000007;
+const int mod2 = 998244353;
+const ld eps = 1e-9;
+const int inf = ((1ll<<31ll)-1ll);
+const int INF = 1ll * mod * mod;
+const ld pi = acos(-1);
+/// Prime Numbers:
+// 2, 173, 179, 181, 197, 311, 331, 737, 1009, 2011, 2027, 3079, 4001, 10037, 10079, 20011, 20089;
+// 100003, 100019, 100043, 200003, 200017, 1000003, 1000033, 1000037, 1000081;
+// 2000003, 2000029, 2000039, 1000000007, 1000000021, 2000000099;
+/// Functions:
+#define lg2(x) 31 - __builtin_clz(x)
+#define lgx(x,b) ( log(x) / log(b) )
+/// Red-Black Tree Template ---------------------------------
+//#include <ext/pb_ds/assoc_container.hpp>
+//#include <ext/pb_ds/tree_policy.hpp>
+//using namespace __gnu_pbds;
+//typedef tree < long long ,  null_type ,  less<long long> ,  rb_tree_tag ,  tree_order_statistics_node_update > ordered_set;
+/// Quick Pow------------------------------------------------
+int qpow(int b,int e){
+    if( !e ) return 1;
+    if( e & 1 ) return qpow(b,e-1) * b % mod;
+    int pwur = qpow(b,e>>1);
+    return pwur * pwur % mod;
+}
+int modinv(int x){ return qpow(x,mod-2); }
+bool isprime(int x){
+    for(int i=2; i*i<=x; i++)
+        if( x % i == 0 )
+            return false;
+    return true;
+}
+/// My Code -------------------------------------------------
+
+vector<int> g1[maxn], g2[maxn];
+int l[maxn], r[maxn], p1[maxn], p2[maxn], cnt, ans;
+stack<pair<ii,ii>> q;
+set<ii> s;
+
+void dfs2(int u){
+    l[u] = r[u] = ++cnt;
+    for( auto v : g2[u] ){
+        if( v == p2[u] ) continue;
+        dfs2(v);
+        r[u] = max( r[u] , r[v] );
+    }
+}
+
+void dfs1(int u){
+    ans = max( ans , (int)s.size() );
+    for( auto v : g1[u] ){
+        if( v == p1[u] ) continue;
+
+        pair<ii,ii> R = { {-1,-1} , {-1,-1} };
+
+        if( !s.empty() ){
+            auto it = s.lower_bound({l[v],r[v]});
+            if( it != s.begin() ){
+                it --;
+                if( (*it).s >= r[v] ){
+                    R.f = { (*it).f , (*it).s };
+                    s.erase(it);
+                }
+            }
+        }
+        R.s = {l[v],r[v]};
+        s.insert({l[v],r[v]});
+
+        dfs1(v);
+
+        if( R.f != (ii){-1,-1} ){
+            s.insert(R.f);
+        }
+        if( R.s != (ii){-1,-1} ){
+            s.erase(R.s);
+        }
+    }
+}
+
+int32_t main(){
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    cout.setf(ios::fixed); cout.precision(10);
+    srand(time(NULL));
+
+    //freopen("a.in","r",stdin);
+    //freopen("a.in","w",stdout);
+
+    int tc;
+    cin >> tc;
+    while( tc -- ){
+        int n;
+        cin >> n;
+        for(int i=1; i<=n; i++){
+            g1[i].clear(); g2[i].clear();
+            l[i] = r[i] = p1[i] = p2[i] = 0;
+        }
+        p1[1] = p2[1] = 1;
+        for(int i=2; i<=n; i++){
+            cin >> p1[i];
+            g1[p1[i]].pb(i);
+        }
+        for(int i=2; i<=n; i++){
+            cin >> p2[i];
+            g2[p2[i]].pb(i);
+        }
+
+        cnt = 0;
+        dfs2(1);
+
+        ans = 0;
+        dfs1(1);
+        cout << ans << '\n';
+    }
+
+    return 0;
+}

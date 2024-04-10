@@ -1,0 +1,46 @@
+file:= File standardInput
+line:=file readLine split()
+n:=line at(0) asNumber
+m:=line at(1) asNumber
+line= file readLine split()
+t:=line at(0) asNumber
+listrows := list(0,n+1)
+for(i,0,t-1,
+  listrows append(line at(i+1) asNumber)
+)
+line = file readLine split()
+s:= line at(0) asNumber
+listcols := list(0,m+1)
+for (i,0,s-1,
+  listcols append(line at(i+1) asNumber)
+)
+sort := method(list,
+  for (i,0,list size -1,
+    for (j,i+1,list size-1,
+      if (list at(i) > list at(j),
+        t:=list at(i)
+        list atPut(i, list at(j))
+        list atPut(j, t)
+      )
+    )
+  )
+)
+sort(listrows)
+sort(listcols)
+//writeln(listrows)
+//writeln(listcols)
+rows := listrows size - 1
+for (i,0, listrows size-2,
+  if (listrows at(i)==listrows at(i+1) -1,
+    rows=rows-1
+  )
+)
+cols := listcols size -1
+for(i,0,listcols size-2,
+  if (listcols at (i)==listcols at(i+1)-1,
+    cols = cols-1
+  )
+)
+//writeln(rows)
+//writeln(cols)
+writeln(rows*cols)

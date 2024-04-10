@@ -1,0 +1,89 @@
+file:= File standardInput
+lines:=file readLine
+concat := method(line1, line2,
+  for (i,0,line2 size -1,
+    line1 append(line2 at(i))
+  )
+)
+reverse := method(line1,
+  line2 := "" asMutable
+  for (i,line1 size-1,0,-1,
+    line2 append(line1 at(i))
+  )
+)
+substr2 := method(line1, n1, n2,
+  return line1 slice(n1-1,n2) asMutable
+)
+substr3 := method(line1, n1, n2, n3,
+  i:=n1-1
+  res := "" asMutable
+  while (i<n2 and (i<line1 size),
+    res append(line1 at(i))
+    i = i+n3)
+  return res
+)
+findFirst := method(line1, line2, startPos,
+  for (i,startPos, line1 size - 1,
+    if (line1 slice(i,i+1)==line2,
+      return i)
+  )
+)
+findFirst2 := method(line1, line2, startPos,
+  level :=0
+  for (i,startPos, line1 size - 1,
+    if (line1 slice(i,i+1)==line2 and (level==0),
+      return i
+    )
+    if (line1 slice(i,i+1)=="(", level = level +1)
+    if (line1 slice(i,i+1)==")", level = level -1)
+  )
+  return 0-1
+)
+      
+parseExpr := method(line,
+  if (line slice(0,1)=="\"",
+    nextQuote := findFirst(line,"\"",1)
+    return line slice(1,nextQuote)
+  )
+  nextBracket := findFirst(line,"(",0)
+  op := line slice(0,nextBracket) asMutable asLowercase
+  if (op=="concat",
+    comma := findFirst2(line,",",nextBracket+1)
+    end := findFirst2(line,")",comma+1)
+    arg1 := line slice(nextBracket+1,comma)
+    arg2 := line slice(comma+1, end)
+    //write(arg1)
+    //write(" ")
+    //writeln(arg2);
+    return concat(parseExpr(arg1),parseExpr(arg2))
+  )
+  if (op=="reverse",
+    end:=findFirst2(line,")",nextBracket+1)
+    arg1 := line slice(nextBracket+1,end)
+    //write(arg1)
+    return reverse(parseExpr(arg1))
+  )
+  if (op !="substr",
+    writeln("error")
+    return "" asMutable
+  )
+  comma1 := findFirst2(line,",",nextBracket+1)
+  comma2 := findFirst2(line,",",comma1+1)
+  str := line slice(nextBracket+1,comma1)
+  n1 := line slice(comma1+1,comma2) asNumber
+  comma3 := findFirst2(line,",",comma2+1)
+  if (comma3<0,
+    end := findFirst2(line,")",comma2+1)
+    n2 := line slice(comma2+1, end) asNumber
+    return substr2(parseExpr(str),n1,n2)
+    ,
+    n2 := line slice(comma2+1, comma3) asNumber
+    end := findFirst2(line,")",comma3+1)
+    n3 := line slice(comma3+1,end) asNumber
+    return substr3(parseExpr(str),n1,n2,n3)
+    )
+  return "" asMutable
+)
+write("\"")
+write(parseExpr(lines))
+writeln("\"")

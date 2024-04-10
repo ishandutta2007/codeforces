@@ -1,0 +1,8 @@
+for _ = 1 to read_int() do
+    let s = read_line() in
+        let length = String.length s in
+            print_endline(
+                if length <= 10 then s
+                else (String.sub s 0 1) ^ (string_of_int(length - 2)) ^ (String.sub s (length - 1) 1)
+            )
+done

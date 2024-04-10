@@ -1,0 +1,43 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence locals ;
+
+IN: template
+
+: check ( -- )
+ read1
+ dup
+ 72 = 
+ [
+   drop
+   "YES" print
+ ]
+ [
+   dup
+   81 =
+   [
+     drop
+     "YES" print
+   ]
+   [
+     dup
+     57 =
+     [
+       drop
+       "YES" print
+     ]
+     [
+       32 <=
+       [
+         "NO" print
+       ]
+       [
+         check
+       ]
+       if
+     ]
+     if
+   ]
+   if  
+ ]
+ if ; 
+ 
+check

@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<math.h>
+long long int a,b,sb1,sb2,i,j,k,l,times,shit,ass,n,cnm1,cnm2,cnm11,cnm22,mag,c,d,excited,ctmlgb=0,fuck[10000000],fuck2[300000];
+int main()
+{
+	scanf("%lld%lld",&a,&mag);
+	b=log2(a)+1;
+	for(i=0;i<=a-1;i++)
+	{
+		scanf("%lld",&fuck[i]);
+	}
+	for(i=1;i<=b;i++)
+	{
+		shit=pow(2,i);
+		times=a/shit;
+		ass=200000*(i-1);k=0;
+		for(j=1;j<=times;j++)
+		{
+			sb1=shit*(j-1);sb2=sb1+shit/2;n=sb1; 
+			while(!(n==shit*(j-1)+shit))
+			{
+				if(fuck[sb1+ass]>=fuck[sb2+ass]){fuck[n+200000+ass]=fuck[sb2+ass];sb2++;n++;}
+				else{fuck[n+200000+ass]=fuck[sb1+ass];sb1++;n++;}
+				if(sb1>shit*(j-1)+shit/2-1){sb1--;fuck[sb1+ass]=999999999999;}
+				if(sb2>shit*(j-1)+shit-1){sb2--;fuck[sb2+ass]=999999999999;} 
+			}
+			k++;
+		}
+		l=a-times*shit;if(k!=0){sb1=sb1+1+shit/2;sb2=sb2+1+shit/2;}else{sb1=shit*(j-1);sb2=sb1+shit/2;n=sb1;}
+		while(l>0)
+		{
+			if(fuck[sb1+ass]==0){fuck[sb1+ass]=999999999999;}
+			if(fuck[sb2+ass]==0){fuck[sb2+ass]=999999999999;} 
+			if(fuck[sb1+ass]>=fuck[sb2+ass]){fuck[n+200000+ass]=fuck[sb2+ass];sb2++;n++;}
+			else{fuck[n+200000+ass]=fuck[sb1+ass];sb1++;n++;}		
+			if(sb1>shit*(j-1)+shit/2-1){sb1--;fuck[sb1+ass]=999999999999;}
+			if(sb2>shit*(j-1)+shit-1){sb2--;fuck[sb2+ass]=999999999999;} 	
+			l--;
+		}
+	}
+	for(i=1;i<=a-1;i++)
+	{
+		fuck2[i-1]=fuck[200000+ass+i]-fuck[200000+ass+i-1];
+	}
+	cnm1=0;cnm2=a-2;cnm11=1;cnm22=1;excited=fuck[200000+ass+a-1]-fuck[200000+ass];
+ 	while(cnm1<=cnm2)
+ 	{
+		if(mag>=cnm11*fuck2[cnm1]){excited-=fuck2[cnm1];mag-=cnm11*fuck2[cnm1];cnm1++;cnm11++;}
+		else{excited-=(mag/cnm11);break;}
+		if(mag>=cnm22*fuck2[cnm2]){excited-=fuck2[cnm2];mag-=cnm22*fuck2[cnm2];cnm2--;cnm22++;}
+		else{excited-=(mag/cnm22);break;}
+	}
+ 	excited*=(excited>=0);
+	printf("%lld",excited);
+	return 0;
+}

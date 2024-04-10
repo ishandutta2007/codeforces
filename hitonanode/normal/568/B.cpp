@@ -1,0 +1,200 @@
+#include <bits/stdc++.h>
+using namespace std;
+using lint = long long;
+using pint = pair<int, int>;
+using plint = pair<lint, lint>;
+struct fast_ios {
+    fast_ios() { cin.tie(nullptr), ios::sync_with_stdio(false), cout << fixed << setprecision(20); };
+} fast_ios_;
+#define FOR(i, begin, end) for (int i = (begin), i##_end_ = (end); i < i##_end_; i++)
+#define IFOR(i, begin, end) for (int i = (end)-1, i##_begin_ = (begin); i >= i##_begin_; i--)
+#define REP(i, n) FOR(i, 0, n)
+#define IREP(i, n) IFOR(i, 0, n)
+#define ALL(x) (x).begin(), (x).end()
+//
+template <typename T, typename V>
+void ndarray(vector<T>& vec, const V& val, int len) { vec.assign(len, val); }
+template <typename T, typename V, typename... Args>
+void ndarray(vector<T>& vec, const V& val, int len, Args... args)
+{
+    vec.resize(len), for_each(begin(vec), end(vec), [&](T& v) { ndarray(v, val, args...); });
+}
+template <typename T>
+bool chmax(T& m, const T q) { return m < q ? (m = q, true) : false; }
+template <typename T>
+bool chmin(T& m, const T q) { return m > q ? (m = q, true) : false; }
+template <typename T1, typename T2>
+pair<T1, T2> operator+(const pair<T1, T2>& l, const pair<T1, T2>& r) { return make_pair(l.first + r.first, l.second + r.second); }
+template <typename T1, typename T2>
+pair<T1, T2> operator-(const pair<T1, T2>& l, const pair<T1, T2>& r) { return make_pair(l.first - r.first, l.second - r.second); }
+template <typename T>
+vector<T> srtunq(vector<T> vec) { return sort(vec.begin(), vec.end()), vec.erase(unique(vec.begin(), vec.end()), vec.end()), vec; }
+template <typename T>
+istream& operator>>(istream& is, vector<T>& vec)
+{
+    return for_each(begin(vec), end(vec), [&](T& v) { is >> v; }), is;
+}
+
+// output
+template <typename T, typename V>
+ostream& dmpseq(ostream&, const T&, const string&, const string&, const string&);
+#if __cplusplus >= 201703L
+template <typename... T>
+ostream& operator<<(ostream& os, const tuple<T...>& tpl)
+{
+    return apply([&os](auto&&... args) { ((os << args << ','), ...); }, tpl), os;
+}
+#endif
+//
+template <typename T1, typename T2>
+ostream& operator<<(ostream& os, const pair<T1, T2>& p) { return os << '(' << p.first << ',' << p.second << ')'; }
+template <typename T>
+ostream& operator<<(ostream& os, const vector<T>& x) { return dmpseq<vector<T>, T>(os, x, "[", ",", "]"); }
+template <typename T>
+ostream& operator<<(ostream& os, const deque<T>& x) { return dmpseq<deque<T>, T>(os, x, "deq[", ",", "]"); }
+template <typename T>
+ostream& operator<<(ostream& os, const set<T>& x) { return dmpseq<set<T>, T>(os, x, "{", ",", "}"); }
+template <typename T, typename TH>
+ostream& operator<<(ostream& os, const unordered_set<T, TH>& x) { return dmpseq<unordered_set<T, TH>, T>(os, x, "{", ",", "}"); }
+template <typename T>
+ostream& operator<<(ostream& os, const multiset<T>& x) { return dmpseq<multiset<T>, T>(os, x, "{", ",", "}"); }
+template <typename TK, typename T>
+ostream& operator<<(ostream& os, const map<TK, T>& x) { return dmpseq<map<TK, T>, pair<TK, T>>(os, x, "{", ",", "}"); }
+template <typename TK, typename T, typename TH>
+ostream& operator<<(ostream& os, const unordered_map<TK, T, TH>& x) { return dmpseq<unordered_map<TK, T, TH>, pair<TK, T>>(os, x, "{", ",", "}"); }
+template <typename T, typename V>
+ostream& dmpseq(ostream& os, const T& seq, const string& pre, const string& sp, const string& suf)
+{
+    return os << pre, for_each(begin(seq), end(seq), [&](V x) { os << x << sp; }), os << suf;
+}
+template <typename T>
+void print(const vector<T>& x) { dmpseq<vector<T>, T>(cout, x, "", " ", "\n"); }
+#ifdef HITONANODE_LOCAL
+#define dbg(x) cerr << #x << " = " << (x) << " (L" << __LINE__ << ") " << __FILE__ << endl
+#else
+#define dbg(x) {}
+#endif
+
+template <int mod>
+struct ModInt
+{
+    using lint = long long;
+    static int get_mod() { return mod; }
+    static int get_primitive_root() {
+        static int primitive_root = 0;
+        if (!primitive_root) {
+            primitive_root = [&](){
+                std::set<int> fac;
+                int v = mod - 1;
+                for (lint i = 2; i * i <= v; i++) while (v % i == 0) fac.insert(i), v /= i;
+                if (v > 1) fac.insert(v);
+                for (int g = 1; g < mod; g++) {
+                    bool ok = true;
+                    for (auto i : fac) if (ModInt(g).power((mod - 1) / i) == 1) { ok = false; break; }
+                    if (ok) return g;
+                }
+                return -1;
+            }();
+        }
+        return primitive_root;
+    }
+    int val;
+    constexpr ModInt() : val(0) {}
+    constexpr ModInt &_setval(lint v) { val = (v >= mod ? v - mod : v); return *this; }
+    constexpr ModInt(lint v) { _setval(v % mod + mod); }
+    explicit operator bool() const { return val != 0; }
+    constexpr ModInt operator+(const ModInt &x) const { return ModInt()._setval((lint)val + x.val); }
+    constexpr ModInt operator-(const ModInt &x) const { return ModInt()._setval((lint)val - x.val + mod); }
+    constexpr ModInt operator*(const ModInt &x) const { return ModInt()._setval((lint)val * x.val % mod); }
+    constexpr ModInt operator/(const ModInt &x) const { return ModInt()._setval((lint)val * x.inv() % mod); }
+    constexpr ModInt operator-() const { return ModInt()._setval(mod - val); }
+    constexpr ModInt &operator+=(const ModInt &x) { return *this = *this + x; }
+    constexpr ModInt &operator-=(const ModInt &x) { return *this = *this - x; }
+    constexpr ModInt &operator*=(const ModInt &x) { return *this = *this * x; }
+    constexpr ModInt &operator/=(const ModInt &x) { return *this = *this / x; }
+    friend constexpr ModInt operator+(lint a, const ModInt &x) { return ModInt()._setval(a % mod + x.val); }
+    friend constexpr ModInt operator-(lint a, const ModInt &x) { return ModInt()._setval(a % mod - x.val + mod); }
+    friend constexpr ModInt operator*(lint a, const ModInt &x) { return ModInt()._setval(a % mod * x.val % mod); }
+    friend constexpr ModInt operator/(lint a, const ModInt &x) { return ModInt()._setval(a % mod * x.inv() % mod); }
+    constexpr bool operator==(const ModInt &x) const { return val == x.val; }
+    constexpr bool operator!=(const ModInt &x) const { return val != x.val; }
+    bool operator<(const ModInt &x) const { return val < x.val; }  // To use std::map<ModInt, T>
+    friend std::istream &operator>>(std::istream &is, ModInt &x) { lint t; is >> t; x = ModInt(t); return is; }
+    friend std::ostream &operator<<(std::ostream &os, const ModInt &x) { os << x.val;  return os; }
+    constexpr lint power(lint n) const {
+        lint ans = 1, tmp = this->val;
+        while (n) {
+            if (n & 1) ans = ans * tmp % mod;
+            tmp = tmp * tmp % mod;
+            n /= 2;
+        }
+        return ans;
+    }
+    constexpr lint inv() const { return this->power(mod - 2); }
+    constexpr ModInt operator^(lint n) const { return ModInt(this->power(n)); }
+    constexpr ModInt &operator^=(lint n) { return *this = *this ^ n; }
+
+    inline ModInt fac() const {
+        static std::vector<ModInt> facs;
+        int l0 = facs.size();
+        if (l0 > this->val) return facs[this->val];
+
+        facs.resize(this->val + 1);
+        for (int i = l0; i <= this->val; i++) facs[i] = (i == 0 ? ModInt(1) : facs[i - 1] * ModInt(i));
+        return facs[this->val];
+    }
+
+    ModInt doublefac() const {
+        lint k = (this->val + 1) / 2;
+        if (this->val & 1) return ModInt(k * 2).fac() / ModInt(2).power(k) / ModInt(k).fac();
+        else return ModInt(k).fac() * ModInt(2).power(k);
+    }
+
+    ModInt nCr(const ModInt &r) const {
+        if (this->val < r.val) return ModInt(0);
+        return this->fac() / ((*this - r).fac() * r.fac());
+    }
+
+    ModInt sqrt() const {
+        if (val == 0) return 0;
+        if (mod == 2) return val;
+        if (power((mod - 1) / 2) != 1) return 0;
+        ModInt b = 1;
+        while (b.power((mod - 1) / 2) == 1) b += 1;
+        int e = 0, m = mod - 1;
+        while (m % 2 == 0) m >>= 1, e++;
+        ModInt x = power((m - 1) / 2), y = (*this) * x * x;
+        x *= (*this);
+        ModInt z = b.power(m);
+        while (y != 1) {
+            int j = 0;
+            ModInt t = y;
+            while (t != 1) j++, t *= t;
+            z = z.power(1LL << (e - j - 1));
+            x *= z, z *= z, y *= z;
+            e = j;
+        }
+        return ModInt(std::min(x.val, mod - x.val));
+    }
+};
+using mint = ModInt<1000000007>;
+
+int main()
+{
+    int N;
+    cin >> N;
+    mint ret = 1;
+
+    vector<mint> dp(N + 1);
+    dp[0] = 1;
+    FOR(i, 1, N)
+    {
+        IREP(j, N)
+        {
+            dp[j + 1] += dp[j];
+            dp[j] *= j;
+        }
+        ret += accumulate(ALL(dp), mint(0)) * mint(N).nCr(i);
+    }
+    cout << ret << '\n';
+}

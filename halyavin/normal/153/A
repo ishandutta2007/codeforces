@@ -1,0 +1,53 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A        PIC 9(10)   VALUE ZEROES.
+       01 B        PIC 9(10)   VALUE ZEROES.
+       01 D        PIC 9(10)   VALUE ZEROES.
+       01 E        PIC 9(10)   VALUE ZEROES.
+       01 C        PIC 9(1)    VALUE ZEROES.
+       01 F        PIC 9(1)    VALUE ZEROES.
+       01 STR      PIC X(10).
+
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO A
+         ACCEPT STR
+         MOVE STR TO B
+         ADD A TO B
+         MOVE B TO D.
+         DIVIDE D BY 100000 GIVING C.
+         IF C > 0
+           MOVE 1 TO F
+           DISPLAY C WITH NO ADVANCING.
+         MULTIPLY C BY 100000 GIVING E.
+         SUBTRACT E FROM D.
+         DIVIDE D BY 10000 GIVING C.
+         IF C > 0 OR F=1
+           MOVE 1 TO F
+           DISPLAY C WITH NO ADVANCING.
+         MULTIPLY C BY 10000 GIVING E.
+         SUBTRACT E FROM D.
+         DIVIDE D BY 1000 GIVING C.
+         IF C > 0 OR F=1
+           MOVE 1 TO F
+           DISPLAY C WITH NO ADVANCING.
+         MULTIPLY C BY 1000 GIVING E.
+         SUBTRACT E FROM D.
+         DIVIDE D BY 100 GIVING C.
+         IF C > 0 OR F=1
+           MOVE 1 TO F
+           DISPLAY C WITH NO ADVANCING.
+         MULTIPLY C BY 100 GIVING E.
+         SUBTRACT E FROM D.
+         DIVIDE D BY 10 GIVING C.
+         IF C > 0 OR F=1
+           MOVE 1 TO F
+           DISPLAY C WITH NO ADVANCING.
+         MULTIPLY C BY 10 GIVING E.
+         SUBTRACT E FROM D.
+         MOVE D TO C.
+         DISPLAY C.
+         STOP RUN.

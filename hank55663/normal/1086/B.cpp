@@ -1,0 +1,41 @@
+
+#pragma GCC optimize("Ofast") 
+#include<bits/stdc++.h>
+//#include<bits/extc++.h>
+using namespace std;
+//using namespace __gnu_pbds;
+//typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> set_t;
+#define mp(a,b) make_pair((a),(b))
+#define pii pair<int,int>
+#define pll pair<LL,LL>
+#define pdd pair<double,double>
+#define pb push_back
+#define x first
+#define y second
+#define sqr(x) ((x)*(x))
+#define EPS 1e-6
+#define MEM(x) memset(x,0,sizeof(x))
+#define MEMS(x) memset(x,-1,sizeof(x))
+#define pi acos(-1)
+#define index Index
+#define Line pll
+typedef long long LL;
+int degree[100005];
+int main(){
+    int n,s;
+    scanf("%d %d",&n,&s);
+    for(int i=1;i<n;i++){
+        int x,y;
+        scanf("%d %d",&x,&y);
+        degree[x]++;
+        degree[y]++;
+    }
+    int cnt=0;
+    for(int i=1;i<=n;i++){
+        if(degree[i]==1)
+        cnt++;
+    }
+  //  printf("%d\n",cnt);
+    printf("%.12lf\n",(double)s/cnt*2);
+    return 0;
+}

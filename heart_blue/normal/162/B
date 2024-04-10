@@ -1,0 +1,4 @@
+USING: io math.parser prettyprint ;
+ 
+readln string>number
+.b

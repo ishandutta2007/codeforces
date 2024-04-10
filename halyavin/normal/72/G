@@ -1,0 +1,12 @@
+file:= File standardInput
+line:=file readLine
+line=line asNumber
+a:=1
+b:=1
+c:=0
+for (i,1,line,
+  c=a+b
+  a=b
+  b=c
+)
+writeln(a)

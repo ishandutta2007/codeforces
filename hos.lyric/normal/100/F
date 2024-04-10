@@ -1,0 +1,48 @@
+int main() {
+    int n;
+    array(int) as;
+    
+    string in0 = Stdio.stdin.gets();
+    sscanf(in0, "%d", n);
+    
+    as = allocate(n);
+    for (int i = 0; i < n; ++i) {
+        string in1 = Stdio.stdin.gets();
+        sscanf(in1, "%d", as[i]);
+    }
+    
+    array(int) dp = allocate(n + 1);
+    dp[0] = 1;
+    for (int i = 0; i < n; ++i) {
+        for (int j = n; j--; ) {
+            dp[j + 1] += dp[j] * as[i];
+        }
+    }
+    if (n == 1) {
+        write("X");
+    } else {
+        write("X^%d", n);
+    }
+    for (int i = 1; i <= n; ++i) {
+        if (dp[i] == 0) continue;
+        if (n - i == 0) {
+            write("%+d", dp[i]);
+            continue;
+        }
+        if (dp[i] == -1) {
+            write("-");
+        } else if (dp[i] == 1) {
+            write("+");
+        } else {
+            write("%+d*", dp[i]);
+        }
+        if (n - i == 1) {
+            write("X");
+        } else {
+            write("X^%d", n - i);
+        }
+    }
+    write("\n");
+    
+    return 0;
+}

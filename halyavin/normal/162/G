@@ -1,0 +1,105 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence locals ;
+
+IN: template
+
+: isbad ( n -- result )
+  32 <= ;
+
+: digit ( n -- result )
+ dup
+ 57 <=
+ [
+   48 -
+ ]
+ [
+   65 -
+   10 +
+ ] 
+ if ;
+
+:: skip-space ( -- result )
+  read1
+  dup
+  isbad
+  [
+    drop
+    skip-space
+  ]
+  [
+  ]
+  if ;
+
+:: read-num-2 ( c p x -- result )
+  c
+  dup
+  isbad
+  [
+    drop
+    x
+  ]
+  [
+    digit
+    x p * + :> y
+    read1 p y read-num-2
+  ]
+  if ;
+  
+
+
+:: read-num ( p -- result )
+ skip-space p 0 read-num-2 ;
+
+:: calcsum ( n p sum -- result )
+  n 0 =
+  [
+    sum
+  ]
+  [
+    p read-num
+    sum + :> new-sum
+    n 1 - p new-sum calcsum
+  ]
+  if
+  ;
+  
+:: print-digit ( digit -- )
+  digit 10 <
+  [
+    digit 48 +
+    write1
+  ]
+  [
+    digit 65 +
+    10 -
+    write1
+  ]
+  if
+  ;
+  
+:: print-p ( x p first -- )
+  x 0 =
+  [
+    first 0 =
+    [
+      "0" write
+    ]
+    [
+    ]
+    if
+  ]
+  [
+    x p /mod :> ( newx digit )
+    newx p 1 print-p
+    digit print-digit
+  ]
+  if ;
+  
+:: main ( n p -- )
+  n p 0 calcsum :> sum
+  sum p 0 print-p
+  "" print
+  ;
+  
+readln string>number
+readln string>number
+main

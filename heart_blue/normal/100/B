@@ -1,0 +1,11 @@
+int main(){
+	int n=(int)Stdio.stdin->gets();
+	array a=(array(int))(Stdio.stdin->gets()/",");
+	int ok=1;
+	for(int i=0;i<n;i++){
+		for(int j=i+1;j<n;j++){
+			ok=(a[i]%a[j]==0||a[j]%a[i]==0);
+		}
+	}
+	write(ok?"FRIENDS \n":"NOT FRIENDS \n");
+}

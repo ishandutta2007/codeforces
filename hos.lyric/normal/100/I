@@ -1,0 +1,18 @@
+int main() {
+    string in;
+    
+    float k;
+    float x, y;
+    
+    in = Stdio.stdin.gets();
+    sscanf(in, "%f", k);
+    in = Stdio.stdin.gets();
+    sscanf(in, "%f%f", x, y);
+    
+    k /= 180.0;
+    k *= 3.14159265358979;
+    float c = cos(k), s = sin(k);
+    write("%f %f\n", c * x - s * y, s * x + c * y);
+    
+    return 0;
+}

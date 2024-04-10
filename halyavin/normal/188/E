@@ -1,0 +1,22 @@
+co yes {
+  cout 89
+  cout 69
+  cout 83
+  ac
+}
+co no {
+  cout 78
+  cout 79
+  ac
+}
+cin [0]
+eq [3] [0] 10
+if [3] ca no
+if [3] ac
+eq [3] [0] 72
+eq [4] [0] 81
+add [3] [3] [4]
+eq [4] [0] 57
+add [3] [3] [4]
+if [3] ca yes
+if [3] ac

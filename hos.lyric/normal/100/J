@@ -1,0 +1,58 @@
+int main() {
+    string in;
+    
+    int n;
+    array(array(int)) as;
+    
+    in = Stdio.stdin.gets();
+    sscanf(in, "%d", n);
+    as = allocate(n);
+    for (int i = 0; i < n; ++i) {
+        in = Stdio.stdin.gets();
+        as[i] = allocate(2);
+        sscanf(in[1 .. sizeof(in) - 2], "%d,%d", as[i][0], as[i][1]);
+        as[i][0] *= 2;
+        as[i][1] *= 2;
+        if (in[ 0] == '(') ++as[i][0];
+        if (in[-1] == ')') --as[i][1];
+    }
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n - 1; ++j) {
+            if (as[j][0] > as[j + 1][0]) {
+                int ttt;
+                ttt = as[j][0];
+                as[j][0] = as[j + 1][0];
+                as[j + 1][0] = ttt;
+                ttt = as[j][1];
+                as[j][1] = as[j + 1][1];
+                as[j + 1][1] = ttt;
+            }
+        }
+    }
+    
+    for (int i = 0; i < n; ++i) {
+//      write("%d %d\n", as[i][0], as[i][1]);
+    }
+    
+    int ans = 1;
+    for (int i = 0; i < n; ++i) for (int j = i + 1; j < n; ++j) {
+        if (as[i][1] >= as[j][0]) {
+            //  to find : start from ( as[i][1], as[j][1] ]
+            int lo = 0, ho = n;
+            for (; lo + 1 < ho; ) {
+                int mo = (lo + ho) / 2;
+                if (as[i][1] < as[mo][0]) {
+                    ho = mo;
+                } else {
+                    lo = mo;
+                }
+            }
+            if (ho < n && as[ho][0] <= as[j][1]) {
+                ans = 2;
+            }
+        }
+    }
+    write("%d\n", ans);
+    
+    return 0;
+}

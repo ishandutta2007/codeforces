@@ -1,0 +1,24 @@
+co out { /* 0, 1 */
+  eq [2] [1] [0]
+  if [2] ac
+  cout 42
+  add [1] [1] 1
+}
+co print_line {
+  set [1] 0
+  ca out
+  cout 10
+  ac
+}
+co print_lines {
+  eq [3] [5] [4]
+  if [3] ac
+  set [0] [5]
+  ca print_line
+  add [5] [5] 1
+}
+iin [4]
+add [4] [4] 1
+set [5] 1
+ca print_lines
+ac

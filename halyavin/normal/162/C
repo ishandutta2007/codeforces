@@ -1,0 +1,39 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence locals ;
+
+IN: template
+
+:: factor ( n p first -- )
+ n p /mod :> ( n1 mod1 )
+ n p =
+ [
+   first 0 =
+   [ ]
+   [ "*" write ]
+   if
+   n
+   number>string
+   write
+ ]
+ [
+   mod1 0 =
+   [
+     first 0 =
+     [ ]
+     [ "*" write ]
+     if
+     p
+     number>string
+     write
+     n1 p 1 factor
+   ]
+   [
+     n p 1 + first factor 
+   ]
+   if
+ ]
+ if ;
+
+readln string>number
+2
+0
+factor

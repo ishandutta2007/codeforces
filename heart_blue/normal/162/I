@@ -1,0 +1,5 @@
+USING: io kernel math.primes math.parser sequences ;
+ 
+readln [ [ f ] [ rest ] if-empty ] follow but-last
+[ string>number ] map
+[ prime? ] all? [ "YES" ] [ "NO" ] if print

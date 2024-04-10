@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef pair<int,int> P;
+typedef pair<int,P> P1;
+typedef pair<P,P> P2;
+#define pu push
+#define pb push_back
+#define mp make_pair
+#define eps 1e-7
+#define INF 1000000000
+#define mod 1000000007
+#define fi first
+#define sc second
+#define rep(i,x) for(int i=0;i<x;i++)
+#define repn(i,x) for(int i=1;i<=x;i++)
+#define SORT(x) sort(x.begin(),x.end())
+#define ERASE(x) x.erase(unique(x.begin(),x.end()),x.end())
+#define POSL(x,v) (lower_bound(x.begin(),x.end(),v)-x.begin())
+#define POSR(x,v) (upper_bound(x.begin(),x.end(),v)-x.begin())
+int n,m;
+int main(){
+	cin>>n>>m;
+	if(n>m) swap(n,m);
+	if(n == 1){
+		int ans = 0;
+		int x = m/3;
+		ans += x/2;
+		if(m%3 == 2) x++;
+		ans += x/2;
+		if(m%3 == 1) x++;
+		ans += x/2;
+		cout << ans*2 << endl;
+	}
+	else if(n == 2){
+		if(m == 2) puts("0");
+		else if(m == 3) puts("4");
+		else if(m == 7) puts("12");
+		else cout << m*2 << endl;
+	}
+	else{
+		cout << ((1LL*n*m)/2)*2 << endl;
+	}
+}

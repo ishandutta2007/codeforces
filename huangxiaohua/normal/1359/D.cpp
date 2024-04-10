@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int b[500500],y,x,i,n,j,t;main(){scanf("%d",&n);for(i=1;i<=n;i++){scanf("%d",&b[i]);}for(i=1;i<=30;i++){t=y=0;for(j=1;j<=n;j++){if(b[j]>i){y=0;t=0;continue;}if(b[j]==i&&y==0){y=1;}t+=b[j];t=max(0,t);if(y){x=max(t-i,x);}}}printf("%d",x);}

@@ -1,0 +1,166 @@
+/*
+ /+==================================================+\
+//+--------------------------------------------------+\\
+|.|\\...>>>>>>> Hollwo_Pelw(ass) 's code <<<<<<<...//|.|
+\\+--------------------------------------------------+//
+ \+==================================================+/
+*/
+#include <bits/stdc++.h>
+using namespace std;
+// type
+typedef long long ll;
+typedef long double ld;
+// loop
+//#define For(i, l, r)        for (int i = l; i < r; i++)
+//#define ForE(i, l, r)       for (int i = l; i <= r; i++)
+//#define Ford(i, r, l)       for (int i = r; i > l; i--)
+//#define FordE(i, r, l)      for (int i = r; i >= l; i--)
+//#define Fora(i, a)          for (auto i : a)
+// I/O
+#define open(file, in, out) if (fopen(file in, "r")) {        \
+                                freopen(file in, "r", stdin);  \
+                                freopen(file out, "w", stdout); \
+                            }
+#define FAST_IO             std::ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define setpre(n)           fixed << setprecision(n)
+// pair
+#define F                   first
+#define S                   second
+#define pii                 pair<int, int>
+#define pll                 pair<ll, ll>
+#define pdd                 pair<ld, ld>
+// vector & !!?(string)
+#define eb                  emplace_back
+#define pb                  push_back
+#define all(a)              a.begin(), a.end()
+#define rall(a)             a.rbegin(), a.rend()
+#define sz(a)               a.size()
+#define len(a)              a.length()
+// geometry calculate
+#define pi                  acos(-1.0)
+#define g_sin(a)            sin(a*pi/180)
+#define g_cos(a)            cos(a*pi/180)
+#define g_tan(a)            tan(a*pi/180)
+// set val
+#define ms0(a)              memset(a,        0, sizeof(a));
+#define ms1(a)              memset(a,        1, sizeof(a));
+#define msn1(a)             memset(a,       -1, sizeof(a));
+#define msinf(a)            memset(a, 0x3f3f3f, sizeof(a));
+// constant
+const int mod1 = 998244353, mod = 1e9 + 7;
+const int MAXN = 1e5 + 6 , MAXM = 2e5 + 5;
+const int inf = 2e9; const ll linf = 1e18;
+// code
+#define int long long
+
+const int maxS = 101;
+int S;
+
+struct Mat{
+    int a[maxS][maxS];
+    int* operator [] (int x) {return a[x];}
+    const int* operator [] (int x) const {return a[x];}
+    friend Mat operator * (const Mat& a, const Mat& b){
+        Mat r;
+        for (int i = 0; i <= S; i ++){
+            for (int j = 0; j <= S; j ++){
+                r[i][j] = 0;
+                for (int k = 0; k <= S; k ++){
+                    r[i][j] = r[i][j] + (a[i][k] * b[k][j]) % mod;
+                }
+            }
+        }
+        return r;
+    }
+    friend Mat operator % (const Mat& a, const int x){
+        Mat r;
+        for (int i = 0; i <= S; i ++){
+            for (int j = 0; j <= S; j ++){
+                r[i][j] = a[i][j] % x;
+            }
+        }
+        return r;
+    }
+} base, A;
+
+template<typename T>
+T binpow(T a, int x, int md = mod){
+    if (x == 1) return a % md;
+    T t = binpow(a, x / 2, md);
+    if (x & 1) return t * t % md * a % md;
+    else return t * t % md;
+}
+
+template<typename T>
+T inv(T a, int md = mod){
+    return binpow(a, md - 2, md);
+}
+
+int n, k, a[maxS];
+
+void Solve() {
+    cin >> n >> k;
+    int zer = 0, one = 0;
+    for (int i = 0; i < n; i++){
+        cin >> a[i];
+        if (a[i] == 1) one ++;
+        if (a[i] == 0) zer ++;
+    }
+    S = min(zer, one);
+    int pos = 0;
+    for (int i = 0; i < n; i++){
+        if (a[i] == 0 && i >= zer)
+            ++ pos;
+    }
+    int all = n * (n - 1) / 2;
+    for (int i = 0; i <= S; i++){
+        for (int j = 0; j <= S; j++){
+            if (i - j == 1) 
+				base[i][j] = i * i;
+			if (i - j == 0)
+				base[i][j] = all - i * i - (zer - i) * (one - i);
+			if (i - j ==-1) 
+				base[i][j] = (zer - i) * (one - i);
+			base[i][j] = (base[i][j] % mod + mod) % mod;
+			base[i][j] = base[i][j] * inv(all) % mod;
+        }
+    }
+    // for (int i = 0; i <= S; i++){
+    //     for (int j = 0; j <= S; j++){
+    //         cout << base[i][j] << ' ';
+    //     }
+    //     cout << endl;
+    // }
+    base = binpow(base, k);
+    // for (int i = 0; i <= S; i++){
+    //     for (int j = 0; j <= S; j++){
+    //         cout << base[i][j] << ' ';
+    //     }
+    //     cout << endl;
+    // }
+    cout << base[pos][0];
+}
+
+signed main(){
+    open("", ".inp", ".out");
+    FAST_IO; int TC = 1;
+//    cin >> TC;
+    while(TC--) Solve();
+    return 0;
+}
+/*
+
+./-=====>>><<<-------- DEBUG -------->>><<<=====-\.
+/.................................................\
+
+
++====================== INP ======================+
+
+
++====================== OUT ======================+
+
+
+\................................................./
+.\-=====>>><<<--------= END =-------->>><<<=====-/.
+
+*/

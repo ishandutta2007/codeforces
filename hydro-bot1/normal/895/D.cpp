@@ -1,0 +1,83 @@
+// Hydro submission #62878a247a0749f0176f9da7@1653049892940
+#include <bits/stdc++.h>
+using namespace std;
+ 
+inline int read() {
+	int x = 0, f = 0; char c = 0;
+	while (!isdigit(c)) f |= c == '-', c = getchar();
+	while (isdigit(c)) x = (x << 3) + (x << 1) + (c & 15), c = getchar();
+	return f ? -x : x;
+}
+ 
+#define N 2000005
+#define P 1000000007
+ 
+int n;
+long long res, res1, res2, inv[N];
+char s[N], t[N];
+ 
+int Pow(long long x, int k, long long r = 1) {
+	for (; k; k >>= 1, x = x * x % P) {
+		if (k & 1) r = r * x % P;
+	}
+	return r;
+}
+ 
+struct cdx {
+	long long res, num, s[27];
+	cdx() {
+		num = 0, res = 1;
+		memset(s, 0, sizeof s);
+	}
+	void ins(char c) {
+		int x = c - 'a' + 1;
+		s[x] ++, num ++;
+		(res *= num * inv[s[x]] % P) %= P;
+	}
+	bool del(char c) {
+		int x = c - 'a' + 1;
+		if (x <= 0) return false;
+		if (x > 26) return false;
+		if (s[x] == 0) return false;
+		(res *= s[x] * inv[num] % P) %= P;
+		s[x] --, num --; return true;
+	}
+	long long get() {
+		if (!num) return 0;
+		else return res;
+	}
+} a, b;
+ 
+signed main() {
+	for (int i = 0; i < N; i ++) {
+		inv[i] = Pow(i, P - 2);
+	}
+	scanf("%s%s", s + 1, t + 1);
+	n = strlen(s + 1);
+	for (int i = 1; i <= n; i ++) {
+		a.ins(s[i]), b.ins(s[i]);
+	}
+	res = a.get();
+	for (int i = 0; i < n; i ++) {
+		if (i) a.del(s[i]);
+		for (char c = 'a'; c < s[i + 1]; c ++) {
+			if (a.del(c)) {
+				(res1 += a.get()) %= P;
+				a.ins(c);
+			}
+		}
+	}
+	for (int i = 0; i <= n; i ++) {
+		if (i) if (!b.del(t[i])) break;
+		if (i == n) { res2 ++; break; }
+		for (char c = t[i + 1] + 1; c <= 'z'; c ++) {
+			if (b.del(c)) {
+				(res2 += b.get()) %= P;
+				b.ins(c);
+			}
+		}
+	}
+	res = (res - (res1 + res2) % P - 1 + P) % P;
+	printf("%lld\n", res);
+	return 0;
+}

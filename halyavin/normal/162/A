@@ -1,0 +1,10 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+
+readln string>number
+dup
+3 *
+1 -
+*
+2 /
+number>string
+print

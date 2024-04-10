@@ -1,0 +1,196 @@
+// hloya template v25
+  
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+  
+#include <bits/stdc++.h>
+#include <valarray>
+using namespace std;
+  
+bool dbg = 0;
+  
+clock_t start_time = clock();
+#define current_time fixed<<setprecision(6)<<(ld)(clock()-start_time)/CLOCKS_PER_SEC
+  
+#define f first
+#define s second
+#define mp make_pair
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+  
+#define ll long long
+#define ld long double
+#define pii pair<int,int>
+#define umap unordered_map<int, int>
+  
+#define files1 freopen("input.txt","r",stdin)
+#define files2 freopen("output.txt","w",stdout)
+#define files files1;files2
+#define fast_io ios_base::sync_with_stdio(0);cin.tie(0)
+  
+#define endl '\n'
+#define ln(i,n) " \n"[(i) == (n) - 1]
+  
+void bad(string mes = "Impossible"){cout << mes;exit(0);}
+void bad(int mes){cout << mes;exit(0);}
+  
+template<typename T>
+string bin(T x, int st = 2){
+    string ans = "";
+    while (x > 0){
+        ans += char('0' + x % st);
+        x /= st;
+    }
+    reverse(ans.begin(), ans.end());
+    return ans.empty() ? "0" : ans;
+}
+  
+template<typename T>
+void amax(T& x, T y) {
+    x = max(x, y);
+}
+  
+template<typename T>
+void amin(T& x, T y) {
+    x = min(x, y);
+}
+
+// inline int popcount(int x){
+//     int count = 0;
+//     __asm__ volatile("POPCNT %1, %0;":"=r"(count):"r"(x):);
+//     return count;
+// }
+  
+template<typename T>
+T input(){
+    T ans = 0, m = 1;
+    char c = ' ';
+  
+    while (!((c >= '0' && c <= '9') || c == '-')) {
+        c = getchar();
+    }
+  
+    if (c == '-')
+        m = -1, c = getchar();
+    while (c >= '0' && c <= '9'){
+        ans = ans * 10 + (c - '0'), c = getchar();
+    }
+    return ans * m;
+}
+  
+template<typename T> void read(T& a) { a = input<T>(); }
+template<typename T> void read(T& a, T& b) { read(a), read(b); }
+template<typename T> void read(T& a, T& b, T& c) { read(a, b), read(c); }
+template<typename T> void read(T& a, T& b, T& c, T& d) { read(a, b), read(c, d); }
+  
+const int inf = 1e9 + 20;
+const short short_inf = 3e4 + 20;
+const long double eps = 1e-12;
+const int maxn = (int)2e5 + 12, base = 1e9 + 7;
+const ll llinf = 2e18 + 5;
+  
+template<typename T>
+T binpow(T n, T s)
+{
+    if (s <= 0)
+        return 1LL;
+    if (s % 2 == 0){
+        T b = binpow(n, s / 2);
+        return ( 1LL * b * b ) % base;
+    } else {
+        return (1LL* binpow(n, s - 1) * n) % base;
+    }
+}
+
+int dp[100][100];
+
+int solve(int n) {
+    memset(dp, 0, sizeof(dp));
+    for (int i = 1; i <= n; i++)
+        dp[i][i] = 1;
+
+    for (int sum = 1; sum <= n; sum++)
+        for (int g = 1; g <= n; g++)
+            for (int x = 1; sum + x <= n; x++) {
+                dp[sum + x][__gcd(g, x)] += dp[sum][g];
+            }
+    return dp[n][1];
+}
+
+void add(int& x, int y) {
+    x = (x + y);
+    if (x < 0)
+        x += base;
+    if (x >= base)
+        x -= base;
+}
+
+// int mul(int )
+
+int mebious(int n) {
+    if (n == 1)
+        return 1;
+    int last_prime = -1;
+    int cnt_primes = 0;
+    bool sqfree = 1;
+
+    for (int i = 2; i * i <= n; i++) {
+        while (n % i == 0) {
+            if (last_prime == i) {
+                sqfree = 0;
+            }
+            cnt_primes++;
+            n /= i;
+            last_prime = i;
+        }
+    }
+    if (n > 1) {
+        if (last_prime == n)
+            sqfree = 0;
+        cnt_primes++;
+    }
+    if (!sqfree)
+        return 0;
+    if (cnt_primes % 2 == 0)
+        return 1;
+    return -1;
+}
+
+int full(int n) {
+    int ans = 0;
+    for (int i = 1; i * i <= n; i++)
+        if (n % i == 0) {
+            int d1 = i;
+            int d2 = n / i;
+
+            add(ans, (1ll * mebious(n / d1) * binpow(2, d1 - 1) % base + base) % base);
+            if (d1 != d2) {
+                add(ans, (1ll * mebious(n / d2) * binpow(2, d2 - 1) % base + base) % base);
+            }
+        }
+    return ans;
+}
+
+int main() {
+    int x, y;
+    //files1;
+    cin >> x >> y;
+    if (y % x)
+        cout << 0;
+    else
+        cout << full(y / x);
+    // cout << full(4);
+    // cout << full((int)1e9);
+    // for (int i = 1; i <= 20; i++)
+    //     cout << full((int)1e9 - i) << ',';
+    return 0;
+}

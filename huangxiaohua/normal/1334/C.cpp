@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;typedef long long ll;int i,j,k,t,n;ll a[300500],b[300500],res,tmp; main(){scanf("%d",&t);while(t--){res=0;tmp=1e18;scanf("%d",&n);for(i=0;i<n;i++){scanf("%lld%lld",&a[i],&b[i]);}for(i=0;i<n;i++){res+=max(0ll,a[(i+1)%n]-b[i]);tmp=min(tmp,min(a[(i+1)%n],b[i]));}printf("%lld\n",res+tmp);}}

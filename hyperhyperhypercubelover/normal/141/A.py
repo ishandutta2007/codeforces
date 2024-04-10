@@ -1,0 +1,1 @@
+print("YES" if sorted(list(input()+input())) == sorted(list(input())) else "NO")

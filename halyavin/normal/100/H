@@ -1,0 +1,159 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int readInt() {
+  string in;
+  int result;
+  in = trim(Stdio.stdin->gets());
+  sscanf(in,"%d",result);
+  return result;
+}
+array(int) readInts() {
+  string in;
+  array(string) ins;
+  array(int) results;
+  int i;
+  in = trim(Stdio.stdin->gets());
+  ins = in/" ";
+  results = allocate(sizeof(ins));
+  for (i = 0; i<sizeof(ins); i++) {
+    sscanf(ins[i],"%d",results[i]);
+  }
+  return results;
+}
+void readBoard(array(array(int)) board) {
+  int i=0;
+  while (i<10) {
+    string s=trim(Stdio.stdin->gets());
+    if (s=="") {
+      continue;
+    }
+    for (int j=0;j<10;j++) {
+      if (s[j..j]=="*") {
+        board[i][j]=1;
+      } else {
+        board[i][j]=0;
+      }
+    }
+    i++;
+  }
+}
+int get(array(array(int)) board, int x, int y) {
+  if (x<0 || x>=10 || y<0 ||  y>=10) {
+    return 0;
+  }
+  return board[x][y];
+}
+int checkRows(array(int) stat,array(array(int)) board) {
+  int ans = 1;
+  for (int row=0;row<10 && ans>0;row++) {
+      for (int col=0;col<10 && ans>0;col++) {
+        if (board[row][col]==1) {
+          int col1;
+          for (col1=col+1;col1<10;col1++) {
+            if (board[row][col1]==0) {
+              break;
+            }
+          }
+          int size = col1-col;
+          for (int j=col-1;j<=col1;j++) {
+            if (get(board,row-1,j)>0 || get(board,row+1,j)>0) {
+              if (size>1) {
+                ans=0;
+              }
+            }
+          }
+          if (ans>0) {
+            stat[size]++;
+          }
+          col=col1;
+        }
+      }
+    }
+  return ans;
+}
+
+int checkCols(array(int) stat,array(array(int)) board) {
+  int ans = 1;
+  for (int col=0;col<10 && ans>0;col++) {
+      for (int row=0;row<10 && ans>0;row++) {
+        if (board[row][col]==1) {
+          int row1;
+          for (row1=row+1;row1<10;row1++) {
+            if (board[row1][col]==0) {
+              break;
+            }
+          }
+          int size = row1-row;
+          for (int j=row-1;j<=row1;j++) {
+            if (get(board,j,col-1)>0 || get(board,j,col+1)>0) {
+              if (size>1) {
+                ans=0;
+              }
+            }
+          }
+          if (ans>0) {
+            stat[size]++;
+          }
+          row=row1;
+        }
+      }
+    }
+  return ans;
+}
+int main(){
+  int n = readInt();
+  array(array(int)) board = allocate(10);
+  for (int i=0;i<10;i++) {
+    board[i]=allocate(10);
+  }
+  for (int i=0;i<n;i++) {
+    readBoard(board);
+    array(int) stat = allocate(11);
+    int ans = 1;
+    for (int row=0;row<10;row++) {
+      for (int col=0;col<10;col++) {
+        if (board[row][col]==1) {
+          if (get(board,row-1,col-1)>0 || get(board,row-1,col+1)>0){
+            ans = 0;
+          }
+        }
+      }
+    }
+    if (ans==0) {
+      write("NO\n");
+      continue;
+    }
+    ans = checkRows(stat,board);
+    if (ans == 0) {
+      write("NO\n");
+      continue;
+    }
+    ans = checkCols(stat,board);
+    if (ans==0) {
+      write("NO\n");
+      continue;
+    }
+    for (int i=5;i<sizeof(stat);i++) {
+      if (stat[i]!=0) {
+        ans = 0;
+      }
+    }
+    for (int i=1;i<=4;i++) {
+      //write(sprintf("%d %d\n",i,stat[i]));
+    }
+    if (stat[1]!=24 || stat[2]!=3 || stat[3]!=2 || stat[4]!=1) {
+      ans = 0;
+    }
+    if (ans>0) {
+      write("YES\n");
+    } else {
+      write("NO\n");
+    }
+  }
+}

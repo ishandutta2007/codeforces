@@ -1,0 +1,40 @@
+file:= File standardInput
+line:=file readLine
+line=line asNumber
+primes := list(1)
+for (i,2,line, 
+  flag := true   
+  for(j,2,i-1, 
+    if (i%j==0, 
+      flag=false
+      break
+    )
+    if (j*j>i, break)
+  ) 
+  if (flag, primes append(i)) 
+) 
+calcResult := method(line, bound,
+  if (line==0, return list())
+  for(j,primes size - 1,0,-1,
+    p:=primes at(j)
+    if (p<bound and(p<=line),
+      if (p==line, return list(line))
+      result := calcResult(line-p,p)
+      if (result size > 0, 
+        result atInsert(0,p)
+        return result
+      )
+    )
+  )
+  return list()
+)
+ans:=calcResult(line, line+1)
+if (ans size == 0,writeln(0),
+  write(ans at(0))
+  for (i,1,ans size-1,
+    write("+")
+    write(ans at(i))
+  )
+  write("=")
+  write(line)
+)

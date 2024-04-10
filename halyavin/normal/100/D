@@ -1,0 +1,31 @@
+string trim(string s) {
+  if (strlen(s)==0)
+    return s;
+  if (s[strlen(s)-1]==13) {
+    return s[0..strlen(s)-2];
+  }
+  return s;
+}
+int main(){
+  string in;
+  int k;
+  in = trim(Stdio.stdin->gets());
+  sscanf(in,"%d",k);
+  string in1;
+  in1 = trim(Stdio.stdin->gets());
+  string in2;
+  in2 = trim(Stdio.stdin->gets());
+  int len = min(strlen(in1),strlen(in2));
+  int i;
+  for (i=0;i<len;i++) {
+    if (in1[i]!=in2[i]) {
+      break;
+    }
+  }
+  int result = strlen(in1)+strlen(in2)-2*i;
+  if (k>=result) {
+    write("Yes\n");
+  } else {
+    write("No\n");
+  }
+}

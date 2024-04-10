@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int i,n,x,y,a,b,k=1005;struct sb{int id,a,b;}s[1005000];bool cmp(sb x,sb y){return (x.b==y.b)?x.a<y.a:x.b<y.b;}int main(){scanf("%d",&n);for(i=1;i<=n;i++){scanf("%d%d",&x,&y);s[i].id=i;a=x%k;b=y%k;s[i].a=a*k+((a&1)?b:k-b);a=x/k;b=y/k;s[i].b=a*k+((a&1)?b:k-b);}sort(s+1,s+n+1,cmp);for(i=1;i<=n;i++){printf("%d ",s[i].id);}}

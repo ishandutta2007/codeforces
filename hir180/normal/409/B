@@ -1,0 +1,4 @@
+      program fmt_output
+      character(len=10) :: s = "FORTRAN 77"
+      print '(a)', s
+      end program fmt_output
