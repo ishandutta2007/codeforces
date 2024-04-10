@@ -1,0 +1,14 @@
+int main() {
+    sscanf(Stdio.stdin->gets(),"%d",int nused);
+    mapping(string:int) used=([ ]);
+    for(int i=0;i<nused;++i) { sscanf(Stdio.stdin->gets(),"%s %d",string name,int year); used[name]=year; }
+    sscanf(Stdio.stdin->gets(),"%d",int nposs);
+    string ret="???"; int retyear=-1;
+    for(int i=0;i<nposs;++i) {
+        sscanf(Stdio.stdin->gets(),"%s",string name);
+        int curyear; if(zero_type(used[name])!=0) curyear=-1; else curyear=used[name]; 
+        if(i==0||curyear<retyear||curyear==retyear&&name>ret) { ret=name; retyear=curyear; }
+    }
+    write(ret);
+    return 0;
+}

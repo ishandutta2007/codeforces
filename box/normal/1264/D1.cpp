@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;int C[2005][2005],M=998244353;main(){C[0][0]=1;for(int i=1;i<=2001;i++)for(int j=0;j<=i;j++)C[i][j]=(C[i-1][j]+(j?C[i-1][j-1]:0))%M;string s;cin>>s;int W=0,X=0,Y=0,Z=0,a=0;for(char c:s)Y+=(c=='?'),Z+=(c==')');for(char c:s){Y-=(c=='?'),Z-=(c==')');W+=(c=='('),X+=(c=='?');for(int k=max(Z,W);k<=min(Y+Z,W+X);k++)a=(a+1ll*k*C[Y][k-Z]%M*C[X][k-W])%M;}cout<<a;}

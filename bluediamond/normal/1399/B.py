@@ -1,0 +1,1 @@
+R=lambda:[*map(int,input().split())];exec(R()[0]*'R();a=R();b=R();print(sum(max(x-min(a),y-min(b))for x,y in zip(a,b)));')

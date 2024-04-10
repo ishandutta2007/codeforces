@@ -1,0 +1,13 @@
+set a [split [gets stdin]]
+set rules [split [gets stdin] ","]
+while {[gets stdin line]>=0} {
+	lappend li $line
+}
+set rules [lreverse $rules]
+foreach {line} $rules {
+	scan $line {%s %s} cname order
+	set li [lsort [expr ([string equal $order "ASC"]?"-increasing":"-decreasing")] -index [lsearch $a $cname] $li]
+}
+foreach {line} $li {
+	puts $line
+}

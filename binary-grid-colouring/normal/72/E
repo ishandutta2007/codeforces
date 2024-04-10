@@ -1,0 +1,15 @@
+s := File standardInput readLine
+ans := s
+res := 1
+for (i, 1, s size,
+    for (j, 0, s size - i + 1, 
+        cur := s slice (j, j + i)
+        cnt := 0
+        for (k, 0, s size - i + 1,
+            if (s slice (k, k + i) == cur, cnt := cnt + 1)
+        )
+        if (cnt > res or (cnt == res and cur size > ans size or (cnt == res and cur size == ans size and cur > ans)), ans := cur 
+        res := cnt)
+    )
+)
+ans println

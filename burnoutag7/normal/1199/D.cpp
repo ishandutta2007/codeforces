@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int n;int a[200005];bool u[200005];int q;int typ[200005];int qx[200005];int qp[200005];int gx;int main(){ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);cin>>n;for(int i=1;i<=n;i++){cin>>a[i];}cin>>q;for(int i=1;i<=q;i++){cin>>typ[i];if(typ[i]==1){cin>>qp[i]>>qx[i];}else{cin>>qx[i];}}for(int i=q;i>=1;i--){if(typ[i]==2){gx=max(gx,qx[i]);}else{if(!u[qp[i]]){u[qp[i]]=true;a[qp[i]]=max(qx[i],gx);}}}for(int i=1;i<=n;i++){if(!u[i]){a[i]=max(a[i],gx);}cout<<a[i]<<' ';}return 0;}

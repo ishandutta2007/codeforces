@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+///#pragma GCC target ("sse4.2")
+
+///#pragma GCC opimize("O1")
+///#pragma GCC opimize("O2")
+
+///#pragma GCC opimize("Os")
+///#pragma GCC opimize("Ofast")
+///#pragma GCC target("avx,avx2,fma")
+///#pragma GCC target("avx2")
+
+
+
+///#pragma GCC opimize("O3")
+///#pragma GCC opimization ("unroll-loops")
+
+using namespace std;
+
+bool home = 1;
+typedef long long ll;
+typedef long double ld;
+#define int ll
+signed realMain();
+
+
+signed main() {
+#ifdef ONLINE_JUDGE
+  home = 0;
+#endif
+  if (home) {
+    freopen ("tony_stark", "r", stdin);
+  } else {
+    ios::sync_with_stdio(0); cin.tie(0);
+  }
+  realMain();
+}
+
+int f(int n) {
+  n--;
+  n = min(n, 60LL);
+  return 1LL << n;
+}
+
+void rec(int n, int k, int add = 0) {
+  if (!n) {
+    return;
+  }
+  assert(k <= f(n));
+  if (k == 1) {
+    for (int i = 1; i <= n; i++) {
+      cout << i + add << " ";
+    }
+    cout << "\n";
+    return;
+  }
+  for (int x = 1; x <= n; x++) {
+    if (x == n || k <= f(n - x)) {
+      for (int i = x; i >= 1; i--) {
+        cout << i + add << " ";
+      }
+      rec(n - x, k, add + x);
+      return;
+    } else {
+      k -= f(n - x);
+    }
+  }
+}
+
+signed realMain() {
+  int t;
+  cin >> t;
+  while (t--) {
+    int n, k;
+    cin >> n >> k;
+    if (k > f(n)) {
+      cout << "-1\n";
+      continue;
+    }
+    rec(n, k);
+
+  }
+  return 0;
+}

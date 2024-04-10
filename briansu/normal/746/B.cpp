@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef double lf;
+typedef pair<ll,ll> ii;
+#define REP(i,n) for(int i=0;i<n;i++)
+#define FILL(i,n) memset(i,n,sizeof(i));
+#define A first
+#define B second
+#define pb push_back
+#ifdef brian
+#define  debug(...) do{\
+    fprintf(stderr,"%s - %d : (%s) = ",__PRETTY_FUNCTION__,__LINE__,#__VA_ARGS__);\
+    _do(__VA_ARGS__);\
+}while(0)
+template<typename t> void _do(t &&x){cerr<<x<<endl;}
+template<typename t,typename ...T> void _do(t &&x,T &&...tail){cerr<<x<<", ";_do(tail...);}
+#else
+#define debug(...)
+#endif // brian
+const ll INF=ll(1e18);
+
+
+
+int main()
+{
+    ios_base::sync_with_stdio(0);cin.tie(0);
+    ll n;
+    cin>>n;
+    char c[n+1];
+    string s;
+    cin>>s;
+    if(n%2==0)
+    {
+        for(int i=0;i<n/2;i++)
+        {
+            c[n/2-i-1]=s[2*i];
+            c[n/2+i]=s[2*i+1];
+        }
+    }
+    else
+    {
+        c[n/2]=s[0];
+        for(int i=0;i<n/2;i++)
+        {
+            c[n/2-i-1]=s[2*i+1];
+            c[n/2+i+1]=s[2*i+2];
+        }
+
+    }
+    REP(i,n)cout<<c[i];cout<<endl;
+
+}

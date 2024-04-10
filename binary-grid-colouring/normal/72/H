@@ -1,0 +1,12 @@
+n := File standardInput readLine asString
+if(n slice(0, 1)=="-",
+    "-" print
+    n = n slice(1,n size)
+)
+
+while(n slice(0,1)=="0",n = n slice(1,n size))
+while(n slice(-1)=="0",n = n slice(0,n size - 1))
+
+if(n size == 0, "0" print)
+
+for(i,1,n size, n slice(n size -i,n size -i+1) print)

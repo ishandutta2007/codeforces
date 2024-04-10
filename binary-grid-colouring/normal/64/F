@@ -1,0 +1,3 @@
+set line [gets stdin]
+set valid [regexp {^([0-9a-z]+\.)*[0-9a-z]{2,3}$} $line]
+puts [expr $valid ? "YES" : "NO"]

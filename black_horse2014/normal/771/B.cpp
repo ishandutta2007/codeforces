@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long LL;
+typedef pair<int, int> PII;
+typedef pair<LL, LL> PLL;
+typedef pair<int, LL> PIL;
+typedef pair<LL, int> PLI;
+typedef vector<int> VI;
+typedef vector<PII> VPII;
+typedef double DB;
+
+#define pb push_back
+#define mset(a, b) memset(a, b, sizeof a)
+#define all(x) (x).begin(), (x).end()
+#define bit(x) (1 << (x))
+#define bitl(x) (1LL << (x))
+#define sqr(x) ((x) * (x))
+#define sz(x) ((int)(x.size()))
+#define cnti(x) (__builtin_popcount(x))
+#define cntl(x) (__builtin_popcountll(x))
+#define clzi(x) (__builtin_clz(x))
+#define clzl(x) (__builtin_clzll(x))
+#define ctzi(x) (__builtin_ctz(x))
+#define ctzl(x) (__builtin_ctzll(x))
+
+#define X first
+#define Y second
+
+#define Error(x) cout << #x << " = " << x << endl
+
+template <typename T, typename U>
+inline void chkmax(T& x, U y) {
+	if (x < y) x = y;
+}
+
+template <typename T, typename U>
+inline void chkmin(T& x, U y) {
+	if (y < x) x = y;
+}
+
+int a[55];
+char pat[55][5];
+
+int main() {
+#ifndef ONLINE_JUDGE
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+#endif
+	int n, m; cin >> n >> m;
+	for (int i = 0; i < m-1; i++) a[i] = i;
+	for (int i = 0; i <= n-m; i++) {
+		char str[5]; scanf("%s", str);
+		if (str[0] == 'Y') {
+			a[i+m-1] = m*(m-1)/2;
+			for (int j = i; j < i+m-1; j++) a[i+m-1] -= a[j];
+		} else {
+			a[i+m-1] = a[i];
+		}
+	}
+	for (int i = 0; i < m; i++) {
+		pat[i][0] = i / 26 + 'A';
+		pat[i][1] = i % 26 + 'a';
+	}
+	for (int i = 0; i < n; i++) printf("%s ", pat[a[i]]);
+	puts("");
+	return 0;
+}

@@ -1,0 +1,93 @@
+#pragma GCC optimize("O3")
+#include <bits/stdc++.h>
+
+#define fast ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define files(name) name!=""?freopen(name".in","r",stdin),freopen(name".out","w",stdout):0
+#define files_ds(name) name!=""?freopen(name".dat","r",stdin),freopen(name".sol","w",stdout):0
+#define all(a) a.begin(),a.end()
+#define len(a) (int)(a.size())
+#define elif else if
+#define mp make_pair
+#define pb push_back
+#define fir first
+#define sec second
+
+using namespace std;
+#define int long long
+
+typedef unsigned long long ull;
+typedef pair<int,int> pii;
+typedef vector<int> vi;
+typedef long double ld;
+typedef long long ll;
+
+const int arr=2e5+10;
+const int ar=2e3+10;
+const ld pi=acos(-1);
+const ld eps=1e-10;
+const ll md=1e9+7;
+
+///---program start---///
+
+int a[arr];
+int pref[arr];
+
+int get(int l,int r)
+{
+    return (r==0?0:pref[r-1])-(l==0?0:pref[l-1]);
+}
+
+int best1[arr];
+int kek1[arr];
+
+int best2[arr];
+int kek2[arr];
+
+main()
+{
+    #ifdef I_love_Maria_Ivanova
+        files("barik");
+        freopen("debug.txt","w",stderr);
+    #else
+        files("");
+        files_ds("");
+    #endif
+
+    int n;
+    cin>>n;
+    for (int i=0;i<n;i++){
+        cin>>a[i];
+        pref[i]=(i==0?0:pref[i-1])+a[i];
+    }
+    fill(best1,best1+arr,-1e18);
+    fill(best2,best2+arr,-1e18);
+    for (int i=0;i<=n;i++){
+        for (int j=0;j<=i;j++){
+            int cur=get(0,j)-get(j,i);
+            if (cur>best1[i]){
+                best1[i]=cur;
+                kek1[i]=j;
+            }
+        }
+    }
+    for (int i=0;i<=n;i++){
+        for (int j=i;j<=n;j++){
+            int cur=get(i,j)-get(j,n);
+            if (cur>best2[i]){
+                best2[i]=cur;
+                kek2[i]=j;
+            }
+        }
+    }
+    int ans=-1e18;
+    int ans1,ans2,ans3;
+    for (int i=0;i<=n;i++){
+        if (best1[i]+best2[i]>ans){
+            ans=best1[i]+best2[i];
+            ans1=kek1[i];
+            ans2=i;
+            ans3=kek2[i];
+        }
+    }
+    cout<<ans1<<" "<<ans2<<" "<<ans3<<"\n";
+}

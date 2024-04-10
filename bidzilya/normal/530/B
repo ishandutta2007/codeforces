@@ -1,0 +1,18 @@
+main =>
+    LINE = read_line(),
+    LEN = len(LINE),
+    MAXID = 0,
+    while (MAXID * 2 < LEN)
+        MAXID := MAXID + 1
+    end,
+    LINE2 = LINE,
+    F = MAXID,
+    while (F >= 1)
+        print(LINE[F]),
+        F := F - 1
+    end,
+    F := LEN,
+    while (F > MAXID)
+        print(LINE[F]),
+        F := F - 1
+    end.

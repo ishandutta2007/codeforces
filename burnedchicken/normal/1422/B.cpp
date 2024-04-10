@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+#include <bits/extc++.h>
+
+#define int long long
+#define ull unsigned long long
+#define ld long double
+#define rep(a) rep1(i,a)
+#define rep1(i,a) rep2(i,0,a)
+#define rep2(i,b,a) for(int i=(b); i<((int)(a)); i++)
+#define rep3(i,b,a) for(int i=(b); i>=((int)(a)); i--)
+#define all(a) a.begin(),a.end()
+#define pii pair<int,int>
+#define pb push_back
+#define mp make_pair
+//#define inf 2000000000
+#define inf 8000000000000000000
+#define eps 1e-9
+#define sz(a) ((int)a.size())
+#define pow2(x) (1ll<<(x))
+#define ceiling(a,b) (((a)+(b)-1)/(b))
+#define print0(a) cout << (a) << ' '
+#define print1(a) cout << (a) << '\n'
+#define print2(a,b) cout << (a) << ' ',print1(b)
+#define print3(a,b,c) cout << (a) << ' ',print2(b,c)
+#define print4(a,b,c,d) cout << (a) << ' ',print3(b,c,d)
+#define ykh mt19937 rng(chrono::steady_clock::now().time_since_epoch().count())
+#define ordered_set tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update>
+
+using namespace std;
+using namespace __gnu_pbds;
+
+const int Mod=1000000007,Mod2=998244353;
+const int MOD=Mod2;
+const int maxn=300005;
+//i_am_noob
+int t,n,m,a[105][105],ans=0;
+vector<int> vec;
+
+signed main(){
+    ios_base::sync_with_stdio(0),cin.tie(0);
+    cin >> t;
+    while(t--){
+        cin >> n >> m;
+        rep(n) rep1(j,m) cin >> a[i][j];
+        ans=0;
+        rep(n/2) rep1(j,m/2){
+            vec={a[i][j],a[n-1-i][j],a[i][m-1-j],a[n-1-i][m-1-j]};
+            sort(all(vec));
+            rep1(k,4) ans+=abs(vec[k]-vec[1]);
+        }
+        if(n&1) rep(m/2) ans+=abs(a[n/2][i]-a[n/2][m-1-i]);
+        if(m&1) rep(n/2) ans+=abs(a[i][m/2]-a[n-1-i][m/2]);
+        print1(ans);
+    }
+    return 0;
+}

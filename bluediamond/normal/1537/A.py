@@ -1,0 +1,1 @@
+for s in[*open(0)][2::2]:print(abs(min(1,len(a:=s.split())-sum(map(int,a)))))

@@ -1,0 +1,16 @@
+int main(){
+	int n,i,j;
+	sscanf(Stdio.stdin.gets(),"%d",n);
+	array(string) p=Stdio.stdin.gets()/",";
+	array(int) x=allocate(n);
+	for(i=0;i<n;++i){
+		sscanf(p[i],"%d",x[i]);
+		for(j=0;j<i;++j)
+			if(x[i]%x[j]&&x[j]%x[i]) {
+				write("NOT FRIENDS");
+				return 0;
+			}
+	}
+	write("FRIENDS");
+	return 0;
+}

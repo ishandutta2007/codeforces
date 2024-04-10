@@ -1,0 +1,40 @@
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+with Ada.Text_IO;
+use Ada.Text_IO;
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded.Text_IO;
+use Ada.Strings.Unbounded.Text_IO;
+
+procedure AplusB is
+    S : Unbounded_String;
+    p : Float;
+    i : Integer;
+    u : Float;
+    ans, len : Float;
+
+begin
+    S := Get_Line;
+    Get(p);
+    i := 1;
+    u := 0.0;
+    ans := 0.0;
+    loop
+        if Element(S, i) = '?' then
+            u := u + 1.0;
+        else
+            if Element(S, i) = '1' then
+                ans := ans + 1.0;
+            end if;
+        end if;
+        i := i + 1;
+        exit when i > Length(S);
+    end loop;
+    len := Float(Length(S));
+    ans := ans + u * p;
+    ans := ans / len;
+    Put(ans, 1, 5, 0);
+end AplusB;

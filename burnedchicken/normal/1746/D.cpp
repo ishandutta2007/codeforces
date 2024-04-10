@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define rep(i,a,b) for(int i=a; i<(b); ++i)
+#define per(i,a,b) for(int i=a; i>=(b); --i)
+#define ll long long
+#define int ll
+#define all(a) a.begin(),a.end()
+#define pii pair<int,int>
+#define inf 0x3f3f3f3f
+#define pb push_back
+#define sz(a) ((int)a.size())
+#ifdef i_am_noob
+#define bug(...) cerr << "#" << __LINE__ << ' ' << #__VA_ARGS__ << "- ", _do(__VA_ARGS__)
+template<typename T> void _do(T && x) {cerr << x << endl;}
+template<typename T, typename ...S> void _do(T && x, S&&...y) {cerr << x << ", "; _do(y...);}
+#else
+#define bug(...) 777771449
+#endif
+
+const int maxn=200005;
+
+int n,k,a[maxn],cnt[maxn],dp[maxn][2];
+vector<vector<int>> adj(maxn);
+
+void dfs1(int u, int par){
+    if(par==-1) cnt[u]=k;
+    else cnt[u]=cnt[par]/sz(adj[par]);
+    for(auto v: adj[u]) dfs1(v,u);
+}
+
+void dfs2(int u, int par){
+    bug(u,par);
+    for(auto v: adj[u]) dfs2(v,u);
+    if(adj[u].empty()){
+        dp[u][0]=a[u]*cnt[u],dp[u][1]=a[u]*(cnt[u]+1);
+        return;
+    }
+    vector<int> vec;
+    dp[u][0]=a[u]*cnt[u];
+    for(auto v: adj[u]) dp[u][0]+=dp[v][0],vec.pb(dp[v][1]-dp[v][0]);
+    sort(all(vec),greater<int>());
+    rep(i,0,cnt[u]%sz(adj[u])) dp[u][0]+=vec[i];
+    dp[u][1]=dp[u][0]+vec[cnt[u]%sz(adj[u])]+a[u];
+}
+
+void ahcorz(){
+    cin >> n >> k;
+    rep(i,0,n) adj[i].clear();
+    rep(i,1,n){
+        int x;
+        cin >> x;
+        x--;
+        adj[x].pb(i);
+    }
+    rep(i,0,n) cin >> a[i];
+    dfs1(0,-1);
+    dfs2(0,-1);
+    cout << dp[0][0] << "\n";
+}
+
+signed main(){
+    ios_base::sync_with_stdio(0),cin.tie(0);
+    int t;
+    cin >> t;
+    while(t--) ahcorz();
+}

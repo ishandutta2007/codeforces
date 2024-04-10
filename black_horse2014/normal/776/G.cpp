@@ -1,0 +1,93 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long LL;
+typedef pair<int, int> PII;
+typedef pair<LL, LL> PLL;
+typedef pair<int, LL> PIL;
+typedef pair<LL, int> PLI;
+typedef vector<int> VI;
+typedef vector<PII> VPII;
+typedef double DB;
+
+#define pb push_back
+#define mset(a, b) memset(a, b, sizeof a)
+#define all(x) (x).begin(), (x).end()
+#define bit(x) (1 << (x))
+#define bitl(x) (1LL << (x))
+#define sqr(x) ((x) * (x))
+#define sz(x) ((int)(x.size()))
+#define cnti(x) (__builtin_popcount(x))
+#define cntl(x) (__builtin_popcountll(x))
+#define clzi(x) (__builtin_clz(x))
+#define clzl(x) (__builtin_clzll(x))
+#define ctzi(x) (__builtin_ctz(x))
+#define ctzl(x) (__builtin_ctzll(x))
+
+#define X first
+#define Y second
+
+#define Error(x) cout << #x << " = " << x << endl
+
+template <typename T, typename U>
+inline void chkmax(T& x, U y) {
+	if (x < y) x = y;
+}
+
+template <typename T, typename U>
+inline void chkmin(T& x, U y) {
+	if (y < x) x = y;
+}
+
+int a[20];
+
+long long solve(int x, int y, int m, long long n) {
+	int an = 0;
+	long long nn = n;
+	while (n) a[an++] = n & 15, n >>= 4;
+	if (an - 1 < x) return 0;
+	long long ret = 0;
+	int valid = 1;
+	for (int i = an-1; i >= 0; i--) {
+		int cur = 0;
+		if (i == x) {
+			for (int j = 0; j <= m; j++) if (j >> y & 1) cur++;
+		} else {
+			cur = m + 1;
+		}
+		ret *= cur;
+		if (!valid) continue;
+		for (int j = 0; j < a[i] && j <= m; j++) {
+			if (i == x) {
+				if (j >> y & 1) ret++;
+			} else {
+				ret++;
+			}
+		}
+		if (a[i] > m) valid = 0;
+		if (i == x && (~a[i] >> y & 1)) valid = 0;
+	}
+	return ret;
+}
+
+long long calc(long long n) {
+	if (n == 0) return 0;
+	long long ret = 0;
+	for (int i = 1; i <= 0xf; i++) {
+		ret += solve(i/4, i&3, i, n+1) - solve(i/4, i&3, i-1, n+1);
+	}
+	return ret;
+}
+
+int main() {
+#ifndef ONLINE_JUDGE
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
+#endif
+	int ncase;
+	for (scanf("%d", &ncase); ncase--; ) {
+		long long l, r; scanf("%llx%llx", &l, &r);
+		printf("%lld\n", calc(r) - calc(l-1));
+	}
+	return 0;
+}

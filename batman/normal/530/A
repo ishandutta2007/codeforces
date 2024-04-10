@@ -1,0 +1,12 @@
+main =>
+    A=read_int(),
+    B=read_int(),
+    C=read_int(),
+    D=sqrt(B*B-4*A*C),
+    if(B*B==4*A*C) then
+        println(-B/(2*A))
+    else 
+        X=(-B+D)/(2*A),
+        Y=(-B-D)/(2*A),
+        printf("%.10e %.10e%n", min(X, Y), max(X, Y))
+    end.

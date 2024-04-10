@@ -1,0 +1,1 @@
+main = getLine >>= putStrLn . (["NO","YES"] !!) . fromEnum . (== 1) . (`rem` 2) . subtract 3 . (read :: String -> Integer)

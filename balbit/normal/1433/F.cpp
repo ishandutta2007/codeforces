@@ -1,0 +1,91 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pii pair<int, int>
+#define ull unsigned ll
+#define f first
+#define s second
+#define ALL(x) x.begin(),x.end()
+#define SZ(x) (int)x.size()
+#define SQ(x) (x)*(x)
+#define MN(a,b) a = min(a,(__typeof__(a))(b))
+#define MX(a,b) a = max(a,(__typeof__(a))(b))
+#define pb push_back
+#define SORT_UNIQUE(c) (sort(c.begin(),c.end()), c.resize(distance(c.begin(),unique(c.begin(),c.end()))))
+#ifdef BALBIT
+#define IOS()
+#define bug(...) fprintf(stderr,"#%d (%s) = ",__LINE__,#__VA_ARGS__),_do(__VA_ARGS__);
+template<typename T> void _do(T &&x){cerr<<x<<endl;}
+template<typename T, typename ...S> void _do(T &&x, S &&...y){cerr<<x<<", ";_do(y...);}
+#else
+#define IOS() ios_base::sync_with_stdio(0);cin.tie(0);
+#define endl '\n'
+#define bug(...)
+#endif
+
+const int iinf = 1e9+10;
+const ll inf = 1ll<<60;
+const ll mod = 1e9+7 ;
+
+
+void GG(){cout<<"0\n"; exit(0);}
+
+ll mpow(ll a, ll n, ll mo = mod){ // a^n % mod
+    ll re=1;
+    while (n>0){
+        if (n&1) re = re*a %mo;
+        a = a*a %mo;
+        n>>=1;
+    }
+    return re;
+}
+
+ll inv (ll b, ll mo = mod){
+    if (b==1) return b;
+    return (mo-mo/b) * inv(mo%b,mo) % mo;
+}
+
+const int maxn = 1e6+5;
+
+int bst[2][36][71];
+int best[71][71];
+int a[71][71];
+int A[71][71];
+
+signed main(){
+    IOS();
+
+    int n,m,k; cin>>n>>m>>k;
+    for (int i = 0; i<71; ++i) for (int j = 0; j<71; ++j) {
+        best[i][j] = (j==0)?0:-1000000000;
+    }
+    for (int i = 0; i<n; ++i) {
+        for (int j = 0; j<m; ++j) cin>>a[i][j], A[i][j] = a[i][j] % k;
+    }
+    for (int I = 0; I<n; ++I) {
+        for (int b=0;b<2;++b) for (int j = 0; j<36; ++j) for (int k = 0; k<70; ++k) bst[b][j][k] = (k == 0 && j == 0)? 0 : -1000000000;
+        int dpat = 0;
+        for (int j = 0; j<m; ++j) {
+            dpat ^= 1;
+            for (int j = 0; j<36; ++j) for (int k = 0; k<70; ++k) bst[dpat][j][k] = (k == 0 && j == 0)? 0 : -1000000000;
+            for (int nt = 1; nt <= m/2; ++nt) {
+                for (int rm = 0; rm < k; ++rm) {
+                    bst[dpat][nt][rm] = bst[dpat^1][nt][rm];
+                    MX(bst[dpat][nt][rm], a[I][j] + bst[dpat^1][nt-1][rm-A[I][j]<0?rm-A[I][j]+k:rm-A[I][j]]);
+//                    bug(bst[dpat][nt][rm]);
+                }
+            }
+        }
+        vector<int> bb(k, -1000000000);
+
+        for (int rm = 0; rm < k; ++rm) {
+            for (int nt = 0; nt <= m/2; ++nt) {
+                MX(bb[rm], bst[dpat][nt][rm]);
+            }
+            for (int r2 = 0; r2 < k; ++r2) {
+                MX(best[I+1][r2], bb[rm] + best[I][(r2-rm<0?r2-rm+k:r2-rm)]);
+            }
+        }
+    }
+    cout<<best[n][0]<<endl;
+}

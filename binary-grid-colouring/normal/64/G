@@ -1,0 +1,8 @@
+gets stdin s
+while {[regsub -all {/\./} $s {/} s]} {}
+while {[regsub {/\.$} $s {} s]} {}
+while {[regsub {/[0-9a-z\.]+/\.\./} $s {/} s]} {}
+while {[regsub {/[0-9a-z\.]+/\.\.$} $s {} s]} {}
+if {$s == "" } {set s / }
+if {[regexp {^/\.\.(/[^ ])*$} $s]} {puts -1
+} else { puts $s }

@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/priority_queue.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+#define REP(i,j)       for(int i = 0 ; i < j ; i++)
+#define REPNM(i,j,k)   for(int i = j ; i < k ; i++)
+#define RREP(i,j,k)    for(int i = j ; i >=k ; i--)
+#define A    first
+#define B    second
+#define pb   push_back
+#define mp   make_pair
+#define PII pair<int , int>
+#define VI  vector<int> 
+#define VPII vector<PII>
+#define MEM(i,j)   memset(i , j , sizeof i)
+#define ALL(i)     i.begin() , i.end()
+#define DBGG(i,j)     cout << i << " " << j << endl
+#define DB4(i,j,k,l)  cout << i << " " << j << " " << k << " " << l << endl
+#define RI(i)       scanf("%d" , &i)
+#define RII(i,j)    scanf("%d%d" , &i , &j)
+#define RIII(i,j,k) scanf("%d%d%d" , &i , &j , &k)
+#define RL(i)       scanf("%lld" , &i)
+#define RLL(i,j)    scanf("%lld%lld" , &i , &j)
+#define RLLL(i,j,k) scanf("%lld%lld%lld" , &i , &j , &k)
+#define AS assert
+#define IOS cin.tie() , cout.sync_with_stdio(0)
+///------------------------------------------------------------
+#define MAX 10000
+#define INF 0x3f3f3f3f
+
+int n , m , x[MAX][2];
+VI ans;
+int32_t main(){
+	cin >> n >> m;
+	REP(i , n) cin >> x[i][0] >> x[i][1];
+	int tmp = 0;
+	REP(i , n) ans.pb(x[i][0]) , tmp += x[i][0];
+	if(tmp > m){ cout << "NO" << endl; return 0; }
+	else tmp = m - tmp;
+	REP(i , n) ans[i] += min(tmp , x[i][1] - x[i][0]) , tmp -= min(tmp , x[i][1] - x[i][0]);
+	if(tmp > 0){ cout << "NO" << endl; return 0; }
+	else {cout << "YES" << endl ; for(auto i : ans) cout << i << " " ; cout << endl;}
+    return 0;
+}

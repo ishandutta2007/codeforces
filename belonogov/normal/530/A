@@ -1,0 +1,24 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    /*println(A),*/
+    B := B / A,
+    /*println(A),*/
+    C := C / A,
+    /*println((B / 2) * (B / 2) - C),*/
+    D := sqrt((B / 2) * (B / 2) - C),
+    /*println("D"),*/
+    /*println(D), */
+    if (D < 0.000001) then
+        println(-B / 2)
+    end,
+    if (D > 0.000001) then 
+        print(-B / 2 - D)
+    end,
+    if (D > 0.000001) then 
+        print(" ")
+    end,
+    if (D > 0.000001) then 
+        print(-B / 2 + D)
+    end.

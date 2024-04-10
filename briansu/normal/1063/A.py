@@ -1,0 +1,1 @@
+print("".join(sorted(list([input(),input().strip()][1]))))
