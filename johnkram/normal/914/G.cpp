@@ -1,0 +1,85 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define P 1000000007
+int n,N,i,j,k,a[131072],b[131072],c[131072],d[131072][18],e[131072],f[131072],g[18],ans;
+int main()
+{
+	N=131072;
+	scanf("%d",&n);
+	for(i=1;i<N;i++)e[i]=e[i>>1]+(i&1);
+	for(f[1]=1,i=2;i<N;i++)
+	{
+		f[i]=f[i-1]+f[i-2];
+		if(f[i]>=P)f[i]-=P;
+	}
+	while(n--)
+	{
+		scanf("%d",&i);
+		d[i][e[i]]++;
+		b[i]++;
+		c[i]++;
+	}
+	n=17;
+	for(i=0;i<n;i++)for(j=0;j<N;j++)if(j>>i&1)
+	{
+		k=c[j]+c[j^(1<<i)];
+		c[j]=c[j^(1<<i)]-c[j];
+		c[j^(1<<i)]=k;
+		if(c[j]<0)c[j]+=P;
+		if(c[j^(1<<i)]>=P)c[j^(1<<i)]-=P;
+		for(k=0;k<=n;k++)
+		{
+			d[j][k]+=d[j^(1<<i)][k];
+			if(d[j][k]>=P)d[j][k]-=P;
+		}
+	}
+	for(i=0;i<N;i++)
+	{
+		c[i]=(ll)c[i]*c[i]%P;
+		memset(g,0,sizeof(g));
+		for(j=0;j<=n;j++)for(k=0;k<=n;k++)if(j+k<=n)g[j+k]=(g[j+k]+(ll)d[i][j]*d[i][k])%P;
+		for(j=0;j<=n;j++)d[i][j]=g[j];
+	}
+	for(i=0;i<n;i++)for(j=0;j<N;j++)if(j>>i&1)
+	{
+		k=c[j]+c[j^(1<<i)];
+		c[j]=c[j^(1<<i)]-c[j];
+		c[j^(1<<i)]=k;
+		if(c[j]<0)c[j]+=P;
+		if(c[j^(1<<i)]>=P)c[j^(1<<i)]-=P;
+		for(k=0;k<=n;k++)
+		{
+			d[j][k]-=d[j^(1<<i)][k];
+			if(d[j][k]<0)d[j][k]+=P;
+		}
+	}
+	for(i=0;i<N;i++)
+	{
+		a[i]=(ll)d[i][e[i]]*f[i]%P;
+		b[i]=(ll)b[i]*f[i]%P;
+		c[i]=(ll)c[i]*f[i]%P*742744451%P;
+	}
+	for(i=0;i<n;i++)for(j=0;j<N;j++)if(j>>i&1)
+	{
+		a[j^(1<<i)]+=a[j];
+		b[j^(1<<i)]+=b[j];
+		c[j^(1<<i)]+=c[j];
+		if(a[j^(1<<i)]>=P)a[j^(1<<i)]-=P;
+		if(b[j^(1<<i)]>=P)b[j^(1<<i)]-=P;
+		if(c[j^(1<<i)]>=P)c[j^(1<<i)]-=P;
+	}
+	for(i=0;i<N;i++)a[i]=(ll)a[i]*b[i]%P*c[i]%P;
+	for(i=0;i<n;i++)for(j=0;j<N;j++)if(j>>i&1)
+	{
+		a[j^(1<<i)]-=a[j];
+		if(a[j^(1<<i)]<0)a[j^(1<<i)]+=P;
+	}
+	for(i=0;i<n;i++)
+	{
+		ans+=a[1<<i];
+		if(ans>=P)ans-=P;
+	}
+	cout<<ans<<endl;
+	return 0;
+}

@@ -1,0 +1,23 @@
+co calc
+{
+    eq [7] [2] [0]
+    if [7] ac
+    cout 42
+    add [2] [2] 1
+}
+
+co calc2
+{
+    eq [8] [0] [1]
+    if [8] ac
+    set [2] 0
+    ca calc
+    cout 10
+    add [0] [0] 1
+}
+
+iin [1] 
+add [1] [1] 1
+set [0] 1
+ca calc2
+ac

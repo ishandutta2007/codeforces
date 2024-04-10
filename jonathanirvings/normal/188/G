@@ -1,0 +1,47 @@
+co input
+{
+    eq [104] [105] [0]
+    iin [[105]]
+    if [104] ac
+    add [105] [105] 1
+}
+
+co output
+{
+    eq [104] [105] [0]
+    iout [[105]]
+    cout 32
+    if [104] ac
+    add [105] [105] 1
+}
+
+co call
+{
+    eq [102] [104] [0]
+    if [102] ac
+    add [107] [104] 1
+    gt [101] [[104]] [[107]]
+    if [101] set [108] [[107]]
+    if [101] set [[107]] [[104]]
+    if [101] set [[104]] [108]
+    add [104] [104] 1
+}
+
+co sort
+{
+    eq [103] [105] [0]
+    if [103] ac
+    set [104] 1
+    ca call
+    add [105] [105] 1
+}
+
+
+iin [0]
+set [105] 1
+ca input
+set [105] 1
+ca sort
+set [105] 1
+ca output
+ac

@@ -1,0 +1,68 @@
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
+#include <bits/stdc++.h>
+using namespace std;
+template<class T, class S>
+ostream& operator << (ostream &o, const pair<T, S> &p) {
+    return o << '(' << p.first << ", " << p.second << ')';
+}
+template<template<class, class...> class T, class... A>
+typename enable_if<!is_same<T<A...>, string>(), ostream&>::type
+operator << (ostream &o, T<A...> V) {
+	o << '[';
+	for(auto a : V) o << a << ", ";
+	return o << ']';
+}
+
+typedef long long int ll;
+typedef long double ld;
+typedef pair<ll, ll> pl;
+
+#define G(x) ll x; cin >> x;
+#define GD(x) ld x; cin >> x;
+#define GS(s) string s; cin >> s;
+#define F(i, l, r) for(ll i = l; i < (r); ++i)
+#define FD(i, r, l) for(ll i = r; i > (l); --i)
+#define P(a, n) { cout << "{ "; F(_, 0, n) cout << a[_] << " "; cout << "}\n"; }
+#define EX(x) { cout << x << '\n'; exit(0); }
+#define A(a) (a).begin(), (a).end()
+#define K first
+#define V second
+#define M 1000000007 //998244353
+#define N 200010
+
+vector<ll> graph[N];
+ll t, d[N], dp[N][2];
+
+#define DP dp[v][b]
+ll r(ll v, ll b) {
+    if(~DP) return DP;
+    if(v == t) return DP = 1;
+    DP = 0;
+    for(ll u : graph[v]) if(d[u] == d[v] - 1) DP = (DP + r(u, b)) % M;
+    else if(!b && d[u] == d[v]) DP = (DP + r(u, 1)) % M;
+    return DP;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    G(tc) while(tc--) {
+        G(n) G(m) G(s) cin >> t;
+        while(m--) {
+            G(u) G(v)
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+        fill_n(d, n + 1, -1);
+        vector<pl> bfs = {{t, 0}};
+        F(i, 0, bfs.size()) if(!~d[bfs[i].K]) {
+            d[bfs[i].K] = bfs[i].V;
+            for(ll v : graph[bfs[i].K]) bfs.emplace_back(v, bfs[i].V + 1);
+        }
+        F(i, 0, n + 1) dp[i][0] = dp[i][1] = -1;
+        cout << r(s, 0) << '\n';
+        F(i, 1, n + 1) graph[i].clear();
+    }
+}

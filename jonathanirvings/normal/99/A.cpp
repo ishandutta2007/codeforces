@@ -1,0 +1,66 @@
+//start of jonathanirvings' template
+
+#define jonathan using
+#define ganteng namespace
+#define banget std
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
+#include <memory.h>
+#include <deque>
+#include <string>
+#include <string.h>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <math.h>
+#include <stdlib.h>
+#include <map>
+jonathan ganteng banget;
+
+typedef long long LL;
+typedef vector <int> vi;
+typedef vector <vi> vii;
+typedef pair<int,int> pii;
+
+double EPS = 1e-6;
+int INF = 2000000000;
+long long INFF = 8000000000000000000LL;
+
+#define DEBUG printf("====TESTING====\n")
+#define FOR(a,b,c) for (int (a)=(b);(a)<(c);(a)++)
+#define FORN(a,b,c) for (int (a)=(b);(a)<=(c);(a)++)
+#define FORD(a,b,c) for (int (a)=(b);(a)>=(c);(a)--)
+#define FORL(a,b,c) for (LL (a)=(b);(a)<=(c);(a)++)
+#define fi first
+#define se second
+#define mp make_pair
+#define pb push_back
+#define SORT(v) sort(v.begin(),v.end())
+#define SORTA(arr,sz) sort(arr+1,arr+1+sz)
+
+//end of jonathanirvings' template
+
+string s;
+
+int main()
+{
+	cin >> s;
+	int n = s.length();
+	string s1,s2;
+	int koma = s.find('.');
+	FOR(i,0,n)
+	{
+		if (i < koma) s1 = s1 + s[i]; else
+		if (i > koma) s2 = s2 + s[i];
+	}
+	if (s1[s1.length()-1] == '9') printf("GOTO Vasilisa.\n"); else
+	{
+		if (s2[0] <= '4') printf("%s\n",s1.c_str()); else
+		{
+			s1[s1.length()-1] = s1[s1.length()-1]+1;
+			printf("%s\n",s1.c_str());
+		}
+	}
+	return 0;
+}

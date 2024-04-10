@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+ 
+#define FOR(i,a,b) for( int i = (a); i < (int)(b); i++ )
+#define REP(i,n) FOR(i,0,n)
+#define YYS(x,arr) for(auto& x:arr)
+#define ALL(x) (x).begin(),(x).end()
+#define SORT(x) sort( (x).begin(),(x).end() )
+#define REVERSE(x) reverse( (x).begin(),(x).end() )
+#define pb emplace_back
+#define mp make_pair
+#define fi first
+#define se second
+
+using namespace std;
+
+typedef long double ld;
+typedef long long int ll;
+typedef pair<int,int> pi;
+typedef pair<ll,ll> pl;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<bool> vb;
+typedef vector<ld> vd;
+typedef vector<pi> vpi;
+typedef vector<pl> vpl;
+typedef vector<vpl> gr;
+typedef vector<vi> mi;
+typedef vector<vl> ml;
+typedef vector<vd> md;
+
+const int INF = 1e9+10;
+const ll INFLL = 1e18+10;
+const ld EPS = 1e-8;
+const ld EPSLD = 1e-14;
+const ll MOD = 1000000007;
+
+template<class T> T &chmin( T &a , const T &b ){ return a = min(a,b); }
+template<class T> T &chmax( T &a , const T &b ){ return a = max(a,b); }
+
+const int MAX_N = 200010;
+
+ll a[MAX_N];
+ll add[MAX_N];
+int n = 1;
+ll sum;
+int m;
+
+int t, k, x;
+
+int main(){
+
+  scanf( "%d" , &m );
+  REP( loop_cnt , m ){
+    scanf( "%d" , &t );
+    if( t == 1 ){
+      scanf( "%d %d" , &k , &x );
+      add[k] += x;
+      sum += (ll)k*x;
+    } else if( t == 2 ){
+      scanf( "%d" , &x );
+      a[n++] = x;
+      sum += x;
+    } else if( t == 3 ){
+      sum -= a[n-1] + add[n];
+      add[n-1] += add[n];
+      add[n] = 0;
+      n--;
+    }
+    printf( "%.18lf\n" , (double)sum / (double)n );
+  }
+
+  return 0;
+}

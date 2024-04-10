@@ -1,0 +1,20 @@
+co calc
+{
+    eq [9] [2] 0
+    if [9] ac
+    and [3] [1] [2]
+    gt [8] [3] 0
+    if [8] cout 49
+    if [8] add [5] [5] 1
+    eq [7] [3] 0
+    gt [4] [5] 0
+    and [6] [4] [7]
+    if [6] cout 48
+    div [2] [2] 2
+}
+
+
+iin [1]
+set [2] 1048576
+ca calc
+ac

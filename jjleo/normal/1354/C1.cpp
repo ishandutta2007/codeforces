@@ -1,0 +1,18 @@
+#include <bits/stdc++.h>
+#define maxn 100086
+
+using namespace std;
+
+int t;
+int n;
+
+const double pi = acos(-1.0);
+
+int main(){
+	scanf("%d", &t);
+	while(t--){
+		scanf("%d", &n);
+		n <<= 1;
+		printf("%.10lf\n", 2 * 0.5 / tan(pi / n));
+	}
+}

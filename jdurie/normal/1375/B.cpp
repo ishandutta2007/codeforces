@@ -1,0 +1,54 @@
+#pragma GCC target ("avx2")
+#pragma GCC optimize ("O3")
+#pragma GCC optimize ("unroll-loops")
+#include <bits/stdc++.h>
+using namespace std;
+template<class T, class S>
+ostream& operator << (ostream &o, const pair<T, S> &p) {
+    return o << '(' << p.first << ", " << p.second << ')';
+}
+template<template<class, class...> class T, class... A>
+typename enable_if<!is_same<T<A...>, string>(), ostream&>::type
+operator << (ostream &o, T<A...> V) {
+	o << '[';
+	for(auto a : V) o << a << ", ";
+	return o << ']';
+}
+
+typedef long long int ll;
+typedef long double ld;
+typedef pair<ll, ll> pl;
+
+#define G(x) ll x; cin >> x;
+#define GD(x) ld x; cin >> x;
+#define GS(s) string s; cin >> s;
+#define F(i, l, r) for(ll i = l; i < r; i++)
+#define FD(i, r, l) for(ll i = r; i > l; i--)
+#define P(a, n) { cout << "{ "; F(_, 0, n) cout << a[_] << " "; cout << "}" << endl; }
+#define EX(x) { cout << x << endl; exit(0); }
+#define A(x) (x).begin(), (x).end()
+#define K first
+#define V second
+#define M 1000000007 //998244353
+#define N 310
+
+ll a[N][N], b[N][N];
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    G(tc) while(tc--) {
+        G(n) G(m)
+        F(i, 0, n) F(j, 0, m) cin >> b[i][j];
+        F(i, 0, n) fill(a[i], a[i] + m, 4);
+        F(i, 0, n) F(j, 0, m)
+            if(!i || !j || i == n - 1 || j == m - 1) a[i][j] = 3;
+        a[0][0] = a[n - 1][0] = a[0][m - 1] = a[n - 1][m - 1] = 2;
+        string ans = "YES\n";
+        F(i, 0, n) F(j, 0, m) if(b[i][j] > a[i][j]) ans = "NO\n";
+        cout << ans;
+        if(ans == "YES\n") {
+            F(i, 0, n) F(j, 0, m) cout << a[i][j] << " \n"[j == m - 1];
+        }
+    }
+}
