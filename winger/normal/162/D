@@ -1,0 +1,3 @@
+USING: io kernel math math.parser sequences locals ;
+readln [ "0123456789" member? not ] filter
+print

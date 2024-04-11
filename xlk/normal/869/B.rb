@@ -1,0 +1,1 @@
+a,b=gets.split.map &:to_i;z=1;(a+1..b).each{|i|z=z*i%10;if z==0 then break end};p z

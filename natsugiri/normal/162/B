@@ -1,0 +1,14 @@
+USING: io kernel math math.parser formatting sequences prettyprint io.streams.byte-array io.streams.sequence math.functions ;
+
+
+IN: template
+
+: rec ( x -- x )
+  dup 1 <
+  [  ]
+  [ dup 2 / floor dup 2 * rot swap - swap rec 10 * swap + ]
+  if ;
+  
+readln string>number
+rec
+number>string print

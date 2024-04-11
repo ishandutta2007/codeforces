@@ -1,0 +1,1 @@
+char s[][9]={"Sheldon","Leonard","Penny","Rajesh","Howard"};main(n){for(scanf("%d",&n),n--;n>4;)n=n-5>>1;puts(s[n]);}

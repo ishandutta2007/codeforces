@@ -1,0 +1,36 @@
+with Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+with Ada.Strings.Unbounded;
+use Ada.Text_IO, Ada.Float_Text_IO, Ada.Integer_Text_IO;
+
+procedure Test is
+    Input : Character;
+    A, B, C, T: Integer;
+    Last: Integer;
+    P, Res, Sum: Float;
+    Str : String (1 .. 100);
+begin
+    A:=0;
+    B:=0;
+    C:=0;
+    Ada.Text_IO.Get_Line(Item=>Str,Last=>Last);
+    for i in 1 .. Last loop
+        if Str(i) = '1' THEN
+            A := A + 1;  
+        ELSIF Str(i) = '0' THEN
+            B := B + 1;
+        ELSIF Str(i) = '?' THEN
+            C := C + 1;
+        ELSE
+            goto Label;
+        end if;
+    end loop ;
+    <<Label>>
+    Get(P);
+    Sum := Float(C);
+    Res := (Sum * P);
+    Sum := Float(A);
+    Res := Res + Sum;
+    Sum := Float(A+B+C);
+    Res := Res/Sum;
+    Put(Item=>Res, Aft=>5, Fore=>1, Exp=>0);
+end;

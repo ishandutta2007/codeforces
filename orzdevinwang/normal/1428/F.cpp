@@ -1,0 +1,2 @@
+#include<cstdio>
+int n,f[555555],now;long long ans,sum;char s[555555];int main(){scanf("%d%s",&n,s+1);for(int i=n;i>=1;i--){if(s[i]-'0')now++,sum+=(!f[now]?n+1:f[now])-i;else while(now)f[now]=i+now,now--; ans+=sum;}printf("%lld\n", ans);}

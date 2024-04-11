@@ -1,0 +1,35 @@
+% pical
+import ordset.
+
+solve(P, I) = Res =>
+  Res = 0,
+  Q = [(0, 0)],
+  while (Q != [])
+    [(X,Y)|Q2] = Q,
+    Res := max(Res, abs(X) + abs(Y)),
+    Q := Q2,
+    foreach (Dir in [(I, 0), (-I, 0), (0, I), (0, -I)])
+      (Dx, Dy) = Dir,
+      N = (X + Dx, Y + Dy),
+      Ns = new_ordset([N]),
+      if subset(Ns, P) then
+        P := subtract(P, Ns),
+        Q := Q ++ [N]
+      end
+    end
+  end.
+
+main =>
+  N = read_int(),
+  P = new_ordset([]),
+  while (N > 0)
+    P := insert(P, (read_int(), read_int())),
+    N := N - 1
+  end,
+  Ans = 0,
+  I = 1,
+  while (I <= 10)
+    Ans := max(Ans, solve(P, I)),
+    I := I + 1
+  end,
+  println(Ans)

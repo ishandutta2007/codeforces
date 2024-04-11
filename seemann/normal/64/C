@@ -1,0 +1,8 @@
+set line [gets stdin]
+ scan $line "%d%d%d" n m k
+set k [expr {$k - 1}]
+set a [expr {$k / $n}]
+set b [expr {$k % $n}]
+set ans [expr {$m * $b + $a + 1}]
+
+puts $ans

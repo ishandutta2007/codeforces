@@ -1,0 +1,25 @@
+with Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure R is
+  A: String(1..100);
+  L: Integer;
+  I: Integer := 1;
+  B,C,D: float;
+
+begin
+  Ada.Text_IO.Get_Line(a, l);
+  Ada.Float_Text_IO.Get(c);
+  b := 0.0;
+  loop
+    if Character'Pos(a(i)) = 63 then
+      b := b + c;    
+    end if;
+    if Character'Pos(a(i)) = 49 then
+      b := b + 1.0;    
+    end if;
+    i := i + 1;
+    exit when i > l;
+  end loop;
+  b := b / Float(l);
+  Ada.Float_Text_IO.Put(Item => b, Fore => 0, Aft => 5, Exp => 0);
+end R;

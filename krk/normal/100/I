@@ -1,0 +1,12 @@
+int main()
+{
+    int k = (int)Stdio.stdin->gets();
+    string s = Stdio.stdin->gets();
+    array S = (string)s / " ";
+    float x = (float)S[0], y = (float)S[1];
+    float pi = 3.1415926535;
+    float a = (float)k / 180.0 * pi;
+    float nx = x * cos(a) - y * sin(a);
+    float ny = x * sin(a) + y * cos(a);
+    write((string)nx + " " + (string)ny);
+}

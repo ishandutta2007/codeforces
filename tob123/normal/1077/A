@@ -1,0 +1,30 @@
+let ri () =
+  Scanf.scanf " %d" (fun x -> x)
+
+let read_input () =
+  let a = ri() and
+  b = ri() and
+  c = ri() in
+    (Int64.of_int a, Int64.of_int b, Int64.of_int c)
+
+let res a b k = 
+  let res1 = Int64.mul (Int64.sub a b) (Int64.div k (Int64.of_int 2)) and
+  res2 = Int64.mul (Int64.rem k (Int64.of_int 2)) a in
+  (*print_int a; print_int b; print_int k; *)
+  Int64.add res1 res2
+
+let solveCase () =
+  let (a, b, k) = read_input () in
+  let x = res a b k in
+  print_endline (Int64.to_string x)
+
+let rec solve t =
+  (*print_int t; print_endline ". test"; *)
+  if t=0 then ()
+  else 
+    (solveCase ();
+    solve (t-1))
+
+let () =
+  let t = read_int() in
+  solve t

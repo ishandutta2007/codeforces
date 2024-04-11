@@ -1,0 +1,8 @@
+set line [gets stdin]
+scan $line "%s" str
+
+if {[regexp {^([a-z0-9]+\.)*[a-z0-9]{2,3}$} $str]} {
+    puts "YES"
+} else {
+    puts "NO"
+}

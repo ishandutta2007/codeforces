@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#ifdef LOCAL
+#define DEBUG(...) cerr << #__VA_ARGS__ << ": ", debug(__VA_ARGS__);
+#else
+#define DEBUG(...)
+#endif
+
+template<typename T, typename S> ostream& operator << (ostream &os, const pair<T, S> &p) {return os << "(" << p.first << ", " << p.second << ")";}
+template<typename T, size_t N> ostream& operator << (ostream &os, const array<T, N> &a) {os << "("; for (int i=0; i<(int)N; i++) {if (i) os << ", "; os << a[i];} return os << ")";}
+template<typename T> ostream& operator << (ostream &os, const vector<T> &v) {os << "["; for (int i=0; i<(int)v.size(); i++) {if (i) os << ", "; os << v[i];} return os << "]";}
+void debug() {cerr << "\n";} template<typename T, typename... Args> void debug(T x, Args... args) {cerr << x << "; "; debug(args...);}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
+
+    int n, m;
+    cin >> n >> m;
+
+    if (m < n - 1) {
+        cout << "Impossible\n";
+        return 0;
+    }
+
+    int u = 1, v = 2;
+    vector<pair<int, int>> edges;
+    for (int i=0; i<m; i++) {
+        if (u == n) {
+            cout << "Impossible\n";
+            return 0;
+        }
+        edges.emplace_back(u, v);
+        v++;
+        while (v <= n && __gcd(u, v) != 1)
+            v++;
+        if (v > n) {
+            u++;
+            v = u + 1;
+        }
+    }
+
+    cout << "Possible\n";
+    for (auto e : edges)
+        cout << e.first << " " << e.second << "\n";
+
+    return 0;
+}

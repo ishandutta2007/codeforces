@@ -1,0 +1,1 @@
+p (gets p).count(?+)-$_.count(?-)>>1

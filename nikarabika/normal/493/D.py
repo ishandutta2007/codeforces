@@ -1,0 +1,1 @@
+print('white\n1 2' if int(input()) % 2 == 0 else 'black')

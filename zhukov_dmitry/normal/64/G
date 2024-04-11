@@ -1,0 +1,46 @@
+set line [gets stdin]
+#scan $line "%d" n
+
+set ok 1
+
+set res ""
+
+set x "/"
+set line [format "%s%s" $line $x]
+set len [string length $line]
+
+for { set i 1 } { $i < $len } { incr i } {
+    set c [string index $line $i]
+    if { $c == "/" } {
+        if {$x == "/."} {
+        } else {
+            if {$x == "/.."} {
+                set j [string length $res]
+                set j [expr $j - 1]
+                while { $j >= 0 && [string index $res $j] != "/"} {
+                    set j [expr $j - 1]
+                }
+                if { $j < 0 } {
+                    set ok 0
+                }
+                set j [expr $j - 1]
+                set res [string range $res 0 $j]
+            } else {
+                set res [format "%s%s" $res $x]
+            }
+        } 
+        set x "/"
+    } else {
+        set x [format "%s%s" $x $c]
+    }
+}
+
+if { $res == "" } {
+    set res "/"
+}
+
+if { $ok == 0} {
+    set res "-1"
+}
+
+puts $res

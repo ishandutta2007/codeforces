@@ -1,0 +1,41 @@
+cin [0]
+eq [1] [0] 10
+if [1]
+	cout 78
+if [1]
+	cout 79
+if [1]
+	ac
+	
+eq [1] [0] 72 
+if [1]
+	cout 89
+if [1]
+	cout 69
+if [1]
+	cout 83
+if [1]
+	ac
+
+eq [1] [0] 57
+	
+if [1]
+	cout 89
+if [1]
+	cout 69
+if [1]
+	cout 83
+if [1]
+	ac
+
+
+eq [1] [0] 81
+	
+if [1]
+	cout 89
+if [1]
+	cout 69
+if [1]
+	cout 83
+if [1]
+	ac

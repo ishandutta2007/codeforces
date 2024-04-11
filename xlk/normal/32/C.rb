@@ -1,0 +1,1 @@
+def F(x,s);x-(-x%s*(x/s));end;n,m,s=gets.split.map &:to_i;p F(n,s)*F(m,s)

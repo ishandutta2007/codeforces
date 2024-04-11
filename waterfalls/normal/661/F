@@ -1,0 +1,30 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =. (read-.CR)-.LF
+
+n =. ". in
+
+a =. 0 { n
+b =. 1 { n
+
+sieve =: verb define
+z=. i.0
+primes =. 0,0,1500013$1
+for_i. i.1500013 do. 
+  if. i { primes  do.
+    num =. <. 1500013 % i
+    r =. i.(num-1)
+    r =. r * i
+    r =. r + i
+    primes =. 0 (r)} primes
+    z =. z,i
+  end.
+end.
+)
+
+good =. sieve i.1500013
+
+print (+/ good<(b+1)) - (+/ good<(a))
+
+exit ''

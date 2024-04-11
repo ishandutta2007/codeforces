@@ -1,0 +1,10 @@
+const int (*f());
+struct {int i; } s;
+#define begin
+#define end s
+#define const i
+#define A ;} bool
+int main() {
+// *) = 810;
+begin
+end.const A (*g());// *)

@@ -1,0 +1,1 @@
+print(sum(c in "aeiou13579" for c in input()))

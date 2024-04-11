@@ -1,0 +1,40 @@
+int main(){
+    int n,i,j;
+    sscanf(Stdio.stdin->gets(),"%d",n);
+    array(int) x=allocate(n);
+    array(int) y=allocate(n);
+    for(i=0;i<n;i++){
+	string s=Stdio.stdin->gets();
+	if(s[strlen(s)-1]=='\r'){
+	    s=s[0..strlen(s)-2];
+	}
+	int a,b;
+	sscanf(s,"%*c%d,%d",a,b);
+	a*=2;b*=2;
+	if(s[0]=='(')a++;
+	if(s[strlen(s)-1]==')')b--;
+	x[i]=a;y[i]=b;
+    }
+    sort(x,y);
+    for(i=0;i<n;i++){
+	int mi=-1;
+	for(j=0;j<i;j++){
+	    if(y[j]>=x[i]){
+		mi=j;
+		break;
+	    }
+	}
+	if(mi==-1)continue;
+	int mj=-1;
+	for(j=n-1;j>i;j--){
+	    if(x[j]<=y[i]){
+		mj=j;
+		break;
+	    }
+	}
+	if(mj==-1)continue;
+	if(y[mi]<x[mj])break;
+    }
+    if(i<n)write("2");
+    else write("1");
+}

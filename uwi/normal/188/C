@@ -1,0 +1,20 @@
+co calc {
+eq [7] [3] 0
+if [7] ac
+
+set [4] [2]
+set [2] [3]
+mod [3] [4] [3]
+
+}
+
+iin [0]
+iin [1]
+set [2] [0]
+set [3] [1]
+ca calc
+
+mul [5] [0] [1]
+div [6] [5] [2]
+iout [6]
+ac

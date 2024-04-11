@@ -1,0 +1,28 @@
+      IDENTIFICATION DIVISION.
+         PROGRAM-ID. SOLUTION.
+
+         DATA DIVISION.
+         WORKING-STORAGE SECTION.
+         01 N        PIC 9(10) VALUE ZEROES.
+         01 STR      PIC X(100).
+         01 STR2     PIC X(100).
+         01 I        PIC 9(10) VALUE ZEROES.
+         01 X        PIC 9(10) VALUE ZEROES.
+
+         PROCEDURE DIVISION.
+           ACCEPT STR
+           MOVE STR TO N
+
+           MOVE "" TO STR
+           PERFORM UNTIL N = 0
+             DIVIDE N BY 2 GIVING N REMAINDER X
+             IF X = 1 THEN
+               STRING "1" STR INTO STR2
+             END-IF
+             IF X = 0 THEN
+               STRING "0" STR INTO STR2
+             END-IF
+             MOVE STR2 TO STR
+           END-PERFORM
+           DISPLAY STR
+           STOP RUN.

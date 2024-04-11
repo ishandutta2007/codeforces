@@ -1,0 +1,9 @@
+int main () {
+    Stdio.stdin->gets();
+    array(int) g = (array(int))(Stdio.stdin->gets() / ",");
+    int ok = 1;
+    foreach(g, int i)
+        foreach(g, int j)
+            if (i % j != 0 && j % i != 0) ok = 0;
+    if (ok) write("FRIENDS\n"); else write("NOT FRIENDS\n");
+}

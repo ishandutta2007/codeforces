@@ -1,0 +1,43 @@
+n := File standardInput readLine
+l := List clone
+
+for(i, 0, n size - 1,
+    l append(n at(i) asCharacter)
+)
+
+if (l at(0) == "-",
+    minus := 1
+    l remove("-"),
+minus := 0)
+
+were := 0
+l1 := List clone
+l foreach(i, v,
+    if (v == "0", if (were == 1, l1 append(v)),
+        l1 append(v)
+        were = 1
+    )
+)
+l = l1
+
+l2 := List clone
+l foreach(i, v,
+    l2 append(l at((l size) - 1 - i))
+)
+l = l2
+
+were := 0
+l3 := List clone
+l foreach(i, v,
+    if (v == "0", if (were == 1, l3 append(v)),
+        l3 append(v)
+        were = 1
+    )
+)
+l = l3
+
+if (minus == 1 and l size != 0, "-" print)
+l foreach(i, v,
+    v print
+)
+if (l size == 0, "0" print)

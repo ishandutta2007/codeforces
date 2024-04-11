@@ -1,0 +1,3 @@
+proc fact n { expr { $n > 1 ? $n * [fact [incr n -1]] : 1 } }
+set n [gets stdin]
+puts [fact $n ]

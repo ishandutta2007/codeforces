@@ -1,0 +1,4 @@
+main([S]) => N=S.length,print(reverse(slice(S,1,N//2))),print(reverse(slice(S,N//2+1,N))).
+main =>
+	S=read_line(),
+	main([S]).

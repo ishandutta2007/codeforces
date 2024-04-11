@@ -1,0 +1,4 @@
+USING: kernel io regexp sequences unicode.case ;
+
+readln R/ [0-9]+/ re-split
+"" join print

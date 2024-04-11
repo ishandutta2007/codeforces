@@ -1,0 +1,19 @@
+set line [gets stdin]
+scan $line "%d" n
+set a [expr $n + 1]
+set b [expr $n - 1]
+while {true} {
+   set a [expr $a - 1]
+   for {set i 2} {$i * $i <= $a} {incr i} {
+      if {$a % $i == 0} break
+   }
+   if {$i * $i > $a} break
+}
+while {true} {
+   incr b
+   for {set i 2} {$i * $i <= $b} {incr i} {
+      if {$b % $i == 0} break
+   }
+   if {$i * $i > $b} break
+}
+puts "$a $b"

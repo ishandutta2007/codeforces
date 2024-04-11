@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define fi first
+#define se second
+#define pb push_back
+#define all(a) a.begin(), a.end()
+
+const int N = (1<<20);
+const int mod = 1e9+7;
+
+int t, n, a[N];
+
+signed main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        for (int i=0; i<n; i++) {
+            cin >> a[i];
+        }
+        reverse(a,a+n);
+        int mx = n+1;
+        int ans = 0;
+        for (int i=0; i<n; i++) {
+            if (a[i] < mx) {
+                mx = a[i];
+            } else {
+                mx = n+1;
+                ans ++;
+            }
+        }
+        cout << ans << endl;
+    }
+}

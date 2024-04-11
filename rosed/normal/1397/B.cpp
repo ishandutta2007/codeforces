@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+namespace red{
+#define int long long
+#define double long double
+#define ls(p) (p<<1)
+#define rs(p) (p<<1|1)
+#define lowbit(i) ((i)&(-i))
+#define mid ((l+r)>>1)
+#define eps (1e-15)
+    const int N=1e6+10,mod=1e9+7,inv2=(mod+1)/2,inf=2e15;
+    void __init(int n=2000) {}
+    inline void main()
+    {
+        int n;
+        cin>>n;
+        vector<int> a(n);
+        int ans=0;
+        for(int i=0;i<n;++i)
+        {
+            cin>>a[i];
+            ans+=(a[i]-1);
+        }
+        sort(a.begin(),a.end());
+        for(int k=2;k<=1000000;++k)
+        {
+            int num=1,sum=0,flag=0;
+            for(int i=0;i<n;++i)
+            {
+                sum+=abs(a[i]-num);
+                if(i==n-1) flag=1;
+                num*=k;
+                if(num>=1e15||sum>ans) break;
+            }
+            if(flag) ans=min(ans,sum);
+        }
+        cout<<ans<<'\n';
+    }
+}
+signed main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);cout.tie(0);
+    red::__init();
+    int qwq=1; //cin>>qwq;
+    while(qwq--) red::main();
+    return 0;
+}
+/*
+
+*/

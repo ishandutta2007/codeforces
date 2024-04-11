@@ -1,0 +1,27 @@
+print =: 1!:2&2
+read =: 1!:1[3
+in =. (read-.LF)-.CR
+
+
+t =: 3 : 0
+if.
+ a =. y
+ ((a -: 'August') +. ((a -: 'July') +. (a -: 'June')))
+do.
+  smoutput 'summer'
+elseif.
+  (a -: 'May') +. (a -: 'April') +. (a -: 'March')
+do.
+  smoutput 'spring'
+elseif.
+  (a -: 'February') +. (a -: 'January') +. (a -: 'December')
+do.
+  smoutput 'winter'
+elseif.
+  (a -: 'November') +. (a -: 'October') +. (a -: 'September')
+do.
+  smoutput 'autumn'
+end.
+)
+
+t in

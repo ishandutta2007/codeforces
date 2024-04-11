@@ -1,0 +1,27 @@
+with Ada.Text_IO; use Ada.Text_IO;
+
+
+procedure ProblemA is
+	Length : Integer;
+	Result : Float;
+	
+    package N_IO is new Ada.Text_IO.Float_IO(Float);
+begin
+	declare
+		Line : String := Get_Line;
+		P : Float;
+	begin
+		N_IO.Get(P);
+		Result := 0.0;
+		Length := Line'Length;
+		for I in Line'range loop
+			if (Line(I) = '?') then
+				Result := Result + P;
+			elsif (Line(I) = '1') then
+				Result := Result + 1.0;
+			end if;
+		end loop;
+		Result := Result / Float(Length);
+		N_IO.Put(Result, Exp => 0);
+	end;
+end ProblemA;

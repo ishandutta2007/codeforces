@@ -1,0 +1,18 @@
+co go {
+eq [4] [1] 0
+if [4]
+ac
+
+mod [2] [1] 10
+div [1] [1] 10
+mul [3] [3] 10
+add [3] [3] [2]
+yi go
+}
+
+iin [0]
+iin [1]
+ca go
+add [0] [0] [3]
+iout [0]
+ac

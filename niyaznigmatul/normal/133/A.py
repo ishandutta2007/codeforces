@@ -1,0 +1,1 @@
+print('YES' if sum(map(lambda x: 1 if x == 'H' or x == 'Q' or x == '9' else 0, input())) > 0 else 'NO')

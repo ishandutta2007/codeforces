@@ -1,0 +1,26 @@
+main =>
+    N = read_int(),
+    S = 1..1000,
+    foreach (I in 1..N)
+        L = read_int(),
+        R = read_int(),
+        foreach (J in 1..1000)
+            if (S[J] >= L && S[J] <= R) then
+                S[J] := 0
+            end
+        end
+    end,
+    NUM = 0,
+    foreach (J in S)
+        if (J != 0) then
+            NUM := NUM + 1
+        end
+    end,
+    print(NUM),
+    print(" "),
+    foreach (J in S)
+        if (J != 0) then
+            print(J),
+            print(" ")
+        end
+    end.

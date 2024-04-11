@@ -1,0 +1,1 @@
+var n,m,a:int64;begin read(n,m,a);write((n div a+ord(not(n mod a=0)))*(m div a+ord(not(m mod a=0))));end.

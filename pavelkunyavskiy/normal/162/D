@@ -1,0 +1,36 @@
+USING: io kernel math math.parser sequences ;
+USING: formatting kernel math ;
+USING: io kernel math math.parser ;
+USING: formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+USING: arrays kernel math ;
+USING: byte-arrays ;
+USING: io.encodings.string io.encodings.utf8 prettyprint ;
+USING: sequences.private ;
+USING: strings ;
+
+
+
+readln utf8 encode 
+
+[ 
+   dup
+   48
+   <
+   [
+     1string write
+   ]
+   [
+      dup
+      57
+      >
+      [        
+        1string write
+      ]
+      [
+        drop       
+      ]
+      if
+   ]
+   if
+
+] each

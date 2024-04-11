@@ -1,0 +1,5 @@
+const int (*a);
+#define begin
+int main(){
+}
+// *)=0; begin end.

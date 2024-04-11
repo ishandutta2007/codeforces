@@ -1,0 +1,369 @@
+// Problem: G. Substring Search
+// Contest: Codeforces - Educational Codeforces Round 85 (Rated for Div. 2)
+// URL: https://codeforces.com/contest/1334/problem/G
+// Memory Limit: 512 MB
+// Time Limit: 1250 ms
+// 
+// Powered by CP Editor (https://cpeditor.org)
+
+//Big scam solution
+
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("avx,avx2,sse,sse2")
+#include<bits/stdc++.h>
+#define all(x) begin(x), end(x)
+using namespace std;
+using ll = long long;
+
+template<typename F>
+void multitest(F func) {
+	int t;
+	cin >> t;
+	while(t--) func();
+}
+void report(int ok) {
+	cout << (ok?"YES":"NO") << '\n';
+}
+using uint = unsigned int;
+const int mod = 998244353;
+namespace math {
+const int L = 1<<20, A = 1<<20, B = 32, G = 3;
+
+#define INLINE inline __attribute__ (( always_inline ))
+struct mint {
+	uint32_t v;
+	template<class T = int>
+	mint(T x = 0) {
+		x %= mod;
+		if(x < 0) x += mod;
+		v = x;
+	}
+	mint operator-() const {
+		return mint(v ? mod-v : 0);
+	}
+	mint &operator*=(const mint &r) {
+		v = v*1ll*r.v%mod;
+		return *this;
+	}
+	mint &operator+=(const mint &r) {
+		v = v+r.v>=mod ? (v+r.v-mod) : (v+r.v);
+		return *this;
+	}
+	mint &operator-=(const mint &r) { 
+		return *this += -r;
+	}
+	mint &operator/=(const mint &r) {
+		return *this *= r.inv();
+	}
+	friend mint operator+(mint a, const mint &b) {
+		return a += b;
+	}
+	friend mint operator-(mint a, const mint &b) {
+		return a -= b;
+	}
+	friend mint operator*(mint a, const mint &b) {
+		return a *= b;
+	}
+	friend mint operator/(mint a, const mint &b) {
+		return a /= b;
+	}
+	
+	template<class T = int>
+	mint pow(T p) const {
+		mint res = 1, cur = *this;
+		while(p) {
+			if(p&1) res = res*cur;
+			cur = cur*cur, p>>=1;
+		}
+		return res;
+	}
+	mint inv() const {
+		return mint(*this).pow(mod-2);
+	}
+	
+	friend bool operator==(const mint &a, const mint &b) {
+		return a.v == b.v;
+	}
+	friend bool operator!=(const mint &a, const mint &b) {
+		return !(a == b);
+	}
+	
+	friend istream& operator>>(istream &is, mint &m) {
+		is >> m.v;
+		return is;
+	}
+	friend ostream& operator<<(ostream &os, const mint &m) {
+		os << m.v; 
+		return os;
+	}
+};
+
+mint fact[A], inum[A], ifact[A];
+void calc_inum() {
+	inum[1] = 1;
+	for(int i = 2; i < A; i++) inum[i] = -inum[mod%i]*(mod/i);
+}
+void calc_combi() {
+	if(0 == inum[1]) calc_inum();
+	fact[0] = ifact[0] = 1;
+	for(int i = 1; i < A; i++) fact[i] = fact[i-1]*i;
+	for(int i = 1; i < A; i++) ifact[i] = ifact[i-1]*inum[i];
+}
+
+mint nck(int n, int k) {
+	if(0 == fact[0]) calc_combi();
+	if(k > n || k < 0) return 0;
+	return fact[n]*ifact[k]*ifact[n-k];
+}
+
+uint W[L], WI[L];
+INLINE void calc_roots() {
+	W[0] = 1;
+	int g = mint(G).pow((mod-1)/L).v;
+	int i;
+	for(i = 1; i < L/2; i++) W[i] = W[i-1]*1ull*g%mod;
+	for(int x = 2; x < L; x*=2) {
+		for(int y = 0; y < L/2; y+=x)
+			W[i++] = W[y];
+	}
+	for(i = 0; i < L; i++) {
+		WI[i] = (uint64_t(W[i])<<B)/mod;
+	}
+}
+INLINE void _ntt(int N, vector<mint> &a) {//normal poly -> bit-rev dft | internally [0; 2*mod)
+	int pos = 0;
+	for(int l = L/2; l != N/2; l/=2)
+		pos += l;
+	for(int l = N/2; l; l/=2) {
+		for(int x = 0; x < N; x+=2*l) {
+			for(int j = pos, i = 0; i < l; i++, j++) {
+				uint u = a[x+i].v+a[x+l+i].v;
+				if(u >= 2*mod) u -= 2*mod;
+				uint v = a[x+i].v-a[x+l+i].v+2*mod;
+				uint Q = (v*1ull*WI[j])>>B;
+				v = v*W[j] - Q*mod;
+				a[x+i].v = u, a[x+l+i].v = v;
+			}
+		}
+		pos += l;
+	}
+	for(int i = 0; i < N; i++) if(a[i].v >= mod) a[i].v -= mod;
+}
+
+INLINE void _ntt_inv(int N, vector<mint> &a) {//bit-rev dft -> normal poly | internally [0; 4*mod)
+	int pos = L-2;
+	for(int l = 1; l < N; l*=2) {
+		for(int x = 0; x < N; x += 2*l) {
+			for(int j = pos, i = 0; i < l; i++, j++) {
+				uint u = a[x+i].v, v = a[x+l+i].v;
+				uint Q = (WI[j]*1ull*v)>>B;
+				if(u >= 2*mod) u -= 2*mod;
+				v = v*W[j] - Q*mod;
+				a[x+i].v = u+v, a[x+l+i].v = u-v+2*mod;
+			}
+		}
+		pos -= 2*l;
+	}
+	reverse(1 + all(a));
+	mint x = mint((mod+1)/2).pow(__lg(N));
+	for(auto &i : a) i *= x;//takes care of 2*mod
+}
+template<bool inv>
+INLINE void ntt(int n, vector<mint> &a) {//don't forget about reverse order
+	if(W[0] == 0) calc_roots();
+	if(!inv) _ntt(n, a);
+	else _ntt_inv(n, a);
+}
+
+
+struct poly : vector<mint> {
+	template<class... Args>
+	explicit poly(Args... args) : vector<mint>(args...) {}
+	poly(initializer_list<mint> il) : vector<mint>(il.begin(), il.end()) {}
+	poly &trim(int k) {// mod x^k
+		if(size() > k) {
+			erase(begin()+k, end());
+			shrink_to_fit();
+		}
+		return *this;
+	}
+	poly &trim() {//remove heading zeroes
+		int k = 0;
+		while(k < size() && (*this)[size()-k-1] == 0) k++;
+		trim(size()-k);
+		return *this;
+	}
+	poly low(int k) const {//get first k coefficients
+		k = min(k, (int)size());
+		poly res;
+		for(int i = 0; i < k; i++) res.push_back((*this)[i]);
+		return res;
+	}
+	friend poly operator*(poly a, const poly &b) {
+		poly res = b;
+		int n = a.size()+b.size()-1;
+		while(n&(n-1)) n += n&-n;
+		a.resize(n);
+		res.resize(n);
+		ntt<0>(n, a);
+		ntt<0>(n, res);
+		for(int i = 0; i < n; i++) res[i] *= a[i];
+		ntt<1>(n, res);
+		res.trim();//remove ?
+		return res;
+	}
+	poly &operator*=(const poly &b) {
+		return (*this) = (*this)*b;
+	}
+	
+	template<class T>
+	poly &operator*=(const T &x) {
+		for(auto &i : *this) i *= x;
+		return *this;
+	}
+	poly &operator+=(const poly &x) {
+		if(size() < x.size()) resize(x.size());
+		for(int i = 0; i < min(size(), x.size()); i++) (*this)[i] += x[i];
+		return *this;
+	}
+	poly &operator-=(const poly &x) {
+		if(size() < x.size()) resize(x.size());
+		for(int i = 0; i < min(size(), x.size()); i++) (*this)[i] -= x[i];
+		return *this;
+	}
+	
+	template<class T> friend poly operator*(poly p, const T &x) { return p *= x; }
+	template<class T> friend poly operator*(const T &x, poly p) { return p *= x; }
+	friend poly operator+(poly p, const poly &x) { return p += x; }
+	friend poly operator-(poly p, const poly &x) { return p -= x; }
+	
+	poly inv(int N) {//first n coefficients of P^-1
+		assert((*this)[0].v);
+		poly R {(*this)[0].inv()};
+		R.reserve(2*N);
+		for(int len = 2; len/2 < N; len*=2) {//R' = R(2 - RT)
+			poly T = low(len);
+			T.resize(2*len);ntt<0>(2*len, T);
+			R.resize(2*len);ntt<0>(2*len, R);
+			for(int i = 0; i < 2*len; i++) R[i] = R[i]*(2 - R[i]*T[i]);
+			ntt<1>(2*len, R);
+			R.trim(len);
+		}
+		return R.trim(N);
+	}
+	poly &derive() {
+		for(int i = 0; i+1 < size(); i++) {
+			(*this)[i] = (*this)[i+1]*(i+1);
+		}
+		pop_back();
+		return *this;
+	}
+	
+	poly derivative() { return poly(*this).derive(); }
+	poly &integrate() {
+		if(0 == inum[1]) calc_inum();
+		push_back(0);
+		for(int i = size(); i-- > 1;) {
+			(*this)[i] = (*this)[i-1] * inum[i];
+		}
+		(*this)[0] = 0;
+		return *this;
+	}
+	poly integral() { return poly(*this).integrate(); }
+	
+	poly ln(int N) {//first n coefficients of ln(P) = P'/P
+		return (low(N+1).derivative() * inv(N)).trim(N-1).integrate().trim(N);
+	}
+	poly exp(int N) {//first n coefficients of exp(P), quite slow
+		poly R{1};
+		for(int len = 2; len/2 < N; len++) {
+			R = (R*(poly{1}+low(len)-R.ln(len))).trim(len);
+		}
+		return R.trim(N);
+	}
+};
+}
+using namespace math;
+
+int FF[26];
+poly ab[3][3], c[5], res;
+int coef[3][3][5];
+int main() {
+	cin.tie(0)->sync_with_stdio(0);
+	vector<int> pr(26);
+	mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+	iota(all(pr),0);shuffle(all(pr), rng);
+	calc_roots();
+	memset(coef, 0, sizeof coef);
+	coef[2][2][0] = 1;
+	coef[2][1][1] = 998244353-2;
+	coef[2][0][2] = 1;
+	coef[1][2][1] = 998244353-2;
+	coef[1][1][2] = 4;
+	coef[1][0][3] = 998244353-2;
+	coef[0][2][2] = 1;
+	coef[0][1][3] = 998244353-2;
+	coef[0][0][4] = 1;
+	//(a-c)^2 = a^2 - 2*ac + c^2
+	/*coef[2][0][0] = 1;
+	coef[0][0][2] = 1;
+	coef[1][0][1] = 998244351;*/
+	for(int t, i = 0; i < 26; i++) {
+		cin >> t, --t;
+		FF[pr[t]] = pr[i];
+	}
+	string t, s;
+	cin >> t >> s;
+	int p = t.size()+s.size()-1;
+	while(p&(p-1)) p++;
+	for(int i = 0; i < 3;i++) for(int j = 0; j < 3; j++) ab[i][j] = poly(p);
+	for(int i = 0; i < 5; i++) c[i] = poly(p);
+	res = poly(p);
+	for(auto &i : s) i -= 'a';
+	for(auto &i : t) i -= 'a';
+	for(auto &i : s) i = pr[i];
+	for(auto &i : t) i = pr[i];
+	reverse(all(t));
+	for(int i = 0; i < s.size(); i++) {
+		ab[0][0][i] = 1;
+		for(int x = 0; x < 3; x++)
+			for(int y = x==0; y < 3; y++)
+				if(x) ab[x][y][i] = ab[x-1][y][i]*s[i];
+				else ab[x][y][i] = ab[x][y-1][i]*FF[s[i]];
+	}
+	//cout << ab[0][1][2] << endl;
+	for(int i = 0; i < t.size(); i++) {
+		c[0][i] = 1;
+		for(int x = 1; x < 5; x++)
+			c[x][i] = c[x-1][i]*t[i];
+	}
+	/*for(int i = 0; i < s.size(); i++)
+	cout << ab[1][0][i] << " ";cout<< endl;
+	for(int i = 0; i < s.size(); i++)
+	cout << ab[0][1][i] << " ";cout<< endl;
+	cout << c[1][0] << " " << c[1][1] << " " << c[1][2] << endl;
+	*/
+	
+	//for(int i = 0; i < p; i++) cout << i << " " << ntt.rev[i] << endl;
+	for(int x = 0; x < 3; x++)
+		for(int y = 0; y < 3; y++) {
+				int uwu = 0;
+				for(int z = 0; z < 5; z++) uwu += abs(coef[x][y][z]);
+				if(uwu)	ntt<0>(p, ab[x][y]);
+			}
+	for(int x = 0; x < 5; x++) {
+		int uwu = 0;
+		for(int z = 0; z < 3; z++)
+			for(int y = 0; y < 3; y++)
+				uwu += abs(coef[z][y][x]);
+		if(uwu) ntt<0>(p, c[x]);
+	}
+	for(int x = 0; x < 3; x++)
+		for(int y = 0; y < 3; y++)
+			for(int z = 0; z < 5; z++) if(coef[x][y][z]) {
+				for(int i = 0; i < p; i++)
+					res[i] += mint(coef[x][y][z]*1ll*((ab[x][y][i].v*1ll*c[z][i].v)%998244353));
+			}
+	ntt<1>(p, res);
+	for(int i = t.size()-1; i < s.size(); i++) cout << !res[i].v; cout << endl;
+}

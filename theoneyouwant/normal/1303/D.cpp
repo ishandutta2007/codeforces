@@ -1,0 +1,140 @@
+//By TheOneYouWant
+#pragma GCC optimize ("-O2")
+#include <bits/stdc++.h>
+using namespace std;
+#define fastio ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+#define pb push_back
+#define mp make_pair
+#define fi first
+#define se second
+#define all(x) x.begin(),x.end()
+#define memreset(a) memset(a,0,sizeof(a))
+#define testcase(t) int t;cin>>t;while(t--)
+#define forstl(i,v) for(auto &i: v)
+#define forn(i,e) for(int i=0;i<e;++i)
+#define forsn(i,s,e) for(int i=s;i<e;++i)
+#define rforn(i,s) for(int i=s;i>=0;--i)
+#define rforsn(i,s,e) for(int i=s;i>=e;--i)
+#define bitcount(a) __builtin_popcount(a) // set bits (add ll)
+#define ln '\n'
+#define getcurrtime() cerr<<"Time = "<<((double)clock()/CLOCKS_PER_SEC)<<endl
+#define dbgarr(v,s,e) cerr<<#v<<" = "; forsn(i,s,e) cerr<<v[i]<<", "; cerr<<endl
+#define inputfile freopen("input.txt", "r", stdin)
+#define outputfile freopen("output.txt", "w", stdout)
+#define dbg(args...) { string _s = #args; replace(_s.begin(), _s.end(), ',', ' '); \
+stringstream _ss(_s); istream_iterator<string> _it(_ss); err(_it, args); }
+void err(istream_iterator<string> it) { cerr<<endl; }
+template<typename T, typename... Args>
+void err(istream_iterator<string> it, T a, Args... args) {
+	cerr << *it << " = " << a << "\t"; err(++it, args...);
+}
+template<typename T1,typename T2>
+ostream& operator <<(ostream& c,pair<T1,T2> &v){
+	c<<"("<<v.fi<<","<<v.se<<")"; return c;
+}
+template <template <class...> class TT, class ...T>
+ostream& operator<<(ostream& out,TT<T...>& c){
+    out<<"{ ";
+    forstl(x,c) out<<x<<" ";
+    out<<"}"; return out;
+}
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair<ll,ll> p64;
+typedef pair<int,int> p32;
+typedef pair<int,p32> p96;
+typedef vector<ll> v64;
+typedef vector<int> v32; 
+typedef vector<v32> vv32;
+typedef vector<v64> vv64;
+typedef vector<p32> vp32;
+typedef vector<p64> vp64;
+typedef vector<vp32> vvp32;
+typedef map<int,int> m32;
+const int LIM=1e5+5,MOD=1e9+7;
+const ld EPS = 1e-9;
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+int main(){
+	fastio;
+	int tests;
+	cin>>tests;
+	
+	while(tests--){
+
+		ll n,m,n1;
+		cin>>n>>m;
+		n1 = n;
+		ll a[m], sum = 0;
+
+		ll req[64] = {0};
+		int c = 0;
+		while(n>0){
+			req[c] = n%2;
+			n /= 2;
+			c++;
+		}
+		
+		forn(i,m){
+			cin>>a[i];
+			sum += a[i];
+		} 
+		if(sum < n1){
+			cout<<-1<<ln;
+			continue;
+		}
+
+		ll num[64] = {0};
+		forn(i,m){
+			int d = 0;
+			while(a[i]>1){
+				d++;
+				a[i] /= 2;
+			}
+			num[d]++;
+		}
+		ll ans = 0;
+		forn(i,63){
+			if(req[i] >= 1 && num[i] >= 1){
+				int f = min(req[i],num[i]);
+				req[i] -= f; num[i] -= f;
+			}
+			req[i+1] += (req[i]+1)/2;
+			ans += (req[i]+1)/2;
+			req[i] = 0;
+			num[i+1] +=num[i]/2;
+			num[i] -= 2*(num[i]/2);
+		}
+
+		// forn(i,63){
+		// 	cout<<i<<" "<<req[i]<<" "<<num[i]<<ln;
+		// }
+
+		bool p = 1;
+		int next[64] = {0};
+		next[63] = MOD;
+
+		rforn(i,62){
+			next[i] = next[i+1];
+			if(num[i] == 1) next[i] = i; 
+			if(req[i]){
+				if(next[i] == MOD){
+					p = 0;
+				}else{
+					ans += next[i]-i;
+					if(next[i] == i){
+						next[i] = next[i+1];
+					}else{
+						next[i] = i;
+					}
+				}
+			}
+		}
+		if(p) cout<<ans<<ln;
+		else cout<<-1<<ln;
+	}
+
+	return 0;
+}

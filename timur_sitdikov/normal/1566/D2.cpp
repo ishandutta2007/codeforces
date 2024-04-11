@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef double DOUBLE;
+typedef complex<double> point;
+#define xx real()
+#define yy imag()
+ 
+#define REP(i, a, b) for(int i = (a); i < (int)(b); i++)
+#define REPN(i, a, b) for(int i = (a); i <= (int)(b); i++)
+#define FA(it, x) for(__typeof((x).begin()) it = (x).begin(); it != (x).end(); it++)
+#define SZ(x) (int)(x).size()
+#define BE(x) (x).begin(), (x).end()
+#define SORT(x) sort(BE(x))
+#define _1 first
+#define _2 second
+ 
+#define x0 gray_cat_x0
+#define y0 gray_cat_y0
+#define x1 gray_cat_x1
+#define y1 gray_cat_y1
+#define j0 gray_cat_j0
+ 
+template<class T> T gcd(T a, T b) { return b ? gcd(b, a % b) : a; }
+ 
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+ 
+#define file "I1"
+ 
+const double EPS = 1e-9;
+const double PI = acos(-1.);
+const ll LL_INF = 1e17 + 16;
+const int INF = 1e9 + 10;
+// const ll MOD = 1e9 + 7;
+const ll MOD = 998244353;
+ 
+const int MAXN = 305;
+ 
+pii pp[MAXN * MAXN];
+
+pii res[MAXN][MAXN];
+ 
+void solve(){
+	int n, m;
+	scanf("%d%d", &n, &m);
+	REP(i, 0, n * m) {
+		scanf("%d", &pp[i]._1);
+		pp[i]._2 = i;
+	}
+	sort(pp, pp + n * m);
+	int ans = 0;
+	REP(i, 0, n * m) {
+		res[i / m][i % m] = pp[i];
+	}
+	REP(i, 0, n) {
+		for(int l = 0; l < m; ) {
+			int r = l;
+			for(; r < m && res[i][r]._1 == res[i][l]._1; r++);
+			reverse(res[i] + l, res[i] + r);
+			l = r;
+		}
+		REP(j, 0, m) {
+			REP(k, 0, j) {
+				if (res[i][k]._2 < res[i][j]._2) {
+					ans++;
+				}
+			}
+		}
+	}
+	printf("%d\n", ans);
+}
+ 
+int main(){
+#ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+#endif
+    //freopen(file".in", "r", stdin); freopen(file".out", "w", stdout);
+    int t = 1;
+    cin >> t;
+    while(t--){
+        solve();
+    }
+}

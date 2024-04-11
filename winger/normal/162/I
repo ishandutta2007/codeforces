@@ -1,0 +1,12 @@
+USING: io kernel math math.parser sequences locals unicode.case arrays ;
+IN: i
+:: prime? ( n -- prime? )
+  n 1 =
+  [ f ]
+  [ n 2 [| n d | d sq n <= [ n d mod 0 = [ n f f ] [ n d 1 + t ] if ] [ n t f ] if ] loop 
+  swap drop ]
+  if ;
+readln
+dup length iota [ 1 + ] map [| list len | list list length len - list length list subseq string>number prime? ] all?
+"YES" "NO" ? print
+drop

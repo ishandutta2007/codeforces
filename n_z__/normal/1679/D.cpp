@@ -1,0 +1,163 @@
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4.1,sse4.2,avx,avx2,popcnt")
+#if ONLINE_JUDGE!=1
+#pragma GCC optimize(3)
+#endif
+#include<bits/stdc++.h>
+namespace Fread{const int SIZE=1<<16;char buf[SIZE],*S,*T;inline char getchar(){if(S==T){T=(S=buf)+fread(buf,1,SIZE,stdin);if(S==T)return'\n';}return *S++;}}namespace Fwrite{const int SIZE=1<<16;char buf[SIZE],*S=buf,*T=buf+SIZE;inline void flush(){fwrite(buf,1,S-buf,stdout);S=buf;}inline void putchar(char c){*S++=c;if(S==T)flush();}struct NTR{~NTR(){flush();}}ztr;}
+#ifdef ONLINE_JUDGE
+	#define getchar Fread::getchar
+	#define putchar Fwrite::putchar
+#endif
+namespace Fastio{struct Reader{template<typename T>Reader&operator>>(T&x){char c=getchar();short f=1;while(c<'0'||c>'9'){if(c=='-')f*=-1;c=getchar();}x=0;while(c>='0'&&c<='9'){x=(x<<1)+(x<<3)+(c^48);c=getchar();}x*=f;return *this;}Reader&operator>>(double&x){char c=getchar();short f=1,s=0;x=0;double t=0;while((c<'0'||c>'9')&&c!='-'&&c!='.'){if(c=='-')f*=-1;c=getchar();}while(c>='0'&&c<='9'&&c!='.')x=x*10+(c^48),c=getchar();if(c=='.')c=getchar();else return x*=f,*this;while(c>='0'&&c<='9')t=t*10+(c^48),s++,c=getchar();while(s--)t/=10.0;x=(x+t)*f;return*this;}Reader&operator>>(long double&x){char c=getchar();short f=1,s=0;x=0;long double t=0;while((c<'0'||c>'9')&&c!='-'&&c!='.'){if(c=='-')f*=-1;c=getchar();}while(c>='0'&&c<='9'&&c!='.')x=x*10+(c^48),c=getchar();if(c=='.')c=getchar();else return x*=f,*this;while(c>='0'&&c<='9')t=t*10+(c^48),s++,c=getchar();while(s--)t/=10.0;x=(x+t)*f;return*this;}Reader&operator>>(__float128&x){char c=getchar();short f=1,s=0;x=0;__float128 t=0;while((c<'0'||c>'9')&&c!='-'&&c!='.'){if(c=='-')f*=-1;c=getchar();}while(c>='0'&&c<='9'&&c!='.')x=x*10+(c^48),c=getchar();if(c=='.')c=getchar();else return x*=f,*this;while(c>='0'&&c<='9')t=t*10+(c^48),s++,c=getchar();while(s--)t/=10.0;x=(x+t)*f;return*this;}Reader&operator>>(char&c){c=getchar();while(c=='\n'||c==' '||c=='\r')c=getchar();return *this;}Reader&operator>>(char*str){int len=0;char c=getchar();while(c=='\n'||c==' '||c=='\r')c=getchar();while(c!='\n'&&c!=' '&&c!='\r')str[len++]=c,c=getchar();str[len]='\0';return*this;}Reader&operator>>(std::string&str){char c=getchar();while(c=='\n'||c==' '||c=='\r')c=getchar();while(c!='\n'&&c!=' '&&c!='\r')str.push_back(c),c=getchar();return*this;}Reader(){}}cin;const char endl='\n';struct Writer{const int Setprecision=6;typedef __int128 mxdouble;template<typename T>Writer&operator<<(T x){if(x==0)return putchar('0'),*this;if(x<0)putchar('-'),x=-x;static int sta[45];int top=0;while(x)sta[++top]=x%10,x/=10;while(top)putchar(sta[top]+'0'),--top;return*this;}Writer&operator<<(double x){if(x<0)putchar('-'),x=-x;mxdouble _=x;x-=(double)_;static int sta[45];int top=0;while(_)sta[++top]=_%10,_/=10;if(!top)putchar('0');while(top)putchar(sta[top]+'0'),--top;putchar('.');for(int i=0;i<Setprecision;i++)x*=10;_=x;while(_)sta[++top]=_%10,_/=10;for(int i=0;i<Setprecision-top;i++)putchar('0');while(top)putchar(sta[top]+'0'),--top;return*this;}Writer&operator<<(long double x){if(x<0)putchar('-'),x=-x;mxdouble _=x;x-=(long double)_;static int sta[45];int top=0;while(_)sta[++top]=_%10,_/=10;if(!top)putchar('0');while(top)putchar(sta[top]+'0'),--top;putchar('.');for(int i=0;i<Setprecision;i++)x*=10;_=x;while(_)sta[++top]=_%10,_/=10;for(int i=0;i<Setprecision-top;i++)putchar('0');while(top)putchar(sta[top]+'0'),--top;return*this;}Writer&operator<<(__float128 x){if(x<0)putchar('-'),x=-x;mxdouble _=x;x-=(__float128)_;static int sta[45];int top=0;while(_)sta[++top]=_%10,_/=10;if(!top)putchar('0');while(top)putchar(sta[top]+'0'),--top;putchar('.');for(int i=0;i<Setprecision;i++)x*=10;_=x;while(_)sta[++top]=_%10,_/=10;for(int i=0;i<Setprecision-top;i++)putchar('0');while(top)putchar(sta[top]+'0'),--top;return*this;}Writer&operator<<(char c){putchar(c);return*this;}Writer& operator<<(char*str){int cur=0;while(str[cur])putchar(str[cur++]);return *this;}Writer&operator<<(const char*str){int cur=0;while(str[cur])putchar(str[cur++]);return*this;}Writer&operator<<(std::string str){int st=0,ed=str.size();while(st<ed)putchar(str[st++]);return*this;}Writer(){}}cout;}
+                                                                    #define use_qp                 0
+                                                                    #define use_inv                0
+                                                                    #define use_C                  0
+                                                                    #define use_pbds               0
+                                                                    #define use_BIT                0
+                                                                    #define use_long_long          1
+                                                                    #define use_fastio             1
+                                                                    #define use_multiple_test_data 0
+                                                                    #define me(x,y)                memset(x,y,sizeof(x))
+                                                                    #define ex(x)                  {cout<<x;return;}
+                                                                    #define N                      10000
+                                                                    #define p                      10000000000
+                                                                    //#undef N
+                                                                    //#undef p
+#if use_fastio==1
+#define cin Fastio :: cin
+#define cout Fastio :: cout
+#define endl Fastio :: endl
+#endif
+using namespace std;
+#if use_pbds==1
+#if ONLINE_JUDGE==luogu
+#include<bits/extc++.h>
+#else
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+#include<ext/pb_ds/hash_policy.hpp>
+#include<ext/pb_ds/trie_policy.hpp>
+#include<ext/pb_ds/priority_queue.hpp>
+#endif
+using namespace __gnu_pbds;
+#endif
+#if use_long_long==1
+#define int long long
+int max(int a,signed b){return max(a,(int)b);}
+int min(int a,signed b){return min(a,(int)b);}
+int max(signed b,int a){return max(a,(int)b);}
+int min(signed b,int a){return min(a,(int)b);}
+#endif
+#if (use_qp==1||use_C==1||use_inv==1)
+#ifdef p
+int qp(int x,int n=p-2,int P=p){int r=1;while(n){if(n&1)r=r*x%P;x=x*x%P,n>>=1;}return r;}
+#else
+int qp(int x,int n,int P){int r=1;while(n){if(n&1)r=r*x%P;x=x*x%P,n>>=1;}return r;}
+#endif
+#endif
+#if (use_C==1||use_inv==1)
+int fac[N+100],ifac[N+100];
+void init(int n,int P=p){fac[0]=1;for(int x=1;x<=n;x++)fac[x]=fac[x-1]*x%P;ifac[n]=qp(fac[n],P-2,P);for(int x=n;x>=1;x--)ifac[x-1]=ifac[x]*x%P;}
+int C(int x,int y,int P=p){if(x<y||y<0)return 0;return fac[x]*ifac[y]%P*ifac[x-y]%P;}
+int iC(int x,int y,int P=p){if(x<y||y<0)return 0;return ifac[x]*fac[y]%P*fac[x-y]%P;}
+int inv(int x,int P=p){return iC(x,1,P);}
+#endif
+#if use_BIT==1
+void add(int n,int u,int *a,int U=N){for(int x=n;x<=U;x+=x&-x)a[x]+=u;}
+int query(int n, int *a){int r=0;for(int x=n;x;x-=x&-x)r+=a[x];return r;}
+#endif
+void Init_for_all_task()
+{
+#if (use_C==1||use_inv==1)
+init(N+10);
+#endif
+//111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111//
+//111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111//
+}
+/*main-head---------------------------------------------------------------------------------------*/
+//222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222//
+//222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222//
+/*default-var-------------------------------------------------------------------------------------*/
+namespace nz{
+/*namespace-head----------------------------------------------------------------------------------*/
+//333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333//
+int a[200001],k,t[200001];
+pair<int,int>e[200001];
+vector<int>f[200001];
+int n,m;
+int rd[200001];
+bitset<200001>d;
+int dep[200001];
+bool check(int mi)
+{
+    d.reset();
+    int ds=0;
+    for(int x=1;x<=n;x++)
+    if(a[x]<=mi)d[x]=1,ds++;
+    for(int x=1;x<=n;x++)
+    f[x].clear();
+    me(rd,0);
+    for(int x=1;x<=m;x++)
+    if(a[e[x].first]<=mi&&a[e[x].second]<=mi)f[e[x].first].push_back(e[x].second),f[e[x].second].push_back(e[x].first),rd[e[x].second]++;
+    queue<int>q;
+    me(dep,0);
+    for(int x=1;x<=n;x++)
+    if(d[x]&&rd[x]==0)dep[x]=1,q.push(x);
+    int num=0,ans=0;
+    while(!q.empty())
+    {
+        int x=q.front();
+        q.pop();
+        num++;
+        ans=max(ans,dep[x]);
+        for(auto w:f[x])
+        {
+            rd[w]--,dep[w]=max(dep[w],dep[x]+1);
+            if(rd[w]==0)q.push(w);
+        }
+    }
+    if(num<ds||ans>=k)return true;
+    return false;
+}
+//333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333//
+/*var-and-func------------------------------------------------------------------------------------*/
+void Main(){
+/*Main-head---------------------------------------------------------------------------------------*/
+//444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444//
+    cin>>n>>m>>k;
+    for(int x=1;x<=n;x++)
+    cin>>a[x],t[x]=a[x];
+    for(int x=1;x<=m;x++)
+    {
+        int y,z;
+        cin>>y>>z;
+        e[x]={y,z};
+    }
+    sort(t+1,t+1+n);
+    int tot=unique(t+1,t+1+n)-t-1;
+    for(int x=1;x<=n;x++)
+    a[x]=lower_bound(t+1,t+1+tot,a[x])-t;
+    int l=1,r=tot-1,ans=tot;
+    if(!check(ans))ex(-1);
+    while(l<=r)
+    {
+        int mi=(l+r)/2;
+        if(check(mi))ans=mi,r=mi-1;
+        else l=mi+1;
+    }
+    ex(t[ans]);
+//444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444//
+/*Main-end----------------------------------------------------------------------------------------*/
+}
+/*Main-end----------------------------------------------------------------------------------------*/
+}
+/*namespace-end-----------------------------------------------------------------------------------*/
+main()
+{
+    Init_for_all_task();
+#if use_multiple_test_data==1
+    int t;cin>>t;while(t--)
+#endif
+    nz::Main();
+}
+/*main-end----------------------------------------------------------------------------------------*/

@@ -1,0 +1,33 @@
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure CamelCase is
+   Text: String(1..100);
+   Length: Natural;
+   Was_Space: Boolean := True;
+   I: Integer := 1;
+   A, B, C, D: Float := Float(0.0);
+begin
+   Get_Line(Text, Length);
+   loop
+      if Character'Pos(Text(I)) = 49 then
+      A := A + Float(1);
+      end if;
+      if Text(I) = '?' then
+      B := B + Float(1);
+      end if;
+      I := I + 1; 
+      exit when I > Length;
+   end loop;
+   Get(Item => C);
+   D := (A + (B * C)) / Float(Length);
+   Put(D, fore => 1, Aft => 5, Exp => 0);
+end CamelCase;

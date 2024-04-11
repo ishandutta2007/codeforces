@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<queue>
+int t,x,y,mx=0,my=0;
+main()
+{
+	scanf("%d",&t);
+	while(t--)
+	{
+		while(getchar()!='\n');
+		if(getchar()=='?')
+		{
+			scanf("%d%d",&x,&y);
+			if(x>y)x^=y^=x^=y;
+			printf("%s\n",((x>=mx&&y>=my)?"YES":"NO"));
+		}
+		else
+		{
+			scanf("%d%d",&x,&y);
+			if(x>y)x^=y^=x^=y;
+			if(x>mx)mx=x;
+			if(y>my)my=y;
+		}
+	}
+}

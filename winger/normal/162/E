@@ -1,0 +1,3 @@
+USING: io kernel math math.parser sequences locals ;
+readln [ "HQ9" member? ] any?
+"YES" "NO" ? print

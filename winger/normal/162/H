@@ -1,0 +1,3 @@
+USING: io kernel math math.parser sequences locals unicode.case arrays ;
+readln [| c i | c i 2 mod 0 = [ 1array >upper first ] [ 1array >lower first ] if ] map-index
+print

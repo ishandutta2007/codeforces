@@ -1,0 +1,22 @@
+co tul
+{
+    eq [8] [2] [1]
+    if [8] cout 10
+    if [8] ac
+    cout 42
+    add [2] [2] 1
+}
+
+co buatlen{
+    eq [8] [1] [0]
+    if [8] ac
+    add [1] [1] 1
+    set [2] 0
+    ca tul
+}
+
+iin [0]
+set [1] 0
+set [2] 0
+ca buatlen
+ac

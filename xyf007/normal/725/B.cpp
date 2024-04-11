@@ -1,0 +1,50 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+int main()
+{
+    long long m,c,t=0;
+    char n;
+    scanf("%lld%c",&m,&n);
+    if(((m-1)%4)&&!((m-1)%2))
+	{
+		m-=2;
+	}
+    if(!(m%4))
+    {
+    	m-=2;
+	}
+    c=m%4;
+    t=((m-c)/4)*16;
+    if(c==2)
+	{
+		t+=7;
+	}
+    if(n=='a')
+	{
+		t+=4;
+	}
+    if(n=='b')
+	{
+		t+=5;
+	}
+    if(n=='c')
+	{
+		t+=6;
+	}
+    if(n=='d')
+	{
+		t+=3;
+	}
+    if(n=='e')
+	{
+    	t+=2;
+	}
+    if(n=='f')
+	{
+		t+=1;
+	}
+    printf("%lld",t);
+    return 0;
+}

@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define sz(v) int(v.size())
+#define ar array
+typedef long long ll;
+const int N = 3e4+10, MOD = 1e9+7;
+
+void solve() {
+    int n, k; cin >> n >> k;
+    map<char, int> cnt;
+    string s; cin >> s;
+    for (char c : s) cnt[c]++;
+    for (auto& [_, x] : cnt) if (x > k) {
+        cout << "NO\n";
+        return;
+    }
+    cout << "YES\n";
+}
+int main() {
+    ios::sync_with_stdio(false); cin.tie(0);
+    int T = 1;
+    // cin >> T;
+    while (T--) solve();
+}

@@ -1,0 +1,68 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO; Use Ada.Integer_Text_IO;
+With Ada.Float_Text_IO; Use Ada.Float_Text_IO;
+
+procedure a is
+	A:Integer;
+	I:Integer;
+   	res:Integer:=0;
+   	
+   	function cont13(A: Integer) return Integer is
+		res :Integer :=0;
+		prev:Integer := -1;
+		curr:Integer := -1;
+		n :Integer;
+	begin
+		n := A;
+		while n>0 loop
+	   		curr := n mod 10;
+	   		if (curr = 1) and (prev = 3) then
+	   			res := 1;
+	   		end if;
+	   		prev := curr;
+	   		n := n / 10;
+	   end loop;
+	   return res;
+   	end;
+   	
+	function lastDig(A: Integer) return Integer is
+		n:Integer;
+	begin
+		n := A;
+		while n>=10 loop
+	   		n := n / 10;
+	   end loop;
+	   return n;
+   	end;
+   	
+   	function is13(A, p: Integer) return Integer is
+		res :Integer :=0;
+		prev:Integer := -1;
+		curr:Integer := -1;
+		n :Integer;
+	begin
+		n := A;
+		while n>0 loop
+	   		curr := n mod p;
+	   		if ((curr mod 10 = 1) and (prev = 3)) or cont13(curr) = 1 then
+	   			res := 1;
+	   		end if;
+	   		prev := lastDig(curr);
+	   		n := n / p;
+	   end loop;
+	   return res;
+   	end;
+begin
+   Get(A);
+   
+   if cont13(A) = 1 then
+   		Put("-1");
+   end if;
+   if cont13(A) = 0 then
+   		for I in 4..100100 loop
+   			res := res + is13(A,I);
+   		end loop;
+   		Put(res);
+   end if;
+   
+end a;

@@ -1,0 +1,10 @@
+set line [gets stdin]
+scan $line "%c%c%c" a b c
+set x [expr $a - 48]
+set y [expr $c - 48]
+if { $b == 43 } {
+    puts [expr $x+$y]
+}
+if { $b == 45 } {
+    puts [expr $x-$y]
+}

@@ -1,0 +1,10 @@
+import cp.
+
+inside(A,B,X,Y) => -A*Y-B*(X-A)#>=0.
+
+main() =>
+	N=read_int(),
+	A::1..300,B::1..300,C#=A*B,
+	foreach(I in 1..N) X=read_int(),Y=read_int(),inside(A,B,X,Y) end,
+	solve([$min(C)],[A,B,C]),
+	println(C/2).

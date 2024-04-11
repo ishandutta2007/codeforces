@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define F(i,a,b) for(int i=a;i<=(b);++i)
+#define F2(i,a,b) for(int i=a;i<(b);++i)
+#define dF(i,a,b) for(int i=a;i>=(b);--i)
+#define debug(...) fprintf(stderr,__VA_ARGS__)
+#define Debug debug("Passing [%s] in LINE %d\n",__FUNCTION__,__LINE__)
+#define MN 300005
+#define MM 600005
+#define ll long long
+#define mod 998244353
+#define inf 0x3f3f3f3f
+#define infll 0x3f3f3f3f3f3f3f3f
+typedef pair<int,int> pii;
+#define pb push_back
+#define mkp make_pair
+#define fi first
+#define se second
+inline int qpow(int b,int e,int m=mod){int a=1;for(;e;e>>=1,b=(ll)b*b%m)if(e&1)a=(ll)a*b%m;return a;}
+int n,m,q,k;
+int a[MN],b[MN],c[MN];
+int main(){int tests=1;scanf("%d",&tests);
+while(tests--){
+	scanf("%d",&n);
+	F(i,1,n)scanf("%1d",a+i);
+	b[1]=c[1]=1;
+	int flg=0;
+	F(i,2,n){
+		if(!flg){
+			if(a[i]==2)b[i]=c[i]=1;
+			if(a[i]==0)b[i]=c[i]=0;
+			if(a[i]==1)b[i]=1,c[i]=0,flg=1;
+		}else{
+			b[i]=0;
+			c[i]=a[i];
+		}
+	}
+	F(i,1,n)printf("%d",b[i]);puts("");
+	F(i,1,n)printf("%d",c[i]);puts("");
+}	return 0;
+}

@@ -1,0 +1,1 @@
+fun main() = (1..readLine()!!.toInt()).forEach { readLine()!!.let { println(2 * it.substring(it.indexOf(' ') + 1).toInt()) } }

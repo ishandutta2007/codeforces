@@ -1,0 +1,1 @@
+print ( "{:o}".format( int(input()) ).count("1") )

@@ -1,0 +1,1 @@
+gets.to_i.times{n,a,b=gets.split.map &:to_i;puts (1..n).map{|i|(97+i%b).chr}*''}

@@ -1,0 +1,16 @@
+/* In the name of Allah */
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int maxN = 100*100*10 + 10 ; 
+int a[maxN];
+
+int main() { 
+	int n;
+	cin >> n;
+
+	for( int i = 0; i < n ; i++ ) 
+		cin >> a[i];
+	cout << *max_element( a , a + n ) << endl;
+}

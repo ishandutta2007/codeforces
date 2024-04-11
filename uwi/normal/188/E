@@ -1,0 +1,21 @@
+co ooo {
+cin [0]
+eq [1] [0] -1
+if [1] ac
+eq [2] [0] 72
+add [3] [3] [2]
+eq [2] [0] 81
+add [3] [3] [2]
+eq [2] [0] 57
+add [3] [3] [2]
+}
+
+ca ooo
+eq [4] [3] 0
+if [4] cout 78
+if [4] cout 79
+xor [5] [4] 1
+if [5] cout 89
+if [5] cout 69
+if [5] cout 83
+ac

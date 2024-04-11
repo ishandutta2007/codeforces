@@ -1,0 +1,35 @@
+co a {
+	set [4] 0
+	set [3] [[2]]
+	sub [2] [2] 1
+	add [[2]] [[2]] [3]
+	ac
+}
+co m {
+	set [4] 0
+	set [3] [[2]]
+	sub [2] [2] 1
+	mul [[2]] [[2]] [3]
+	ac
+}
+co c {
+	sub [0] [0] 48
+	add [2] [2] 1
+	set [[2]] [0]
+	ac
+}
+co go {
+	cin [0]
+	eq [1] [0] 10
+	if [1] ac
+	set [4] 1
+	eq [1] [0] 43
+	if [1] ca a
+	eq [1] [0] 42
+	if [1] ca m
+	if [4] ca c
+}
+set [2] 100
+ca go
+iout [[2]]
+ac

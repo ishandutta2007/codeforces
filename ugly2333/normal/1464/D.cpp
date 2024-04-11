@@ -1,0 +1,134 @@
+//CF1465D
+#include<iostream>
+#include<cstdio>
+#include<fstream>
+#include<algorithm>
+#include<vector>
+#include<map>
+#include<set>
+#include<queue>
+#include<bitset>
+#include<cmath>
+#include<cstring>
+#include<cstdlib>
+using namespace std;
+typedef long long LL;
+typedef double DB;
+const int N = 1111111;
+const int MO = 1e9+7;
+int n,p[N],a[N],c[N];
+int main()
+{
+	int T,i,x,y,z,s,t,r,ans;
+	scanf("%d",&T);
+	while(T--){
+		scanf("%d",&n);
+		for(i=1;i<=n;i=i+1)
+			scanf("%d",p+i);
+		x=n;
+		y=1;
+		while(x>=5){
+			x-=3;
+			y=(LL)y*3%MO;
+		}
+		y=(LL)y*x%MO;
+		printf("%d ",y);
+		s=0;
+		for(i=1;i<=n;i=i+1){
+			if(!p[i])
+				continue;
+			x=i;
+			z=1;
+			while(1){
+				y=p[x];
+				p[x]=0;
+				if(y==i)
+					break;
+				x=y;
+				z++;
+			}
+			a[z]++;
+			s++;
+		}
+		for(i=1;i<=n;i=i+1)
+			c[i%3]+=a[i];
+		//cout<<c[0]<<c[1]<<c[2]<<endl;
+		ans=n;
+		if(n%3==0){
+			t=n/3;
+			r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3;
+			ans=min(ans,s+t-r*2);
+		}
+		if(n%3==1){
+			t=n/3;
+			if(c[1]-a[1]>=1){
+				c[1]--;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[1]++;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[0]>=1&&c[1]>=1){
+				c[0]--,c[1]--;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[0]++,c[1]++;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[2]>=2){
+				c[2]-=2;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[2]+=2;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[2]>=1&&c[1]>=2){
+				c[2]--,c[1]-=2;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[2]++,c[1]+=2;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[1]>=4){
+				c[1]-=4;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[1]+=4;
+				ans=min(ans,s+t-r*2);
+			}
+			t=n/3+1;
+			if(c[2]>=2){
+				c[2]-=2;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+2;
+				c[2]+=2;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[2]>=1&&c[1]>=2){
+				c[2]--,c[1]-=2;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+2;
+				c[2]++,c[1]+=2;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[1]>=4){
+				c[1]-=4;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+2;
+				c[1]+=4;
+				ans=min(ans,s+t-r*2);
+			}
+		}
+		if(n%3==2){
+			t=n/3+1;
+			if(c[2]>=1){
+				c[2]--;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[2]++;
+				ans=min(ans,s+t-r*2);
+			}
+			if(c[1]>=2){
+				c[1]-=2;
+				r=c[0]+min(c[1],c[2])+(max(c[1],c[2])-min(c[1],c[2]))/3+1;
+				c[1]+=2;
+				ans=min(ans,s+t-r*2);
+			}
+		}
+		printf("%d\n",ans);
+		for(i=0;i<=n;i=i+1)
+			p[i]=0,a[i]=0,c[i]=0;
+	}
+	return 0;
+}

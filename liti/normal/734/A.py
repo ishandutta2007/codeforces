@@ -1,0 +1,5 @@
+n = input()
+s = input()
+a = s.count('A')
+d = s.count('D')
+print( 'Anton' if a > d else 'Friendship' if a == d else 'Danik' )

@@ -1,0 +1,1 @@
+a,b,c,d,e,f,s;main(){scanf("%*d%d%d%d%*d%d%d%d%*d",&a,&b,&c,&d,&e,&f),s=(a+b+c+d+e+f)/2;printf("%d %d %d\n%d %d %d\n%d %d %d",s-a-b,a,b,c,s-c-d,d,e,f,s-e-f);return 0;}

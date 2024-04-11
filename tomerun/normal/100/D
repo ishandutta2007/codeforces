@@ -1,0 +1,17 @@
+int main()
+{
+    int c = (int)Stdio.stdin.gets();
+    string f = Stdio.stdin.gets();
+    string s = Stdio.stdin.gets();
+    int match = 0;
+    for (int i = 0; i < min(sizeof(f), sizeof(s)); ++i) {
+        if (f[i] != s[i]) break;
+        ++match;
+    }
+    int change = sizeof(f) - match + sizeof(s) - match;
+    if (c >= change) {
+        write("Yes");
+    } else {
+        write("No");
+    }
+}

@@ -1,0 +1,32 @@
+USING: io kernel math math.parser sequences strings ascii ;
+IN: main
+
+: evaluate ( seq -- newseq )
+  dup "" =
+  [
+    dup
+    1 head
+
+    "(" = [
+      1 tail
+
+      [ dup 1 head "(" = ] [
+        evaluate
+      ] while    
+
+      1 tail
+    ] when
+  ] unless
+  ;
+
+"("
+readln
+")"
+"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))"
+append
+append
+append
+
+evaluate
+"))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))" = [ "YES " ] [ "NO" ] if
+print

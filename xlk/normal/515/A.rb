@@ -1,0 +1,1 @@
+a,b,s=gets.split.map &:to_i;s-=a.abs+b.abs;puts s<0||s%2>0?:No:"Yes"

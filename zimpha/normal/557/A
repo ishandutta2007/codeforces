@@ -1,0 +1,15 @@
+let xint _ = Scanf.scanf " %d" (fun x -> x) 
+
+let () = 
+  let min x y = 
+    if (x < y) then x
+    else y
+  in
+  let n = xint () in
+  let mi1 = xint () and mx1 = xint () in
+  let mi2 = xint () and mx2 = xint () in
+  let mi3 = xint () and mx3 = xint () in
+  let x = min (n - mi2 - mi3) mx1 in
+  let y = min (n - x - mi3) mx2 in
+  let z = n - x - y in
+  Printf.printf "%d %d %d\n" x y z;

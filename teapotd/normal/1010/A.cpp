@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>//////////////////////////////////////////////////////
+#ifdef LOC////////////////////////////////////////////////////////////////////
+#include "debuglib.h"/////////////////////////////////////////////////////////
+#else/////////////////////////////////////////////////////////////////////////
+#define deb(...)//////////////////////////////////////////////////////////////
+#define DBP(...)//////////////////////////////////////////////////////////////
+#endif////////////////////////////////////////////////////////////////////////
+#define x first///////////////////////////////////////////////////////////////
+#define y second//////////////////////////////////////////////////////////////
+#define mp make_pair//////////////////////////////////////////////////////////
+#define pb push_back//////////////////////////////////////////////////////////
+#define sz(x)int((x).size())//////////////////////////////////////////////////
+#define each(a,x)for(auto&a:(x))///////////////// by teapotd /////////////////
+#define all(x)(x).begin(),(x).end()///////////////////////////////////////////
+#define rep(i,b,e)for(int i=(b);i<(e);i++)////////////////////////////////////
+using namespace std;using namespace rel_ops;using ll=int64_t;using Pii=pair///
+<int,int>;using ull=uint64_t;using Vi=vector<int>;void run();int main(){cin.//
+sync_with_stdio(0);cin.tie(0);cout<<fixed<<setprecision(10);run();return 0;}//
+//--------------------------------------------------------------------------//
+
+int n, m;
+vector<double> lift, land;
+
+bool check(double fuel) {
+	rep(i, 0, n) {
+		fuel -= (m+fuel) / lift[i];
+		if (fuel < 0) return false;
+		fuel -= (m+fuel) / land[(i+1)%n];
+		if (fuel < 0) return false;
+	}
+	return true;
+}
+
+void run() {
+	cin >> n >> m;
+	lift.resize(n);
+	land.resize(n);
+
+	each(x, lift) cin >> x;
+	each(x, land) cin >> x;
+
+	double begin = 0, end = 1e9+5;
+
+	while ((end-begin) > 1e-6) {
+		double mid = (begin+end)/2;
+		if (check(mid)) {
+			end = mid;
+		} else {
+			begin = mid;
+		}
+	}
+
+	double ret = (begin+end)/2;
+	if (ret > 1e9) cout << -1 << endl;
+	else cout << (begin+end) / 2 << endl;
+}

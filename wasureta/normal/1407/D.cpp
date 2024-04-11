@@ -1,0 +1,162 @@
+// ./d-discrete-centrifugal-jumps.yml
+#include "bits/stdc++.h"
+using namespace std;
+
+// Defines
+#define fs first
+#define sn second
+#define pb push_back
+#define eb emplace_back
+#define mpr make_pair
+#define mtp make_tuple
+#define all(x) (x).begin(), (x).end()
+// Basic type definitions
+using ll = long long; using ull = unsigned long long; using ld = long double;
+using pii = pair<int, int>; using pll = pair<long long, long long>;
+// PBDS order statistic tree
+#include <ext/pb_ds/assoc_container.hpp> // Common file 
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds; 
+template <typename T, class comp = less<T>> using os_tree = tree<T, null_type, comp, rb_tree_tag, tree_order_statistics_node_update>;
+template <typename K, typename V, class comp = less<K>> using treemap = tree<K, V, comp, rb_tree_tag, tree_order_statistics_node_update>;
+// HashSet
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+const ll RANDOM = chrono::high_resolution_clock::now().time_since_epoch().count();
+struct chash { ll operator()(ll x) const { return x ^ RANDOM; } };
+template <typename T, class Hash> using hashset = gp_hash_table<T, null_type, Hash>;
+template <typename K, typename V, class Hash> using hashmap = gp_hash_table<K, V, Hash>;
+// More utilities
+int SZ(string &v) { return v.length(); }
+template <typename C> int SZ(C &v) { return v.size(); }
+template <typename C> void UNIQUE(vector<C> &v) { sort(v.begin(), v.end()); v.resize(unique(v.begin(), v.end()) - v.begin()); }
+template <typename T, typename U> void maxa(T &a, U b) { a = max(a, b); }
+template <typename T, typename U> void mina(T &a, U b) { a = min(a, b); }
+const ll INF = 0x3f3f3f3f, LLINF = 0x3f3f3f3f3f3f3f3f;
+
+// Template is 1-indexed
+// RMQ + Set query
+struct CompMin {
+    using Data = int;
+    using Update = int;
+    const Data vdef = INF;
+    Data merge(Data l, Data r) { return min(l, r); }
+    void applyUpdate(Data &l, Update &r) { l = r; }
+};
+struct CompMax {
+    using Data = int;
+    using Update = int;
+    const Data vdef = -INF;
+    Data merge(Data l, Data r) { return max(l, r); }
+    void applyUpdate(Data &l, Update &r) { l = r; }
+};
+#define MID int mid = (l + r) / 2, lhs = i + 1, rhs = i + (mid - l + 1) * 2;
+template <class Comp> struct SegmentTree {
+    using Data = typename Comp::Data; using Update = typename Comp::Update; Comp C;
+    int N;
+    vector<Data> seg;
+    void init(int n0) {
+        N = n0;
+        seg.assign(2 * N + 2, C.vdef);
+    }
+    Data _query(int ql, int qr, int i, int l, int r) {
+        if (ql > r || qr < l) return C.vdef;
+        if (l >= ql && r <= qr) return seg[i];
+        MID;
+        return C.merge(_query(ql, qr, lhs, l, mid), _query(ql, qr, rhs, mid + 1, r));
+    }
+    Data _update(int q, Update v, int i, int l, int r) {
+        if (q > r || q < l) return seg[i];
+        if (l == q && r == q) {
+            C.applyUpdate(seg[i], v);
+            return seg[i];
+        }
+        MID;
+        return seg[i] = C.merge(_update(q, v, lhs, l, mid), _update(q, v, rhs, mid + 1, r));
+    }
+    Data query(int ql, int qr) { ql++; qr++; return _query(ql, qr, 1, 1, N); }
+    void update(int q, Update v) { q++; _update(q, v, 1, 1, N); }
+};
+
+// template is 1-indexed
+// template <typename T> struct Ranks {
+//     vector<T> ranks;
+//     void init() {
+//         sort(ranks.begin(), ranks.end());
+//         ranks.resize(unique(ranks.begin(), ranks.end()) - ranks.begin());
+//     }
+//     template <typename It> void init(It st, It en) { ranks = vector<T>(st, en); init(); }
+//     void add(T v) { ranks.pb(v); }
+//     int get(T v) { return lower_bound(ranks.begin(), ranks.end(), v) - ranks.begin() + 1; }
+//     int size() { return ranks.size(); }
+// };
+
+ostream& operator<<(ostream& out, const pii o) {
+    out << "(fs=" << o.fs << ", sn=" << o.sn << ")";
+    return out;
+}
+
+const int MN = 3e5 + 1;
+int N,
+    H[MN], dp[MN];
+
+// Ranks<int> R;
+set<int, greater<int>> belowId, aboveId;
+set<pii> below;
+set<pii, greater<pii>> above;
+SegmentTree<CompMin> minq;
+SegmentTree<CompMax> maxq;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> (N);
+    for (auto i = 0; i < N; i++) {
+        cin >> (H[i]);
+        // R.add(H[i]);
+    }
+    // R.init();
+
+    memset(dp, 0x3f, sizeof dp); dp[0] = 0;
+
+    minq.init(N); maxq.init(N);
+    for (auto i = 0; i < N; i++) {
+        minq.update(i, H[i]);
+        maxq.update(i, H[i]);
+    }
+    below.emplace(H[0], 0); belowId.insert(0);
+    above.emplace(H[0], 0); aboveId.insert(0);
+
+    for (auto i = 1; i < N; i++) {
+        // int rr = R.get(H[i]);
+
+        dp[i] = dp[i - 1] + 1;
+        for (auto x : belowId) {
+            if (maxq.query(x + 1, i - 1) >= H[i]) break;
+            mina(dp[i], dp[x] + 1);
+        }
+        for (auto x : aboveId) {
+            if (minq.query(x + 1, i - 1) <= H[i]) break;
+            mina(dp[i], dp[x] + 1);
+        }
+
+        // cout<<"i="<<(i)<<", "; cout<<"dp[i]="<<(dp[i])<<", "; cout << "below=["; for (auto __x:below)cout<<__x<<", "; cout<<"], "; cout << "belowId=["; for (auto __x:belowId)cout<<__x<<", "; cout<<"], "; cout << endl; // db i,dp[i],I:below,I:belowId
+
+        while (!below.empty() && below.begin()->fs <= H[i]) {
+            belowId.erase(below.begin()->sn);
+            below.erase(below.begin());
+        }
+        below.emplace(H[i], i); belowId.insert(i);
+
+        while (!above.empty() && above.begin()->fs >= H[i]) {
+            aboveId.erase(above.begin()->sn);
+            above.erase(above.begin());
+        }
+        above.emplace(H[i], i); aboveId.insert(i);
+    }
+
+    cout << (dp[N - 1]) << '\n';
+
+    return 0;
+}

@@ -1,0 +1,43 @@
+co plus {
+    set [102] 0
+    set [104] [[99]]
+    dec [99]
+    set [103] [[99]]
+    add [[99]] [103] [104]
+    ac
+}
+
+co mult {
+    set [102] 0
+    set [104] [[99]]
+    dec [99]
+    set [103] [[99]]
+    mul [[99]] [103] [104]
+    ac
+}
+
+co add {
+    inc [99]
+    sub [[99]] [100] 48
+    ac
+}
+
+co read {
+    cin [100]
+    eq [101] [100] 10
+    if [101] ac
+    eq [101] [100] 13
+    if [101] ac
+    eq [101] [100] 26
+    if [101] ac
+    set [102] 1
+    eq [101] [100] 43
+    if [101] ca plus
+    eq [101] [100] 42
+    if [101] ca mult
+    if [102] ca add
+}
+
+ca read
+iout [[99]]
+ac

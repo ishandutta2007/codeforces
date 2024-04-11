@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <string>
+#include <stdio.h>
+using namespace std;
+//+-32
+int main()
+{
+   string s1, s2;
+    cin >> s1 >> s2;
+    int i = 0;
+    while (i <s1.length()){
+        if (s1[i] >= 'A' && s1[i]<='Z') s1[i]= char(int(s1[i])+32);
+        if (s2[i] >= 'A' && s2[i]<='Z') s2[i]= char(int(s2[i])+32);
+        //cout << s1[i]<<s2[i]<<endl;
+        if (s1[i] > s2[i]) {cout << 1; return 0;}
+        if (s1[i] < s2[i]) {cout << -1; return 0;}
+        i++;
+    }
+    //cout<<s1<<endl;
+    //cout<<s2;
+    cout << 0;
+}

@@ -1,0 +1,16 @@
+read =: 1!:1[3
+tmp =: < ;._2 read
+d =: }: 0 { > tmp
+v =: 1 { > tmp
+
+type =: 3 :0
+((]&'i') ` (]&'f') @. ('.'&e.)) y
+)
+t =: type v
+
+capital =: 3 :0
+((toupper & {.),}.) y
+)
+c =: capital d
+
+echo (t,c)

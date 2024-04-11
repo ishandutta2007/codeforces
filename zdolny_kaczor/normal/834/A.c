@@ -1,0 +1,1 @@
+int a,b,n;main(){scanf("%c %c%d",&a,&b,&n);puts(n%2?n*(a%11-b%11)&2?"cw":"ccw":"undefined");}

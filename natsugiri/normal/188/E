@@ -1,0 +1,35 @@
+co hq9
+{
+cin [0]
+eq [7] [0] 72
+if [7] ac
+eq [7] [0] 81
+if [7] ac
+eq [7] [0] 57
+if [7] ac
+eq [8] [0] 10
+if [8] ac
+eq [8] [0] 0
+if [8] ac
+}
+
+co yes
+{
+cout 89
+cout 69
+cout 83
+ac
+}
+
+co no
+{
+cout 78
+cout 79
+ac
+}
+
+ca hq9
+if [7] ca yes
+eq [7] [7] 0
+if [7] ca no
+ac

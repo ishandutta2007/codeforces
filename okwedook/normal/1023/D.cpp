@@ -1,0 +1,129 @@
+#pragma GCC optimize("Ofast", "unroll-loops")
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FILES freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout)
+#define FAST ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0)
+#define FIXED cout << fixed << setprecision(20)
+#define RANDOM srand(time(NULL))
+#define pb push_back
+#define pf push_front
+#define popb pop_back
+#define popf pop_front
+#define mp make_pair
+#define hashmap unordered_map
+#define hashset unordered_set
+#define ll long long
+#define ld long double
+#define ui unsigned int
+#define ull unsigned ll
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+#define graph vector<vector<int>>
+#define eps 1e-9
+#define mod 1000000007
+#define inf 1000000000000000007ll
+#define intinf ((1 << 31) - 1)
+#define f first
+#define s second
+#define checkmin(x, y) if (x > y) x = y
+#define checkmax(x, y) if (x < y) x = y
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define sz(a) int(a.size())
+#define shuffle(a) \
+    for (int i = -sz(a); i < sz(a); ++i) \
+        swap(a[rand() % sz(a)], a[rand() % sz(a)])
+
+template<class T> inline void sort(T &a) { sort(all(a)); }
+template<class T> inline void rsort(T &a) { sort(rall(a)); }
+template<class T> inline void reverse(T &a) { reverse(all(a)); }
+
+signed main() {
+    FAST; FIXED; RANDOM;
+    ll n, q;
+    cin >> n >> q;
+    vector<ll> arr(n);
+    for (auto &i : arr) cin >> i;
+    for (auto i : arr)
+    	if (i > q) {
+    		cout << "NO";
+    		return 0;
+    	}
+    map<ll, vector<ll>> curr;
+    set<ll> nums;
+    for (int i = 0; i < n; ++i)
+    	if (arr[i] > 0)
+    		curr[-arr[i]].pb(i), nums.insert(i);
+    ll l;
+    for (auto i : curr) {
+    	l = -i.f;
+    	break;
+    }
+    if (l < q) {
+    	bool flag = false;
+    	for (int i = 0; i < n; ++i)
+    		if (arr[i] == 0) {
+    			arr[i] = q;
+    			nums.insert(i);
+    			curr[-q].pb(i);
+    			flag = true;
+    			break;
+    		}
+    	if (!flag) {
+    		cout << "NO";
+    		return 0;
+    	}
+    }
+    set<ll> zeros;
+    for (int i = 0; i < n; ++i)
+    	if (arr[i] == 0) zeros.insert(i);
+    vector<ll> ans = arr;
+    for (auto i : curr) {
+    	ll mn = inf, mx = -1;
+    	for (auto j : i.s) {
+    		nums.erase(j);
+    		checkmin(mn, j);
+    		checkmax(mx, j);
+    	}
+    	auto it = nums.upper_bound(mn);
+    	if (it != nums.end() && *(it) < mx) {
+    		cout << "NO";
+    		return 0;
+    	}
+    	it = zeros.upper_bound(mn);
+    	for (; it != zeros.end() && *(it) < mx;) {
+    		int ind = *(it);
+    		ans[ind] = -i.f;
+    		zeros.erase(ind);
+    		it = zeros.upper_bound(ind);
+    	}
+    }
+    bool flag = false;
+    for (auto i : ans)
+    	if (i == q) flag = true;
+    if (!flag) {
+    	for (auto &i : ans)
+    		if (i == 0) {
+    			i = q;
+    			break;
+    		}
+    }
+    for (int i = 1; i < n; ++i)
+    	if (ans[i] == 0) ans[i] = ans[i - 1];
+    for (int i = n - 2; i >= 0; --i)
+    	if (ans[i] == 0) ans[i] = ans[i + 1];
+    for (auto &i : arr)
+    	if (!i) i = q;
+   	flag = false;
+    for (auto i : ans)
+    	if (i == q) flag = true;
+    if (!flag) {
+    	cout << "NO";
+    	return 0;
+    }
+    cout << "YES\n";
+    for (auto i : ans) cout << i << ' ';
+    return 0; 
+}

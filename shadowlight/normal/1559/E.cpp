@@ -1,0 +1,173 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define db long double
+#define ull unsigned long long
+#define x first
+#define y second
+#define mp make_pair
+#define pb push_back
+#define all(a) a.begin(), a.end()
+
+using namespace std;
+
+#define pper(a) cerr << #a << " = " << a << endl;
+
+void per() { cerr << endl; }
+template<typename Head, typename... Tail> void per(Head H, Tail... T) { cerr << H << ' '; per(T...); }
+
+template<class T> bool uin(T &a, T b) { return a > b ? (a = b, true) : false; }
+template<class T> bool uax(T &a, T b) { return a < b ? (a = b, true) : false; }
+
+template<class U, class V> 
+ostream& operator<<(ostream& out, const pair<U, V>& a) {
+  return out << "(" << a.x << ", " << a.y << ")";
+}
+
+template<class U, class V> 
+istream& operator>>(istream& in, pair<U, V>& a) {
+  return in >> a.x >> a.y;
+}
+
+template<typename W, typename T = typename enable_if<!is_same<W, string>::value, typename W::value_type>::type>
+ostream& operator<<(ostream& out, const W& v) { out << "{ "; for (const auto& x : v) out << x << ", "; return out << '}'; }
+
+template<class T>
+void readArr(T from, T to) {
+  for (auto i = from; i != to; ++i) cin >> *i;
+}
+
+mt19937 mrand(1337); 
+unsigned int myRand32() {
+  return mrand() & (unsigned int)(-1);
+}
+ 
+unsigned ll myRand64() {
+  return ((ull)myRand32() << 32) ^ myRand32();
+}
+
+const int mod = 998244353;
+
+void add(int& a, int b) {
+  a += b; if (a >= mod) a -= mod;
+}
+
+void dec(int &a, int b) {
+  a -= b; if (a < 0) a += mod;
+}
+
+int mult(int a, int b) {
+  return a * (ll)b % mod;
+}
+
+int bp(int a, int b) {
+  int res = 1;
+  while (b > 0) {
+    if (b & 1) res = mult(res, a);
+    a = mult(a, a);
+    b >>= 1;
+  }
+  return res;
+}
+
+const int N = 57;
+const int M = 1e5 + 7;
+int a[N];
+int ways[N][M][2];
+
+int dp[N][M];
+
+void init() {
+  dp[0][0] = 1;
+  for (int i = 1; i < N; ++i) {
+    dp[i][0] = 1;
+    for (int j = 1; j < M; ++j) {
+      add(dp[i][j], dp[i][j - 1]);
+      add(dp[i][j], dp[i - 1][j]);
+    }
+  }
+  for (int i = 1; i < N; ++i) {
+    for (int j = 1; j < M; ++j) {
+      add(dp[i][j], dp[i][j - 1]);
+    }
+  }
+}
+
+int n;
+int calc(vector<int>& l, vector<int>& r, int m) {
+  for (int i = 0; i < n; ++i) {
+    if (r[i] < l[i]) {
+      return 0;
+    }
+    a[i] = r[i] - l[i] + 1;
+    m -= l[i];
+  }
+  if (m < 0) {
+    return 0;
+  }
+  ways[0][0][0] = 1;
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j <= m; ++j) {
+      ways[i + 1][j][0] = 0;
+      ways[i + 1][j][1] = 0;
+    }
+    for (int was = 0; was <= m; ++was) {
+      for (int t = 0; t < 2; ++t) {
+        add(ways[i + 1][was][t], ways[i][was][t]);
+        if (was + a[i] <= m) {
+          add(ways[i + 1][was + a[i]][t ^ 1], ways[i][was][t]);
+        }
+      }
+    }
+  }
+  int res = 0;
+  for (int i = 0; i <= m; ++i) {
+    for (int deg = 0; deg < 2; ++deg) {
+      if (!deg) {
+        add(res, mult(dp[n][m - i], ways[n][i][deg]));
+      } else {
+        dec(res, mult(dp[n][m - i], ways[n][i][deg]));
+      }
+    }
+  }
+  return res;
+} 
+
+int main(){
+#ifdef LOCAL
+ freopen("L_input.txt", "r", stdin);
+ //freopen("L_output.txt", "w", stdout);
+#endif
+ ios_base::sync_with_stdio(0);
+ cin.tie(0);
+
+ init();
+
+ int m;
+ cin >> n >> m;
+ vector <int> la(n), ra(n);
+ for (int i = 0; i < n; ++i) {
+  cin >> la[i] >> ra[i];
+ }
+
+ vector <int> res(m + 1, 0);
+
+ for (int g = m; g > 0; --g) {
+  vector <int> l, r;
+  for (int x : la) {
+    l.pb(x / g);
+    if (x % g) l.back()++;
+  }
+  for (int x : ra) {
+    r.pb(x / g);
+  }
+
+
+  res[g] = calc(l, r, m / g);
+  //cout << g << " " << res[g] << endl;
+  for (int t = 2 * g; t <= m; t += g) {
+    dec(res[g], res[t]);
+  }
+ }
+
+ cout << res[1] << "\n";
+}

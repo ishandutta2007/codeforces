@@ -1,0 +1,1 @@
+puts (gets.chomp + gets.chomp).chars.sort == gets.chomp.chars.sort ? "YES" : "NO"

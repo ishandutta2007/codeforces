@@ -1,0 +1,96 @@
+#pragma comment(linker, "/STACK:60000000")
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <set>
+#include <map>
+#include <ctime>
+#include <cstring>
+#include <cassert>
+#include <sstream>
+#include <iomanip>
+#include <complex>
+#include <queue>
+#include <functional>
+
+using namespace std;
+
+#define forn(i, n) for(int i = 0; i < (int)(n); i++)
+#define ford(i, n) for(int i = (int)(n) - 1; i >= 0; i--)
+#define pb push_back
+#define mp make_pair
+#define fs first
+#define sc second
+#define last(a) int(a.size() - 1)
+#define all(a) a.begin(), a.end()
+#define seta(a,x) memset (a, x, sizeof (a))
+#define I (int)
+#define next NEXTHUI
+#define prev PREVHUI
+#define y1 Y1HUI
+
+typedef long long int64;
+typedef pair <int, int> pii;
+typedef long double ldb;
+
+const long double eps = 1e-9;
+const int inf = (1 << 30) - 1;
+const int64 inf64 = ((int64)1 << 62) - 1;
+const long double pi = 3.1415926535897932384626433832795;
+
+template <class T> T sqr (T x) {return x * x;}
+
+int n, m;
+int a[2000000], b[1000000];
+int f2[1000001], f[2000000];
+int64 Q[1001000];
+
+int main ()
+{
+//	freopen ("input.txt", "r", stdin);
+//	freopen ("output.txt", "w", stdout);
+	cin >> n >> m;
+	forn (i, n)
+		scanf ("%d", &a[i]);
+	forn (i, m)
+		scanf ("%d", &b[i]);
+	seta (f2, 255);
+	seta (f, 255);
+	forn (i, m)
+		f2[b[i]] = i;
+	forn (i, n)
+		f[i] = f2[a[i]];
+	int res = 0;
+	int h, t;
+	h = t = 0;
+	forn (i, n)
+		a[i+n] = a[i];
+	forn (i, n)
+		f[i+n] = f[i];
+	res = 0;
+	int64 add = 0;
+	t = -1;
+	for (int i = 0; i < n*2; i ++) {
+		if (f[i] == -1) {
+			h = 0;
+			t = -1;
+			add = 0;
+		} else {
+			t ++;
+			Q[t] = f[i];
+			if (h < t && f[i-1] >= f[i])
+				add += m;
+			Q[t] += add;
+			while (Q[t] - Q[h] >= m) 
+				h ++;
+			res = max (res, t - h + 1);
+		}
+	}
+	cout << res << endl;
+	return 0;
+}

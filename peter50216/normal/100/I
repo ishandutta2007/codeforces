@@ -1,0 +1,12 @@
+int main(){
+    float k;
+    float pi=acos(-1.0);
+    sscanf(Stdio.stdin->gets(),"%f",k);
+    k=k*pi/180.0;
+    float x,y;
+    sscanf(Stdio.stdin->gets(),"%f %f",x,y);
+    float xx,yy;
+    xx=x*cos(k)-y*sin(k);
+    yy=x*sin(k)+y*cos(k);
+    write(xx+" "+yy);
+}

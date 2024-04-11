@@ -1,0 +1,8 @@
+set n [gets stdin]
+set result 1
+set i 1
+while { $i <= $n } {
+        set result [expr {$result*$i}]
+        incr i 
+}
+puts $result

@@ -1,0 +1,42 @@
+set line [gets stdin]
+scan $line "%s" str
+
+set list [split $str "/"]
+set ok [split $str "/"]
+lreplace $list 0 0
+lreplace $ok 0 0
+set len [llength $list]
+
+for {set i 0} {$i < $len} {incr i} {
+	set cur [lindex $ok $i]
+	if {$cur == "."} {
+		set ok [lreplace $ok $i $i ""]
+	}
+}
+
+for {set i 0} {$i < $len} {incr i} {
+	set cur [lindex $list $i]
+	if {[string equal $cur ".."]} {
+		set ok [lreplace $ok $i $i ""]
+		for {set j [expr $i-1]} {$j >= 0} {set j [expr $j-1]} {
+			set tp [lindex $ok $j]
+			if {$tp != ""} {
+				set ok [lreplace $ok $j $j ""]
+				break
+			}
+		}
+		if {$j < 0} {
+			puts "-1"
+			return;
+		}
+	}
+}
+
+set ret {}
+for {set i 0} {$i < $len} {incr i} {
+	set cur [lindex $ok $i]
+	if {$cur != ""} {
+		lappend ret $cur
+	}
+}
+puts "/[join $ret "/"]"

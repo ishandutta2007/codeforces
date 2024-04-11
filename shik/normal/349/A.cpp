@@ -1,0 +1,54 @@
+// TwT514 {{{
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <set>
+#include <cmath>
+#include <bitset>
+#include <queue>
+#include <stack>
+#include <functional>
+#include <utility>
+#define SZ(x) ((int)(x).size())
+#define FOR(i,c) for (__typeof((c).begin()) i=(c).begin(); i!=(c).end(); i++)
+#define REP(i,n) for (int i=0; i<(n); i++)
+#define REP1(i,a,b) for (int i=(int)(a); i<=(int)(b); i++)
+#define ALL(x) (x).begin(),(x).end()
+#define MS0(x,n) memset((x),0,(n)*sizeof(*x))
+#define MS1(x,n) memset((x),-1,(n)*sizeof(*x))
+#define MP make_pair
+#define PB push_back
+#define RI(a) scanf("%d",&(a))
+#define RII(a,b) scanf("%d%d",&(a),&(b))
+#define RIII(a,b,c) scanf("%d%d%d",&(a),&(b),&(c))
+using namespace std;
+typedef long long LL;
+typedef pair<int,int> PII;
+typedef vector<int> VI;
+// }}}
+
+int n,a[100010];
+int main() {
+    RI(n);
+    REP(i,n) RI(a[i]);
+    int c[3]={};
+    REP(i,n) {
+        if ( a[i]==25 ) c[0]++;
+        else if ( a[i]==50 ) {
+            if ( !c[0] ) return puts("NO"),0;
+            c[0]--;
+            c[1]++;
+        } else if ( a[i]==100 ) {
+            if ( c[1] ) a[i]-=50,c[1]--;
+            while ( a[i]>25 && c[0] ) a[i]-=25,c[0]--;
+            if ( a[i]>25 ) return puts("NO"),0;
+            c[2]++;
+        }
+    }
+    puts("YES");
+    return 0;
+}

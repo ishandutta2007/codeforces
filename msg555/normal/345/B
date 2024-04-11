@@ -1,0 +1,34 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;  
+with Ada.Strings.Fixed;
+
+procedure B is
+    function getRepr(N, Base: Integer) return String is
+    begin
+        if N = 0 then
+          return "";
+        else
+          return getRepr(N / Base, Base) &
+                        Ada.Strings.Fixed.Trim(Integer'Image(N rem Base),
+                                               Ada.Strings.Left);
+        end if;
+    end;
+
+    N: Natural;
+    result: Integer;
+begin
+
+    Ada.Integer_Text_IO.get(Item => N);
+    if Ada.Strings.Fixed.Index(getRepr(N, N + 1), "13") /= 0 then
+        result := -1;
+    else
+        result := 0;
+        for Base in 2 .. N loop
+            if Ada.Strings.Fixed.Index(getRepr(N, Base), "13") /= 0 then
+                result := result + 1;
+            end if;
+        end loop;
+    end if;
+    Ada.Integer_Text_IO.put(Item => result, Width => 0);
+end B;

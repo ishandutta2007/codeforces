@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define FOr(i,x,y)  for(ll i=x;i>=y;--i)
+#define For(i,x,y)	for(ll i=x;i<=y;++i)
+using namespace std;
+namespace SHENZHEBEI{
+#ifdef LOCAL
+	struct szb{	szb(){	freopen("shenzhebei.in","r",stdin);	}	}shenzhebei;
+#endif
+#define NEG 1
+	const int L=2333333;
+	char SZB[L],*S=SZB,*T=SZB;
+	inline char gc(){	if (S==T){	T=(S=SZB)+fread(SZB,1,L,stdin);	if (S==T) return '\n';	}	return *S++;	}
+#if NEG
+	inline ll readint(){	ll x=0,f=1;	char ch=gc();	for (;!isdigit(ch);ch=gc())	if (ch=='-') f=-1;	for (;isdigit(ch);ch=gc())	x=x*10-48+ch;	return x*f;	}
+	inline void write(ll x){	if (x<0)	putchar('-'),x=-x;	if (x>=10)	write(x/10);	putchar(x%10+'0');	}
+#else
+	inline ll readint(){	ll x=0;	char ch=gc();	for (;!isdigit(ch);ch=gc());	for (;isdigit(ch);ch=gc())	x=x*10-48+ch;	return x;	}
+	inline void write(ll x){	if (x>=10)	write(x/10);	putchar(x%10+'0');	}
+#endif
+	inline char readchar(){	char ch=gc();	for(;isspace(ch);ch=gc());	return ch;	}
+	inline ll readstr(char *s){	char ch=gc();	int cur=0;	for(;isspace(ch);ch=gc());		for(;!isspace(ch);ch=gc())	s[cur++]=ch;	s[cur]='\0';	return cur;	}
+	inline void writeln(ll x){	write(x);	puts("");	}
+}using namespace SHENZHEBEI;
+const ll N=1000010;
+struct data{	ll x,y,id;	}p[N];
+ll n,block=2000;
+bool operator < (data a,data b){	return a.x/block==b.x/block?a.y<b.y:a.x<b.x;	}
+int main(){
+	n=readint();
+	For(i,1,n)	p[i].x=readint(),p[i].y=readint(),p[i].id=i;
+	sort(p+1,p+n+1);
+	For(i,1,n)	printf("%I64d ",p[i].id);
+}

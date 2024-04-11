@@ -1,0 +1,11 @@
+set line [gets stdin]
+scan $line "%d%d" a b
+while { $b < 0 } {
+    incr a -1
+    incr b
+}
+while { $b > 0} {
+    incr b -1
+    incr a
+}
+puts $a

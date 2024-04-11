@@ -1,0 +1,1 @@
+main=interact$unlines.map(unwords.map show.(\n->[2*(i+n)|i<-[1..n]]).read).drop 1.words

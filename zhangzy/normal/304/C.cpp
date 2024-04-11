@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+int n;int main(){scanf("%d",&n);if (n%2==0){printf("-1");}else{for (int i=0;i<n;i++)printf("%d ",i);printf("\n");for (int i=0;i<n;i++)printf("%d ",(i+1)%n);printf("\n");for (int i=0;i<n;i++)printf("%d ",(i+i+1)%n);}}

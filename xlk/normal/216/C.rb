@@ -1,0 +1,1 @@
+n,m,k=gets.split.map &:to_i;z=[1]*k+[n]+[n+1]*(k-1);if m>n-(k>1?1:2) then z<<2*n-(k>1?0:1) end;n==2&&m==2&&k==1&&z<<4;p z.size;puts z.join' '

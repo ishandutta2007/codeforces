@@ -1,0 +1,307 @@
+#ifndef __clang__
+#pragma GCC optimize ("-O3")
+#endif
+#define _GLIBCXX_USE_CXX11_ABI 0
+#include <stdio.h>
+#include <bits/stdc++.h>
+
+#define DESTRUCT2(p, a, b)                      \
+  auto a = get<0>(p);                           \
+  auto b = get<1>(p);
+
+#define DESTRUCT3(p, a, b, c)                   \
+  auto a = get<0>(p);                           \
+  auto b = get<1>(p);                           \
+  auto c = get<2>(p);
+
+#define DESTRUCT4(p, a, b, c, d)                \
+  auto a = get<0>(p);                           \
+  auto b = get<1>(p);                           \
+  auto c = get<2>(p);                           \
+  auto d = get<3>(p);
+
+#define FOR(i, n)     for(int i = 0; i < (int)(n); ++i)
+#define FORU(i, j, k) for(int i = (j); i <= (int)(k); ++i)
+#define FORD(i, j, k) for(int i = (j); i >= (int)(k); --i)
+
+#define SQ(x) ((x)*(x))
+
+#define all(x) begin(x), end(x)
+#define rall(x) rbegin(x), rend(x)
+#define mp make_pair
+#define mt make_tuple
+#define pb push_back
+#define eb emplace_back
+
+using namespace std;
+
+template<typename... As>
+struct tpl : public std::tuple<As...> {
+  using std::tuple<As...>::tuple;
+
+  template<typename T = tuple<As...> >
+  typename tuple_element<0, T>::type const&
+  x() const { return get<0>(*this); }
+  template<typename T = tuple<As...> >
+  typename tuple_element<0, T>::type&
+  x() { return get<0>(*this); }
+
+  template<typename T = tuple<As...> >
+  typename tuple_element<1, T>::type const&
+  y() const { return get<1>(*this); }
+  template<typename T = tuple<As...> >
+  typename tuple_element<1, T>::type&
+  y() { return get<1>(*this); }
+
+  template<typename T = tuple<As...> >
+  typename tuple_element<2, T>::type const&
+  z() const { return get<2>(*this); }
+  template<typename T = tuple<As...> >
+  typename tuple_element<2, T>::type&
+  z() { return get<2>(*this); }
+
+  template<typename T = tuple<As...> >
+  typename tuple_element<3, T>::type const&
+  w() const { return get<3>(*this); }
+  template<typename T = tuple<As...> >
+  typename tuple_element<3, T>::type&
+  w() { return get<3>(*this); }
+};
+
+using lli   = int;
+using llu   = long long unsigned;
+
+using pii   = tpl<lli, lli>;
+using piii  = tpl<lli, lli, lli>;
+using piiii = tpl<lli, lli, lli, lli>;
+using vi    = vector<lli>;
+using vii   = vector<pii>;
+using viii  = vector<piii>;
+using vvi   = vector<vi>;
+using vvii  = vector<vii>;
+using vviii = vector<viii>;
+
+template<class T>
+using min_queue = priority_queue<T, vector<T>, greater<T> >;
+template<class T>
+using max_queue = priority_queue<T>;
+
+template<size_t... I>
+struct my_index_sequence {
+  using type = my_index_sequence;
+  static constexpr array<size_t, sizeof...(I)> value = { {I}... };
+};
+
+namespace my_index_sequence_detail {
+  template<typename I, typename J> struct concat;
+  template<size_t... I, size_t... J>
+  struct concat<my_index_sequence<I...>, my_index_sequence<J...> > :
+    my_index_sequence<I..., (sizeof...(I)+J)...> { };
+  template<size_t N> struct make_index_sequence :
+    concat<typename make_index_sequence<N/2>::type, typename make_index_sequence<N-N/2>::type>::type { };
+  template <> struct make_index_sequence<0> : my_index_sequence<>{};
+  template <> struct make_index_sequence<1> : my_index_sequence<0>{};
+}
+
+template<class... A>
+using my_index_sequence_for = typename my_index_sequence_detail::make_index_sequence<sizeof...(A)>::type;
+
+template<class T, size_t... I>
+void print_tuple(ostream& s, T const& a, my_index_sequence<I...>){
+  using swallow = int[];
+  (void)swallow{0, (void(s << (I == 0? "" : ", ") << get<I>(a)), 0)...};
+}
+
+template<class T>
+ostream& print_collection(ostream& s, T const& a){
+  s << '[';
+  for(auto it = begin(a); it != end(a); ++it){
+    s << *it;
+    if(it != prev(end(a))) s << " ";
+  }
+  return s << ']';
+}
+
+template<class... A>
+ostream& operator<<(ostream& s, tpl<A...> const& a){
+  s << '(';
+  print_tuple(s, a, my_index_sequence_for<A...>{});
+  return s << ')';
+}
+
+template<class... A>
+ostream& operator<<(ostream& s, tuple<A...> const& a){
+  s << '(';
+  print_tuple(s, a, my_index_sequence_for<A...>{});
+  return s << ')';
+}
+
+template<class A, class B>
+ostream& operator<<(ostream& s, pair<A, B> const& a){
+  return s << "(" << get<0>(a) << ", " << get<1>(a) << ")";
+}
+
+template<class T, size_t I>
+ostream& operator<<(ostream& s, array<T, I> const& a) { return print_collection(s, a); }
+template<class T>
+ostream& operator<<(ostream& s, vector<T> const& a) { return print_collection(s, a); }
+template<class T, class U>
+ostream& operator<<(ostream& s, multimap<T, U> const& a) { return print_collection(s, a); }
+template<class T>
+ostream& operator<<(ostream& s, multiset<T> const& a) { return print_collection(s, a); }
+template<class T, class U>
+ostream& operator<<(ostream& s, map<T, U> const& a) { return print_collection(s, a); }
+template<class T>
+ostream& operator<<(ostream& s, set<T> const& a) { return print_collection(s, a); }
+
+namespace std {
+  namespace {
+    template <class T>
+    inline void hash_combine(size_t& seed, T const& v) {
+      seed ^= hash<T>()(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+    }
+    template <class Tuple, size_t Index = tuple_size<Tuple>::value - 1>
+    struct HashValueImpl {
+      static void apply(size_t& seed, Tuple const& tuple) {
+        HashValueImpl<Tuple, Index-1>::apply(seed, tuple);
+        hash_combine(seed, get<Index>(tuple));
+      }
+    };
+    template <class Tuple>
+    struct HashValueImpl<Tuple, 0> {
+      static void apply(size_t& seed, Tuple const& tuple) {
+        hash_combine(seed, get<0>(tuple));
+      }
+    };
+  }
+  template <typename ... TT>
+  struct hash<tuple<TT...>> {
+    size_t operator()(tuple<TT...> const& tt) const {
+      size_t seed = 0;
+      HashValueImpl<tuple<TT...> >::apply(seed, tt);
+      return seed;
+    }
+  };
+  template <typename ... TT>
+  struct hash<tpl<TT...>> {
+    size_t operator()(tpl<TT...> const& tt) const {
+      size_t seed = 0;
+      HashValueImpl<tpl<TT...> >::apply(seed, tt);
+      return seed;
+    }
+  };
+}
+
+//------------------------------------------------------------------------------
+
+// --- BEGIN SNIPPET RMQ ---
+
+template<typename T = int, typename O = less<T> >
+struct rmq {
+  static int ilog2(int x){ return 31 - __builtin_clz(x); }
+
+  vector<T> const& IN;
+  int n;
+  int ln;
+  vector<T> A;
+  vi B;
+
+  T& getA(int i, int j) { return A[ln*i+j]; }
+  lli& getB(int i, int j) { return B[ln*i+j]; }
+
+  rmq(vector<T> const& IN_) : IN(IN_) {
+    n = IN.size();
+    ln = ilog2(n)+1;
+    A.resize(n*ln);
+    B.resize(n*ln);
+    FOR(i, n) getA(i, 0) = IN[i];
+    FOR(i, n) getB(i, 0) = i;
+    FOR(j, ln-1) FOR(i, n+1-(1<<(j+1))) {
+      if(O()(getA(i, j), getA(i+(1<<j), j))){
+        getA(i, j+1) = getA(i, j);
+        getB(i, j+1) = getB(i, j);
+      }else{
+        getA(i, j+1) = getA(i+(1<<j), j);
+        getB(i, j+1) = getB(i+(1<<j), j);
+      }
+    }
+  }
+
+  // O(1) : rmq between a and b (included)
+  int query(int a, int b){
+    int d  = b-a+1;
+    int ld = ilog2(d);
+    if(O()(getA(a, ld), getA(b+1-(1<<ld), ld))){
+      return getB(a, ld);
+    }else{
+      return getB(b+1-(1<<ld), ld);
+    }
+  }
+
+
+  // If this is the lcp rmq, (queryLowL(j, size), queryLowR(j, size)) gives the range in the suffix array of suffixes sharing a prefix of length size
+
+};
+
+// --- END SNIPPET RMQ ---
+
+
+int read_positive(){
+  char c; int x=0;
+  do { c = getchar(); } while(c<'0' || c>'9');
+  while(c>='0'&&c<='9') {
+    x=10*x+(c-'0');
+    c = getchar();
+  }
+  return x;
+}
+
+
+
+bool A[1002][1002];
+int DP[1002][1002];
+int B[10][10][1002][1002];
+
+int ilog2(int x){ return 31 - __builtin_clz(x); }
+
+inline int val(int x1, int y1, int x2, int y2) {
+  int dx = x2-x1+1, dy = y2-y1+1;
+  int sx = ilog2(dx), sy = ilog2(dy);
+  int ax = 1<<sx, ay = 1<<sy;
+  int v = B[sx][sy][x1][y1];
+  v = max(v, B[sx][sy][x2+1-ax][y1]);
+  v = max(v, B[sx][sy][x1][y2+1-ay]);
+  v = max(v, B[sx][sy][x2+1-ax][y2+1-ay]);
+  return v;
+};
+
+int main(int, char**){
+  int n, m; n = read_positive(); m = read_positive();
+  FOR(i, n) FOR(j, m) A[i][j] = read_positive();
+  FOR(i, n) FOR(j, m) if(A[i][j]){
+    B[0][0][i][j] = DP[i+1][j+1] = min(DP[i][j], min(DP[i+1][j], DP[i][j+1]))+1;
+  }
+  FOR(a, 10) FOR(b, 10) if(a+b>0) {
+    int sa=1<<(a-1), sb=1<<(b-1);
+    if(a>0) {
+      FOR(i, n) FOR(j, m)
+        B[a][b][i][j] = max(B[a-1][b][i][j], B[a-1][b][i+sa][j]);
+    }else{
+      FOR(i, n) FOR(j, m)
+        B[a][b][i][j] = max(B[a][b-1][i][j], B[a][b-1][i][j+sb]);
+    }
+  }
+  int t = read_positive();
+  FOR(t_, t) {
+    int x1, y1, x2, y2; x1=read_positive(); y1=read_positive(); x2=read_positive(); y2=read_positive();
+    x1-=1; y1-=1; x2-=1; y2-=1;
+    int lo = 0, hi = min(x2-x1+1, y2-y1+1);
+    while(lo != hi) {
+      int mi = (lo+hi+1)/2;
+      if(val(x1+mi-1, y1+mi-1, x2, y2) >= mi) lo = mi;
+      else hi = mi-1;
+    }
+    printf("%d\n", lo);
+  }
+  return 0;
+}

@@ -1,0 +1,31 @@
+co yes {
+cout 89
+cout 69
+cout 83
+ac
+}
+
+co no {
+cout 78
+cout 79
+ac
+}
+
+cin [0]
+lt [1] [0] 33
+if [1]
+ca no
+if[1]
+ac
+
+eq [1] [0] 72
+eq [2] [0] 81
+eq [3] [0] 57
+
+add [2] [2] [3]
+add [1] [1] [2]
+
+if [1]
+ca yes
+if[1]
+ac

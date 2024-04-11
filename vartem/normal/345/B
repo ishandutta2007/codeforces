@@ -1,0 +1,46 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Strings.Fixed;
+
+with Ada.Strings.Unbounded;
+use Ada.Strings.unbounded;
+
+procedure ProblemB is
+
+	function Reverse_It (Item : String) return String is
+		Result : String (Item'Range);
+	begin
+		for I in Item'range loop
+			Result (Result'Last - I + Item'First) := Item (I);
+		end loop;
+		return Result;
+    end Reverse_It;
+   
+	N, M, Rmn, Result: Integer;
+	Number : Unbounded_String;	
+begin
+	declare
+		Line : String := Get_Line;
+		Idx: Natural :=  Ada.Strings.Fixed.Index(Source => Line, Pattern => "13");
+	begin
+		if (Idx > 0) then
+			Put_Line("-1");
+		else 
+			N := Integer'Value(Line);
+			Result := 0;
+			for Base in 2 .. N loop
+				Number := To_Unbounded_String("");
+				M := N;
+				while M > 0 loop
+					Rmn := M mod Base;
+					Append(Number, Reverse_It(Ada.Strings.Fixed.Trim (Integer'Image (Rmn), Ada.Strings.Left)));
+					M := M / Base;
+				end loop;
+				if (Index(Source => Number, Pattern => "31") > 0) then
+					Result := Result + 1;
+				end if;
+			end loop;
+			Ada.Integer_Text_IO.Put(Result);
+		end if;
+	end;
+end ProblemB;

@@ -1,0 +1,48 @@
+with Ada.Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Integer_Text_IO;
+
+procedure b is
+    q: String(1 .. 60);
+    qp: Natural;
+    n: Natural;
+    c: Integer;
+    x: Natural;
+    z: Natural;
+    v: Natural;
+    a: Natural;
+    b: Natural;
+
+begin
+    get_line(q, qp);
+    n := Integer'Value(q(1 .. qp));
+    c := 0;
+    for i in 2 .. n loop
+        x := n;
+        v := 0;
+        b := 0;
+        while x > 0 loop
+            z := x mod i;
+            if z = 0 then
+                b := 0;
+            end if;
+            while z > 0 loop
+                a := z mod 10;
+                if a = 1 and b = 3 then
+                    v := 1;
+                end if;
+                b := a;
+                z := z / 10;
+            end loop;
+            x := x / i;            
+        end loop;
+        if v = 1 then
+            c := c+1;
+        end if;
+    end loop;
+    for i in 1 .. qp-1 loop
+        if q(i .. i+1) = "13" then
+            c := -1;
+        end if;
+    end loop;
+    put(c, Width => 1);    
+end b;

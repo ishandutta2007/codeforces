@@ -1,0 +1,31 @@
+main =>
+    A = read_int(),
+    B = read_int(),
+    C = read_int(),
+    X = 0,
+    Y = 0,
+    Count = 0,
+    foreach(I in 1 .. 1000000)
+        X := I,
+        Y := (C - A * X) div B,
+        if(Y > 0) then
+        
+            if A * X + B * Y == C then
+                Count := Count + 1
+            end
+        end
+     end,
+     println(Count),
+     foreach(I in 1 .. 1000000)
+        X := I,
+        Y := (C - A * X) div B,
+        if(Y > 0) then
+        
+            if A * X + B * Y == C then
+                Count := Count + 1,
+                print(X),
+                print(' '),
+                println(Y)
+            end
+        end
+     end.

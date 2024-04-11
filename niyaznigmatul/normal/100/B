@@ -1,0 +1,49 @@
+int nextChar() 
+{
+        return Stdio.stdin->getchar();
+}
+ 
+int nextInt()
+{
+        int ans = 0;
+        int c = nextChar();
+        while (c < '0' || c > '9')
+        {
+                c = nextChar();
+        }
+        while (c >= '0' && c <= '9')
+        {
+                ans = ans * 10 + c - '0';
+                c = nextChar();
+        }
+        return ans;
+}
+ 
+void print(string s)
+{
+        Stdio.stdout->write(s);
+}
+ 
+int main()
+{
+        int n = nextInt();
+        array a = ({});
+        for (int i = 0; i < n; i++)
+        {
+                a = a + ({0});
+                a[i] = nextInt();
+        }
+        for (int i = 0; i < n; i++)
+        {
+                for (int j = i + 1; j < n; j++)
+                {
+                        if (a[i] % a[j] != 0 && a[j] % a[i] != 0)
+                        {
+                                print("NOT FRIENDS");
+                                return 0;
+                        }
+                }
+        }
+        print("FRIENDS");
+        return 0;
+}

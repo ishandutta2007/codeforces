@@ -1,0 +1,57 @@
+co f1
+{
+    set [7] [[4]]
+    set [[4]] [[5]]
+    set [[5]] [7]
+    set [2] 1
+    ac
+}
+
+co loop
+{
+    eq [3] [0] [1]
+    if [3] ac
+    add [4] [0] 99
+    add [5] [4] 1
+    gt [6] [[4]] [[5]]
+    if [6] ca f1
+    inc [0]
+}
+
+co sort
+{
+    set [0] 0
+    set [2] 0
+    ca loop
+    eq [8] [2] 0
+    if [8] ac
+}
+
+co read
+{
+    eq [10] [9] 0
+    if [10] ac
+    iin [[11]]
+    inc [11]
+    dec [9]
+}
+
+co write
+{
+    eq [10] [9] 0
+    if [10] ac
+    iout[[11]]
+    cout 32
+    inc [11]
+    dec [9]
+}
+
+iin [1]
+set [9] [1]
+set [11] 100
+ca read
+ca sort
+set [9] [1]
+set [11] 100
+ca write
+ac

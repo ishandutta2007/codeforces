@@ -1,0 +1,18 @@
+main =>
+    Line = read_line(),
+    A = length(Line),
+    Line2 = Line,
+    Count = 0,
+    while(2 * Count != A) 
+        Count := Count + 1
+    end,
+    Count2 = Count,
+    while(Count > 0)
+        write(Line[Count]),
+        Count := Count - 1
+    end,
+    while(A != Count2)
+        write(Line[A]),
+        A := A - 1
+    end,
+    print('').

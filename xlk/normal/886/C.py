@@ -1,0 +1,1 @@
+print input()+1-len(set(raw_input().split()))

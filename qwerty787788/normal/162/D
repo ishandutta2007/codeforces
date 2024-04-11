@@ -1,0 +1,6 @@
+USING: kernel io regexp sequences unicode.case math math.functions math.parser strings ;
+USING: math.order ;
+IN: ascii
+IN: kernel
+: digit? ( ch -- ? ) 48 57 between? ; inline
+readln [ digit? not ] filter print

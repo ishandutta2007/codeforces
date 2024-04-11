@@ -1,0 +1,26 @@
+      IDENTIFICATION DIVISION.
+         PROGRAM-ID. SOLUTION.
+
+         DATA DIVISION.
+         WORKING-STORAGE SECTION.
+         01 TMP      PIC X(100).
+         01 STR      PIC X(100).
+         01 K        PIC S9(10).
+         01 CDAY     PIC S9(10).
+
+         PROCEDURE DIVISION.
+           ACCEPT TMP
+           STRING TMP(7:4), TMP(4:2), TMP(1:2) INTO STR
+
+           ACCEPT TMP
+           MOVE TMP TO K
+
+           MOVE FUNCTION INTEGER-OF-DATE(STR) TO CDAY
+           MOVE FUNCTION DATE-OF-INTEGER(CDAY) TO STR
+           ADD K TO CDAY
+           MOVE FUNCTION DATE-OF-INTEGER(CDAY) TO STR
+
+           STRING STR(7:2), ".", STR(5:2), ".", STR(1:4) INTO TMP
+           DISPLAY TMP
+
+           STOP RUN.

@@ -1,0 +1,59 @@
+with Ada.Strings;
+with Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+with Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;
+
+procedure Main is
+    package T_IO renames Ada.Text_IO;
+    package F_IO renames Ada.Float_Text_IO;
+    package I_IO renames Ada.Integer_Text_IO;
+    package STR renames Ada.Strings;
+
+    N : Integer;
+    T : String (1..10);
+    Tlen : Integer;
+    Res : Integer;
+begin
+    I_IO.Get(N);
+    Res := 0;
+    T_IO.Get_Line(T, Tlen);
+
+    For I in Integer range 1 .. N loop
+        declare
+            S : String (1..50);
+            Len : Integer;
+            H : Integer;
+            Y : Integer;
+            M : Integer;
+            D : Integer;
+            W : Integer;
+        begin
+            T_IO.Get_Line(S, Len);
+
+            Y := Integer'Value(S (1 .. 4));
+            M := Integer'Value(S (6 .. 7));
+            D := Integer'Value(S (9 .. 10));
+
+            if M = 1 then
+                M := 13;
+                Y := Y - 1;
+            elsif M = 2 then
+                M := 14;
+                Y := Y - 1;
+            end if;
+            H := Y / 100;
+            Y := Y mod 100;
+            W := Y + (Y / 4) + (H / 4) - 2 * H + (13 * (M + 1) / 5) + D;
+            W := W mod 7;
+
+            if D = 13 and W = 6 then
+                Res := Res + 1;
+            end if;
+        end;
+    end loop;
+
+    I_IO.Put(Res);
+    T_IO.New_Line;
+end;

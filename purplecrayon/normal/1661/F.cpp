@@ -22,10 +22,17 @@ int n;
 ll a[N], m, M;
 pair<ll, int> b[N];
 
+<<<<<<< HEAD
 // chia len thành k do?n
 ll calc(int len, int k) {
     int lenk = len / k;
     int x = len - lenk * k; // lu?ng do?n d? dài len/k + 1
+=======
+// chia len thnh k do?n
+ll calc(int len, int k) {
+    int lenk = len / k;
+    int x = len - lenk * k; // lu?ng do?n d? di len/k + 1
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
     return (ll)lenk * lenk * (k - x) + (ll)(lenk + 1) * (lenk + 1) * x;
 }
 

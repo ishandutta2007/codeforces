@@ -1,0 +1,40 @@
+let read_int() = Scanf.scanf " %d" (fun x -> x) in
+
+let n = read_int() and m = read_int() in
+
+let a = Array.init n (fun _ -> let x = read_int() in (x,x)) in
+
+let swap i j = 
+  let (xi, yi),(xj, yj) = a.(i),a.(j) in
+  begin
+    a.(i) <- (xi, yj);
+    a.(j) <- (xj, yi);
+  end in
+
+let rec f i j =
+  if i = Array.length a || j = Array.length a then ()
+  else if i = j || fst a.(i) = fst a.(j) then f i (j+1)
+  else begin
+    swap i j;
+    f (i+1) (j+1);
+  end
+  in f 0 0;
+
+let rec f i =
+  if i = Array.length a then ()
+  else begin
+    let rec g j =
+      if j = Array.length a then ()
+      else if fst a.(i) <> fst a.(j) && fst a.(i) <> snd a.(j) then
+      begin
+        swap i j;
+      end
+      else g (j+1)
+      in
+    if fst a.(i) = snd a.(i) then g 0;
+    f (i+1);
+  end
+  in f 0;
+
+Printf.printf "%d\n" (Array.fold_left (fun acc (x,y) -> acc + (if x <> y then 1 else 0)) 0 a);
+Array.iter (fun (x,y) -> Printf.printf "%d %d\n" x y) a;

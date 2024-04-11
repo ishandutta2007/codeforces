@@ -1,0 +1,64 @@
+T=int(input())
+for i in range(T):
+    s=str(input())
+    u=s[0:len(s):1]
+    k=[[],[],[]]
+    for i in range(len(s)):
+        a=s[i]
+        try:
+            int(a)
+            k[0].append(i)
+        except:
+            if(a==a.lower()):
+                k[1].append(i)
+            else:
+                k[2].append(i)
+    s=u
+    if(len(k[0])==0):
+        if(len(k[1])>1):
+            a=k[1][1]
+            s=s[0:a:1]+"1"+s[(a+1):(len(s)):1]
+        elif(len(k[2])>1):
+            a=k[2][1]
+            s=s[0:a:1]+"1"+s[(a+1):(len(s)):1]
+    u=s[0:len(s):1]
+    k=[[],[],[]]
+    for i in range(len(s)):
+        a=s[i]
+        try:
+            int(a)
+            k[0].append(i)
+        except:
+            if(a==a.lower()):
+                k[1].append(i)
+            else:
+                k[2].append(i)
+    s=u
+    if(len(k[1])==0):
+        if(len(k[0])>1):
+            a=k[0][1]
+            s=s[0:a:1]+"a"+s[(a+1):(len(s)):1]
+        elif(len(k[2])>1):
+            a=k[2][1]
+            s=s[0:a:1]+"a"+s[(a+1):(len(s)):1]
+    u=s[0:len(s):1]
+    k=[[],[],[]]
+    for i in range(len(s)):
+        a=s[i]
+        try:
+            int(a)
+            k[0].append(i)
+        except:
+            if(a==a.lower()):
+                k[1].append(i)
+            else:
+                k[2].append(i)
+    s=u
+    if(len(k[2])==0):
+        if(len(k[1])>1):
+            a=k[1][1]
+            s=s[0:a:1]+"A"+s[(a+1):(len(s)):1]
+        elif(len(k[0])>1):
+            a=k[0][1]
+            s=s[0:a:1]+"A"+s[(a+1):(len(s)):1]
+    print(s)

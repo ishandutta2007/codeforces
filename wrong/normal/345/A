@@ -1,0 +1,31 @@
+with Ada.Strings;
+use Ada.Strings;
+with Ada.Text_IO;
+with Ada.Float_Text_IO;
+
+procedure Main is
+    package T_IO renames Ada.Text_IO;
+    package F_IO renames Ada.Float_Text_IO;
+
+    Str : String(1..50);
+    Last : Natural;
+    P : Float;
+    Res : Float;
+begin
+    T_IO.Get_Line(Str, Last);
+    F_IO.Get(Item => P);
+
+    Res := 0.0;
+
+    For I in Integer range 1 .. Last loop
+        if Str(I) = '1' then
+            Res := Res + 1.0;
+        elsif Str(I) = '?' then
+            Res := Res + P;
+        end if;
+    end loop;
+
+    Res := Res / float(Last);
+    F_IO.Put(Item => Res, Fore => 1, Aft => 5, Exp => 0);
+    T_IO.New_Line;
+end;

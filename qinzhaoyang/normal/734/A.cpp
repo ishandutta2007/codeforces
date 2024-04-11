@@ -1,0 +1,2 @@
+#include <iostream>
+using namespace std;int main(){int n , cnta = 0;char c;cin >> n;for(int i = 1; i <= n; i++){	cin >> c;	if(c == 'A')		cnta++;}if(cnta * 2 == n)	cout << "Friendship" << endl;else if(cnta * 2 < n)	cout << "Danik" << endl;else	cout << "Anton" << endl;return 0;}

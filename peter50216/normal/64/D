@@ -1,0 +1,16 @@
+set line [gets stdin]
+#
+scan $line "%d %d %d" a1 a2 a3
+if {$a1 <= $a2 && $a2 <= $a3} {
+puts "3 2 1"
+} elseif {$a1 <= $a3 && $a3 <= $a2} {
+puts "3 1 2"
+} elseif {$a2 <= $a1 && $a1 <= $a3} {
+puts "2 3 1"
+} elseif {$a2 <= $a3 && $a3 <= $a1} {
+puts "1 3 2"
+} elseif {$a3 <= $a1 && $a1 <= $a2} {
+puts "2 1 3"
+} else {
+puts "1 2 3"
+}

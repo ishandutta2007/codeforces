@@ -1,0 +1,10 @@
+main =>
+    N = read_int(),
+    D = read_int(),
+    I = 0,
+    while (I < N - 2)
+        print("1 "),
+        I := I + 1
+    end,
+    print("2 "),
+    println(D + N).

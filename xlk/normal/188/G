@@ -1,0 +1,30 @@
+co rd{
+	iin [101]
+	inc [[101]]
+	inc [102]
+	eq [103] [0] [102]
+	if [103]
+		ac
+}
+co o{
+	eq [104] [103] [[102]]
+	if [104]
+		ac
+	inc [103]
+	iout [102]
+	cout 32
+}
+co pt{
+	set [103] 0
+	if [[102]]
+		ca o
+	inc [102]
+	eq [103] [102] 101
+	if [103]
+		ac
+}
+iin [0]
+ca rd
+set [102] 1
+ca pt
+ac

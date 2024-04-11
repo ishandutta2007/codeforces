@@ -1,0 +1,22 @@
+USING: io kernel math math.parser sequences locals unicode.case arrays ;
+IN: g
+:: fromdig ( c -- i )
+   c CHAR: 9 <= 
+   [ c CHAR: 0 - ]
+   [ c CHAR: A - 10 + ]
+   if ;
+:: todig ( i -- c )
+   i 9 <= 
+   [ i CHAR: 0 + ]
+   [ i CHAR: A + 10 - ]
+   if ;
+:: toint ( string radix -- int )
+   string 0 [| n c | n radix * c fromdig + ] reduce ;
+:: fromint ( int radix -- string )
+   "" int [| str int | str int radix mod todig prefix int radix /i dup zero? not ] loop drop ;
+readln string>number
+readln string>number
+[| n radix | 
+   0 n [ readln radix toint + ] times
+   radix fromint print
+] call

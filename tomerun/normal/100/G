@@ -1,0 +1,26 @@
+int main()
+{
+    int n = (int)Stdio.stdin.gets();
+    mapping(string:int) used = ([]);
+    for (int i = 0; i < n; ++i) {
+        array album = Stdio.stdin.gets() / " ";
+        used[album[0]] = (int)album[1];
+    }
+    string ansName = "";
+    int oldest = 2012;
+    int m = (int)Stdio.stdin.gets();
+    for (int i = 0; i < m; ++i) {
+        string album = Stdio.stdin.gets();
+        int year = 1;
+        if(used[album]) {
+            year = used[album];
+        }
+        if(year < oldest) {
+            oldest = year;
+            ansName = album;
+        } else if (year == oldest && album > ansName) {
+            ansName = album;
+        }
+    }
+    write(ansName);
+}

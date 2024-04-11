@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int n,p,x,y;double r=0,t,f,k;double z(int x,int y){return(double)(y/p-(x-1)/p)/(y-x+1);}main(){for(cin>>n>>p,cin>>x>>y,n--,k=f=z(x,y);n;n--)cin>>x>>y,t=z(x,y),r+=t+f-t*f,f=t;printf("%f",(r+t+k-t*k)*2000);}

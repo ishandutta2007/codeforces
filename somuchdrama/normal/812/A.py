@@ -1,0 +1,2 @@
+a = [list(map(int, input().split())) for i in range(4)]
+print(("NO", "YES")[any((i[0] or i[1] or i[2]) and i[3] for i in a) or any(any(a[i][j] and a[(i - j + 3) % 4][3] for i in range(4)) for j in range(3))])

@@ -1,0 +1,23 @@
+let read_int () = Scanf.scanf " %d" (fun x -> x) in
+
+let n = read_int() and m = read_int() in
+let a = Array.init n (fun _ -> read_int()) in
+let e = Array.init 100001 (fun _ -> false) in
+let b = Array.make n 0 in
+
+b.(n-1) <- 1;
+e.(a.(n-1)) <- true;
+
+for i = n-2 downto 0 do
+  b.(i) <- b.(i+1);
+  if not e.(a.(i)) then
+  begin
+    e.(a.(i)) <- true;
+    b.(i) <- b.(i) + 1;
+  end
+done;
+
+for i = 1 to m do
+  let l = read_int() in
+    Printf.printf "%d\n" b.(l-1);
+done;

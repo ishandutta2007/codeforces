@@ -1,0 +1,9 @@
+for {gets stdin n} {$n>0} {incr n -1} {lappend s [gets stdin]}
+set s [lsort -decreasing -integer -index 1 [lsort -index 0 $s]]
+set l 0
+set r 0
+for {set i 0} {$i<[llength $s]} {incr i} {
+	while {$l<[llength $s]&&[lindex [lindex $s $l] 1]>[lindex [lindex $s $i] 1]} {incr l}
+	while {$r<[llength $s]&&[lindex [lindex $s $r] 1]>=[lindex [lindex $s $i] 1]} {incr r}
+	if {$l+1==$r} {puts "$r [lindex [lindex $s $i] 0]"} {puts "[expr $l+1]-$r [lindex [lindex $s $i] 0]"}
+}

@@ -27,7 +27,11 @@ struct A {
 	bool operator==(A o){ return ull(*this) == ull(o); }
 	bool operator!=(A o){ return ull(*this) != ull(o); }
 };
+<<<<<<< HEAD
 typedef A<1000000007, A<1000000009, unsigned>> H;
+=======
+typedef A<1000000009, unsigned> H;
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
 H pw[MAXN];
 
 struct HashInterval { //get hashes of any interval

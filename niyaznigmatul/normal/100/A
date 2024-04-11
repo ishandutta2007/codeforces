@@ -1,0 +1,39 @@
+int nextChar() 
+{
+        return Stdio.stdin->getchar();
+}
+ 
+int nextInt()
+{
+        int ans = 0;
+        int c = nextChar();
+        while (c < '0' || c > '9')
+        {
+                c = nextChar();
+        }
+        while (c >= '0' && c <= '9')
+        {
+                ans = ans * 10 + c - '0';
+                c = nextChar();
+        }
+        return ans;
+}
+ 
+void print(string s)
+{
+        Stdio.stdout->write(s);
+}
+ 
+int main()
+{
+        int n = nextInt();
+        int k = nextInt();
+        int n1 = nextInt();
+        int all = (n + n1 - 1) / n1;
+        all *= all;
+        if (k < all)
+                print("NO");
+        else
+                print("YES");
+        return 0;
+}

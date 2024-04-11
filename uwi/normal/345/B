@@ -1,0 +1,72 @@
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with Ada.Text_IO;
+use  Ada.Text_IO;
+with Ada.Integer_Text_IO;
+use  Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;
+use  Ada.Float_Text_IO;
+
+
+procedure Main is
+  n : Integer;
+  b : Integer;
+  d : Integer;
+  c : Integer;
+  u : Integer := 0;
+  ct : Integer := 0;
+  x, v : Long_Long_Integer := 0;
+  y : Integer;
+
+begin
+	Get(n);
+	c := n;
+	d := 0;
+	while c > 0 loop
+		if (c mod 100) = 13 then
+			Put(-1);
+			d := 1;
+			c := 0;
+		end if;
+		c := c / 10;
+	end loop;
+	if d = 0 then
+		for b in 4..n+1 loop
+			if b <= 400 then
+				c:=1;
+				while c <= n loop
+					c := c * b;
+				end loop;
+				c := c / b;
+			else
+				c := b;
+			end if;
+			x := 0;
+			while c >= 1 loop
+				u := n/c mod b;
+				v := Long_Long_Integer(u);
+				if u >= 10000 then
+					x := x * 100000 + v;
+				elsif u >= 1000 then
+					x := x * 10000 + v;
+				elsif u >= 100 then
+					x := x * 1000 + v;
+				elsif u >= 10 then
+					x := x * 100 + v;
+				else
+					x := x * 10 + v;
+				end if;
+				c := c / b;
+			end loop;
+			while x >= 12 loop
+				y := Integer(x mod 100);
+				if y = 13 then
+					ct := ct + 1;
+					x := 0;
+				end if;
+				x := x / 10;
+			end loop;
+		end loop;
+		Put(ct);
+	end if;
+end;

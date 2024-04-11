@@ -1,0 +1,24 @@
+proc check {n} {
+  set i 2
+  while {[expr "$i*$i"] <= $n} {
+    if {[expr "$n%$i"] == 0} {
+       return 0
+    }
+    set i [expr "$i+1"]
+  }
+  return 1
+}
+ 
+ 
+set n [gets stdin]
+set a $n
+while {[check $a] == 0} {
+set a [expr "$a-1"]
+}
+ 
+set b $n
+while {[check $b] == 0} {
+set b [expr "$b+1"]
+}
+ 
+puts "$a $b"

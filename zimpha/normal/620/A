@@ -1,0 +1,15 @@
+let xint() = Scanf.scanf " %ld" (fun x -> x)
+
+let () = 
+  let x1 = xint() and y1 = xint() in
+  let x2 = xint() and y2 = xint() in
+  let abs x = 
+    if Int32.compare x 0l < 0 then Int32.sub 0l x
+    else x
+  in
+  let x = abs (Int32.sub x2 x1) in
+  let y = abs (Int32.sub y2 y1) in
+  Printf.printf "%ld\n" (
+    if Int32.compare x y > 0 then x
+    else y
+  )

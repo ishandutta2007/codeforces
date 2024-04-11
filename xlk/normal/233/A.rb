@@ -1,0 +1,1 @@
+n=gets.to_i;puts [[*1..n].reverse*' ',-1][n%2]

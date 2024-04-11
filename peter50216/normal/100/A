@@ -1,0 +1,7 @@
+int main(){
+    int a,b,c;
+    string s=Stdio.stdin->gets();
+    sscanf(s,"%d %d %d",a,b,c);
+    if(b>=4||a==c)write("YES");
+    else write("NO");
+}

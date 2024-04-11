@@ -1,0 +1,6 @@
+scan [gets stdin] "%d" n
+set result 1
+for {set i $n} {$n ne 0} {incr n -1} {
+    set result [expr $result * $n]
+}
+puts "$result"

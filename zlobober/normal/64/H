@@ -1,0 +1,48 @@
+proc compare { a b } {
+	if { [lindex $a 1] > [lindex $b 1] } {
+		return -1
+	} elseif { [lindex $a 1] < [lindex $b 1] } {
+		return 1
+	} else {
+		return [string compare [lindex $a 0] [lindex $b 0]]
+	}
+}
+
+
+
+
+
+
+set line [gets stdin]
+scan $line "%d" n
+
+for {set i 0} {$i < $n} {incr i} {
+	set line [gets stdin]
+	scan $line "%s %d" a b
+	set q ""
+	lappend q $a
+	lappend q $b
+	lappend L $q
+}
+#puts $L
+
+set L [lsort -command compare $L]
+lappend L [list zzzzz 999999]
+set cur [lindex [lindex L 0] 1]
+set curi 0
+set n [expr $n + 1]
+for {set i 0} {$i < $n} {incr i} {
+	if {[lindex [lindex $L $i] 1] == $cur} {
+		
+	} else {
+		for {set j $curi} {$j < $i} {incr j} {
+			if {[expr $i - 1] != $curi} {
+				puts [format "%d-%d %s" [expr 1 + $curi] [expr $i] [lindex [lindex $L $j] 0]]
+			} else {
+				puts [format "%d %s" [expr 1 + $curi] [lindex [lindex $L $j] 0]]
+			}
+		}
+		set cur [lindex [lindex $L $i] 1]
+		set curi $i
+	}
+}

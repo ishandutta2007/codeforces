@@ -1,0 +1,12 @@
+set line [gets stdin]
+scan $line "%d%d%d" n m k
+set row 1
+while {[expr $k > $n]} {
+    incr row 1
+    incr k -$n
+}
+while {[expr $k > 1]} {
+    incr k -1
+    incr row $m
+}
+puts $row

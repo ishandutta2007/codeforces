@@ -1,0 +1,82 @@
+with Ada.Text_IO;
+use Ada.Text_IO;
+with  Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+
+
+procedure TaskD is
+   n, i, j: integer;
+   res: integer;
+   f: array(0..50) of integer;
+   aj: array(0..50) of integer;
+   c: character;
+   x, y, p: integer;
+   
+begin
+    get(n);
+    res := 0;
+    
+    i := 0;
+    loop 
+        exit when i >= n;
+        f(i) := i;
+        aj(i) := 0;
+        i := i + 1;
+    end loop;
+    
+    i := 0;
+    loop
+        exit when i >= n;
+        
+        j := 0;
+        loop
+            exit when j >= n;
+            
+            get(c);
+            
+            if c = '0' then
+                j := j + 1;
+            end if;
+            
+            if c = '1' then
+                if i < n - 1 and j < n - 1 then
+                    x := f(i);
+                    y := f(j);
+                    p := 0;
+                    loop
+                        exit when p >= n;
+                        if f(p) = y then
+                            f(p) := x;
+                        end if;
+                        p := p + 1;
+                    end loop;
+                end if;
+                if i = n - 1 then
+                    aj(j) := 1;
+                end if;
+                if j = n - 1 then
+                    aj(j) := 1;
+                end if;
+                j := j + 1;
+            end if;
+            
+        end loop;
+        i := i + 1;
+    end loop;
+    
+    
+    i := 0;
+    loop
+        exit when i >= n;
+        if aj(i) = 1 and f(i) = f(0) then
+            res := res + 1;
+        end if;
+        i := i + 1;
+    end loop;
+    
+    put(res);
+    
+end TaskD;

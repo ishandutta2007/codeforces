@@ -1,0 +1,29 @@
+s := File standardInput readLine
+L := s size
+sol := ""
+solr := -1
+for(i, 0, L-1,
+  for(j, i, L-1,
+    t := s slice(i, j+1)
+    l := t size
+    r := 0
+    for(k, 0, L-l,
+      if(t == s slice(k, k+l), r = r + 1)
+    )
+    if(r > solr,
+      solr = r
+      sol = t,
+      if(r == solr,
+        if(sol size < l,
+	  solr = r
+	  sol = t,
+	  if(sol size == l and sol < t,
+	    solr = r
+	    sol = t
+          )
+	)
+      )
+    )
+  )
+)
+sol println

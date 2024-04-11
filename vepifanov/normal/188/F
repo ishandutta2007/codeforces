@@ -1,0 +1,29 @@
+co w0 {
+	neq [4] [3] 0
+	if [4] cout 48
+	ac
+}
+
+co w1 {
+	cout 49
+	set [3] 1
+	ac
+}
+
+co calc {
+	eq [2] [1] 0
+	if [2] ac
+	gt [2] [1] [0]
+	if [2] div [1] [1] 2
+	if [2] ca w0
+	sub [2] 1 [2]
+	if [2] sub [0] [0] [1]
+	if [2] div [1] [1] 2
+	if [2] ca w1
+}
+
+iin [0]
+set [1] 1048576
+set [3] 0
+ca calc
+ac

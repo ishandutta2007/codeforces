@@ -1,0 +1,40 @@
+USING: io kernel math math.parser sequences strings ;
+IN: main
+
+: no-digits ( seq -- newseq )
+  dup "" = [
+    dup
+    [ 1 head ] dip
+    1 tail
+    no-digits
+    swap
+
+    dup "0" = [
+    dup "1" = [
+    dup "2" = [
+    dup "3" = [
+    dup "4" = [
+    dup "5" = [
+    dup "6" = [
+    dup "7" = [
+    dup "8" = [
+    dup "9" = [
+      dup
+      [ swap append ] dip
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    ] unless
+    drop
+  ] unless
+  ;
+
+readln
+no-digits
+print

@@ -1,0 +1,60 @@
+int main(){
+    int n, m;
+    string s;
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",n);
+    array(int) co = allocate(n);
+    int i = 0;
+    do{
+      if(i == n)break;
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",m);
+    co[i] = m;
+    i++;
+    }while(i < n);
+    
+    array(int) prev = allocate(n+1);
+    prev[0] = 1;
+    i = 0;
+    do{
+      if(i == n)break;
+    array(int) cur = allocate(n+1);
+      int j = 0;
+      do{
+        if(j == i+1)break;
+        cur[j+1] += prev[j];
+        cur[j] += prev[j]*co[i];
+        j++;
+      }while(j <= i);
+      prev = cur;
+      i++;
+    }while(i < n);
+    
+    i = n;
+    do{
+      if(i < 0)break;
+      if(prev[i] != 0){
+        if(prev[i] > 0 && i < n){
+          write("+");
+        }
+        if(!(prev[i] == -1 || prev[i] == 1) || i == 0){
+          write("" + prev[i]);
+          if(i != 0){
+            write("*");
+          }
+        }else if(prev[i] == -1){
+            write("-");
+        }
+        if(i > 0){
+            write("X");
+            if(i >= 2){
+                write("^" + i);
+            }
+        }
+      }
+      i--;
+    }while(i >= 0);
+    write("\n");
+    
+    return 0;
+}

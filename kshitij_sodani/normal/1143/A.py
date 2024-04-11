@@ -1,0 +1,5 @@
+n=int(input())
+lr=list(map(int,input().split()))
+l_max=n-lr[-1::-1].index(0)
+r_max=n-lr[-1::-1].index(1)
+print(min(l_max,r_max))

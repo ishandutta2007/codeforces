@@ -1,0 +1,8 @@
+USING: kernel io regexp sequences unicode.case ;
+readln R/ [^HQ9]+/ re-split
+"" join
+"" =
+[ "NO" ]
+[ "YES" ]
+if 
+print

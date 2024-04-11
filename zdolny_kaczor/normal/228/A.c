@@ -1,0 +1,1 @@
+int s[97],i,x,a=52;main(){i++<4?scanf("%d",&x),a-=!s[x%97]++,main():puts(&a);}

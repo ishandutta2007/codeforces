@@ -1,0 +1,35 @@
+co scan{
+    eq [102] [101] [0]
+    if [102] ac
+    inc [101]
+    iin [[101]]
+}
+
+co findmin{
+    add [102] [0] 1
+    eq [102] [103] [102]
+    if [102] ac
+    lt [102] [[103]] [[104]]
+    if [102] set [104] [103]
+    inc [103]
+}
+
+co sort{
+    add [102] [0] 1
+    eq [102] [101] [102]
+    if [102] ac
+    set [103] [101]
+    set [104] [103]
+    ca findmin
+    iout [[104]]
+    cout 32
+    set [[104]] [[101]]
+    inc [101]
+}
+
+iin [0]
+set [101] 0
+ca scan
+set [101] 1
+ca sort
+ac

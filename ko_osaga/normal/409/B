@@ -1,0 +1,6 @@
+      implicit none
+
+      write ( *, '(A)' ) '  FORTRAN 77'
+
+      stop
+      end

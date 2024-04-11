@@ -1,0 +1,438 @@
+#ifdef ONLINE_JUDGE
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,sse4.1,sse4.2,popcnt,mmx,avx,avx2")
+#pragma GCC optimize("Ofast")
+#endif
+#include "bits/stdc++.h"
+#ifndef ONLINE_JUDGE
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,sse4.1,sse4.2,popcnt,mmx,avx")
+#pragma GCC optimize("Ofast")
+#endif
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+#define PB push_back
+#define MP make_pair
+const int MOD=998244353;
+#define endl "\n"
+#define fst first
+#define snd second
+const int UNDEF = -1;
+const int INF=1<<30;
+template<typename T> inline bool chkmax(T &aa, T bb) { return aa < bb ? aa = bb, true : false; }
+template<typename T> inline bool chkmin(T &aa, T bb) { return aa > bb ? aa = bb, true : false; }
+typedef pair<ll,ll> pll;typedef vector<ll> vll;typedef pair<int,int> pii;typedef vector<int> vi;typedef vector<vi> vvi;typedef vector<pii> vpii;typedef vector<pll> vpll;
+template<typename T> void makeunique(vector<T> &vx) {sort(vx.begin(),vx.end());auto it=unique(vx.begin(),vx.end());vx.resize(std::distance(vx.begin(),it));}
+#ifdef ONLINE_JUDGE
+#define assert(...) /* nothing */
+#endif
+#define DEBUG_CAT
+#ifdef DEBUG_CAT
+#define dbg(...)   printf( __VA_ARGS__ )
+#else 
+#define dbg(...)   /****nothing****/
+#endif
+int rint();char rch();long long rlong();
+// mt19937 rng; rng.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+// template<typename T> int bins(vector<T> &v, T key) {int imin=0,imax=(int)v.size();while(imin<imax) {int imid=(imin+imax)>>1;if (v[imid]<key) imin=imid+1;else imax=imid;}return imin;}
+
+const int mn=(2e5)+4;
+
+
+struct mint {
+  unsigned x;
+  inline int _norm(int x) {
+    if (x<0) x+=MOD;
+    return x;
+  }
+  mint() : x(0) {}
+  mint(signed sig) {sig=_norm(sig); x=sig;}
+  mint(signed long long sig) {sig=_norm(sig%MOD); x=sig;}
+  int get() const { return (int)x; }
+ 
+  mint &operator+=(mint that) { if((x += that.x) >= MOD) x -= MOD; return *this; }
+  mint &operator-=(mint that) { if((x += MOD - that.x) >= MOD) x -= MOD; return *this; }
+  mint &operator*=(mint that) { x = ((unsigned long long)x * that.x) % MOD; return *this; }
+  mint &operator/=(mint that) { return *this *= that.inverse(); }
+
+  mint &operator+=(int that) {that=_norm(that); if((x += that) >= MOD) x -= MOD; return *this; }
+  mint &operator-=(int that) {that=_norm(that); if((x += MOD - that) >= MOD) x -= MOD; return *this; }
+  mint &operator*=(int that) {that=_norm(that); x = ((unsigned long long)x * that) % MOD; return *this; }
+  mint &operator/=(int that) {that=_norm(that); return *this *= mint(that).inverse(); }
+
+  mint operator+(mint that) const { return mint(*this) += that; }
+  mint operator-(mint that) const { return mint(*this) -= that; }
+  mint operator*(mint that) const { return mint(*this) *= that; }
+  mint operator/(mint that) const { return mint(*this) /= that; }
+
+  mint operator+(int that) const { return mint(*this) += that; }
+  mint operator-(int that) const { return mint(*this) -= that; }
+  mint operator*(int that) const { return mint(*this) *= that; }
+  mint operator/(int that) const { return mint(*this) /= that; }
+
+
+  mint inverse() const {
+    signed a = x, b = MOD, u = 1, v = 0;
+    while(b) {
+      signed t = a / b;
+      a -= t * b; std::swap(a, b);
+      u -= t * v; std::swap(u, v);
+    }
+    if(u < 0) u += MOD;
+    mint res; res.x = (unsigned)u;
+    return res;
+  }
+ 
+  bool operator==(mint that) const { return x == that.x; }
+  bool operator!=(mint that) const { return x != that.x; }
+  mint operator-() const { mint t; t.x = x == 0 ? 0 : MOD - x; return t; }
+  mint operator^(long long k) const {
+    // 0^0 is 1. k must be taken modulo phi(MOD) (MOD-1 if prime) and NOT MOD itself
+    mint a=(*this);
+    if (k<0) {
+      k=-k;
+      a=a.inverse();
+    }
+    mint r = 1;
+    while(k) {
+      if(k & 1) r *= a;
+      a *= a;
+      k >>= 1;
+    }
+    return r;
+  }
+};
+
+vector<mint> fact,invfact;
+void init(int MAXFACT) {
+  fact.resize(MAXFACT+1); invfact.resize(MAXFACT+1);
+  mint got=1;
+  for (int x=0;x<=MAXFACT;x++) {
+    fact[x]=got;
+    got*=(x+1);
+  }
+  got=got.inverse();
+  for (int x=MAXFACT;x>=0;x--) {
+    got*=(x+1);
+    invfact[x]=got;
+  }
+}
+mint binom(int n,int k) {
+  if (n<k) return mint(0);
+  if (n<0||k<0) return mint(0);
+  return fact[n]*invfact[k]*invfact[n-k];
+}
+
+mint starpart(int stars, int parts) {
+  if (parts==0) {
+    return mint((stars==0)?1:0);
+  }
+  if (parts<=0||stars<0) return mint(0);
+  return binom(stars+parts-1,parts-1);
+}
+
+
+random_device rd;
+mt19937 mt(rd());
+
+struct implicit_treap
+{
+	struct node
+	{
+		int val, sz, priority;
+		node *l, *r, *par;
+
+		node() { val = 0; sz = 0; priority = 0; l = NULL; r = NULL; par = NULL;}
+		node(int _val)
+		{
+			val = _val;
+			sz = 1;
+			priority = mt();
+
+			l = NULL;
+			r = NULL;
+			par = NULL;
+		}
+	};
+
+	typedef node* pnode;
+
+	pnode root;
+	map<int, pnode> position;
+	
+	void clear()
+	{
+		root = NULL;
+		position.clear();
+	}
+
+	implicit_treap() { clear(); }
+
+	int size(pnode p) { return p ? p->sz : 0; }
+	void update_size(pnode &p) { if(p) p->sz = size(p->l) + size(p->r) + 1; }
+	
+	void update_parent(pnode &p)
+	{
+		if(!p) return;
+		if(p->l) p->l->par = p;
+		if(p->r) p->r->par = p;
+	}
+
+	void push(pnode &p)
+	{
+	}
+
+	void reset(pnode &t) {}
+
+	void combine(pnode &t, pnode l, pnode r)
+	{
+		if(!l) { t = r; return; }
+		if(!r) { t = l; return; }
+	}
+
+	void operation(pnode &t)
+	{
+		if(!t) return;
+
+		reset(t);
+		push(t->l);
+		push(t->r);
+
+		combine(t, t->l, t);
+		combine(t, t, t->r);
+	}
+
+	void split(pnode t, pnode &l, pnode &r, int k, int add = 0)
+	{
+		if(t == NULL) { l = NULL; r = NULL; return; }
+		push(t);
+
+		int idx	= add + size(t->l);
+		if(idx <= k) 
+			split(t->r, t->r, r, k, idx + 1), l = t;
+		else
+			split(t->l, l, t->l, k, add), r = t;
+
+		update_parent(t);
+		update_size(t);
+		operation(t);
+	}
+
+	void merge(pnode &t, pnode l, pnode r)
+	{
+		push(l);
+		push(r);
+
+		if(!l) { t = r; return; }
+		if(!r) { t = l; return; }
+
+		if(l->priority > r->priority)
+			merge(l->r, l->r, r), t = l;
+		else 
+			merge(r->l, l, r->l), t = r;
+
+		update_parent(t);
+		update_size(t);
+		operation(t);
+	}
+
+	void insert(int pos, int val)
+	{
+		if(root == NULL)
+		{
+			pnode to_add = new node(val);
+			root = to_add;
+			position[val] = root;
+			return;
+		}
+
+		pnode l, r, mid;
+		mid = new node(val);
+		position[val] = mid;
+
+		split(root, l, r, pos - 1);
+		merge(l, l, mid);
+		merge(root, l, r);
+	}
+
+	void erase(int qL, int qR)
+	{
+		pnode l, r, mid;
+		
+		split(root, l, r, qL - 1);
+		split(r, mid, r, qR - qL);
+		merge(root, l, r);
+	}
+
+	int query(int qL, int qR)
+	{
+		pnode l, r, mid;
+
+		split(root, l, r, qL - 1);
+		split(r, mid, r, qR - qL);
+
+		int answer = mid->val;
+	
+		merge(r, mid, r);
+		merge(root, l, r);
+
+		return answer;
+	}
+
+	void update(int qL, int qR, int val)
+	{
+		pnode l, r, mid;
+
+		split(root, l, r, qL - 1);
+		split(r, mid, r, qR - qL);
+
+		merge(r, mid, r);
+		merge(root, l, r);
+	}
+
+	void cyclic_shift(int qL, int qR, int k)
+	{
+		if(qL == qR) return;
+		k %= (qR - qL + 1);
+
+		pnode l, r, mid, fh, sh;
+		split(root, l, r, qL - 1);
+		split(r, mid, r, qR - qL);
+
+		split(mid, fh, sh, (qR - qL + 1) - k - 1);
+		merge(mid, sh, fh);
+
+		merge(r, mid, r);
+		merge(root, l, r);
+	}
+
+	int get_pos(pnode curr, pnode son = nullptr)
+	{
+		if(!son)
+		{
+			if(curr == root) return size(curr->l);
+			else return size(curr->l) + get_pos(curr->par, curr);
+		}
+		
+		if(curr == root)
+		{
+			if(son == curr->l) return 0;
+			else return size(curr->l) + 1;
+		}
+
+		if(curr->l == son) return get_pos(curr->par, curr);
+		else return get_pos(curr->par, curr) + size(curr->l) + 1;
+	}
+
+	int get_pos(int value) { return get_pos(position[value]); }
+};
+
+implicit_treap t;
+mint go() {
+	int n,k; cin>>n>>k;
+	vi vx(k),vy(k);
+	for (int i=0;i<k;i++) {
+		cin>>vx[i]>>vy[i];
+	}
+	vpii vrel;
+	for (int p=0;p<k;p++) {
+		int x=vx[p],y=vy[p];
+		t.cyclic_shift(y,x,1);
+		int small=t.query(y,y);
+		int big=t.query(y+1,y+1);
+		vrel.PB(MP(small,big));
+	}
+	int jumps=0;
+	for (auto &w:vrel) {
+		int l=t.get_pos(w.fst),r=t.get_pos(w.snd);
+		if (r==l+1) jumps++;
+	}
+	int balls = n+1 - (2 + jumps);
+	int groups = n+1;
+	mint ans=starpart(balls,groups);
+
+	// Clean
+	for (int p=k-1;p>=0;p--) {
+		int x=vx[p],y=vy[p];
+		t.cyclic_shift(y,x,-1);
+	}
+	return ans;
+}
+int main() 
+{
+  ios_base::sync_with_stdio(false); cin.tie(0);
+  init(mn*4 + 10);
+  for (int x=0;x<mn;x++) t.insert(x,x);
+  int tests; cin>>tests; for (int i=0;i<tests;i++) {
+  	mint ans=go();
+  	printf("%d\n",ans.get());
+  }
+}
+
+
+
+
+static char stdinBuffer[1024];
+static char* stdinDataEnd = stdinBuffer + sizeof (stdinBuffer);
+static const char* stdinPos = stdinDataEnd;
+
+void readAhead(size_t amount)
+{
+    size_t remaining = stdinDataEnd - stdinPos;
+    if (remaining < amount) {
+       memmove(stdinBuffer, stdinPos, remaining);
+       size_t sz = fread(stdinBuffer + remaining, 1, sizeof (stdinBuffer) - remaining, stdin);
+       stdinPos = stdinBuffer;
+       stdinDataEnd = stdinBuffer + remaining + sz;
+       if (stdinDataEnd != stdinBuffer + sizeof (stdinBuffer))
+         *stdinDataEnd = 0;
+    }
+}
+
+int rint()
+{
+    readAhead(16);
+
+    int x = 0;
+    bool neg = false;
+    while(*stdinPos==' '||*stdinPos=='\n') ++stdinPos;
+    if (*stdinPos == '-') {
+       ++stdinPos;
+       neg = true;
+    }
+
+    while (*stdinPos >= '0' && *stdinPos <= '9') {
+       x *= 10;
+       x += *stdinPos - '0';
+       ++stdinPos;
+    }
+
+    return neg ? -x : x;
+}
+char rch()
+{
+    readAhead(16);
+    while(*stdinPos==' '||*stdinPos=='\n') ++stdinPos;
+    char ans=*stdinPos;
+    ++stdinPos;
+    return ans;
+}
+long long rlong()
+{
+    readAhead(32);
+
+    long long x = 0;
+    bool neg = false;
+    while(*stdinPos==' '||*stdinPos=='\n') ++stdinPos;
+    if (*stdinPos == '-') {
+       ++stdinPos;
+       neg = true;
+    }
+
+    while (*stdinPos >= '0' && *stdinPos <= '9') {
+       x *= 10;
+       x += *stdinPos - '0';
+       ++stdinPos;
+    }
+
+    return neg ? -x : x;
+}

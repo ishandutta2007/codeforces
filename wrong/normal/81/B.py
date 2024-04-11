@@ -1,0 +1,1 @@
+print ', '.join([' '.join([p for p in y if p!='']) for y in [x.split(' ') for x in raw_input().split(',')]]).replace('... ', '...').replace('...', ' ...').replace('  ', ' ').strip()

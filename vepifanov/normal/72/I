@@ -1,0 +1,10 @@
+n := File standardInput readLine asNumber
+a := 0
+b := 1
+c := n
+while (n > 0,
+    d := n % 10
+    if (c % d == 0, a = 1, b = 0)
+    n = (n - d) / 10)
+if (a == 0, "upset" println,
+    if (b == 1, "happier" println, "happy" println))

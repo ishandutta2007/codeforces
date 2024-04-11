@@ -1,0 +1,5 @@
+int main(){
+    int n,m,k;
+    sscanf(Stdio.stdin.gets(),"%d%d%d",n,k,m);
+    write((n <= m*sqrt(k)) ? "YES" : "NO");
+}

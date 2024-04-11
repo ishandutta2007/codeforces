@@ -1,0 +1,64 @@
+set columns [gets stdin]
+set rules_in [split [gets stdin] ,]
+set rules ""
+
+foreach r $rules_in {
+  lappend rules [string trim $r]
+}
+
+set datas [split [read stdin] \n]
+set n [llength $datas]
+set m [llength $columns]
+
+for {set i 0} {$i < $n-1} {incr i} {
+  for {set j [expr $n-1]} {$j > $i} {set j [expr $j-1]} {
+    set x [lindex $datas [expr $j-1]]
+    set y [lindex $datas [expr $j]]
+    
+    # y < x
+    set ok no
+    foreach r $rules {
+      set pos [lindex $r 0]
+      set pp 0
+      for {set k 0} {$k < $m} {incr k} {
+        if {$pos == [lindex $columns $k]} {
+          set pp $k
+          break
+        }
+      }
+      
+      set xd [lindex $x $pp]
+      set yd [lindex $y $pp]
+      set cmp [lindex $r 1]
+      if {$cmp == "ASC"} {
+        if {$yd < $xd} {
+          set ok yes
+          break
+        }
+        if {$yd > $xd} {
+          set ok no
+          break
+        }
+      } else {
+        if {$yd > $xd} {
+          set ok yes
+          break
+        }
+        if {$yd < $xd} {
+          set ok no
+          break
+        }
+      }
+    }
+    if {$ok == "yes"} {
+      lset datas $j $x
+      lset datas [expr $j-1] $y
+    }
+  }
+}
+
+foreach d $datas {
+  if {[string length $d] > 0} {
+    puts $d
+  }
+}

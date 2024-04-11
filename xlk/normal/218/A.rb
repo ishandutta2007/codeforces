@@ -1,0 +1,1 @@
+n,k=gets.split.map &:to_i;a=gets.split.map &:to_i;1.step(2*n,2){|i|(a[i]-=1)&&(k-=1) if a[i]-1>a[i-1]&&a[i]-1>a[i+1];break if k==0};$><<a*' '

@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+
+#define ar array
+#define all(arr) (arr).begin(), (arr).end()
+#define range(i, n) for (int i=0; (i) < n; ++(i))
+#define rall(arr) (arr).rbegin(), (arr).rend()
+
+typedef long long ll;
+
+using namespace std;
+
+const ll INF = 2e18;
+const int INFi = 2e9;
+const int maxN = 3e5 + 1;
+const int md = 998244353;
+const int md2 = 1e9 + 7;
+
+double getTime() { return clock() / (double) CLOCKS_PER_SEC; };
+
+void solve() {
+    int b, k; cin >> b >> k;
+    int c = 0;
+    range(i, k) {
+        int a; cin >> a;
+        if ((i == k - 1 || b % 2) && a % 2) {
+            c++;
+        }
+    }
+    cout << (c % 2 ? "odd" : "even");
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    int tests = 1;
+    range(_, tests) {
+        solve();
+    }
+    return 0;
+}

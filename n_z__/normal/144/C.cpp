@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int t[301],c[301];main(){string s,p;cin>>s>>p;if(s.size()<p.size())return puts("0")*0;for(auto x:p)t[x]++;for(int x=0;x<p.size();x++)c[s[x]]++;int a=0;s=s+' ';for(int x=p.size();x<s.size();c[s[x-p.size()]]--,c[s[x]]++,a++,x++)for(char y='a';y<='z';y++)if(c[y]>t[y]){a--;break;}cout<<a<<endl;}

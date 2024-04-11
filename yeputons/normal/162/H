@@ -1,0 +1,32 @@
+USING: io kernel math math.parser sequences strings ascii ;
+IN: main
+
+: evaluate ( x seq -- newseq )
+  dup "" =
+  [
+    [ drop ] dip
+  ] [
+    dup
+    [ 1 head ] dip
+    1 tail
+
+    [ swap 1 swap - ] dip
+    [ dup ] dip
+    evaluate
+
+    [
+      0 = [
+        >lower
+      ] [
+        >upper
+      ] if
+    ] dip
+
+    append
+  ] if
+  ;
+
+0
+readln
+evaluate
+print

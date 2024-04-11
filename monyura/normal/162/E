@@ -1,0 +1,16 @@
+USING: io kernel splitting math math.parser formatting sequences prettyprint io.streams.byte-array ;
+readln
+dup
+""
+swap
+"HQ9"
+split
+dup
+length
+[ dup first swap [ append ] dip rest ]
+times
+drop
+=
+[ "NO" print ]
+[ "YES" print ]
+if

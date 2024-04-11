@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;int d[1001],a=1,n;string s;int main(){cin>>s;n=s.size();for(int i=n-1;i>=0;i--){d[i]=1;for(int j=i+1;j<n;j+=2)if(s[j]==s[i]&&d[j]>=d[i])a=max(a,d[i]=d[j]+1);}cout<<a;}

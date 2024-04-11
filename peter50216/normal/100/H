@@ -1,0 +1,59 @@
+int main(){
+    int t,tt,i,j,k;
+    sscanf(Stdio.stdin->gets(),"%d",t);
+    array(int) mx=({1,1,1,0,-1,-1,-1,0}),my=({1,0,-1,-1,-1,0,1,1});
+    for(tt=0;tt<t;tt++){
+	array(string) in=allocate(11);
+	for(i=0;i<11;i++)in[i]=Stdio.stdin->gets();
+	array(int) cnt=allocate(5);
+	int flag=1;
+	for(i=0;i<10;i++){
+	    for(j=0;j<10;j++){
+		if(in[i][j]=='*'){
+		    array(int) quex=allocate(110),quey=allocate(110);
+		    int qs=0,qe=0;
+		    quex[qe]=i;
+		    quey[qe]=j;
+		    qe++;
+		    in[i][j]='#';
+		    int minx=i,maxx=i,miny=j,maxy=j;
+		    while(qs<qe){
+			int x=quex[qs];
+			int y=quey[qs];
+			qs++;
+			for(k=0;k<8;k++){
+			    int xx=x+mx[k],yy=y+my[k];
+			    if(xx>=0&&xx<10&&yy>=0&&yy<10&&in[xx][yy]=='*'){
+				in[xx][yy]='#';
+				quex[qe]=xx;quey[qe]=yy;qe++;
+				minx=minx<xx?minx:xx;
+				miny=miny<yy?miny:yy;
+				maxx=maxx>xx?maxx:xx;
+				maxy=maxy>yy?maxy:yy;
+			    }
+			}
+		    }
+		    if(minx!=maxx&&miny!=maxy){
+			flag=0;
+			break;
+		    }
+		    else{
+			if((maxx-minx+1)*(maxy-miny+1)>=5){
+			    flag=0;
+			    break;
+			}
+			cnt[(maxx-minx+1)*(maxy-miny+1)]++;
+		    }
+		}
+	    }
+	    if(j<10)break;
+	}
+	if(i<10)flag=0;
+	else{
+	    for(i=1;i<=4;i++)if(cnt[i]!=5-i)break;
+	    if(i<=4)flag=0;
+	}
+	if(flag==1)write("YES\n");
+	else write("NO\n");
+    }
+}

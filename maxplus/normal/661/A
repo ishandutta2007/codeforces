@@ -1,0 +1,8 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =. (read-.LF)-.CR
+a =. +/ ". in
+print ((a * (a + 1)) % 2) + 1
+
+exit ''

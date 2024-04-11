@@ -1,0 +1,56 @@
+import cp.
+
+main =>
+  N = read_int(),
+  N := N + 1,
+  P = new_array(N, 2),
+  P[1, 1] = 0,
+  P[1, 2] = 0,
+  foreach(I in 2..N)
+      P[I, 1] = read_int(),
+      P[I, 2] = read_int()
+  end,
+  RES = 0,
+  foreach (L in 1..10)
+      WAS = new_array(N),
+      foreach (I in 1..N) 
+          WAS[I] := 0
+      end,
+      
+      Q = new_array(N),
+      HEAD = 1,
+      TAIL = 2,
+      Q[HEAD] := 1,
+      
+      while (HEAD < TAIL)
+          V = Q[HEAD],
+          WAS[V] := 1,
+          HEAD := HEAD + 1,
+          foreach (TO in 1..N)
+              if (WAS[TO] == 0) then 
+                  if (abs(P[V, 1] - P[TO, 1]) == L) then
+                      if (abs(P[V, 2] - P[TO, 2]) == 0) then
+                          WAS[TO] := 1,
+                          Q[TAIL] := TO,
+                          TAIL := TAIL + 1
+                      end
+                  end,
+                  if (abs(P[V, 2] - P[TO, 2]) == L) then
+                      if (abs(P[V, 1] - P[TO, 1]) == 0) then
+                          WAS[TO] := 1,
+                          Q[TAIL] := TO,
+                          TAIL := TAIL + 1
+                      end
+                  end
+              end 
+          end
+      end,
+      foreach (I in 1..N)
+          if (WAS[I] == 1) then
+              if (RES < abs(P[I, 1]) + abs(P[I, 2])) then
+                  RES := abs(P[I, 1]) + abs(P[I, 2])
+              end
+          end
+      end
+  end,
+  println(RES).

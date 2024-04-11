@@ -1,0 +1,54 @@
+//https://codeforces.com/contest/794/problem/B
+#include<bits/stdc++.h>
+#define lop(i,n,a) for(int i=0;i<n;i+=a)
+#define rep(i,n,a) for(int i=a;i<n;i++)
+#define inarr(arr,n) lop(i,n,1)cin>>arr[i]
+#define ll long long int
+#define pb push_back
+#define all(v) v.begin(),v.end()
+#define endl "\n"
+#define eb emplace_back
+#define fr first
+#define sc second
+#define pii pair<int,int>
+#define IOS ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+#define ret return 0
+#define pi 3.1415926536
+#define hell 1000000007
+using namespace std;
+// syntax for min priority_queue of pairs
+// priority_queue<pair<ll,ll>,vector<pair<ll,int>>,greater<pair<ll,int>>> q;
+ll xymodp(ll x,ll y,ll p){
+    ll a=1;
+    x%=p;
+    while(y){
+        if(y&1)a=(a*x)%p;
+        x=(x*x)%p;
+        y/=2;
+    }
+    return a;
+}
+
+int solve(){
+  double n,h;cin>>n>>h;
+  vector<double> v;
+  for(int i=n;i>1;i--){
+       double hd=h*sqrtl((double)(i-1)/i);
+       h=hd;
+       v.pb(hd);
+  }
+  reverse(all(v));
+  for(auto i:v)cout<<setprecision(12)<<i<<" ";
+  cout<<endl;
+  ret;
+}
+int main(){
+    IOS;
+    //freopen("input.txt", "r", stdin);
+	//freopen("output.txt", "w", stdout);
+    int t=1;//cin>>t;
+    while(t--){
+        solve();
+    }
+    ret;
+}

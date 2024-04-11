@@ -1,0 +1,2 @@
+#include <cstdio>
+int dp[1013][1013],s[45][1013],M=1e9+7,T,N,K;main(){for(int n=0;n<1013;n++)dp[0][n]=1,s[0][n]=n+1;for(int k=1;k<45;k++)for(int n=k;n<1013;n++)dp[k][n]=(dp[k][n-k]+1LL*k*s[k-1][n-k])%M,s[k][n]=(s[k][n-1]+dp[k][n])%M;scanf("%d",&T);while (T--)scanf("%d%d",&N,&K),printf("%d\n",dp[K][N]);}

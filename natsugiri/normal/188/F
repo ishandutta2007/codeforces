@@ -1,0 +1,24 @@
+co mulmul
+{	
+lt [7] [0] [1]
+if [7] ac
+mul [1] [1] 2
+}
+
+co divdiv
+{
+div [1] [1] 2
+eq [7] [1] 0
+if [7] ac
+div [2] [0] [1]
+iout [2]
+if [2]
+sub [0] [0] [1]
+}
+
+iin [0]
+set [1] 1
+ca mulmul
+ca divdiv
+cout 10
+ac

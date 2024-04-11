@@ -1,0 +1,2 @@
+      print '(A)', "FORTRAN 77"
+      end program

@@ -1,0 +1,20 @@
+co print{
+  eq [68] [0] 2
+  if [68] ac   
+  sub [0] [0] 1
+  iout [[0]]   
+}
+
+co conv{
+  eq [68] [1] 0
+  if [68] ac   
+  mod [[0]] [1] 2
+  div [1] [1] 2
+  add [0] [0] 1
+}
+
+iin [1] 
+set [0] 2
+ca conv
+ca print
+ac

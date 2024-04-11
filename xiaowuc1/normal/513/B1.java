@@ -1,0 +1,112 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.io.*;
+import java.math.*;
+import java.text.*; 
+import java.util.*;
+import java.util.regex.*;
+
+/*
+	  br = new BufferedReader(new FileReader("input.txt"));
+	  pw = new PrintWriter(new BufferedWriter(new FileWriter("output.txt")));
+	  br = new BufferedReader(new InputStreamReader(System.in));
+	  pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+ */
+
+
+public class Main {
+	private static BufferedReader br;
+	private static StringTokenizer st;
+	private static PrintWriter pw;
+
+	static int score = 0;
+	static ArrayList<int[]> ret;
+	
+	public static void main(String[] args) throws IOException {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
+		//int qq = 1;
+		int qq = Integer.MAX_VALUE;
+		//int qq = readInt();
+		for(int casenum = 1; casenum <= qq; casenum++) {
+			int n = readInt();
+			int k = readInt()-1;
+			ret = new ArrayList<int[]>();
+			dfs(new int[n], 0, new boolean[n]);
+			StringBuilder sb = new StringBuilder();
+			for(int out: ret.get(k)) {
+				sb.append(++out + " ");
+			}
+			pw.println(sb.toString().trim());
+		}
+		exitImmediately();
+	}
+
+	public static void validate(int[] list) {
+		int curr = 0;
+		for(int i = 0; i < list.length; i++) {
+			int now = list[i];
+			for(int j = i; j < list.length; j++) {
+				now = Math.min(now, list[j]);
+				curr += now;
+			}
+		}
+		if(curr > score) {
+			ret = new ArrayList<int[]>();
+			score = curr;
+		}
+		if(curr == score) {
+			ret.add(Arrays.copyOf(list, list.length));
+		}
+	}
+	
+	public static void dfs(int[] list, int index, boolean[] used) {
+		if(index == list.length) {
+			validate(list);
+		}
+		for(int i = 0; i < used.length; i++) {
+			if(!used[i]) {
+				used[i] = true;
+				list[index] = i;
+				dfs(list, index+1, used);
+				used[i] = false;
+			}
+		}
+	}
+	
+	private static void exitImmediately() {
+		pw.close();
+		System.exit(0);
+	}
+
+	private static long readLong() throws IOException {
+		return Long.parseLong(nextToken());
+	}
+
+	private static double readDouble() throws IOException {
+		return Double.parseDouble(nextToken());
+	}
+
+	private static int readInt() throws IOException {
+		return Integer.parseInt(nextToken());
+	}
+
+	private static String nextLine() throws IOException  {
+		if(!br.ready()) {
+			exitImmediately();
+		}
+		st = null;
+		return br.readLine();
+	}
+
+	private static String nextToken() throws IOException  {
+		while(st == null || !st.hasMoreTokens())  {
+			if(!br.ready()) {
+				exitImmediately();
+			}
+			st = new StringTokenizer(br.readLine().trim());
+		}
+		return st.nextToken();
+	}
+}

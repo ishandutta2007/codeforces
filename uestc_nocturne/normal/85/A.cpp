@@ -1,0 +1,60 @@
+#include<cstdio>
+#include<cstring>
+#include<cstdlib>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+char map[5][120];
+int n,i,j,te;
+int main()
+{
+    while(~scanf("%d",&n))
+    {
+        if(n%2==0)
+        {
+            for(i=0;i<n;i+=2)
+            {
+                te=i/2%2;
+                map[0][i]='a'+te;
+                map[0][i+1]='a'+te;
+                map[3][i]='c'+te;
+                map[3][i+1]='c'+te;
+            }
+            for(i=1;i<n;i+=2)
+            {
+                te=i/2%2;
+                map[1][i]=map[1][i+1]='e'+te;
+                map[2][i]=map[2][i+1]='g'+te;
+            }
+            map[2][0]=map[1][0]='z';
+            map[1][n-1]=map[2][n-1]='y';
+        }
+        else
+        {
+            for(i=0;i<n;i+=2)
+            {
+                te=i/2%2;
+                map[0][i]='a'+te;
+                map[0][i+1]='a'+te;
+                map[1][i]='c'+te;
+                map[1][i+1]='c'+te;
+            }
+            for(i=1;i<n;i+=2)
+            {
+                te=i/2%2;
+                map[2][i]='e'+te;
+                map[2][i+1]='e'+te;
+                map[3][i]='g'+te;
+                map[3][i+1]='g'+te;
+            }
+            map[2][0]=map[3][0]='z';
+            map[0][n-1]=map[1][n-1]='y';
+        }
+        for(i=0;i<4;i++)
+        {
+            for(j=0;j<n;j++)
+            printf("%c",map[i][j]);
+            puts("");
+        }
+    }
+}

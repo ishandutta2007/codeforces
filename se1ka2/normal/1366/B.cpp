@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--){
+        int n, x, m;
+        cin >> n >> x >> m;
+        x--;
+        int left = x, right = x;
+        for(int i = 0; i < m; i++){
+            int l, r;
+            cin >> l >> r;
+            l--; r--;
+            if(r >= left) left = min(left, l);
+            if(l <= right) right = max(right, r);
+        }
+        cout << right - left + 1 << endl;
+    }
+}

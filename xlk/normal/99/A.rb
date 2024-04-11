@@ -1,0 +1,1 @@
+gets;if /(.*(.))\.(.)/ then puts $2=='9'?'GOTO Vasilisa.':$1.to_i+($3<'5'?0:1);end

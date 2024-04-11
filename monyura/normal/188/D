@@ -1,0 +1,25 @@
+co row
+{
+    eq [0] [1] [2]
+    if [0] ac
+    add [1] [1] 1
+    cout 42
+}
+
+co column
+{
+    eq [3] [4] [5]
+    if [3] ac
+    set [1] 0
+    ca row
+    cout 10
+    add [2] [2] 1
+    add [4] [4] 1
+}
+
+
+iin [5]
+set [4] 0
+set [2] 1
+ca column
+ac

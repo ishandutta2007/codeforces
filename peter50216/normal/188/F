@@ -1,0 +1,33 @@
+iin [0]
+set [7] [0]
+set [1] 0
+set [6] 0
+co y{
+    eq [4] [0] 0
+    if [4]
+        ac
+    add [6] [6] 1
+    mul [1] [1] 2
+    mod [2] [0] 2
+    add [1] [1] [2]
+    div [0] [0] 2
+}
+co n{
+    eq [4] [6] 0
+    if [4]
+        ac
+    mod [2] [1] 2
+    iout [2]
+    div [1] [1] 2
+    sub [6] [6] 1
+}
+co z{
+    iout 0
+    ac
+}
+ca y
+ca n
+eq [3] [7] 0
+if [3]
+    ca z
+ac

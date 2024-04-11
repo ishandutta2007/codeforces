@@ -1,0 +1,89 @@
+(*input
+8
+-67761 603277
+640586 -396671
+46147 -122580
+569609 -2112
+400 914208
+131792 309779
+-850150 -486293
+5272 721899
+*)
+open Printf
+open Scanf
+let scan_int() = bscanf Scanning.stdib " %d " (fun x -> x);;
+let print_int x = printf "%d" x;;
+let puts s = printf s;;
+let n = scanf "%d" (fun x -> x);;
+type sgn = POS | NEG;;
+let mul x y = match (x, y) with
+	| (POS, x) -> x
+	| (NEG, POS) -> NEG
+	| (NEG, NEG) -> POS
+;;
+type vect = 
+	| Leaf of (int * int) * int 
+	| Combine of (int * int) * (sgn * (vect * vect))
+;;
+let xy l = match l with
+	| Leaf((x, y), _) -> (x, y)
+	| Combine((x, y), _) -> (x, y)
+;;
+let plus (a, b) (x, y) = (a + x, b + y);;
+let minus (a, b) (x, y) = (a - x, b - y);;
+let rec read i = 
+	if i >= n then 
+		[]
+	else 
+		let x = scan_int() in
+		let y = scan_int() in
+		Leaf((x, y), i)::(read (i + 1));;
+let r (x, y) = 
+	let a = Int64.of_int x in
+	let b = Int64.of_int y in
+	Int64.add (Int64.mul a a) (Int64.mul b b)
+;;
+let rec min l = match l with
+	| [] -> failwith "empty list"
+	| [x] -> x
+	| a::b -> let c = (min b) in if a <= c then a else c
+;;
+let rec fix l = match l with
+	| [] -> failwith "empty list"
+	| [a] -> a
+	| [a; b] -> 
+		if ((r (plus (xy a) (xy b)))) < (r (minus (xy a) (xy b))) then
+			Combine((plus (xy a) (xy b)), (POS, (a, b)))
+		else 
+			Combine((minus (xy a) (xy b)), (NEG, (a, b)))
+	| a::b::l -> (
+		let x = xy a in
+		let y = xy b in
+		if (r (plus x y)) <= 1000000000000L then
+			fix (Combine((plus x y), (POS, (a, b)))::l)
+		else if (r (minus x y)) <= 1000000000000L then
+			fix (Combine((minus x y), (NEG, (a, b)))::l)
+		else (
+			let c::l = l in
+			let z = xy c in
+			if (r (plus x z)) <= 1000000000000L then
+				fix (Combine((plus x z), (POS, (a, c)))::b::l)
+			else if (r (minus x z)) <= 1000000000000L then
+				fix (Combine((minus x z), (NEG, (a, c)))::b::l)
+			else 
+				fix ((
+					if (r (plus y z)) <= 1000000000000L then 
+						Combine((plus y z), (POS, (b, c)))
+					else
+						Combine((minus y z), (NEG, (b, c)))
+				)::a::l)
+		)
+	)
+;;
+let ret = Array.make n NEG;;
+let rec find w l = match l with
+	| Leaf(_, i) -> (match w with POS -> (ret.(i) <- POS) | NEG -> ())
+	| Combine(_, (w2, (l1, l2))) -> find w l1;find (mul w w2) l2
+;;
+find POS (fix (read 0));;
+Array.iter (fun x -> match x with POS -> puts "1 " | NEG -> puts "-1 ") ret;;

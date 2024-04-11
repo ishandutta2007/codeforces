@@ -1,0 +1,1 @@
+h,m=gets.split(':').map &:to_i;s=0;loop{m=m.succ%60;h=h.succ%24 if m==0;s="%02d:%02d"%[h,m];break if s==s.reverse};puts s

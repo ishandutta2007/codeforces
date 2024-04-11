@@ -1,0 +1,1 @@
+s=gets(p).split*?+;s+="==#{eval s}";puts eval(s.tr ?0,'')?:YES:"NO"

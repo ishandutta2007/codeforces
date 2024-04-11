@@ -1,0 +1,59 @@
+co read {
+    eq [1002] [1001] 0
+    if [1002]
+        yi ro
+    dec [1001]
+    iin [[1001]]
+}
+
+co write {
+    eq [1002] [1001] 0
+    if [1002]
+        yi ro
+    dec [1001]
+    iout [[1001]]
+    cout 32
+}
+
+co sort;
+co go;
+
+co sw {
+    set [2000] [[1003]]
+    set [[1003]] [[1004]]
+    set [[1004]] [2000]
+    yi go
+}
+
+co go {
+    eq [1005] [1004] [1000]
+    if [1005]
+        yi sort
+    gt [1005] [[1004]] [[1003]]
+    if [1005]
+        yi sw
+    inc [1003]
+    inc [1004]
+}
+
+co sort {
+    eq [1002] [1001] 0
+    if [1002]
+        yi ro
+    dec [1001]
+    set [1003] 0
+    set [1004] 1
+    yi go
+}
+
+iin [1000]
+
+set [1001] [1000]
+yi read
+
+set [1001] [1000]
+yi sort
+
+set [1001] [1000]
+yi write
+ac

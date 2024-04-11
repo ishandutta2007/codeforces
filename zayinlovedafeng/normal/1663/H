@@ -1,0 +1,9 @@
+//\
+(*
+#define begin {
+struct node {
+    int a;
+} end;
+int main(int, char**)
+begin 
+end.a=1 ;}

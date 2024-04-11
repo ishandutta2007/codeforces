@@ -1,0 +1,1 @@
+for i in str(eval(input())):print('+'*ord(i),'.>')

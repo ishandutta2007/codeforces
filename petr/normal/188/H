@@ -1,0 +1,29 @@
+co loop
+{
+  set [2] 0
+  cin [2]
+  lt [3] [2] 33
+  if [3] ac
+  gt [4] [2] 47
+  if [4] set [[8]] [2]
+  if [4] sub [[8]] [[8]] 48
+  if [4] inc [8]
+  eq [4] [2] 43
+  if [4] dec [8]
+  if [4] set [9] [[8]]
+  if [4] dec [8]
+  if [4] add [[8]] [9] [[8]]
+  if [4] inc [8]
+  eq [4] [2] 42 
+  if [4] dec [8]
+  if [4] set [9] [[8]]
+  if [4] dec [8]
+  if [4] mul [[8]] [9] [[8]]
+  if [4] inc [8]  
+}
+
+set [8] 10
+ca loop
+dec [8]
+iout [[8]]
+ac

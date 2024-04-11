@@ -1,0 +1,59 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO;
+With Ada.Strings; Use Ada.Strings;
+With Ada.Float_Text_IO;
+
+procedure prog is
+
+N,d,ans,dd,mm,yy,m,l,q : Integer;
+s : String(1..10);
+dayM : Array(1..12) of Integer :=(31,28,31,30,31,30,31,31,30,31,30,31);
+
+begin
+    Ada.Integer_Text_IO.Get(N);
+    Get_Line(s,l);
+    ans :=0;
+    FOR m in 1..N LOOP
+        Get_Line(s,l);
+        d :=0;
+        dd :=(Character'Pos(s(9))-Character'Pos('0'))*10;
+        dd :=dd+(Character'Pos(s(10))-Character'Pos('0'));
+        mm :=(Character'Pos(s(6))-Character'Pos('0'))*10;
+        mm :=mm+(Character'Pos(s(7))-Character'Pos('0'));
+        yy :=(Character'Pos(s(1))-Character'Pos('0'))*1000;
+        yy :=yy+(Character'Pos(s(2))-Character'Pos('0'))*100;
+        yy :=yy+(Character'Pos(s(3))-Character'Pos('0'))*10;
+        yy :=yy+(Character'Pos(s(4))-Character'Pos('0'));
+        
+        q :=1;
+        IF (yy > 2013) AND (mm < 9) THEN q :=-1; end IF;
+        IF (yy < 2013) AND (mm > 9) THEN q :=-1; end IF;
+
+        WHILE yy < 2013 LOOP
+            IF (yy MOD 4 = 0) AND (mm <= 2) THEN d :=d+1; end IF;
+            IF (yy MOD 4 = 3) AND (mm > 2) THEN d :=d+1; end IF;
+            d :=d+365;
+            yy :=yy+1;
+            end LOOP;
+        WHILE yy > 2013 LOOP
+            IF (yy MOD 4 = 0) AND (mm > 2) THEN d :=d+1; end IF;
+            IF (yy MOD 4 = 1) AND (mm <= 2) THEN d :=d+1; end IF;
+            d :=d+365;
+            yy :=yy-1;
+            end LOOP;
+        
+        WHILE mm > 9 LOOP
+            d :=d+q*dayM(mm-1);
+            mm :=mm-1;
+            end LOOP;
+        WHILE mm < 9 LOOP
+            d :=d+q*dayM(mm);
+            IF (mm = 2) AND (yy MOD 4 = 0) THEN d :=d+q; end IF;
+            mm :=mm+1;
+            end LOOP;
+        IF (dd = 13) AND (d MOD 7 = 0) THEN ans :=ans+1; end IF;
+        
+        IF m < N THEN Get_Line(s,l); end IF;
+    end LOOP;
+    Ada.Integer_Text_IO.Put(ans, width => 0);
+end prog;

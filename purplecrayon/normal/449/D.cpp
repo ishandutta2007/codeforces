@@ -44,7 +44,11 @@ void solve(){
     for (int i = 0; i < n; i++) fsc(a[i]);
     memset(dp, 0, sizeof(dp));
     for(int i = 0; i < n; ++i) dp[a[i]]++;
+<<<<<<< HEAD
     for(int i = MAXB-1; i >= 0; --i) for(int mask = MAXBB-1; mask >= 0; --mask){
+=======
+    for(int i = 0; i < MAXB; i++) for(int mask = MAXBB-1; mask >= 0; --mask){
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
     	if (mask & (1<<i)) dp[mask^(1<<i)] += dp[mask];
     }
     ll ans=0;

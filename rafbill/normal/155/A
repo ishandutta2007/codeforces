@@ -1,0 +1,17 @@
+let read_int () = Scanf.scanf " %d" (fun x -> x) in
+let n = read_int() in
+  let f = read_int() in 
+  let mmin = ref f and mmax = ref f in
+  let count = ref 0 in
+  for i = 1 to n-1 do
+  let next = read_int() in
+  if next > !mmax then begin
+  mmax := next;
+  incr count;
+  end else if next < !mmin then begin
+  mmin := next;
+  incr count;
+  end;
+  done;
+  print_int !count;
+  print_newline();;

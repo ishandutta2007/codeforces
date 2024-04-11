@@ -1,0 +1,22 @@
+co print
+{
+    gt [111] [2] [1]
+    if [111] ac
+    cout 42
+    inc [2]
+}
+
+co go
+{
+    gt [222] [1] [0]
+    if [222] ac
+    set [2] 1
+    ca print
+    cout 10
+    inc [1]
+}
+
+iin [0]
+set [1] 1
+ca go
+ac

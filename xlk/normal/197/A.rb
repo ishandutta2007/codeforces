@@ -1,0 +1,1 @@
+a=gets.split.map &:to_i;puts a[0,2].min>=a[2]*2?"First":"Second"

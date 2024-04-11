@@ -1,0 +1,11 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =: (read-.LF)-.CR
+
+s =: ". in
+m =: >./ s
+
+print 0=+/s|m
+
+exit ''

@@ -1,0 +1,11 @@
+n := File standardInput readLine asNumber
+odd := 0
+even := 0
+for(i, 1, n,
+  if(n % i == 0,
+    if(i % 2 == 0, even = even + 1)
+    if(i % 2 == 1, odd = odd + 1)
+  )
+)
+if(odd==even, "yes" println)
+if(odd!=even, "no" println)

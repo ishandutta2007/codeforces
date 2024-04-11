@@ -1,0 +1,56 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;  
+with Ada.Strings.Fixed;
+with Ada.Numerics.Elementary_Functions;
+
+procedure E is
+    result: Integer;
+    A: Integer;
+    V: Integer;
+    U: Integer;
+    N: Integer;
+    X: Integer;
+    Y: Integer;
+    dst: Float;
+    rat: Float;
+    cx: Float;
+    cy: Float;
+    radius: Float;
+
+begin
+    Ada.Integer_Text_IO.get(Item => A);
+    Ada.Integer_Text_IO.get(Item => V);
+    Ada.Integer_Text_IO.get(Item => U);
+    Ada.Integer_Text_IO.get(Item => N);
+
+    result := 0;
+    for i in 1 .. N loop
+        Ada.Integer_Text_IO.get(Item => X);
+        Ada.Integer_Text_IO.get(Item => Y);
+
+        if Y < 0 then
+            Y := -Y;
+        end if;
+
+        if Float(V * V) * Float((X - A) * (X - A) + Y * Y) <=
+              Float(U * U) * Float(A * A) + 1.0e-3 then
+            result := result + 1;
+        elsif U < V then
+            dst := Ada.Numerics.Elementary_Functions.Sqrt(
+                        Float(X * X + Y * Y));
+            rat := Float(V) / Float(V + U) + Float(V) / Float(V - U);
+            cx := rat * Float(X) / 2.0;
+            cy := rat * Float(Y) / 2.0;
+
+            radius := dst * (Float(V) / Float(V - U) -
+                             Float(V) / Float(V + U)) / 2.0;
+            if -1.0e-9 < cx and cx < Float(A) then
+                if cy - radius < 1.0e-9 then
+                    result := result + 1;
+                end if;
+            end if;
+        end if;
+    end loop;
+    Ada.Integer_Text_IO.put(Item => result, Width => 0);
+end E;

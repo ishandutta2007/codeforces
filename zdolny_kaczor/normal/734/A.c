@@ -1,0 +1,1 @@
+int n,i,c;char s[1<<20];main(){n||scanf("%d%s",&n,s);i-n?main(c+=s[i++]-65?-1:1):puts(c?c>0?"Anton":"Danik":"Friendship");}

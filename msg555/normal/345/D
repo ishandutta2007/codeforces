@@ -1,0 +1,46 @@
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Float_Text_IO;
+with Ada.Integer_Text_IO;  
+with Ada.Strings.Fixed;
+
+procedure D is
+    N: Integer;
+    result: Integer;
+    vis: array(1 .. 50) of Integer;
+    G: array(1 .. 50) of String(1 .. 50);
+
+    procedure dfs(u: Integer) is
+    begin
+        if vis(u) = 1 then
+            return;
+        end if;
+        vis(u) := 1;
+
+        for v in 1 .. N loop
+            if G(u)(v) = '1' then
+                dfs(v);
+            end if;
+        end loop;
+    end;
+begin
+
+    Ada.Integer_Text_IO.get(Item => N);
+    for i in 1 .. N loop
+        vis(i) := 0;
+        get_line(G(i), N);
+        if i = 1 then
+            get_line(G(i), N);
+        end if;
+    end loop;
+
+    vis(N) := 1;
+    dfs(1);
+
+    result := 0;
+    for i in 1 .. N loop
+        if vis(i) = 1 and G(N)(i) = '1' then
+            result := result + 1;
+        end if;
+    end loop;
+    Ada.Integer_Text_IO.put(Item => result, Width => 0);
+end D;

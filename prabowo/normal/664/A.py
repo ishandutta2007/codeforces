@@ -1,0 +1,1 @@
+print((lambda x: x[0] if x[0] == x[1] else 1)(list(map(int, input().split()))))

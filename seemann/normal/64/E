@@ -1,0 +1,32 @@
+set line [gets stdin]
+ scan $line "%d" n
+
+for {set i $n} {true} {set i [expr {$i - 1}]} {
+
+	set ind 1
+	for {set j 2} {[expr {$j * $j}] <= $i} {incr j} {
+		if { [expr {$i % $j}] == 0} {
+			set ind 0
+			break
+		}
+	}
+	if {$ind == 1} {
+		set a $i
+		break
+	}
+}
+
+for {set i $n} {true} {incr i} {
+	set ind 1
+	for {set j 2} {[expr {$j * $j}] <= $i} {incr j} {
+		if { [expr {$i % $j}] == 0} {
+			set ind 0
+			break
+		}
+	}
+	if {$ind == 1} {
+		set b $i
+		break
+	}
+}
+puts "$a $b"

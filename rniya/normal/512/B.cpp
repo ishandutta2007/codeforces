@@ -1,0 +1,185 @@
+#include <bits/stdc++.h>
+using namespace std;
+const long long MOD=1000000007;
+// const long long MOD=998244353;
+#define LOCAL
+#pragma region Macros
+typedef long long ll;
+typedef __int128_t i128;
+typedef unsigned int uint;
+typedef unsigned long long ull;
+#define ALL(x) (x).begin(),(x).end()
+const int INF=1e9;
+const long long IINF=1e18;
+const int dx[4]={1,0,-1,0},dy[4]={0,1,0,-1};
+const char dir[4]={'D','R','U','L'};
+
+template<typename T>
+istream &operator>>(istream &is,vector<T> &v){
+    for (T &x:v) is >> x;
+    return is;
+}
+template<typename T>
+ostream &operator<<(ostream &os,const vector<T> &v){
+    for (int i=0;i<v.size();++i){
+        os << v[i] << (i+1==v.size()?"": " ");
+    }
+    return os;
+}
+template<typename T,typename U>
+ostream &operator<<(ostream &os,const pair<T,U> &p){
+    os << '(' << p.first << ',' << p.second << ')';
+    return os;
+}
+template<typename T,typename U,typename V>
+ostream&operator<<(ostream &os,const tuple<T,U,V> &t){
+    os << '(' << get<0>(t) << ',' << get<1>(t) << ',' << get<2>(t) << ')';
+    return os;
+}
+template<typename T,typename U,typename V,typename W>
+ostream&operator<<(ostream &os,const tuple<T,U,V,W> &t){
+    os << '(' << get<0>(t) << ',' << get<1>(t) << ',' << get<2>(t) << ',' << get<3>(t) << ')';
+    return os;
+}
+template<typename T,typename U>
+ostream &operator<<(ostream &os,const map<T,U> &m){
+    os << '{';
+    for (auto itr=m.begin();itr!=m.end();){
+        os << '(' << itr->first << ',' << itr->second << ')';
+        if (++itr!=m.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template<typename T,typename U>
+ostream &operator<<(ostream &os,const unordered_map<T,U> &m){
+    os << '{';
+    for (auto itr=m.begin();itr!=m.end();){
+        os << '(' << itr->first << ',' << itr->second << ')';
+        if (++itr!=m.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template<typename T>
+ostream &operator<<(ostream &os,const set<T> &s){
+    os << '{';
+    for (auto itr=s.begin();itr!=s.end();){
+        os << *itr;
+        if (++itr!=s.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template<typename T>
+ostream &operator<<(ostream &os,const multiset<T> &s){
+    os << '{';
+    for (auto itr=s.begin();itr!=s.end();){
+        os << *itr;
+        if (++itr!=s.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template<typename T>
+ostream &operator<<(ostream &os,const unordered_set<T> &s){
+    os << '{';
+    for (auto itr=s.begin();itr!=s.end();){
+        os << *itr;
+        if (++itr!=s.end()) os << ',';
+    }
+    os << '}';
+    return os;
+}
+template<typename T>
+ostream &operator<<(ostream &os,const deque<T> &v){
+    for (int i=0;i<v.size();++i){
+        os << v[i] << (i+1==v.size()?"": " ");
+    }
+    return os;
+}
+
+void debug_out(){cerr << '\n';}
+template<class Head,class... Tail>
+void debug_out(Head&& head,Tail&&... tail){
+    cerr << head;
+    if (sizeof...(Tail)>0) cerr << ", ";
+    debug_out(move(tail)...);
+}
+#ifdef LOCAL
+#define debug(...) cerr << " ";\
+cerr << #__VA_ARGS__ << " :[" << __LINE__ << ":" << __FUNCTION__ << "]" << '\n';\
+cerr << " ";\
+debug_out(__VA_ARGS__)
+#else
+#define debug(...) 42
+#endif
+
+template<typename T> T gcd(T x,T y){return y!=0?gcd(y,x%y):x;}
+template<typename T> T lcm(T x,T y){return x/gcd(x,y)*y;}
+
+template<class T1,class T2> inline bool chmin(T1 &a,T2 b){
+    if (a>b){a=b; return true;} return false;
+}
+template<class T1,class T2> inline bool chmax(T1 &a,T2 b){
+    if (a<b){a=b; return true;} return false;
+}
+#pragma endregion
+
+const int MAX_B=9;
+
+int main(){
+    cin.tie(0);
+    ios::sync_with_stdio(false);
+    int n; cin >> n;
+    vector<int> l(n),c(n); cin >> l >> c;
+
+    vector<map<int,int>> mp(n);
+    for (int i=0;i<n;++i){
+        int x=l[i];
+        for (int j=2;j*j<=x;++j){
+            while (x%j==0){
+                ++mp[i][j]; x/=j;
+            }
+        }
+        if (x!=1) mp[i][x]=1;
+    }
+
+    int ans=INF;
+    vector<vector<int>> dp(n+1,vector<int>(1<<MAX_B));
+    auto solve=[&](int x){
+        vector<int> check;
+        for (auto p:mp[x]) check.emplace_back(p.first);
+        int b=check.size();
+        for (int i=0;i<=n;++i){
+            for (int mask=0;mask<(1<<b);++mask){
+                dp[i][mask]=INF;
+            }
+        }
+        dp[0][(1<<b)-1]=c[x];
+        for (int i=0;i<n;++i){
+            if (i==x){
+                for (int mask=0;mask<(1<<b);++mask){
+                    chmin(dp[i+1][mask],dp[i][mask]);
+                }
+                continue;
+            }
+            int nmask=0;
+            for (int j=0;j<b;++j){
+                if (l[i]%check[j]==0){
+                    nmask|=1<<j;
+                }
+            }
+            for (int mask=0;mask<(1<<b);++mask){
+                chmin(dp[i+1][mask],dp[i][mask]);
+                chmin(dp[i+1][mask&nmask],dp[i][mask]+c[i]);
+            }
+        }
+        return dp[n][0];
+    };
+    for (int i=0;i<n;++i){
+        chmin(ans,solve(i));
+    }
+
+    cout << (ans==INF?-1:ans) << '\n';
+}

@@ -1,0 +1,1 @@
+var n,i:integer;begin read(n);for i:=1 to n do write(500000+i,' ');end.

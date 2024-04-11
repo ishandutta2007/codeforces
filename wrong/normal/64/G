@@ -1,0 +1,59 @@
+set s [gets stdin]
+set d [split $s /]
+set lis ""
+
+foreach x $d {
+  if {$x != "."} {
+    if {[string length $x] > 0} {
+      lappend lis $x
+    }
+  }
+}
+
+set n [llength $lis]
+set ok yes
+set nn 0
+set n2 0
+foreach x $lis {
+  if {$x == ".."} {
+    incr nn
+  } else {
+    incr n2
+  }
+  if {$nn > $n2} {
+    set ok no
+  }
+}
+if {$ok == "yes"} {
+  for {set i 0} {$i < $nn} {incr i} {
+    set nxt ""
+    for {set j 0} {$j < $n} {incr j} {
+      set x [lindex $lis $j]
+      if {$x == ".."} {
+        if {$j == 0} {
+          set ok no
+          break
+        }
+        for {set k [expr $j+1]} {$k < $n} {incr k} {
+          lappend nxt [lindex $lis $k]
+        }
+        set n [expr $n-2]
+        break
+      } else {
+        if {$j > 0} {
+          lappend nxt [lindex $lis [expr $j-1]]
+        }
+      }
+    }
+    if {$ok == "no"} {
+      break
+    }
+    set lis $nxt
+  }
+}
+
+if {$ok == "no"} {
+  puts -1
+} else {
+  puts "/[join $lis /]"
+}

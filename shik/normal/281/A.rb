@@ -1,0 +1,1 @@
+puts gets[0].upcase+$_[1..-1]

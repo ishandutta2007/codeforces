@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+struct P {int x,type;};bool operator <(P a, P b){return a.x<b.x || a.x==b.x && a.type<b.type;}P p[2000005];int a[2000005],b[2000005];int ans,i,cnt,n,k,ax,bx,m;using namespace std;main(){scanf("%d %d",&n,&k);for (i=1;i<=n;i++){scanf("%d %d",&ax,&bx);p[m].x=ax;p[m++].type=1;p[m].x=bx;p[m++].type=2;}sort(p,p+m);for(i=0;i<m;i++)if(p[i].type==1){cnt++;if(cnt==k){ans++;a[ans]=p[i].x;}}else{cnt--;if(cnt==k-1)b[ans]=p[i].x;}printf("%d\n",ans);for(i=1;i<=ans;i++)printf("%d %d\n",a[i],b[i]);}

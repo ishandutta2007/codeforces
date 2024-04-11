@@ -1,0 +1,6 @@
+int main() {
+    sscanf(Stdio.stdin->gets(),"%d",int a);
+    sscanf(Stdio.stdin->gets(),"%d",int b);
+    write((a+b)+"\n");
+    return 0;
+}

@@ -1,0 +1,34 @@
+set [9] 0
+co f{
+    cin [0]
+    eq [1] [0] 10
+    if [1]
+        ac
+    eq [1] [0] 72
+    if [1]
+        set [9] 1
+    eq [1] [0] 81
+    if [1]
+        set [9] 1
+    eq [1] [0] 57
+    if [1]
+        set [9] 1
+}
+ca f
+co y{
+    cout 89
+    cout 69
+    cout 83
+    ac
+}
+co n{
+    cout 78
+    cout 79
+    ac
+}
+if [9]
+    ca y
+eq [9] [9] 0
+if [9]
+    ca n
+ac

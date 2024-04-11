@@ -1,0 +1,38 @@
+set line [gets stdin]
+scan $line "%d" n
+
+set ss {}
+for {set i 0} {$i < $n} {incr i} {
+	set line [gets stdin]
+	scan $line "%s %d" nm sc
+	set ary($nm) $sc
+	lappend ss $sc
+}
+set ss [lsort -integer -decreasing $ss]
+lappend ss -999
+incr n
+
+set prev 99999
+set previ -1
+for {set i 0} {$i < $n} {incr i} {
+	set cur [lindex $ss $i]
+	if {$prev > $cur} {
+		if {$previ < $i-1} {
+			set str "[expr $previ+1]-$i"
+		} else {
+			set str "$i"
+		}
+		set loc {}
+			foreach key [array names ary] {
+		    	if {$prev == $ary($key)} {
+		    		lappend loc "$str $key"
+		    	}
+		    }
+		    set loc [lsort $loc]
+		    foreach j $loc {
+		    	puts $j
+		    }
+		    set prev $cur
+		    set previ $i
+	}
+}

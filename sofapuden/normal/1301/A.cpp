@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+#define rep(i,a,b) for(int i = a; i<b; i++)
+#define dep(i,a,b) for(int i = a; i>b; i--)
+#define makeUnique(vec) sort(all(vec)); vec.resize(unique(all(vec)) - vec.begin())
+#define LOG_vec(vec, sep) for (int fl = 0; fl < vec.size(); fl++) { std::cout << vec[fl]<< sep; } std::cout << "\n"
+#define LOG_ints(vec, sep) for (int fl = 0; fl < MAXSIZE; fl++) { std::cout << vec[fl]<< sep; } std::cout << "\n"
+#define all(x) (x).begin(), (x).end()
+#define ll long long
+#define LSB(i) ((i) & -(i))
+#define MAXSIZE 100000000
+
+
+using namespace std;
+
+void solve() {
+	string a, b, c;
+	cin >> a >> b >> c;
+	rep(i, 0, a.length()) {
+		if (a[i] != c[i] and b[i] != c[i]) {
+			cout << "NO\n";
+			return;
+		}
+	}
+	cout << "YES\n";
+	return;
+}
+int main() {
+	int n;
+	cin >> n;
+	while (n--) {
+		solve();
+	}
+	return 0;
+}

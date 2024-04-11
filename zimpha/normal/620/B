@@ -1,0 +1,23 @@
+let xint() = Scanf.scanf " %d" (fun x -> x)
+
+let () = 
+  let a = xint() and b = xint() in
+  let s = Array.make 1000001 0 in
+  s.(0) <- 6;
+  s.(1) <- 2;
+  s.(2) <- 5;
+  s.(3) <- 5;
+  s.(4) <- 4;
+  s.(5) <- 5;
+  s.(6) <- 6;
+  s.(7) <- 3;
+  s.(8) <- 7;
+  s.(9) <- 6;
+  for i = 10 to 1000000 do
+    s.(i) <- s.(i / 10) + s.(i mod 10);
+  done;
+  let sum = ref 0 in
+  for i = a to b do
+    sum := !sum + s.(i);
+  done;
+  Printf.printf "%d\n" !sum;

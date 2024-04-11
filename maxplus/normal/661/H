@@ -1,0 +1,25 @@
+
+
+strsplit=: #@[ }.each [ (E. <;.1 ]) ,
+strjoin=: #@[ }. <@[ ;@,. ]
+print =: 1!:2&2
+read =: 1!:1[3
+in =: read-.CR
+rows =: }: LF strsplit in
+arr =: ' ' strsplit ' ' strjoin rows
+i2s =: (".^:_1)
+
+r =: $rows
+c =: $' ' strsplit '' strjoin 0{rows
+
+print =: 3 : 0
+	for_i. i.c do.
+		line =. ''
+		for_j. i.r do.
+			line =. line, ' ', i2s '' strjoin (i + (<:r - j) * c){arr
+		end.
+		smoutput }.line
+	end.
+)
+
+print _

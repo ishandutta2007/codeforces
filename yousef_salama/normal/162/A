@@ -1,0 +1,9 @@
+USING: formatting io kernel locals math math.functions math.parser ;
+IN: solution
+
+:: pantagonal ( n -- pantagonal(n) )
+    n n * 3 * n - 2 /
+    ;
+readln string>number
+pantagonal
+number>string print

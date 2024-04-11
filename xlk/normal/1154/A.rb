@@ -1,0 +1,1 @@
+a,b,c,d=gets.split.map(&:to_i).sort;p d-a,d-b,d-c

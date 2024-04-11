@@ -1,0 +1,32 @@
+print =: 1!:2&2
+read =: 1!:1[3
+NB. n =. ". (read-.LF)-.CR
+
+all =. read
+iscr =. all e. CR
+all2 =. (-. (iscr)) # all
+islf =. all2 e. LF
+islf =. islf * (i. (#islf))
+islf =. ((all2 e. LF) # islf)
+NB. islf{all2 =. ' '
+sp =. (#islf) # ' '
+all2 =. sp islf } all2
+n =. ". all2
+
+ind =. i. (#n)
+m =. n, 101 101 101 101 101 101 101 101 101 101 101
+
+any =. 0
+any =. any +. (-.*+/ (n | 0{m))
+any =. any +. (-.*+/ (n | 1{m))
+any =. any +. (-.*+/ (n | 2{m))
+any =. any +. (-.*+/ (n | 3{m))
+any =. any +. (-.*+/ (n | 4{m))
+any =. any +. (-.*+/ (n | 5{m))
+any =. any +. (-.*+/ (n | 6{m))
+any =. any +. (-.*+/ (n | 7{m))
+any =. any +. (-.*+/ (n | 8{m))
+any =. any +. (-.*+/ (n | 9{m))
+echo any
+
+exit ''

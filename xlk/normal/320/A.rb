@@ -1,0 +1,1 @@
+puts gets.gsub("144","x").gsub("14","x").gsub("1","x").gsub("x","")=="\n"?"YES":"NO"

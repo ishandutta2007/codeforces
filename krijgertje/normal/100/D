@@ -1,0 +1,11 @@
+int main() {
+    sscanf(Stdio.stdin->gets(),"%d",int n);
+    sscanf(Stdio.stdin->gets(),"%s",string a);
+    sscanf(Stdio.stdin->gets(),"%s",string b);
+    int na=sizeof(a),nb=sizeof(b);
+    int same=0;
+    while(same<na&&same<nb&&a[same]==b[same]) ++same;
+    int changes=na-same+nb-same;
+    if(changes<=n) write("Yes"); else write("No");
+    return 0;
+}

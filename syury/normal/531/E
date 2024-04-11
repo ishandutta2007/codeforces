@@ -1,0 +1,10 @@
+main =>
+  N = read_int(),
+  D = read_int(),
+  I = 1,
+  while (I<=N-2)
+    writef("1 "),
+    I:=I+1
+    end,
+  writef("2 "),
+  writef("%w%n",N+D).

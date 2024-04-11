@@ -1,0 +1,11 @@
+open System
+
+let main () =
+    let n = Int32.Parse(System.Console.ReadLine())
+    let f = Array.ConvertAll(Console.ReadLine().Split([|' '|]), fun x -> ((Int32.Parse x) % 2))
+    if Array.sum f = n - 1 then
+        Console.WriteLine(1 + Array.findIndex (fun x -> x = 0) f)
+    else
+        Console.WriteLine(1 + Array.findIndex (fun x -> x = 1) f)
+
+main()

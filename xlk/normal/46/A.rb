@@ -1,0 +1,1 @@
+puts (1...n=gets.to_i).map{|i|i*(i+1)/2%n+1}*' '

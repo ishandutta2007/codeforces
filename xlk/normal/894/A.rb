@@ -1,0 +1,1 @@
+p gets.chars.combination(3).to_a.count(['Q','A','Q'])

@@ -1,0 +1,38 @@
+main =>
+ ZAP = read_int(),
+ HELP = 1,
+ TT = new_array(2001),
+ while (HELP <= 1000) do 
+	TT[HELP] := 1,
+	HELP := HELP + 1 
+ end,
+ HELP := 1,
+while (HELP <= ZAP)
+ do
+ 	A = read_int(),
+ 	B = read_int(),
+ 	TMP = A,
+ 	while ( TMP <= B )
+   	do
+	   	TT[TMP] := 0,
+  		TMP := TMP + 1
+  	end,
+ 	HELP := HELP + 1
+ end,
+HELP := 1,
+WYN = 0,
+while (HELP <= 1000)
+do
+  if ( TT[HELP] == 1) then 
+	WYN := WYN + 1
+  end,
+  HELP := HELP + 1
+end,
+printf("%d ", WYN),
+HELP := 1,
+while (HELP <= 1000)
+do
+  if (TT[HELP] == 1) then printf("%d ", HELP)
+  end,
+  HELP := HELP + 1
+end.

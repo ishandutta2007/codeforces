@@ -1,0 +1,6 @@
+USING: io kernel math math.parser sequences locals ;
+""
+readln string>number
+[| str n | n 2 rem number>string str append n 2 /i dup zero? not ] loop
+drop
+print

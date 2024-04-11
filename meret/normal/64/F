@@ -1,0 +1,30 @@
+set s [gets stdin]
+set n [string length $s]
+if {$n < 2} {
+    puts "NO"
+    exit
+}
+if {$n >= 4} {
+    if {[string index $s [expr $n - 3]] != "." && [string index $s [expr $n - 4]] != "."} {
+        puts "NO"
+        exit
+    }
+}
+if {[string index $s 0] == "." || [string index $s [expr $n - 2]] == "." || [string index $s [expr $n - 1]] == "."} {
+    puts "NO"
+    exit
+}
+for {set i 0} {[expr $i + 1] < $n} {incr i} {
+    if {[string index $s $i] == "." && [string index $s [expr $i + 1]] == "."} {
+        puts "NO"
+        exit
+    }
+}
+for {set i 0} {$i < $n} {incr i} {
+    scan [string index $s $i] %c c
+    if {$c != 46 && ($c < 48 || $c > 57) && ($c < 97 || $c > 122)} {
+        puts "NO"
+        exit
+    }
+}
+puts "YES"

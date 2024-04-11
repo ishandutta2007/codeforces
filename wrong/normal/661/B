@@ -1,0 +1,11 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =: (read-.LF)-.CR
+
+M =: 'December';'January';'February';'March';'April';'May';'June';'July';'August';'September';'October';'November'
+idx =: <. 3 %~ I. > in -: (L:0) M
+
+print > idx { ('winter';'spring';'summer';'autumn')
+
+exit ''

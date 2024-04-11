@@ -1,0 +1,47 @@
+co addadd
+{
+dec [100]
+set [200] [[100]]
+dec [100]
+set [201] [[100]]
+add [[100]] [200] [201]
+inc [100]
+ac
+}
+co mulmul
+{
+dec [100]
+set [300] [[100]]
+dec [100]
+set [301] [[100]]
+mul [[100]] [300] [301]
+inc [100]
+ac
+}
+co push
+{
+sub [101] [101] 48
+set [[100]] [101]
+inc [100]
+ac
+}
+
+co calc
+{
+cin [101]
+eq [107] [101] 10
+if [107] ac
+eq [107] [101] 43
+if [107] ca addadd
+eq [108] [101] 42
+if [108] ca mulmul
+add [107] [107] [108]
+eq [107] [107] 0
+if [107] ca push
+}
+
+
+ca calc
+dec [100]
+iout [[100]]
+ac

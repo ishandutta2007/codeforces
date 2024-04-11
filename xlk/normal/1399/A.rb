@@ -1,0 +1,1 @@
+gets.to_i.times{gets;a=gets.split.map(&:to_i).uniq;puts (a.max-a.min<a.size)?:YES:'NO';}

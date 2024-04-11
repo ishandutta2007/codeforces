@@ -1,0 +1,16 @@
+main =>
+
+Tab = read_line(),
+DL = length(Tab),
+
+OB = DL//2,
+while(OB > 0) do
+	write_char(Tab[OB]),
+	OB := OB - 1
+end,
+OB1 = DL//2,
+OB2 = DL,
+while(OB2>OB1) do 
+	write_char(Tab[OB2]),
+	OB2 := OB2 - 1
+end.

@@ -1,0 +1,60 @@
+       IDENTIFICATION DIVISION.
+         PROGRAM-ID. SOLUTION.
+
+         DATA DIVISION.
+         WORKING-STORAGE SECTION.
+         01 TMP      PIC X(100).
+         01 N        PIC 9(10) VALUE ZEROES.
+         01 I        PIC 9(10) VALUE ZEROES.
+         01 I2       PIC 9(10) VALUE ZEROES.
+         01 PTS.
+            03 XS    PIC S9(20) VALUE ZEROES OCCURS 100 TIMES.
+            03 YS    PIC S9(20) VALUE ZEROES OCCURS 100 TIMES.
+         01 ANS      PIC S9(20) VALUE ZEROES.
+         01 TMP1     PIC S9(10) VALUE ZEROES.
+         01 TMP2     PIC S9(10) VALUE ZEROES.
+
+         PROCEDURE DIVISION.
+           ACCEPT TMP
+           MOVE TMP TO N
+
+      *    MOVE FUNCTION SQRT(50000000) TO ANS
+      *    DISPLAY FUNCTION SQRT(50000000)
+      *    DISPLAY ANS
+           MOVE 0 TO ANS
+
+           MOVE 1 TO I
+           PERFORM UNTIL I > N
+             ACCEPT TMP
+             MOVE TMP TO XS(I)
+             ACCEPT TMP
+             MOVE TMP TO YS(I)
+             ADD 1 TO I
+           END-PERFORM
+
+           MOVE 1 TO I
+           PERFORM UNTIL I > N
+             MOVE I TO I2
+             ADD 1 TO I2
+             PERFORM UNTIL I2 > N
+               MOVE XS(I) TO TMP1
+               SUBTRACT XS(I2) FROM TMP1
+               MULTIPLY TMP1 BY TMP1
+               MOVE TMP1 TO TMP2
+
+               MOVE YS(I) TO TMP1
+               SUBTRACT YS(I2) FROM TMP1
+               MULTIPLY TMP1 BY TMP1
+               ADD TMP1 TO TMP2
+
+               IF TMP2 > ANS THEN
+                 MOVE TMP2 TO ANS
+               END-IF
+
+               ADD 1 TO I2
+             END-PERFORM
+             ADD 1 TO I
+           END-PERFORM
+
+           DISPLAY FUNCTION SQRT(ANS)
+           STOP RUN.

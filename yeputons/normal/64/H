@@ -1,0 +1,49 @@
+scan [gets stdin] "%d" n
+set parts [list]
+for { set i 0 } { $i < $n } { incr i } {
+  set line [gets stdin]
+  scan $line "%s %d" name score
+  lappend parts [ list $score $name ]
+}
+proc mycmp0 { a b } {
+  if { $a < $b } { return -1 }
+  if { $a > $b } { return 1 }
+  return 0
+}
+proc mycmp { a b } {
+  set s1 [ lindex $a 0 ]
+  set n1 [ lindex $a 1 ]
+  set s2 [ lindex $b 0 ]
+  set n2 [ lindex $b 1 ]
+  if { $s1 == $s2 } { return [ mycmp0 $n1 $n2 ] }
+  return [ mycmp0 $s2 $s1 ]
+}
+set parts [ lsort -command mycmp $parts]
+
+set score [list]
+foreach me $parts {
+  lappend score [ lindex $me 0 ]
+}
+
+for { set i 0 } { $i < $n } { incr i } {
+  set minpl($i) 1
+  for { set i2 0 } { $i2 < $i } { incr i2 } {
+    if { [ lindex $score $i2 ] > [ lindex $score $i ] } {
+      incr minpl($i)
+    }
+  }
+
+  set maxpl($i) $n
+  for  { set i2 [expr { $n - 1 }] } { $i2 >= $i } { incr i2 -1 } {
+    if { [ lindex $score $i2 ] < [ lindex $score $i ] } {
+      incr maxpl($i) -1
+    }
+  }
+
+  if { $minpl($i) == $maxpl($i) } {
+    set place $minpl($i)
+  } else {
+    set place [ format "%d-%d" $minpl($i) $maxpl($i) ]
+  }
+  puts [ format "%s %s" $place [ lindex [ lindex $parts $i ] 1 ] ]
+}

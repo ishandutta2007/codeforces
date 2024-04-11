@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+
+#define endl '\n'
+#define fi first
+#define se second
+#define MOD(n,k) ( ( ((n) % (k)) + (k) ) % (k))
+#define forn(i,n) for (int i = 0; i < n; i++)
+#define forr(i,a,b) for (int i = a; i <= b; i++)
+#define all(v) v.begin(), v.end()
+#define pb(x) push_back(x)
+
+using namespace std;
+
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<ii> vii;
+
+
+const int MX = 100005;
+int n, a[MX], mn, bs[MX];
+vi res, b;
+
+void solve () {
+	int x1, y1, z1;
+	int x2, y2, z2;
+
+	cin >> x1 >> y1 >> z1;
+	cin >> x2 >> y2 >> z2;
+
+	ll res = 0;
+	ll d = min(z1, y2);
+
+	res += 2 * d;
+	z1 -= d;
+	y2 -= d;
+
+	d = min(y1, y2);
+	y1 -= d;
+	y2 -= d;
+
+	d = min(y1, x2);
+	y1 -= d;
+	x2 -= d;
+
+	d = min(y1, z2);
+	res -= 2 * d;
+	y1 -= d;
+	z2 -= d;
+
+	cout << res << endl;
+}
+
+int main () {
+	ios_base::sync_with_stdio(0); cin.tie(0);
+	
+	int t;
+	cin >> t;
+	while (t--)
+		solve();
+	
+	return 0;
+}

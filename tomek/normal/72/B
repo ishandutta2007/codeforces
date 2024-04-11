@@ -1,0 +1,48 @@
+lines := File standardInput readLines
+
+nlines := doString(lines at(0))
+big := Map clone
+current := ""
+for(i,1,nlines,
+  s := lines at(i)
+  s strip
+  if (s size == 0, continue)
+  if (s at(0) == ";" at(0), continue)
+  if (s at(0) == "[" at(0),
+    s removePrefix("[")
+    s removeSuffix("]")
+    s strip
+    current := s
+    big atIfAbsentPut(current, Map clone),
+    
+    eq := s findSeq("=")
+    keyval := s splitAt(eq)
+    key := keyval at(0) asMutable
+    key strip
+    value := keyval at(1) asMutable
+    value removePrefix("=")
+    value strip
+    mm := big atIfAbsentPut(current, Map clone)
+    mm atPut(key, value)
+  )
+)
+biglist := big asList sort
+for (i, 0, biglist size - 1,
+  bigkeyvalue := biglist at(i)
+  bigkey := bigkeyvalue at(0)
+  bigvalue := bigkeyvalue at(1)
+  if (bigkey size > 0,
+    "[" print
+    bigkey print
+    "]" println
+  )
+  thelist := bigvalue asList sort
+  for (j, 0, thelist size - 1,
+    keyvalue := thelist at(j)
+    key := keyvalue at(0)
+    value := keyvalue at(1)
+    key print
+    "=" print
+    value println
+  )
+)

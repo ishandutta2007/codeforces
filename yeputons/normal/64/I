@@ -1,0 +1,49 @@
+set cols [ split [gets stdin] " " ]
+set i 0
+foreach col $cols {
+  set ords($col) 0
+  set colid($col) $i
+  incr i
+}
+foreach arg [ split [gets stdin] "," ] {
+  set opts [ split [ string trim $arg ] " " ]
+  set name [ lindex $opts 0 ]
+  lappend cols_ord $name
+  set val [ lindex $opts 1 ]
+  if { $val == "ASC" } {
+    set nord 1
+  } else {
+    set nord -1
+  }
+  if { $ords($name) == 0 } {
+    set ords($name) $nord
+  }
+}
+proc cmp { a b } {
+  if { $a < $b } { return -1 }
+  if { $a > $b } { return 1 }
+  return 0
+}
+proc mycmp { a b } {
+  upvar ords ords
+  upvar cols_ord cols_ord
+  upvar colid colid
+  foreach colname $cols_ord {
+    set i $colid($colname)
+    set val [ cmp [ lindex $a $i ] [ lindex $b $i ] ]
+    set val [ expr { $val * $ords($colname) } ]
+    if { $val != 0 } { return $val }
+  }
+  return 0
+}
+
+while { True } {
+  set line [gets stdin]
+  if { $line == "" } { break; }
+  lappend lines [ split $line " " ]
+}
+#puts $lines
+set slines [ lsort -command mycmp $lines ]
+foreach line $slines {
+  puts [ join $line " " ]
+}

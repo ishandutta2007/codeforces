@@ -1,0 +1,5 @@
+USING: io kernel math math.parser math.primes.factors sequences ;
+
+readln string>number factors 
+[ number>string ] map
+"*" join print

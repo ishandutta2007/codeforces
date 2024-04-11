@@ -1,0 +1,16 @@
+int main() {
+    int n,k,m;
+    string line = Stdio.stdin->gets();
+    sscanf(line, "%d%d%d",n,k,m);
+  int p = k;
+  do{
+    int q = k/p;
+    if(p*m >= n && q*m >= n){
+        write("YES\n");
+        return 0;
+    }
+    p -= 1;
+  }while(p >= 1);
+  write("NO\n");
+  return 0;
+}

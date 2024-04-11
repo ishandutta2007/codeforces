@@ -1,0 +1,67 @@
+% pical
+import basic.
+import ordset.
+import util.
+
+table
+solve(_, []) = (0, []).
+solve(_, [], Bycol) = (length(Bycol), [X : X in Bycol]).
+solve(E, [X|Xs], Bycol) = (Ans, Res) =>
+  Ans = 10000,
+  Res = [],
+  I := 1,
+  foreach (Tcol in Bycol)
+    Ok := true,
+    foreach (Y in Tcol)
+      if member((Y, X), E) then
+        Ok := false
+      end
+    end,
+    if Ok then
+      Old := Bycol[I],
+      Bycol[I] := [X|Bycol[I]],
+      (Cans, Cres) = solve(E, Xs, Bycol),
+      if Cans < Ans then
+        Ans := Cans,
+        Res := Cres
+      end,
+      Bycol[I] := Old
+    end,
+    I := I + 1
+  end,
+  (Cans, Cres) = solve(E, Xs, Bycol ++ [[X]]),
+  if Cans < Ans then
+    Ans := Cans,
+    Res := Cres
+  end.
+
+main =>
+  N = read_int(),
+  K = read_int(),
+  E = new_ordset([]),
+  while (K > 0)
+    M = read_int(),
+    P = [],
+    while (M > 0)
+      X := read_int(),
+      foreach (Y in P)
+        V := (min(X, Y), max(X, Y)),
+        E := insert(E, V)
+      end,
+      P := P ++ [X],
+      M := M - 1
+    end,
+    K := K - 1
+  end,
+  (_, Out) = solve(E, 1..N, []),
+  I := 1,
+  while (I <= N)
+    J := 1,
+    foreach (Seq in Out)
+      if member(I, Seq) then
+        println(J)
+      end,
+      J := J + 1
+    end,
+    I := I + 1
+  end

@@ -1,0 +1,24 @@
+co find{
+    lt [2] [0] [1]
+    if [2] div [1] [1] 2
+    sub [2] 1 [2]
+    if [2] ac
+}
+
+co doit{
+    eq [2] [1] 0
+    if [2] ac
+    
+    lt [2] [0] [1]
+    if [2] cout 48
+    sub [2] 1 [2]
+    if [2] cout 49
+    if [2] sub [0] [0] [1]
+    div [1] [1] 2
+}
+
+iin [0]
+set [1] 1048576
+ca find
+ca doit
+ac

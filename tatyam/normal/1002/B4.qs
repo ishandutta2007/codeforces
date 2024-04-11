@@ -1,0 +1,20 @@
+namespace Solution {
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Intrinsic;
+
+    operation Solve (qs : Qubit[]) : Int {
+        ApplyToEach(X, qs);
+        CZ(qs[0], qs[1]);
+        ApplyToEach(X, qs);
+        H(qs[0]);
+        H(qs[1]);
+        mutable ans = 0;
+        if (M(qs[0]) == One) {
+            set ans += 1;
+        }
+        if (M(qs[1]) == One) {
+            set ans += 2;
+        }
+        return ans;
+    }
+}

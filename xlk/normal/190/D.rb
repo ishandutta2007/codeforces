@@ -1,0 +1,1 @@
+n,m=gets.split.map &:to_i;a=gets.split.map &:to_i;h=Hash.new 0;j,z=-1,0;n.times{|i|h[a[j+=1]]+=1 until h[a[j]]>=m||j==n;z+=n-j;h[a[i]]-=1;};p z

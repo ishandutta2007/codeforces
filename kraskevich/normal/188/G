@@ -1,0 +1,49 @@
+co go 
+{
+    eq [999] [111] [0]
+    if [999] ac
+    add [112] [111] 1
+    gt [999] [[111]] [[112]]
+    if [999] 
+        set [1000] [[111]]
+    if [999]
+        set [[111]] [[112]]
+    if [999]
+        set [[112]] [1000]
+    inc [111]
+}
+
+co outside
+{
+    eq [998] [101] [0]
+    if [998] ac
+    set [111] 1
+    ca go
+    inc [101]
+}
+
+co print
+{
+    gt [998] [101] [0]
+    if [998] ac
+    iout [[101]]
+    cout 32
+    inc [101]
+}
+
+co read
+{
+    gt [888] [101] [0]
+    if [888] ac
+    iin [[101]]
+    inc [101]
+}
+
+iin [0]
+set [101] 1
+ca read
+set [101] 1
+ca outside
+set [101] 1
+ca print
+ac

@@ -1,0 +1,13 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =. (read-.LF)-.CR
+
+n =. ". in
+
+x =: 2
+diff =: x -/\ n
+
+print >./ (>./ diff >./ -diff)
+
+exit ''

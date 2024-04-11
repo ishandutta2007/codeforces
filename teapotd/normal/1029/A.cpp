@@ -1,0 +1,54 @@
+#define _USE_MATH_DEFINES/////////////////////////////////////////////////////
+#include <bits/stdc++.h>//////////////////////////////////////////////////////
+#ifdef LOC////////////////////////////////////////////////////////////////////
+#include "debuglib.h"/////////////////////////////////////////////////////////
+#else/////////////////////////////////////////////////////////////////////////
+#define deb(...)//////////////////////////////////////////////////////////////
+#define DBP(...)//////////////////////////////////////////////////////////////
+#endif////////////////////////////////////////////////////////////////////////
+#define x first///////////////////////////////////////////////////////////////
+#define y second//////////////////////////////////////////////////////////////
+#define mp make_pair//////////////////////////////////////////////////////////
+#define pb push_back//////////////////////////////////////////////////////////
+#define sz(x)int((x).size())//////////////////////////////////////////////////
+#define each(a,x)for(auto&a:(x))///////////////// by teapotd /////////////////
+#define all(x)(x).begin(),(x).end()///////////////////////////////////////////
+#define rep(i,b,e)for(int i=(b);i<(e);i++)////////////////////////////////////
+using namespace std;using namespace rel_ops;using ll=int64_t;using Pii=pair///
+<int,int>;using ull=uint64_t;using Vi=vector<int>;void run();int main(){cin.//
+sync_with_stdio(0);cin.tie(0);cout<<fixed<<setprecision(10);run();return 0;}//
+//--------------------------------------------------------------------------//
+
+int uplg(int n) { return 32-__builtin_clz(n); }
+int uplg(ll n)  { return 64-__builtin_clzll(n); }
+
+// KMP algorithm; helper function
+// Use functions below.
+template<class T>
+void kmp(const T& cur, const T& prev, Vi& ps) {
+	each(x, cur) {
+		int k = ps.back();
+		while (k >= 0 && prev[k] != x) k = ps[k];
+		ps.pb(k+1);
+	}
+}
+
+// Computes prefsuf array; time: O(n)
+// ps[i] = max prefsuf of [0;i); ps[0] := -1
+template<class T> Vi prefSuf(const T& str) {
+	Vi ps; ps.pb(-1);
+	kmp(str, str, ps);
+	return ps;
+}
+
+void run() {
+	int n, k; cin >> n >> k;
+	string str; cin >> str;
+	int pref = prefSuf(str).back();
+
+	cout << str;
+	rep(i, 1, k) {
+		rep(j, pref, n) cout << str[j];
+	}
+	cout << endl;
+}

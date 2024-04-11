@@ -1,0 +1,119 @@
+//CF1446D2
+#include<iostream>
+#include<cstdio>
+#include<fstream>
+#include<algorithm>
+#include<vector>
+#include<map>
+#include<set>
+#include<queue>
+#include<bitset>
+#include<cmath>
+#include<cstring>
+#include<cstdlib>
+using namespace std;
+typedef long long LL;
+typedef double DB;
+const int N = 222222;
+int n,m,a[N],b[N],f[N],s[N];
+vector<int> v[N],q;
+int main()
+{
+	int i,j,k,p,o,x,y,z,ans;
+	scanf("%d",&n);
+	m=n;
+	for(i=1;i<=n;i=i+1){
+		scanf("%d",a+i);
+		b[a[i]]++;
+		v[a[i]].push_back(i);
+	}
+	p=0;
+	for(i=1;i<=m;i=i+1)
+		if(b[i]>b[p])
+			p=i;
+	o=0;
+	for(i=1;i<=m;i=i+1)
+		if(b[i]==b[p])
+			o++;
+	if(o>=2){
+		cout<<n;
+		return 0;
+	}
+	for(i=1;i<=n;i=i+1)
+		s[i]=s[i-1]+(a[i]==p);
+	ans=0;
+	for(i=1;i<=m;i=i+1){
+		if(i==p)
+			continue;
+		x=0;
+		q.clear();
+		for(j=0;j<b[i];j=j+1){
+			x=s[v[i][j]]-j;
+			if(x>=0)
+				q.push_back(x);
+			if(x>=1)
+				q.push_back(x-1);
+		}
+		q.push_back(-n-5);
+		q.push_back(n+5);
+		sort(q.begin(),q.end());
+		q.resize(unique(q.begin(),q.end())-q.begin());
+		for(j=1;j<q.size();j=j+1)
+			f[q[j]]=N;
+		x=0;
+		f[0]=0;
+		k=0;
+		for(j=0;j<=b[i];j=j+1){
+			if(j<b[i])
+				y=s[v[i][j]]-j;
+			else
+				y=s[n]-j;
+			while(q[k]>x){
+				k--;
+			}
+			while(q[k+1]<x){
+				k++;
+			}
+			while(q[k]<=y){
+				if(q[k]>=0&&q[k]+j>0){
+					if(f[q[k]]>=N){
+						if(q[k]+j==0)
+							z=0;
+						else
+							z=v[p][q[k]+j-1];
+						f[q[k]]=z;
+					}
+					else{
+						if(q[k]==y){
+							if(j==b[i])
+								z=n;
+							else
+								z=v[i][j]-1;
+						}
+						else
+							z=v[p][q[k]+j]-1;
+						ans=max(ans,z-f[q[k]]);
+					}
+				}
+				k++;
+			}
+			if(j==b[i])
+				break;
+			x=y-1;
+			if(x>=0){
+				if(f[x]>=N){
+					f[x]=v[i][j];
+				}
+				else{
+					if(s[v[i][j]]==s[n])
+						z=n;
+					else
+						z=v[p][s[v[i][j]]]-1;
+					ans=max(ans,z-f[x]);
+				}
+			}
+		}
+	}
+	cout<<ans;
+	return 0;
+}

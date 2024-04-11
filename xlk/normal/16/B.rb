@@ -1,0 +1,1 @@
+z=0;n,m=gets.split.map &:to_i;m.times.to_a.map{gets.split.map(&:to_i).reverse}.sort.reverse.each{|x,y|t=[n,y].min;n-=t;z+=x*t;};p z

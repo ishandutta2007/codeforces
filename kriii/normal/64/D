@@ -1,0 +1,15 @@
+ set line [gets stdin] 
+ scan $line "%d%d%d" a b c
+ if { [ expr $a >= $b && $a >= $c && $b >= $c ] } {
+     puts "1 2 3"
+ } elseif { [ expr $a >= $b && $a >= $c && $c >= $b ] } {
+     puts "1 3 2"
+ } elseif { [ expr $b >= $a && $b >= $c && $a >= $c ] } {
+     puts "2 1 3"
+ } elseif { [ expr $b >= $a && $b >= $c && $c >= $a ] } {
+     puts "3 1 2"
+ } elseif { [ expr $c >= $a && $c >= $b && $a >= $b ] } {
+     puts "2 3 1"
+ } else {
+     puts "3 2 1"
+ }

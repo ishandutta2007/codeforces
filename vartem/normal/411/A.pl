@@ -1,0 +1,1 @@
+$_=<>;print/.{5}/&/\d/&/[a-z]/&/[A-Z]/?Correct:"Too weak"

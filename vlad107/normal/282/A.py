@@ -1,0 +1,1 @@
+print sum([-1,1][raw_input()[1]=="+"] for _ in range(input()))

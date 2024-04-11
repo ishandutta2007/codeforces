@@ -1,0 +1,27 @@
+co doit{
+    cin [0]
+    
+    eq [1] [0] 10
+    if [1] ac
+    eq [1] [0] 72
+/*    eq [2] [0] 43*/
+    set [2] 0
+    eq [3] [0] 81
+    eq [4] [0] 57
+    
+    add [5] [1] [2]
+    add [5] [5] [3]
+    add [5] [5] [4]
+    if [5] cout 89
+    if [5] cout 69
+    if [5] cout 83
+    if [5] set [6] 1
+    if [5] ac
+}
+
+set [6] 0
+ca doit
+sub [6] 1 [6]
+if [6] cout 78
+if [6] cout 79
+ac

@@ -1,0 +1,6 @@
+n=int(input())
+a=sum([int (z) for z in input ().split ()])
+b=sum([int (z) for z in input ().split ()])
+c=sum([int (z) for z in input ().split ()])
+print(a-b)
+print(b-c)

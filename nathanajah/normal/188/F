@@ -1,0 +1,21 @@
+co bin{
+    eq [0] [1] 0
+    if [0] ac
+    mod [[2]] [1] 2
+    add [2] [2] 1
+    div [1] [1] 2
+}
+
+co write{
+    eq [0] [2] 2
+    if [0] ac
+    iout [[2]]
+    sub [2] [2] 1
+}
+
+iin [1]
+set [2] 3
+ca bin
+sub [2] [2] 1
+ca write
+ac

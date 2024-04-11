@@ -1,0 +1,59 @@
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+const int N=200002;
+int T,n,a[N],Min[N],p[N],i,k,k2,k3,opt,ok[N];
+int main(){
+	scanf("%d",&T);
+	while(T--){
+		scanf("%d",&n);
+		k=-1;
+		k2=-1;
+		k3=-1;
+		for(i=1;i<=n;i++){
+			scanf("%1d",a+i);
+			p[i]=0;
+		}
+		Min[n+1]=10;
+		ok[n+1]=1;
+		a[n+1]=10;
+		for(i=n;i;i--){
+			Min[i]=a[i];
+			if(Min[i+1]<a[i])
+				Min[i]=Min[i+1];
+			if(a[i]<=a[i+1])
+				ok[i]=ok[i+1];
+			else
+				ok[i]=0;
+		}
+		opt=0;
+		for(i=1;i<=n+1;i++){
+			if(k<=k2&&k3<=a[i]&&ok[i]){
+				opt=1;
+				break;
+			}
+			if(a[i]>=k&&a[i]==Min[i]){
+				p[i]=1;
+				k=a[i];
+			}
+			else{
+				if(k2==-1)
+					k2=k3=a[i];
+				else{
+					if(k3>a[i])
+						break;
+					k3=a[i];
+				}
+			}
+		}
+		if(!opt){
+			printf("-\n");
+		}
+		else{
+			for(i=1;i<=n;i++)
+				printf("%d",p[i]?p[i]:2);
+			printf("\n");
+		}
+	}
+	
+}

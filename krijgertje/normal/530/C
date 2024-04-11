@@ -1,0 +1,11 @@
+import cp.
+
+main([A,B,C]) => main(A.to_integer(),B.to_integer(),C.to_integer()).
+main(A,B,C) =>
+	X#>=1, Y#>=1,
+	if(A*X+B*Y#=C) then S=solve_all([X,Y]) else S=[] end,
+	writeln(S.length()),
+	foreach([SX,SY] in sort(S)) writef("%d %d\n",SX,SY) end.
+main =>
+	A=read_int(),B=read_int(),C=read_int(),
+	main(A,B,C).

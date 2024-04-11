@@ -1,0 +1,50 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.  DToB.
+       
+       ENVIRONMENT DIVISION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  STR         PIC X(10).
+       01  CO        PIC X(10).
+       01  K           PIC 9(10).
+       01 I PIC 9(10).
+
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO CO
+         ACCEPT STR
+         MOVE STR TO K
+         
+           PERFORM VARYING I FROM 0 BY 1 UNTIL I = K
+             INSPECT CO REPLACING ALL "Z" BY "4"
+             INSPECT CO REPLACING ALL "Y" BY "Z"
+             INSPECT CO REPLACING ALL "X" BY "Y"
+             INSPECT CO REPLACING ALL "W" BY "X"
+             INSPECT CO REPLACING ALL "V" BY "W"
+             INSPECT CO REPLACING ALL "U" BY "V"
+             INSPECT CO REPLACING ALL "T" BY "U"
+             INSPECT CO REPLACING ALL "S" BY "T"
+             INSPECT CO REPLACING ALL "R" BY "S"
+             INSPECT CO REPLACING ALL "Q" BY "R"
+             INSPECT CO REPLACING ALL "P" BY "Q"
+             INSPECT CO REPLACING ALL "O" BY "P"
+             INSPECT CO REPLACING ALL "N" BY "O"
+             INSPECT CO REPLACING ALL "M" BY "N"
+             INSPECT CO REPLACING ALL "L" BY "M"
+             INSPECT CO REPLACING ALL "K" BY "L"
+             INSPECT CO REPLACING ALL "J" BY "K"
+             INSPECT CO REPLACING ALL "I" BY "J"
+             INSPECT CO REPLACING ALL "H" BY "I"
+             INSPECT CO REPLACING ALL "G" BY "H"
+             INSPECT CO REPLACING ALL "F" BY "G"
+             INSPECT CO REPLACING ALL "E" BY "F"
+             INSPECT CO REPLACING ALL "D" BY "E"
+             INSPECT CO REPLACING ALL "C" BY "D"
+             INSPECT CO REPLACING ALL "B" BY "C"
+             INSPECT CO REPLACING ALL "A" BY "B"
+             INSPECT CO REPLACING ALL "4" BY "A"
+           END-PERFORM.
+                     
+           DISPLAY CO
+       STOP RUN.

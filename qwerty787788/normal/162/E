@@ -1,0 +1,18 @@
+USING: kernel io regexp sequences unicode.case math math.functions math.parser strings ;
+USING: math.order ;
+IN: ascii
+IN: kernel : HQ9? ( ch -- ? ) dup 72 72 between? 
+swap
+dup
+81 81 between?
+swap
+57 57 between?
+or
+or
+; inline
+readln [ HQ9? ] filter
+length 0 =
+[ "NO" ]
+[ "YES" ]
+if
+print

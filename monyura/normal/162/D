@@ -1,0 +1,9 @@
+USING: io kernel splitting math math.parser formatting sequences prettyprint io.streams.byte-array ;
+readln
+"0123456789"
+split
+dup
+length
+[ dup first "%s" printf rest ]
+times
+drop

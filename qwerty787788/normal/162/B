@@ -1,0 +1,8 @@
+USING: kernel io math math.functions math.parser  ;
+IN: bin
+ 
+: bin ( n -- str ) 2 >base ; inline 
+ 
+readln string>number
+ 
+bin print

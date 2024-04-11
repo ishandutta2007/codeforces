@@ -1,0 +1,21 @@
+proc isprime {u} {
+	for {set p 2} {$p * $p <= $u} {incr p} {
+		if {int($u) % $p == 0} {
+			return 0
+		}
+	}
+	return 1
+}
+
+set line [gets stdin]
+scan $line "%d" n
+
+set i $n
+while {[isprime $i] == 0} {
+	set i [expr $i-1]
+}
+set j $n
+while {[isprime $j] == 0} {
+	incr j
+}
+puts "$i $j"

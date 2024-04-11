@@ -1,0 +1,18 @@
+import cp.
+
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  D = sqrt(B * B - 4 * A * C),
+  if (B * B == 4 * A * C) then
+      println(-B / (2 * A))
+  else
+      if ((-B - D) / (2 * A) < (-B + D) / (2 * A)) then
+          println((-B - D) / (2 * A)),
+          println((-B + D) / (2 * A))
+      else
+          println((-B + D) / (2 * A)),
+          println((-B - D) / (2 * A))
+      end
+  end.

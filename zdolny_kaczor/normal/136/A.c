@@ -1,0 +1,1 @@
+int n,a[101],i,j;main(){n||scanf("%d",&n);i-n&&(scanf("%d",a),a[*a]=++i,main(),printf("%d ",a[++j]));}

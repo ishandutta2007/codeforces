@@ -1,0 +1,21 @@
+co fill
+{
+    eq [1] [0] 0
+    if [1] ac
+    mod [[2]] [0] 2
+    div [0] [0] 2
+    add [2] [2] 1
+}
+co print
+{
+    eq [3] [2] 19
+    if [3] ac
+    iout [[2]]
+    sub [2] [2] 1
+}
+iin [0]
+set [2] 20
+ca fill
+sub [2] [2] 1
+ca print
+ac

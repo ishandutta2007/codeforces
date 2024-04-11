@@ -1,0 +1,618 @@
+/*
+    author:  Maksim1744
+    created: 06.09.2022 19:04:18
+*/
+
+#include "bits/stdc++.h"
+
+using namespace std;
+
+using ll = long long;
+using ld = long double;
+
+#define mp   make_pair
+#define pb   push_back
+#define eb   emplace_back
+
+#define sum(a)     ( accumulate ((a).begin(), (a).end(), 0ll))
+#define mine(a)    (*min_element((a).begin(), (a).end()))
+#define maxe(a)    (*max_element((a).begin(), (a).end()))
+#define mini(a)    ( min_element((a).begin(), (a).end()) - (a).begin())
+#define maxi(a)    ( max_element((a).begin(), (a).end()) - (a).begin())
+#define lowb(a, x) ( lower_bound((a).begin(), (a).end(), (x)) - (a).begin())
+#define uppb(a, x) ( upper_bound((a).begin(), (a).end(), (x)) - (a).begin())
+
+template<typename T>             vector<T>& operator--            (vector<T> &v){for (auto& i : v) --i;            return  v;}
+template<typename T>             vector<T>& operator++            (vector<T> &v){for (auto& i : v) ++i;            return  v;}
+template<typename T>             istream& operator>>(istream& is,  vector<T> &v){for (auto& i : v) is >> i;        return is;}
+template<typename T>             ostream& operator<<(ostream& os,  vector<T>  v){for (auto& i : v) os << i << ' '; return os;}
+template<typename T, typename U> pair<T,U>& operator--           (pair<T, U> &p){--p.first; --p.second;            return  p;}
+template<typename T, typename U> pair<T,U>& operator++           (pair<T, U> &p){++p.first; ++p.second;            return  p;}
+template<typename T, typename U> istream& operator>>(istream& is, pair<T, U> &p){is >> p.first >> p.second;        return is;}
+template<typename T, typename U> ostream& operator<<(ostream& os, pair<T, U>  p){os << p.first << ' ' << p.second; return os;}
+template<typename T, typename U> pair<T,U> operator-(pair<T,U> a, pair<T,U> b){return mp(a.first-b.first, a.second-b.second);}
+template<typename T, typename U> pair<T,U> operator+(pair<T,U> a, pair<T,U> b){return mp(a.first+b.first, a.second+b.second);}
+template<typename T, typename U> void umin(T& a, U b){if (a > b) a = b;}
+template<typename T, typename U> void umax(T& a, U b){if (a < b) a = b;}
+
+#ifdef HOME
+#define SHOW_COLORS
+#include "/mnt/c/Libs/tools/print.cpp"
+#else
+#define show(...) void(0)
+#define debugf(fun)   fun
+#define debugv(var)   var
+#define mclock    void(0)
+#define shows     void(0)
+#define debug  if (false)
+#define OSTREAM(...)    ;
+#define OSTREAM0(...)   ;
+#endif
+
+namespace mint_ns {
+template<auto P>
+struct Modular {
+    using value_type = decltype(P);
+    value_type value;
+
+    Modular(long long k = 0) : value(norm(k)) {}
+
+    friend Modular<P>& operator += (      Modular<P>& n, const Modular<P>& m) { n.value += m.value; if (n.value >= P) n.value -= P; return n; }
+    friend Modular<P>  operator +  (const Modular<P>& n, const Modular<P>& m) { Modular<P> r = n; return r += m; }
+
+    friend Modular<P>& operator -= (      Modular<P>& n, const Modular<P>& m) { n.value -= m.value; if (n.value < 0)  n.value += P; return n; }
+    friend Modular<P>  operator -  (const Modular<P>& n, const Modular<P>& m) { Modular<P> r = n; return r -= m; }
+    friend Modular<P>  operator -  (const Modular<P>& n)                      { return Modular<P>(-n.value); }
+
+    friend Modular<P>& operator *= (      Modular<P>& n, const Modular<P>& m) { n.value = n.value * 1ll * m.value % P; return n; }
+    friend Modular<P>  operator *  (const Modular<P>& n, const Modular<P>& m) { Modular<P> r = n; return r *= m; }
+
+    friend Modular<P>& operator /= (      Modular<P>& n, const Modular<P>& m) { return n *= m.inv(); }
+    friend Modular<P>  operator /  (const Modular<P>& n, const Modular<P>& m) { Modular<P> r = n; return r /= m; }
+
+    Modular<P>& operator ++ (   ) { return *this += 1; }
+    Modular<P>& operator -- (   ) { return *this -= 1; }
+    Modular<P>  operator ++ (int) { Modular<P> r = *this; *this += 1; return r; }
+    Modular<P>  operator -- (int) { Modular<P> r = *this; *this -= 1; return r; }
+
+    friend bool operator == (const Modular<P>& n, const Modular<P>& m) { return n.value == m.value; }
+    friend bool operator != (const Modular<P>& n, const Modular<P>& m) { return n.value != m.value; }
+
+    explicit    operator       int() const { return value; }
+    explicit    operator      bool() const { return value; }
+    explicit    operator long long() const { return value; }
+
+    constexpr static value_type mod()      { return     P; }
+
+    value_type norm(long long k) {
+        if (!(-P <= k && k < P)) k %= P;
+        if (k < 0) k += P;
+        return k;
+    }
+
+    Modular<P> inv() const {
+        value_type a = value, b = P, x = 0, y = 1;
+        while (a != 0) { value_type k = b / a; b -= k * a; x -= k * y; swap(a, b); swap(x, y); }
+        return Modular<P>(x);
+    }
+};
+template<auto P> Modular<P> pow(Modular<P> m, long long p) {
+    Modular<P> r(1);
+    while (p) {
+        if (p & 1) r *= m;
+        m *= m;
+        p >>= 1;
+    }
+    return r;
+}
+
+template<auto P> ostream& operator << (ostream& o, const Modular<P>& m) { return o << m.value; }
+template<auto P> istream& operator >> (istream& i,       Modular<P>& m) { long long k; i >> k; m.value = m.norm(k); return i; }
+template<auto P> string   to_string(const Modular<P>& m) { return to_string(m.value); }
+
+// using Mint = Modular<1000000007>;
+using Mint = Modular<998244353>;
+// using Mint = long double;
+
+vector<Mint> f, fi;
+void init_C(int n) {
+    f.assign(n, 1); fi.assign(n, 1);
+    for (int i = 2; i < n; ++i) f[i] = f[i - 1] * i;
+    fi.back() = Mint(1) / f.back();
+    for (int i = n - 2; i >= 0; --i) fi[i] = fi[i + 1] * (i + 1);
+}
+Mint C(int n, int k) {
+    if (k < 0 || k > n) return 0;
+    else return f[n] * fi[k] * fi[n - k];
+}
+}
+using namespace mint_ns;
+
+namespace segtree {
+
+template<typename Item>
+Item tree_merge(const Item& a, const Item& b) {
+    Item i;
+    i.update(a, b);
+    return i;
+}
+
+template<typename Item, bool lazy>
+struct Pusher {};
+
+template<typename Item>
+struct Pusher<Item, false> {
+    void push(const vector<Item>&, int, int, int) {}
+    Item ask_on_segment(const vector<Item>& tree, int n, int l, int r) {
+        l |= n;
+        r |= n;
+        Item resl, resr;
+        while (l <= r) {
+            if (l & 1) {
+                resl = tree_merge(resl, tree[l]);
+                ++l;
+            }
+            if (!(r & 1)) {
+                resr = tree_merge(tree[r], resr);
+                --r;
+            }
+            l >>= 1;
+            r >>= 1;
+        }
+        return tree_merge(resl, resr);
+    }
+    void push_point(const vector<Item>&, int, int) {}
+};
+
+template<typename Item>
+struct Pusher<Item, true> {
+    void push(vector<Item>& tree, int ind, int l, int r) {
+        tree[ind].push(tree[ind * 2], tree[ind * 2 + 1], l, r);
+    }
+
+    Item ask_on_segment(vector<Item>& tree, int n, int l, int r) {
+        int vl = 0, vr = n - 1;
+        int i = 1;
+        Item result;
+        while (vl != vr) {
+            int m = (vl + vr) / 2;
+            if (l > m) {
+                push(tree, i, vl, vr);
+                i = i * 2 + 1;
+                vl = m + 1;
+            } else if (r <= m) {
+                push(tree, i, vl, vr);
+                i = i * 2;
+                vr = m;
+            } else {
+                break;
+            }
+        }
+        if (l == vl && r == vr) {
+            return tree[i];
+        }
+        push(tree, i, vl, vr);
+        // left
+        {
+            int ind = i * 2;
+            int L = vl, R = (vl + vr) / 2;
+            while (l != L) {
+                int m = (L + R) / 2;
+                push(tree, ind, L, R);
+                if (l <= m) {
+                    result = tree_merge(tree[ind * 2 + 1], result);
+                    ind *= 2;
+                    R = m;
+                } else {
+                    ind = ind * 2 + 1;
+                    L = m + 1;
+                }
+            }
+            result = tree_merge(tree[ind], result);
+        }
+        // right
+        {
+            int ind = i * 2 + 1;
+            int L = (vl + vr) / 2 + 1, R = vr;
+            while (r != R) {
+                int m = (L + R) / 2;
+                push(tree, ind, L, R);
+                if (r > m) {
+                    result = tree_merge(result, tree[ind * 2]);
+                    ind = ind * 2 + 1;
+                    L = m + 1;
+                } else {
+                    ind = ind * 2;
+                    R = m;
+                }
+            }
+            result = tree_merge(result, tree[ind]);
+        }
+        return result;
+    }
+
+    void push_point(vector<Item>& tree, int n, int ind) {
+        int l = 0, r = n - 1;
+        int i = 1;
+        while (l != r) {
+            push(tree, i, l, r);
+            int m = (l + r) / 2;
+            if (ind <= m) {
+                r = m;
+                i *= 2;
+            } else {
+                l = m + 1;
+                i = i * 2 + 1;
+            }
+        }
+    }
+};
+
+template<typename Item, bool lazy = false>
+struct Segtree {
+    vector<Item> tree;
+    Pusher<Item, lazy> pusher;
+    int n;
+
+    Segtree(int n = 0) {
+        build(n);
+    }
+
+    template<typename U>
+    Segtree(const vector<U>& v) {
+        build(v);
+    }
+
+    void build(int n) {
+        while (n & (n - 1)) ++n;
+        this->n = n;
+        tree.assign(n * 2, {});
+    }
+
+    template<typename U>
+    void build(const vector<U>& v) {
+        build(v.size());
+        for (int i = 0; i < v.size(); ++i) {
+            tree[n | i].init(v[i], i);
+        }
+        build();
+    }
+
+    void build() {
+        for (int i = n - 1; i >= 1; --i) {
+            tree[i].update(tree[i * 2], tree[i * 2 + 1]);
+        }
+    }
+
+    void push(int ind, int l, int r) {
+        pusher.push(tree, ind, l, r);
+    }
+
+    template<typename T>
+    void set(int ind, const T& t) {
+        pusher.push_point(tree, n, ind);
+        ind |= n;
+        tree[ind].init(t, ind ^ n);
+        ind >>= 1;
+        while (ind) {
+            tree[ind].update(tree[ind * 2], tree[ind * 2 + 1]);
+            ind >>= 1;
+        }
+    }
+
+    template<typename T>
+    void update(int ind, const T& t) {
+        pusher.push_point(tree, n, ind);
+        ind |= n;
+        tree[ind].update(t, ind ^ n);
+        ind >>= 1;
+        while (ind) {
+            tree[ind].update(tree[ind * 2], tree[ind * 2 + 1]);
+            ind >>= 1;
+        }
+    }
+
+    Item& ith(int ind) {
+        static_assert(!lazy, "don't use this method with lazy propagation, unless you're sure you need it");
+        return tree[ind | n];
+    }
+
+    const Item& root() const {
+        return tree[1];
+    }
+
+    Item ask(int l, int r) {
+        l = max(l, 0);
+        r = min(r, n - 1);
+        if (l > r) return {};
+        return pusher.ask_on_segment(tree, n, l, r);
+    }
+
+    template<typename T>
+    void modify(int l, int r, const T& t) {
+        static_assert(lazy, "lazy must be set to true to use this function");
+        l = max(l, 0);
+        r = min(r, n - 1);
+        if (l > r) return;
+        int vl = 0, vr = n - 1;
+        int i = 1;
+        while (vl != vr) {
+            int m = (vl + vr) / 2;
+            if (l > m) {
+                push(i, vl, vr);
+                i = i * 2 + 1;
+                vl = m + 1;
+            } else if (r <= m) {
+                push(i, vl, vr);
+                i = i * 2;
+                vr = m;
+            } else {
+                break;
+            }
+        }
+        if (l == vl && r == vr) {
+            tree[i].modify(t, l, r);
+        } else {
+            push(i, vl, vr);
+            // left
+            {
+                int ind = i * 2;
+                int L = vl, R = (vl + vr) / 2;
+                while (l != L) {
+                    int m = (L + R) / 2;
+                    push(ind, L, R);
+                    if (l <= m) {
+                        tree[ind * 2 + 1].modify(t, m + 1, R);
+                        ind *= 2;
+                        R = m;
+                    } else {
+                        ind = ind * 2 + 1;
+                        L = m + 1;
+                    }
+                }
+                tree[ind].modify(t, L, R);
+                ind >>= 1;
+                while (ind != i) {
+                    tree[ind].update(tree[ind * 2], tree[ind * 2 + 1]);
+                    ind >>= 1;
+                }
+            }
+            // right
+            {
+                int ind = i * 2 + 1;
+                int L = (vl + vr) / 2 + 1, R = vr;
+                while (r != R) {
+                    int m = (L + R) / 2;
+                    push(ind, L, R);
+                    if (r > m) {
+                        tree[ind * 2].modify(t, L, m);
+                        ind = ind * 2 + 1;
+                        L = m + 1;
+                    } else {
+                        ind = ind * 2;
+                        R = m;
+                    }
+                }
+                tree[ind].modify(t, L, R);
+                ind >>= 1;
+                while (ind != i) {
+                    tree[ind].update(tree[ind * 2], tree[ind * 2 + 1]);
+                    ind >>= 1;
+                }
+            }
+            tree[i].update(tree[i * 2], tree[i * 2 + 1]);
+        }
+        i >>= 1;
+        while (i) {
+            tree[i].update(tree[i * 2], tree[i * 2 + 1]);
+            i >>= 1;
+        }
+    }
+};
+
+}
+using segtree::Segtree;
+
+struct ItemMx {
+    int val = -1e9;
+    int ind = -1;
+    int mod = 0;
+
+    template<typename T>
+    void init(const T& t, int ind) {
+        val = t;
+        this->ind = ind;
+    }
+
+    void update(const ItemMx& a, const ItemMx& b) {
+        if (b.val >= a.val) {
+            ind = b.ind;
+            val = b.val;
+        } else {
+            ind = a.ind;
+            val = a.val;
+        }
+    }
+
+    //// apply here, save for children
+    template<typename T>
+    void modify(const T& m, int l, int r) {
+        val += m;
+        mod += m;
+    }
+
+    void push(ItemMx& a, ItemMx& b, int l, int r) {
+        int m = (l + r) / 2;
+        a.modify(mod, l, m);
+        b.modify(mod, m + 1, r);
+        mod = 0;
+    }
+};
+
+struct ItemSm {
+    int sm = 0;
+
+    template<typename T>
+    void init(const T& t, int ind) {
+        sm = t;
+    }
+
+    void update(const ItemSm& a, const ItemSm& b) {
+        sm = a.sm + b.sm;
+    }
+
+    //// similar to init, but more convenient for doing a[i] += x, implement only if needed
+    template<typename T>
+    void update(const T& t, int ind) {
+        sm += t;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int n;
+    cin >> n;
+    vector<int> a(n), b(n);
+    cin >> a >> b;
+    vector<int> up, down;
+    for (int i = 0; i < n; ++i) {
+        if (b[i] == 1) up.pb(a[i]);
+        else down.pb(a[i]);
+    }
+
+    vector<int> pref(maxe(a) + 5, 0);
+    for (int i = 0; i < n; ++i) {
+        pref[a[i]]++;
+    }
+    for (int i = 1; i < pref.size(); ++i)
+        pref[i] += pref[i - 1];
+
+    int A = -1, B = -1;
+
+    if (!up.empty()) {
+        for (int k : up)
+            A = max(A, k + pref.back() - pref[k]);
+    }
+    if (!down.empty()) {
+        B = 1e9;
+        for (int k : down)
+            B = min(B, (k == 0 ? 0 : pref[k - 1]) + k);
+    }
+
+    init_C(n * 2 + 20);
+
+    auto up0 = up, down0 = down;
+
+    auto check = [&](int X) -> Mint {
+        if (X == -1 || X == 1e9) return 0;
+        shows;
+        shows;
+        shows;
+        show(X);
+
+        auto up = up0;
+        auto down = down0;
+
+        if (maxe(a) > X) return 0;
+
+        sort(up.begin(), up.end());
+        sort(down.begin(), down.end());
+
+        Mint ans = 1;
+
+        while (!up.empty() && up.back() == X) up.pop_back();
+        ans *= C(n, up.size() + down.size()) * f[n - up.size() - down.size()];
+
+        show(up, down);
+
+        map<int, int> cup, cdown;
+        for (int k : up) cup[k]++;
+        for (int k : down) cdown[k]++;
+
+        for (auto [x, y] : cup)
+            if (y > 1)
+                return 0;
+
+        for (auto [x, y] : cdown)
+            ans *= f[y];
+
+        vector<int> curcnt(X + 1, 0);
+        for (int k : a) curcnt[k]++;
+
+        Segtree<ItemSm> tree_sm(curcnt);
+        vector<int> tmp(X + 1, -1e9);
+        for (int k : up)
+            tmp[k] = k + tree_sm.ask(k + 1, 1e9).sm;
+        Segtree<ItemMx, true> tree_mx(tmp);
+
+        int idown = 0;
+        int totup = up.size();
+
+        auto mv = [&](int ind) {
+            tree_sm.update(ind, -1);
+            tree_sm.update(X, +1);
+            tree_mx.modify(ind, X - 1, +1);
+        };
+
+        while (idown < down.size() || totup != 0) {
+            show(idown, totup);
+            int ind_up = -1;
+            int ind_down = -1;
+
+            if (idown < down.size() && (tree_sm.ask(0, down[idown] - 1).sm) + down[idown] == X) {
+                ind_down = down[idown];
+            }
+            if (totup) {
+                auto it = tree_mx.ask(0, 1e9);
+                assert(it.val >= 0);
+                if (it.val == X) {
+                    ind_up = it.ind;
+                }
+            }
+
+            if (ind_down == -1 && ind_up == -1) return 0;
+
+            bool choose_up = false;
+            if (ind_down != -1 && ind_up != -1) {
+                if (ind_down > ind_up) {
+                    choose_up = false;
+                } else if (ind_down <= ind_up) {
+                    choose_up = true;
+                }
+            } else {
+                choose_up = (ind_up != -1);
+            }
+
+            if (choose_up) {
+                auto it = tree_mx.ask(0, 1e9);
+                assert(it.val >= 0);
+                if (it.val == X) {
+                    tree_mx.set(it.ind, -1e9);
+                    --totup;
+                    mv(it.ind);
+                    continue;
+                }
+            } else {
+                if (idown < down.size() && debugv(tree_sm.ask(0, down[idown] - 1).sm) + down[idown] == X) {
+                    mv(down[idown]);
+                    ++idown;
+                    continue;
+                }
+            }
+            return 0;
+        }
+
+        return ans;
+    };
+
+    Mint ans = 0;
+
+    ans += check(A);
+    if (A != B)
+        ans += check(B);
+
+    cout << ans << '\n';
+
+    return 0;
+}

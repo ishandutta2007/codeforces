@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#define all(x) (x).begin(), (x).end()
+
+using namespace __gnu_pbds;
+using namespace std;
+
+using ull = unsigned long long;
+using ll = long long;
+template <typename T> using ordered_set = tree<T, null_type, less<>, rb_tree_tag, tree_order_statistics_node_update>;
+
+const int mod = 1e9 + 7;
+const int inf = INT_MAX;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr); cout.tie(nullptr);
+
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n, m;
+        cin >> n >> m;
+
+        vector<vector<int>> g(n + 1);
+
+        for (int i = 0; i < m; i++) {
+            int u, v; cin >> u >> v;
+            g[v].push_back(u);
+        }
+
+        vector<int> d(n + 1), ans;
+        for (int i = 1; i <= n; i++) {
+            for (int &j : g[i]) {
+                d[i] = max(d[i], d[j] + 1);
+            }
+            if (d[i] == 2) {
+                d[i] = -1;
+                ans.push_back(i);
+            }
+        }
+
+        cout << ans.size() << "\n";
+        for (int i : ans) cout << i << " "; cout << "\n";
+    }
+    return 0;
+}

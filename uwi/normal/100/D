@@ -1,0 +1,26 @@
+int main(){
+    int n;
+    string s = Stdio.stdin->gets();
+    sscanf(s, "%d",n);
+    s = Stdio.stdin->gets();
+    string t = Stdio.stdin->gets();
+    int ss = sizeof(s);
+    int tt = sizeof(t);
+    int i = 0;
+    do{
+        if(i == ss || i == tt)break;
+        if(s[i] != t[i]){
+            break;
+        }
+        i++;
+    }while(i < ss && i < tt);
+    
+    int left = n - (ss-i + tt-i);
+    if(left >= 0){
+        write("Yes\n");
+    }else{
+        write("No\n");
+    }
+    
+    return 0;
+}

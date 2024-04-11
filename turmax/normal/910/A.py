@@ -1,0 +1,22 @@
+a,b=map(int,input().split())
+s=str(input())
+i=0
+j=0
+while(i<a):
+    if(i==(a-1)):
+        print(j)
+        break
+    else:
+        u=0
+        for t in range(b,0,(-1)):
+            try:
+                if(s[i+t]=="1"):
+                    i+=t
+                    j+=1
+                    u=1
+                    break
+            except:
+                pass
+        if(u==0):
+            print(-1)
+            break

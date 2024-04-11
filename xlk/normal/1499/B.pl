@@ -1,0 +1,1 @@
+<>;print/11.*00/?NO:YES,"\n"while<>;

@@ -1,0 +1,12 @@
+main =>
+    S = read_line().to_string(),
+    I = S.len() div 2,
+    while (I > 0)
+        print(S[I]),
+        I := I - 1
+    end,
+    I := S.len(),
+    while (I * 2 > S.len())
+        print(S[I]),
+        I := I - 1
+    end.

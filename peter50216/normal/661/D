@@ -1,0 +1,12 @@
+print =: 1!:2&2
+read =: 1!:1[3
+abs =: -^:(0&>)
+
+in =. (read-.CR) rplc LF;' '
+v =: 0 ". in
+v0 =: }. v
+v1 =: }: v
+ans =: abs each (v0 - v1)
+print (>./ >ans)
+
+exit ''

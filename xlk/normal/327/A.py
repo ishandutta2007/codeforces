@@ -1,0 +1,1 @@
+n=input();s=map(int,raw_input()[::2]);print max(sum(s)-2*sum(s[j:i])+i-j for i in range(n+1)for j in range(i))

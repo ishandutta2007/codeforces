@@ -1,0 +1,1 @@
+a,b,c=gets.split.map &:to_i;puts (0..c/a).map{|i|(c-i*a)%b}.index(0)?:YES:"NO"

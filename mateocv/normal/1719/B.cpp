@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+#define pb push_back
+#define fst first
+#define snd second
+#define fore(i,a,b) for(int i=a,ggdem=b;i<ggdem;++i)
+#define SZ(x) ((int)x.size())
+#define ALL(x) x.begin(),x.end()
+#define mset(a,v) memset((a),(v),sizeof(a))
+#define FIN ios::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+using namespace std;
+typedef long long ll;
+
+int main(){FIN;
+	ll t; cin>>t;
+	while(t--){
+		ll n,k; cin>>n>>k;
+		if(k%4==0)cout<<"NO\n";
+		else if(k&1){
+			cout<<"YES\n";
+			fore(i,0,n/2)cout<<2*i+1<<" "<<2*i+2<<"\n";
+		}else{
+			cout<<"YES\n";
+			fore(i,0,n/2)cout<<2*i+2-(i&1)<<" "<<2*i+1+(i&1)<<"\n";
+		}
+	}
+	
+	return 0;
+}

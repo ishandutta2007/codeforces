@@ -1,0 +1,37 @@
+with Ada.Text_IO, Ada.Integer_Text_IO;
+use Ada.Text_IO, Ada.Integer_Text_IO;
+
+procedure d is
+    q: String(1 .. 60);
+    qp: Natural;
+    n: Natural;
+    s: array (1 .. 60) of String(1 .. 60);
+    sp: Natural;
+    x: array(1 .. 60) of Natural;
+    c: Natural;
+
+begin
+    get_line(q, qp);
+    n := Integer'Value(q(1 .. qp));
+    for i in 1 .. n loop
+        get_line(s(i), sp);
+        x(i) := 0;
+    end loop;
+    x(1) := 1;
+    for a in 1 .. n loop
+        for b in 1 .. n loop
+            for c in 1 .. n loop
+                if x(b) = 1 and b /= n and s(b)(c) = '1' then
+                    x(c) := 1;
+                end if;
+            end loop;
+        end loop;
+    end loop;
+    c := 0;
+    for i in 1 .. n loop
+        if x(i) = 1 and s(i)(n) = '1' then
+            c := c+1;
+        end if;
+    end loop;
+    put(c, Width => 1);    
+end d;

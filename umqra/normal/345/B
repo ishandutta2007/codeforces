@@ -1,0 +1,78 @@
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO, 
+     Ada.Numerics.Generic_Complex_Types,
+     Ada.Numerics.Generic_Complex_Elementary_Functions;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+
+procedure prog is
+begin
+   declare 
+        function check(n: Integer) return Integer is
+            Ans : Integer := 0;
+            a, b : Integer;
+            z: Integer;
+            begin
+                z := n;
+                loop
+                    if z = 0 then
+                        exit;
+                    end if;
+                    a := z mod 10;
+                    b := (z / 10) mod 10;
+                    if b = 1 and a = 3 then
+                        Ans := 1;
+                        exit;
+                    end if;
+                    z := z / 10;
+                end loop;
+                return Ans;
+        end check;   
+    Text: String(1..50);
+    Length: Natural;
+    n: Integer;
+    b, cur, prev, z: Integer;
+    cnt: Integer := 0;
+    zP, lastP : Integer;
+begin
+    Get(n);
+    if check(n) = 1 then
+        Put("-1");
+    else 
+    b := 3;
+    loop 
+        if b > n then 
+            exit;
+        end if;
+        z := n;
+        prev := 0;
+        loop 
+            if z = 0 then
+                exit;
+            end if;
+            cur := z mod b;
+            zP := prev;
+            lastP := 0;
+            loop 
+                if zP = 0 then
+                    exit;
+                end if;
+                lastP := zP mod 10;
+                zP := zP / 10;
+            end loop;
+            if check(cur) = 1 or check(prev) = 1 or ((cur mod 10) = 1 and lastP = 3) then
+                cnt := cnt + 1;
+                exit;
+            end if;
+            prev := cur;
+            z := z / b;
+        end loop;
+        b := b + 1;
+    end loop;
+    Put(cnt);
+    end if;
+end;
+end prog;

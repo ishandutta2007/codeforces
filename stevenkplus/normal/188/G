@@ -1,0 +1,56 @@
+co rd {
+eq [2] [0] [1]
+if [2]
+ac
+iin [[1]]
+inc [1]
+}
+
+co fmin {
+eq [5] [2] [0]
+if [5]
+ac
+
+lt [5] [[2]] [[3]]
+if [5]
+set [3] [2]
+inc [2]
+}
+
+co srt {
+eq [2] [0] [1]
+if [2]
+ac
+
+set [2] [1]
+set [3] [1]
+ca fmin
+
+set [4] [[1]]
+set [[1]] [[3]]
+set [[3]] [4]
+inc [1]
+}
+
+co prnt {
+eq [2] [0] [1]
+if [2]
+ac
+iout [[1]]
+cout 32
+inc [1]
+}
+
+iin [0]
+add [0] [0] 10
+
+set [1] 10
+ca rd
+
+set [1] 10
+ca srt
+
+set [1] 10
+ca prnt
+
+ac

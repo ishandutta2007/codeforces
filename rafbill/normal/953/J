@@ -1,0 +1,62 @@
+let read_int () = Scanf.scanf " %d" (fun x -> x);;
+let n = read_int();;
+let l = Array.make (2*n) (0,0,0);;
+let qs = Array.init n (fun i -> let x = read_int() in let y = read_int() in
+                        Array.set l (2*i) (x,i,0);
+                        Array.set l (2*i+1) (y,i,1);
+                        x,y);;
+Array.sort Pervasives.compare l;;
+let i = ref 0;;
+let (last0,_,_) = l.(0);;
+let last = ref last0;;
+Array.iter (fun (v,ii,j) ->
+    if(v <> !last) then (incr i; last := v);
+    let (x,y) = qs.(ii) in
+    if(j = 0) then Array.set qs ii (!i,y) else Array.set qs ii (x,!i);
+    ()
+  ) l;;
+incr i;;
+
+(* let fromX = Hashtbl.create 200000;;
+ * S.iter (fun x -> Hashtbl.add fromX x !i; incr i) !allX;;
+ *
+ * let qs : (int*int) array = Array.map (fun (x,y) -> (Hashtbl.find fromX x, Hashtbl.find fromX y)) qs;; *)
+
+let uf = Array.init !i (fun j -> j);;
+let ur = Array.init !i (fun j -> 1);;
+let ufr = Array.init !i (fun j -> j);;
+let um = Array.init !i (fun j -> false);;
+let ans = ref 0;;
+
+let rec find i = if uf.(i) == i then i else (Array.set uf i (find uf.(i)); uf.(i));;
+
+let mark i = let i = find i in
+  if not um.(i) then (Array.set um i true; incr ans)
+;;
+
+let aux i j =
+    Array.set uf i j;
+    Array.set ufr j (max ufr.(i) ufr.(j));
+    if(um.(i) && um.(j)) then decr ans;
+    Array.set um j (um.(i) || um.(j));
+    if ur.(j) = ur.(i) then Array.set ur j (ur.(j)+1)
+;;
+
+let unite i j =
+  let i = find i in
+  let j = find j in
+  if i <> j then begin
+    if(ur.(i) < ur.(j)) then aux i j
+    else aux j i
+  end;;
+
+Array.iter (fun (x,y) -> begin
+      let i = ref (find x) in
+      mark !i;
+      while y > ufr.(!i) do
+        unite !i (ufr.(!i)+1);
+        i := find !i
+      done;
+      Printf.printf "%d " !ans
+    end) qs;;
+  Printf.printf "\n"

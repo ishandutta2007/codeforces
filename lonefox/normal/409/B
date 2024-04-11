@@ -1,0 +1,6 @@
+        PROGRAM MAIN
+        IMPLICIT NONE
+
+20      PRINT*, 'FORTRAN 77'
+
+        END

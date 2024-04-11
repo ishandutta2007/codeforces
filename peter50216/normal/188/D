@@ -1,0 +1,20 @@
+iin [0]
+set [2] 1
+co p{
+    eq [5] [4] [2]
+    if [5]
+        ac
+    cout 42
+    add [4] [4] 1
+}
+co f{
+    set [4] 0
+    ca p
+    cout 10
+    eq [3] [2] [0]
+    if [3]
+        ac
+    add [2] [2] 1
+}
+ca f
+ac

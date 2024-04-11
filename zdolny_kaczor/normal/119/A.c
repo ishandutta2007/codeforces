@@ -1,0 +1,1 @@
+int g(x,y){return x?g(y%x,x):y;}int n,a,b,i,t;main(){a||scanf("%d%d%d",&a,&b,&n);n?i++,n-=g(t=a,n),main(b=t,a=b):printf("%d",i+1&1);}

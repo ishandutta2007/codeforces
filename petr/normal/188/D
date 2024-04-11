@@ -1,0 +1,18 @@
+iin [1]
+
+co loop
+{
+  cout 42
+  dec [0]
+  lt [2] [0] 1
+  if [2] cout 10
+  if [2] add [3] [3] 1
+  if [2] set [0] [3]
+  gt [4] [3] [1]
+  if [4] ac
+}
+
+set [0] 1
+set [3] 1
+ca loop
+ac

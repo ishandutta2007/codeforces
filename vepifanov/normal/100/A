@@ -1,0 +1,9 @@
+int main () {
+    int n, k, m;
+    sscanf (Stdio.stdin->gets(), "%d %d %d", n, k, m);
+    if (n == m || k >= 4) 
+        write ("YES\n"); 
+    else 
+        write ("NO\n");
+    return 0;
+}

@@ -1,0 +1,81 @@
+set line [gets stdin]
+scan $line "%d" n
+
+set players ""
+for {set i 0} {$i < $n} {incr i} {
+  set line [gets stdin]
+  lappend players [lreverse [split $line]]
+}
+
+for {set i 0} {$i < $n-1} {incr i} {
+  set max $i
+  for {set j [expr $i+1]} {$j < $n} {incr j} {
+    # p[i] < p[j]
+    set pi [lindex $players $max]
+    set pj [lindex $players $j]
+    set pt_i [lindex $pi 0]
+    set pt_j [lindex $pj 0]
+    set name_i [lindex $pi 1]
+    set name_j [lindex $pj 1]
+    if {$pt_j > $pt_i} {
+      set max $j
+    } else {
+      if {$pt_j == $pt_i} {
+        if {[string compare $name_j $name_i] == -1} {
+          set max $j
+        }
+      }
+    }
+  }
+  set pi [lindex $players $i]
+  set pmax [lindex $players $max]
+  lset players $i $pmax
+  lset players $max $pi
+}
+
+set ranka ""
+lappend ranka 1
+set cur 1
+for {set i 1} {$i < $n} {incr i} {
+  set ue [lindex $players [expr $i-1]]
+  set uept [lindex $ue 0]
+  set me [lindex $players $i]
+  set mept [lindex $me 0]
+  if {$uept == $mept} {
+    lappend ranka $cur
+  } else {
+    set cur [expr $i+1]
+    lappend ranka $cur
+  }
+}
+
+set rankb ""
+lappend rankb $n
+set cur $n
+for {set i [expr $n-2]} {$i >= 0} {set i [expr $i-1]} {
+  set st [lindex $players [expr $i+1]]
+  set stpt [lindex $st 0]
+  set me [lindex $players $i]
+  set mept [lindex $me 0]
+  if {$stpt == $mept} {
+    set rankb [lreverse $rankb]
+    lappend rankb $cur
+    set rankb [lreverse $rankb]
+  } else {
+    set cur [expr $i+1]
+    set rankb [lreverse $rankb]
+    lappend rankb $cur
+    set rankb [lreverse $rankb]
+  }
+}
+
+for {set i 0} {$i < $n} {incr i} {
+  set ra [lindex $ranka $i]
+  set rb [lindex $rankb $i]
+  set nm [lindex [lindex $players $i] 1]
+  if {$ra == $rb} {
+    puts "$ra $nm"
+  } else {
+    puts "$ra-$rb $nm"
+  }
+}

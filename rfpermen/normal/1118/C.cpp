@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+
+#pragma GCC optimize("O3")
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define rep(i,n,N) for(int i=n;i<=N;i++)
+#define rap(i,n,N) for(int i=(int)n;i>=(int)N;i--)
+#define mp make_pair
+#define pb push_back
+#define pob pop_back
+#define pf push_front
+#define pof pop_front
+#define fi first
+#define se second
+#define sf se.fi
+#define ss se.se
+#define lc (id<<1)
+#define rc ((id<<1)|1)
+#define db(x) cout << ">>>>>> " << #x << " -> " << x << endl;
+#define all(x) x.begin(),x.end()
+#define pii pair<int,int> 
+#define pll pair<ll,ll>
+#define piii pair<int,pii>
+#define piiii pair<pii,pii>
+#define psi pair<string,int>
+#define endl "\n"
+const int MAX = 5e3+5;
+const ll MAX2 = 11;
+const int MOD = 998244353;
+const ll INF = 2e18;
+const int dr[]={1,0,-1,0,1,1,-1,-1,0};
+const int dc[]={0,1,0,-1,1,-1,1,-1,0};
+const double pi = acos(-1);
+const double EPS = 1e-9;
+
+int n,m,x[12][12],cnt[1005],y;
+bool a(int z){
+	rep(i,1,n/2){
+		if(!x[i][n/2+1]){
+			x[i][n/2+1] = z;
+			return 1;
+		}
+		if(!x[n/2+1][i]){
+			x[n/2+1][i] = z;
+			return 1;
+		}
+	}
+	return 0;
+}
+bool b(int z){
+	rep(i,1,n/2)rep(j,1,n/2)if(!x[i][j]){
+		x[i][j]=z;
+		return 1;
+	}
+	return 0;
+}
+
+int main(){
+//	cout<<fixed<<setprecision(10);
+//    freopen("input.txt", "r", stdin);
+//	freopen("output.txt","w",stdout);
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    cin>>n;
+	m = n*n;
+	rep(i,1,m)cin>>y, cnt[y]++;
+	if(n&1){
+		rep(i,1,1000){
+			if(cnt[i]&1){
+				cnt[i]--;
+				if(x[n/2+1][n/2+1])return cout<<"NO",0;
+				x[n/2+1][n/2+1] = i;
+			}
+		}
+		rep(k,1,1000){
+			if(cnt[k]%4==2){
+				cnt[k]-=2;
+				if(!a(k))return cout<<"NO",0;
+			}
+		}
+		rep(k,1,1000)while(cnt[k]&&b(k))cnt[k]-=4;
+		rep(k,1,1000)while(cnt[k]&&a(k))cnt[k]-=2;
+	}
+	else {
+		rep(k,1,1000){
+			if(cnt[k]%4)return cout<<"NO",0;
+			while(cnt[k])b(k), cnt[k]-=4;
+		}
+	}
+	rep(i,1,1000)if(cnt[i])cout<<i<<endl;
+	cout<<"YES\n";
+	rep(i,1,(n+1)/2){
+		rep(j,1,(n+1)/2)cout<<x[i][j]<<' ';
+		rap(j,n/2,1)cout<<x[i][j]<<' ';
+		cout<<endl;
+	}
+	rap(i,n/2,1){
+		rep(j,1,(n+1)/2)cout<<x[i][j]<<' ';
+		rap(j,n/2,1)cout<<x[i][j]<<' ';
+		cout<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,21 @@
+co loop
+{
+cout 42
+inc [2]
+eq [7] [1] [2]
+if [7] ac
+}
+
+co loopp
+{
+eq [7] [0] [1]
+if [7] ac
+set [2] 0
+inc [1]
+ca loop
+cout 10
+}
+
+iin [0]
+ca loopp
+ac

@@ -1,0 +1,1 @@
+int n,m,M=1e7,a,x;main(){n||(m-=n+=scanf("%d",&n));--n?scanf("%d",&x),x<M?M=x,a++:0,x>m?m=x,a++:0,main():printf("%d",a-2);}

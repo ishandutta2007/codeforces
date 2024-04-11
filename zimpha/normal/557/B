@@ -1,0 +1,16 @@
+let xint _ = Scanf.scanf " %d" (fun x -> x)
+
+let () = 
+  let min x y = 
+    if x < y then x
+    else y
+  in
+  let n = xint() and w = xint() in
+  let a = Array.make (n * 2) 0 in
+  for i = 0 to (n * 2 - 1) do
+    a.(i) <- xint();
+  done;
+  Array.sort compare a;
+  let x = a.(0) and y = a.(n) in
+  let z = min (float_of_int y) ((float_of_int x) *. 2.) in
+  Printf.printf "%.10f\n" (min (float_of_int w) (z *. 1.5 *. (float_of_int n)));

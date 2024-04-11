@@ -1,0 +1,35 @@
+USING: io kernel math math.parser sequences strings ;
+IN: main
+
+: evaluate ( seq -- tf )
+  dup "" =
+  [
+    drop
+    f
+  ]
+  [
+    dup
+    [ 1 head ] dip
+    1 tail
+    evaluate
+
+    dup [
+      swap drop
+    ] [
+      drop
+      dup "H" = [ [ t ] dip ] [
+        dup "Q" = [ [ t ] dip ] [
+          dup "9" = [ [ t ] dip ] [
+            [ f ] dip
+          ] if
+        ] if
+      ] if
+      drop
+    ] if
+  ] if
+  ;
+
+readln
+evaluate
+[ "YES" ] [ "NO" ] if
+print

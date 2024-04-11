@@ -1,0 +1,1 @@
+print ['Malvika', 'Akshat'][min(map(int, raw_input().split())) % 2]

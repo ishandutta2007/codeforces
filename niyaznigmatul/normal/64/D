@@ -1,0 +1,22 @@
+gets stdin s
+set list1 [split $s  ]
+set list2 {0 1 2}
+for {set i 0} {$i < 3} {incr i} {
+    for {set j [expr {$i + 1}]} {$j < 3} {incr j} {
+        if {[lindex $list1 [lindex $list2 $i]] > [lindex $list1 [lindex $list2 $j]]} {
+            set t [lindex $list2 $i]
+            set list2 [lreplace $list2 $i $i [lindex $list2 $j]]
+            set list2 [lreplace $list2 $j $j $t]
+        }
+    }
+}
+set list3 {0 0 0}
+for {set i 0} {$i < 3} {incr i} {
+    set j [lindex $list2 $i]
+    set list3 [lreplace $list3 $j $j $i]
+}
+set list2 $list3
+for {set i 0} {$i < 3} {incr i} {
+    set list2 [lreplace $list2 $i $i [expr {3 - [lindex $list2 $i]}]]
+}
+puts $list2

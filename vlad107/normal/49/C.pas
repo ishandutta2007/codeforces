@@ -1,0 +1,1 @@
+var n,i:longint;begin read(n);for i:=1to n do write(i mod n+1,' ');end.

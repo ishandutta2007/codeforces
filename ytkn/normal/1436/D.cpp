@@ -1,0 +1,98 @@
+#include <iostream>
+#include <algorithm>
+#include <iomanip>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <set>
+#include <map>
+#include <tuple>
+#include <cmath>
+#include <numeric>
+#include <functional>
+#include <cassert>
+
+#define debug_value(x) cerr << "line" << __LINE__ << ":<" << __func__ << ">:" << #x << "=" << x << endl;
+#define debug(x) cerr << "line" << __LINE__ << ":<" << __func__ << ">:" << x << endl;
+
+template<class T> inline bool chmax(T& a, T b) { if (a < b) { a = b; return 1; } return 0; }
+template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; } return 0; }
+
+using namespace std;
+typedef long long ll;
+
+template<typename T>
+vector<vector<T>> vec2d(int n, int m, T v){
+    return vector<vector<T>>(n, vector<T>(m, v));
+}
+
+template<typename T>
+vector<vector<vector<T>>> vec3d(int n, int m, int k, T v){
+    return vector<vector<vector<T>>>(n, vector<vector<T>>(m, vector<T>(k, v)));
+}
+
+template<typename T>
+void print_vector(vector<T> v, char delimiter=' '){
+    if(v.empty()) {
+        cout << endl;
+        return;
+    }
+    for(int i = 0; i+1 < v.size(); i++) cout << v[i] << delimiter;
+    cout << v.back() << endl;
+}
+
+const ll inf = 1e18;
+int n;
+vector<int> g[200000];
+ll a[200000];
+ll b[200000];
+
+void dfs(int v, ll x){
+    b[v] = -a[v];
+    if(g[v].empty()){
+        b[v] += x; 
+        chmin(b[v], inf);
+    }else{
+        for(int to: g[v]){
+            dfs(to, x);
+            b[v] += b[to];
+            chmin(b[v], inf);
+        }
+    }
+}
+
+bool ok(ll x){
+    dfs(0, x);
+    for(int i = 0; i < n; i++) {
+        if(b[i] < 0) return false;
+    }
+    return true;
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout << setprecision(10) << fixed;
+    cin >> n;
+    for(int i = 1; i < n; i++){
+        int p; cin >> p; p--;
+        g[p].push_back(i);
+    }
+    ll a_sum = 0;
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+        a_sum += a[i];
+    }
+    if(ok(0)){
+        cout << 0 << endl;
+        return 0;
+    }
+    assert(ok(a_sum));
+    ll l = 0, r = a_sum;
+    while(r-l > 1){
+        ll x = (l+r)/2;
+        if(ok(x)) r = x;
+        else l = x;
+    }
+    cout << r << endl;
+}

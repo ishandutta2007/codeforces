@@ -1,0 +1,107 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define db long double
+#define x first
+#define y second
+#define mp make_pair
+#define pb push_back
+#define all(a) a.begin(), a.end()
+
+using namespace std;
+
+const int mod = 1000000007;
+
+void add(int& a, int b) {
+  a += b;
+  if (a >= mod) a -= mod;
+  if (a < 0) a += mod;
+}
+
+int mult(int a, int b) {
+  return a * (ll)b % mod;
+}
+
+int bp(int a, int b) {
+  int res = 1;
+  while (b > 0) {
+    if (b & 1) res = mult(res, a);
+    a = mult(a, a);
+    b >>= 1;
+  }
+  return res;
+}
+
+void solve() {
+    int n, l, r, s;
+    cin >> n >> l >> r >> s;
+    --l, --r;
+
+    vector <int> p(n, 0);
+    vector <bool> was(n + 1, false);
+
+    int sum = 0;
+    int now = 1;
+    for (int i = l; i <= r; ++i) {
+      p[i] = now;
+      sum += now++;
+    }
+
+    if (sum > s) {
+      cout << "-1\n";
+      return;
+    }
+    sum = s - sum;
+
+    int a = r;
+    int up = n;
+    while (sum && a >= l) {
+      if (sum >= up - p[a]) {
+          sum -= up - p[a];
+          p[a--] = up--;
+      } else {
+          p[a] += sum;
+          sum = 0;
+          break;
+      }
+    }
+    if (sum) {
+      cout << "-1\n";
+      return;
+    }
+
+    int x = 1;
+
+    for (int x : p) {
+      was[x] = true;
+    }
+
+    for (int i = 0; i < n; ++i) {
+      if (p[i]) continue;
+      while (x <= n && was[x]) {
+        ++x;
+      }
+      was[x] = true;
+      p[i] = x;
+    }
+
+    for (int x : p) {
+      cout << x << " ";
+    }
+    cout << endl;
+}
+
+int main(){
+#ifdef LOCAL
+	freopen("E_input.txt", "r", stdin);
+	//freopen("E_output.txt", "w", stdout);
+#endif
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+  int t;
+  cin >> t;
+  for (int i = 0; i < t; ++i) {
+    solve();
+  }
+
+}

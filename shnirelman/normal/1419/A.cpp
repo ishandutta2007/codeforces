@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+
+#define f first
+#define s second
+//#define int li
+
+using namespace std;
+using li = long long;
+using ld = long double;
+using pii = pair<int, int>;
+
+const int INF = 1e9 + 13;
+const li INF64 = 2e18 + 13;
+const int N = 1e5 + 13;
+const int LOGN = 20;
+const int K = 11;
+const int M = 1e9 + 7;
+const int A = 26;
+
+int sum(int a, int b) {
+    a += b;
+    return (a >= M ? a - M : a);
+}
+
+int dif(int a, int b) {
+    return sum(a, M - b);
+}
+
+int mul(int a, int b) {
+    return a * 1ll * b % M;
+}
+
+int pow2(int n, int k) {
+    if(k == 0)
+        return 1;
+
+    int pw = pow2(n, k / 2);
+    pw = mul(pw, pw);
+
+    if(k % 2)
+        return mul(pw, n);
+    else
+        return pw;
+}
+/*
+*/
+
+
+void solve() {
+    int n;
+    cin >> n;
+
+    string s;
+    cin >> s;
+
+    int c0 = n / 2, c1 = (n + 1) / 2;
+
+    if(n % 2 == 1) {
+        bool fl = false;
+        for(int i = 0; i < n; i += 2) {
+            if((s[i] - '0') % 2 == 1)
+                fl = true;
+        }
+
+        cout << (fl ? 1 : 2) << endl;
+    } else {
+        bool fl = false;
+        for(int i = 1; i < n; i += 2) {
+            if((s[i] - '0') % 2 == 0)
+                fl = true;
+        }
+
+        cout << (fl ? 2 : 1) << endl;
+    }
+}
+
+signed main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    int t = 1;
+    cin >> t;
+
+    while(t--)
+        solve();
+}

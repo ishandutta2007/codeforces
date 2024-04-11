@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <iomanip>
+#include <queue>
+#include <vector>
+#include <map>
+#include <cmath>
+#include <string>
+#include <stack>
+#include <set>
+#include <list>
+using namespace std;
+//8739
+const double PI = 3.14159265358979323846;
+const long long MODUL = 1000000007;
+const long long MAXINT = 1000000010;
+const long long MAXLL = 1000000000000000000;
+
+template <typename T>
+inline T MIN(T lef, T ri)
+{
+    return (lef < ri ? lef : ri);
+}
+
+template <typename T>
+inline T MAX(T lef, T ri)
+{
+    return (lef > ri ? lef : ri);
+}
+
+template <typename T>
+inline T MOD(T val)
+{
+    return (val > 0 ? val : -val);
+}
+
+#pragma comment(linker, "/STACK:1677721600")
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    string s, t;
+    int n, cou(0), mbf(0), mbs(-1);
+    map<char, map<char, int>> lol;
+    cin >> n >> s >> t;
+    ++n;
+    s = '$' + s;
+    t = '$' + t;
+    for(int i(1); i < n; ++i)
+    {
+        cou += (s[i] != t[i]);
+        lol[s[i]][t[i]] = i;
+    }
+    for(char i('a'); i <= 'z'; ++i)
+    for(char j('a'); j <= 'z'; ++j)
+    {
+        if(!lol[i][j] || i == j)
+            continue;
+        if(lol[j][i])
+        {
+            cout << cou - 2 << '\n' << lol[i][j] << ' ' << lol[j][i];
+            return 0;
+        }
+        for(int k('a'); k <= 'z'; ++k)
+        if(k != j && lol[j][k])
+        {
+            mbs = lol[i][j];
+            mbf = lol[j][k];
+            break;
+        }
+    }
+    if(mbf)
+        cout << cou - 1 << '\n' << mbf << ' ' << mbs;
+    else 
+        cout << cou << "\n-1 -1";
+    return 0;
+}

@@ -1,0 +1,1 @@
+n,m,k=map(int,input().split());print((m-1)*(n+1)+2*n-2,'\n','D'*(n-1)+'L'*(m-1)+'U'.join(['R'*(m-1),'L'*(m-1)][i%2]for i in range(n)))

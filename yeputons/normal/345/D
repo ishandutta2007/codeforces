@@ -1,0 +1,56 @@
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+
+with Ada.Strings.Unbounded.Text_IO;
+use Ada.Strings.Unbounded.Text_IO;
+
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+
+with Ada.Calendar; use Ada.Calendar;
+with Gnat.Calendar; use Gnat.Calendar;
+
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+
+procedure ProbD is
+  N : Integer;
+  G : array(1..100) of String(1..100);
+  was : array(1..100) of Boolean;
+  Ans : Integer := 0;
+
+  procedure dfs(v : Integer) is
+  begin
+    if (v = n) or was(v) then
+      if v = n then 
+        Ans := Ans + 1;
+      end if;
+    else
+      was(v) := true;
+      for b in Integer range 1..N loop
+        if G(v)(b) = '1' then
+          dfs(b);
+        end if;
+      end loop;
+    end if;
+  end dfs;
+
+  Len : Integer;
+begin
+  Get(N);
+  Get_line(G(1), Len);
+  for I in Integer range 1..N loop
+    Get_line(G(I), Len);
+    was(I) := false;
+  end loop;
+  dfs(1);
+  Put(Ans);
+end ProbD;

@@ -1,0 +1,71 @@
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with Ada.Text_IO;
+use  Ada.Text_IO;
+with Ada.Integer_Text_IO;
+use  Ada.Integer_Text_IO;
+with Ada.Float_Text_IO;
+use  Ada.Float_Text_IO;
+
+
+procedure Main is
+  s : String(1..51);
+  a : array(1..51, 1..51) of integer;
+  b : array(1..51, 1..51) of integer;
+  c : String(1..1);
+  ret, i, j, k, n : Integer;
+last : Integer;
+
+begin
+	Ada.Integer_Text_IO.Get(n);
+	Ada.Text_IO.Get_Line(s, last);
+	for i in 1..n loop
+		Ada.Text_IO.Get_Line(s, last);
+		for j in 1..n loop
+			if i = j then
+				a(i, j) := 0;
+			elsif i = n then
+				a(i, j) := 99;
+			else
+				c := s(s'first+j-1..s'first+j-1);
+				if c = "1" then
+					a(i, j) := 0;
+				elsif c = "0" then
+					a(i, j) := 99;
+				end if;
+			end if;
+		end loop;
+		for j in 1..n loop
+			if i = j then
+				b(i, j) := 0;
+			else
+				c := s(s'first+j-1..s'first+j-1);
+				if c = "1" then
+					b(i, j) := 0;
+				elsif c = "0" then
+					b(i, j) := 99;
+				end if;
+			end if;
+		end loop;
+	end loop;
+	
+	for i in 1..n loop
+		for j in 1..n loop
+			for k in 1..n loop
+				if a(i,j) > a(i,k)+a(k,j) then
+					a(i,j) := a(i,k)+a(k,j);
+				end if;
+			end loop;
+		end loop;
+	end loop;
+	
+	ret := 0;
+	for i in 1..n-1 loop
+		if a(1,i) = 0 then
+			if b(i,n) = 0 then
+				ret := ret + 1;
+			end if;
+		end if;
+	end loop;
+	Ada.Integer_Text_IO.Put(ret);
+end;

@@ -86,6 +86,7 @@ inline decltype(auto) MFP(F &&f) {
   return FixPoint< F >{forward< F >(f)};
 }
 
+<<<<<<< HEAD
 static constexpr uint32_t mul_inv(uint32_t n, int e = 5, uint32_t x = 1) {
   return e == 0 ? x : mul_inv(n, e - 1, x * (2 - x * n));
 }
@@ -110,16 +111,46 @@ struct ModInt {
 
   ModInt &operator+=(const ModInt &p) {
     if(int(x += p.x - 2 * mod) < 0) x += 2 * mod;
+=======
+inline unsigned mul(unsigned a, unsigned b) {
+  unsigned long long x = (unsigned long long) a * b;
+  unsigned xh = (unsigned) (x >> 32), xl = (unsigned) x, d, m;
+  asm("divl %4; \n\t" : "=a" (d), "=d" (m) : "d" (xh), "a" (xl), "r" (mod));
+  return m;
+}
+
+
+template< int mod >
+struct ModInt {
+  int x;
+
+  ModInt() : x(0) {}
+
+  ModInt(int64_t y) : x(y >= 0 ? y % mod : (mod - (-y) % mod) % mod) {}
+
+  ModInt &operator+=(const ModInt &p) {
+    if((x += p.x) >= mod) x -= mod;
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
     return *this;
   }
 
   ModInt &operator-=(const ModInt &p) {
+<<<<<<< HEAD
     if(int(x -= p.x) < 0) x += 2 * mod;
     return *this;
   }
 
   ModInt &operator*=(const ModInt &p) {
     x = reduce(uint64_t(x) * p.x);
+=======
+    if((x += mod - p.x) >= mod) x -= mod;
+    return *this;
+  }
+
+
+  ModInt &operator*=(const ModInt &p) {
+    x = mul(x, p.x);
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
     return *this;
   }
 
@@ -128,6 +159,11 @@ struct ModInt {
     return *this;
   }
 
+<<<<<<< HEAD
+=======
+  ModInt operator-() const { return ModInt(-x); }
+
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
   ModInt operator+(const ModInt &p) const { return ModInt(*this) += p; }
 
   ModInt operator-(const ModInt &p) const { return ModInt(*this) -= p; }
@@ -136,6 +172,7 @@ struct ModInt {
 
   ModInt operator/(const ModInt &p) const { return ModInt(*this) /= p; }
 
+<<<<<<< HEAD
   bool operator==(const ModInt &p) const { return get() == p.get(); }
 
   bool operator!=(const ModInt &p) const { return get() != p.get(); }
@@ -144,6 +181,24 @@ struct ModInt {
 
   ModInt pow(int64_t n) const {
     ModInt ret(1), mul(*this);
+=======
+  bool operator==(const ModInt &p) const { return x == p.x; }
+
+  bool operator!=(const ModInt &p) const { return x != p.x; }
+
+  ModInt inverse() const {
+    int a = x, b = mod, u = 1, v = 0, t;
+    while(b > 0) {
+      t = a / b;
+      swap(a -= t * b, b);
+      swap(u -= t * v, v);
+    }
+    return ModInt(u);
+  }
+
+  ModInt pow(int64_t n) const {
+    ModInt ret(1), mul(x);
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
     while(n > 0) {
       if(n & 1) ret *= mul;
       mul *= mul;
@@ -152,12 +207,17 @@ struct ModInt {
     return ret;
   }
 
+<<<<<<< HEAD
   ModInt inverse() const {
     return pow(mod - 2);
   }
 
   friend ostream &operator<<(ostream &os, const ModInt &p) {
     return os << p.get();
+=======
+  friend ostream &operator<<(ostream &os, const ModInt &p) {
+    return os << p.x;
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
   }
 
   friend istream &operator>>(istream &is, ModInt &a) {

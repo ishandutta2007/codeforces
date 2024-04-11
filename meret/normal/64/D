@@ -1,0 +1,57 @@
+scan [gets stdin] "%d%d%d" a b c
+set i 1
+set j 2
+set k 3
+if {$b > $a} {
+    set temp $a
+    set a $b
+    set b $temp
+    set i 2
+    set j 1
+}
+if {$c > $a} {
+    set temp $a
+    set a $c
+    set c $temp
+    set temp 
+    set k $i
+    set i 3
+}
+if {$c > $b} {
+    set temp $c
+    set c $b
+    set b $temp
+    set temp $j
+    set j $k
+    set k $temp
+}
+if {$i == 1} {
+    set a 1
+}
+if {$j == 1} {
+    set a 2
+}
+if {$k == 1} {
+    set a 3
+}
+
+if {$i == 2} {
+    set b 1
+}
+if {$j == 2} {
+    set b 2
+}
+if {$k == 2} {
+    set b 3
+}
+
+if {$i == 3} {
+    set c 1
+}
+if {$j == 3} {
+    set c 2
+}
+if {$k == 3} {
+    set c 3
+}
+puts "$a $b $c"

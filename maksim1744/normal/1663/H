@@ -1,0 +1,10 @@
+const long (*func)(double);
+int main() {}
+
+#define begin int x = 5;
+#define end
+/*
+*) = 0;
+
+begin
+end.(* */ void f(int*);

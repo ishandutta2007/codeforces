@@ -1,0 +1,11 @@
+import cp.
+
+readlst(0,Y)=>Y=[].
+readlst(M,Y)=>Z=read_int(),readlst(M-1,NY),Y=[Z|NY].
+
+main() =>
+	N=read_int(),K=read_int(),
+	X=new_array(N), X::1..N, X[1]#=1, R#=max([X[J] : J in 1..N]),
+	foreach(I in 1..K) M=read_int(), readlst(M,Y), all_different([X[J] : J in Y]) end,
+	solve([$min(R)],X),
+	writef("%d",X[1]), foreach(I in 2..N) writef(" %d",X[I]) end, writef("\n").

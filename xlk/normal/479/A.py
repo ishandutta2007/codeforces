@@ -1,0 +1,1 @@
+_=input;a,b,c=_(),_(),_();print max(a*b*c,a+b+c,a*(b+c),(a+b)*c)

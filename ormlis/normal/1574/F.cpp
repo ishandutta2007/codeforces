@@ -1,0 +1,139 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+
+#define range(i, n) for (int i = 0; i < (n); ++i)
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+#define ar array
+
+using namespace std;
+using namespace __gnu_pbds;
+
+
+typedef long long ll;
+typedef double ld;
+typedef unsigned long long ull;
+
+/*
+typedef tree<
+        pair<ll, int>,
+        null_type,
+        less<pair<ll, int>>,
+        rb_tree_tag,
+        tree_order_statistics_node_update>
+        ordered_set;
+*/
+
+const int INFi = 1e9 + 5;
+const int md = 998244353;
+const ll INF = 2e18;
+const int maxN = 2e6 + 5;
+
+double getTime() { return clock() / (double) CLOCKS_PER_SEC; }
+
+
+inline int add(const int &a, const int &b) {
+    return a + b >= md ? a + b - md : a + b;
+}
+
+inline int sub(const int &a, const int &b) {
+    return a - b < 0 ? a - b + md : a - b;
+}
+
+inline int mul(const int &a, const int &b) {
+    return (1ll * a * b) % md;
+}
+
+int binpow(int a, int b) {
+    if (b <= 0) return 1;
+    if (b % 2) return mul(a, binpow(a, b - 1));
+    int m = binpow(a, b / 2);
+    return mul(m, m);
+}
+
+int rev(int a) {
+    return binpow(a, md - 2);
+}
+
+void solve() {
+    int n, m, k; cin >> n >> m >> k;
+    vector<int> nxt(k, -1), pred(k, -1);
+    vector<bool> bad(k);
+    auto add2 = [&] (int a, int b) {
+        if (nxt[a] == -1) nxt[a] = b;
+        if (pred[b] == -1) pred[b] = a;
+        if (nxt[a] != b || pred[b] != a) {
+            bad[a] = true;
+            bad[b] = true;
+        }
+    };
+    range(i, n) {
+        int c; cin >> c;
+        int pr = -1;
+        range(j, c) {
+            int x; cin >> x;
+            x--;
+            if (j) add2(pr, x);
+            pr = x;
+        }
+    }
+    vector<bool> used(k);
+    vector<int> have;
+    range(i, k) {
+        if (used[i]) continue;
+        int l = i, r = nxt[i];
+        int sz = 0;
+        bool was = false;
+        while(l != -1) {
+            if (used[l]) {
+                was = true;
+                break;
+            }
+            if (bad[l]) was = true;
+            used[l] = true;
+            l = pred[l];
+            sz++;
+        }
+        while(r != -1) {
+            if (used[r]) {
+                was = true;
+                break;
+            }
+            if (bad[r]) was = true;
+            used[r] = true;
+            r = nxt[r];
+            sz++;
+        }
+        if (was) continue;
+        have.push_back(sz);
+    }
+    // sum(have) = k
+    //   m
+    vector<pair<int, int>> can;
+    vector<int> dp(m + 1);
+    dp[0] = 1;
+    sort(all(have));
+    for(auto &x : have) {
+        if (can.empty() || can.back().first != x) can.emplace_back(x, 0);
+        can.back().second++;
+    }
+    for(int i = 1; i <= m; ++i) {
+        for(auto &[x, c] : can) {
+            if (i - x < 0) break;
+            dp[i] = add(dp[i], mul(dp[i - x], c));
+        }
+    }
+    cout << dp[m];
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    // cout << setprecision(15) << fixed;
+    int tests = 1;
+    // cin >> tests;
+    range(_, tests) {
+        solve();
+    }
+    return 0;
+}

@@ -1,0 +1,23 @@
+main =>
+    N = read_int(),
+    D = read_int(),
+    X = 0,
+    Y = 0,
+    Flag = 0,
+    foreach(I in 2 .. 1000000)
+        X := I,
+        if Flag == 0 then
+            if((X + D + N - 2) mod (X - 1) == 0) then
+                Y := (X + D + N - 2) div (X - 1),
+                
+                foreach(J in 1 .. N - 2)
+                    print('1 ')
+                end,
+                
+                print(X),
+                print(' '),
+                println(Y),
+                Flag := 1
+            end
+        end
+    end.

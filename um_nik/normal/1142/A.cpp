@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <algorithm>
+#include <cmath>
+#include <vector>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <queue>
+#include <ctime>
+#include <cassert>
+#include <complex>
+#include <string>
+#include <cstring>
+#include <chrono>
+#include <random>
+#include <queue>
+#include <bitset>
+using namespace std;
+
+#ifdef LOCAL
+	#define eprintf(...) fprintf(stderr, __VA_ARGS__)
+#else
+	#define eprintf(...) 42
+#endif
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, int> pli;
+typedef pair<ll, ll> pll;
+typedef long double ld;
+#define mp make_pair
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+ll gcd(ll x, ll y) {
+	return y == 0 ? x : gcd(y, x % y);
+}
+
+int main()
+{
+//	freopen("input.txt", "r", stdin);
+//	freopen("output.txt", "w", stdout);
+
+	ll n, k, a, b;
+	cin >> n >> k >> a >> b;
+	ll ans1 = n * k + 1, ans2 = 0;
+
+	for (int f = 0; f < 2; f++)
+		for (int g = 0; g < 2; g++) {
+			ll x = a, y = b;
+			if (f == 1) x = (k - a) % k;
+			if (g == 1) y = (k - b) % k;
+			x -= y;
+			if (x < 0) x += k;
+			for (int i = 0; i < n; i++) {
+				y = x + i * k;	
+				y = gcd(y, n * k);
+				y = (n * k) / y;
+				ans1 = min(ans1, y);
+				ans2 = max(ans2, y);
+			}
+		}
+	cout << ans1 << " " << ans2 << endl;
+
+	return 0;
+}

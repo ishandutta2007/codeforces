@@ -1,0 +1,1 @@
+char s[147];int i,c;main(){*s||scanf("%s",s);s[i]?c+=s[i++]/32*2-5,main():0;c<0==(s[--i]>>5&1)?s[i]^=32:0;i||printf("%s",s);}

@@ -1,0 +1,11 @@
+// \
+{
+int main()
+// \
+}
+
+{ /* }
+begin
+  writeln ('Hello, world!')
+end.
+{ */ }

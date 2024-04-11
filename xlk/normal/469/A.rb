@@ -1,0 +1,1 @@
+g=->{gets.split[1..-1]};puts gets.to_i==(g[]+g[]).uniq.size ? 'I become the guy.':'Oh, my keyboard!'

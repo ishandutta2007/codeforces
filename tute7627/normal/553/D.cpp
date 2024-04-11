@@ -1,0 +1,177 @@
+//#define _GLIBCXX_DEBUG
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define endl '\n'
+#define lfs cout<<fixed<<setprecision(10)
+#define ALL(a)  (a).begin(),(a).end()
+#define ALLR(a)  (a).rbegin(),(a).rend()
+#define spa << " " <<
+#define fi first
+#define se second
+#define MP make_pair
+#define MT make_tuple
+#define PB push_back
+#define EB emplace_back
+#define rep(i,n,m) for(ll i = (n); i < (ll)(m); i++)
+#define rrep(i,n,m) for(ll i = (ll)(m) - 1; i >= (ll)(n); i--)
+using ll = long long;
+using ld = long double;
+const ll MOD1 = 1e9+7;
+const ll MOD9 = 998244353;
+const ll INF = 1e18;
+using P = pair<ll, ll>;
+template<typename T1, typename T2>bool chmin(T1 &a,T2 b){if(a>b){a=b;return true;}else return false;}
+template<typename T1, typename T2>bool chmax(T1 &a,T2 b){if(a<b){a=b;return true;}else return false;}
+ll median(ll a,ll b, ll c){return a+b+c-max({a,b,c})-min({a,b,c});}
+void ans1(bool x){if(x) cout<<"Yes"<<endl;else cout<<"No"<<endl;}
+void ans2(bool x){if(x) cout<<"YES"<<endl;else cout<<"NO"<<endl;}
+void ans3(bool x){if(x) cout<<"Yay!"<<endl;else cout<<":("<<endl;}
+template<typename T1,typename T2>void ans(bool x,T1 y,T2 z){if(x)cout<<y<<endl;else cout<<z<<endl;}  
+template<typename T>void debug(vector<vector<T>>&v,ll h,ll w){for(ll i=0;i<h;i++){cout<<v[i][0];for(ll j=1;j<w;j++)cout spa v[i][j];cout<<endl;}};
+void debug(vector<string>&v,ll h,ll w){for(ll i=0;i<h;i++){for(ll j=0;j<w;j++)cout<<v[i][j];cout<<endl;}};
+template<typename T>void debug(vector<T>&v,ll n){if(n!=0)cout<<v[0];for(ll i=1;i<n;i++)cout spa v[i];cout<<endl;};
+template<typename T>vector<vector<T>>vec(ll x, ll y, T w){vector<vector<T>>v(x,vector<T>(y,w));return v;}
+ll gcd(ll x,ll y){ll r;while(y!=0&&(r=x%y)!=0){x=y;y=r;}return y==0?x:y;}
+vector<ll>dx={1,-1,0,0,1,1,-1,-1};vector<ll>dy={0,0,1,-1,1,-1,1,-1};
+template<typename T>vector<T> make_v(size_t a,T b){return vector<T>(a,b);}
+template<typename... Ts>auto make_v(size_t a,Ts... ts){return vector<decltype(make_v(ts...))>(a,make_v(ts...));}
+template<typename T1, typename T2>ostream &operator<<(ostream &os, const pair<T1, T2>&p){return os << p.first << " " << p.second;}
+template<typename T>ostream &operator<<(ostream &os, const vector<T> &v){for(auto &z:v)os << z << " ";cout<<"|"; return os;}
+//mt19937 mt(chrono::steady_clock::now().time_since_epoch().count());
+int popcount(ll x){return __builtin_popcountll(x);};
+int poplow(ll x){return __builtin_ctzll(x);};
+int pophigh(ll x){return 63 - __builtin_clzll(x);};
+struct RationalNumber{
+  long long a, b;
+  RationalNumber(){
+    a = 0,b = 1;
+  }
+  RationalNumber(long long p, long long q):a(p), b(q){// a / b
+    reduction();
+  };
+  RationalNumber(long long p):a(p), b(1){// a / b
+  };
+  void reduction(){
+    long long g = __gcd(a, b);
+    a /= g, b /= g;
+    if(b < 0)a *= -1,b *= -1;
+  }
+  RationalNumber &operator+=(const RationalNumber &x){
+    long long q = b / __gcd(b, x.b) * x.b;
+    a = a * (q / b) + x.a * (q / x.b);
+    b = q;
+    reduction();
+    return *this;
+  }
+  RationalNumber &operator-=(const RationalNumber &x){
+    long long q = b / __gcd(b, x.b) * x.b;
+    a = a * (q / b) - x.a * (q / x.b);
+    b = q;
+    reduction();
+    return *this;
+  }
+  RationalNumber &operator*=(const RationalNumber &x){
+    long long q1 = __gcd(a, x.b), q2 = __gcd(b, x.a); 
+    a = (a / q1) * (x.a / q2), b = (b / q2) * (x.b / q1); 
+    return *this;
+  }
+  RationalNumber &operator/=(const RationalNumber &x){
+    long long q1 = __gcd(a, x.a), q2 = __gcd(b, x.b); 
+    a = (a / q1) * (x.b / q2), b = (b / q2) * (x.a / q1); 
+    return *this;
+  }
+  RationalNumber operator+(const RationalNumber &x)const{
+    return RationalNumber(*this) += x;
+  }
+  RationalNumber operator-(const RationalNumber &x)const{
+    return RationalNumber(*this) -= x;
+  }
+  RationalNumber operator*(const RationalNumber &x)const{
+    return RationalNumber(*this) *= x;
+  }
+  RationalNumber operator/(const RationalNumber &x)const{
+    return RationalNumber(*this) /= x;
+  }
+  RationalNumber operator-()const{
+    return RationalNumber(-a, b);
+  }
+  bool operator==(const RationalNumber &x)const{
+    return a * x.b == b * x.a;
+  };
+  bool operator!=(const RationalNumber &x)const{
+    return !(*this == x);
+  };
+  bool operator<(const RationalNumber &x)const{
+    return a * x.b < b * x.a;
+  }
+  bool operator>(const RationalNumber &x)const{
+    return a * x.b > b * x.a;
+  }
+  bool operator<=(const RationalNumber &x)const{
+    return *this < x || *this == x;
+  }
+  bool operator>=(const RationalNumber &x)const{
+    return *this > x || *this == x;
+  }
+  friend ostream &operator<<(ostream &os, RationalNumber x){
+    return os << x.a << "/" << x.b;
+  }
+};
+using rat=RationalNumber;
+int main(){
+  cin.tie(nullptr);
+  ios_base::sync_with_stdio(false);
+  ll res=0,buf=0;
+  bool judge = true;
+  ll n,m,k;cin>>n>>m>>k;
+  vector<bool>f(n);
+  rep(i,0,k){
+    ll x;cin>>x;x--;
+    f[x]=true;
+  }
+  set<pair<rat,ll>>st;
+  vector<vector<ll>>g(n);
+  rep(i,0,m){
+    ll u,v;cin>>u>>v;u--;v--;
+    g[u].PB(v);
+    g[v].PB(u);
+  }
+  vector<ll>d(n),c(n);
+  rep(i,0,n){
+    d[i]=g[i].size();
+    for(auto to:g[i]){
+      if(!f[to])c[i]++;
+    }
+    if(!f[i]){
+      st.emplace(rat(c[i],d[i]),i);
+    }
+  }
+  vector<ll>v;
+  pair<rat,ll> mx(rat(-1,1),-INF);
+  while(st.size()>=1){
+    auto p=*st.begin();
+    //cout<<p<<endl;
+    chmax(mx,MP(p.fi,(ll)v.size()));
+    v.PB(p.se);
+    st.erase(st.find(p));
+    f[p.se]=true;
+    for(auto to:g[p.se]){
+      if(f[to])continue;
+      st.erase(MP(rat(c[to],d[to]),to));
+      c[to]--;
+      st.insert(MP(rat(c[to],d[to]),to));
+    }
+  }
+  //cout<<mx<<endl;
+  //debug(c,n);
+  //debug(f,n);
+  vector<ll>ret;
+  rep(i,0,v.size()){
+    if(i>=mx.se)ret.PB(v[i]+1);
+  }
+  cout<<ret.size()<<endl;
+  debug(ret,ret.size());
+  return 0;
+}

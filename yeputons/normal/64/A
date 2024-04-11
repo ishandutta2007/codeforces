@@ -1,0 +1,9 @@
+set line [gets stdin]
+scan $line "%d" n
+proc fac {x} {
+  if {$x == 1} { return 1 }
+  return [expr {
+    [fac [expr {$x - 1}]] * $x
+  }]
+}
+puts [fac $n]

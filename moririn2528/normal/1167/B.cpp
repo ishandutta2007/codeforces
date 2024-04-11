@@ -1,0 +1,77 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<string>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+#include<map>
+#include<queue>
+#include<deque>
+#include<iomanip>
+#include<tuple>
+#include<cassert>
+using namespace std;
+typedef long long int LL;
+typedef pair<int,int> P;
+typedef pair<LL,int> LP;
+const int INF=1<<30;
+const LL MAX=1e9+7;
+
+void array_show(int *array,int array_n,char middle=' '){
+	for(int i=0;i<array_n;i++)printf("%d%c",array[i],(i!=array_n-1?middle:'\n'));
+}
+void array_show(LL *array,int array_n,char middle=' '){
+	for(int i=0;i<array_n;i++)printf("%lld%c",array[i],(i!=array_n-1?middle:'\n'));
+}
+void array_show(vector<int> &vec_s,int vec_n=-1,char middle=' '){
+	if(vec_n==-1)vec_n=vec_s.size();
+	for(int i=0;i<vec_n;i++)printf("%d%c",vec_s[i],(i!=vec_n-1?middle:'\n'));
+}
+void array_show(vector<LL> &vec_s,int vec_n=-1,char middle=' '){
+	if(vec_n==-1)vec_n=vec_s.size();
+	for(int i=0;i<vec_n;i++)printf("%lld%c",vec_s[i],(i!=vec_n-1?middle:'\n'));
+}
+
+const int t[10]={4 , 8, 15, 16, 23, 42};
+
+int main(){
+	int n,m;
+	int i,j,k;
+	int a,b,c;
+	vector<int> v(4);
+	vector<int> vs(6);
+	cout<<"? "<<1<<" "<<2<<endl;
+	cin>>v[0];
+	cout<<"? "<<1<<" "<<3<<endl;
+	cin>>v[1];
+	cout<<"? "<<4<<" "<<5<<endl;
+	cin>>v[2];
+	cout<<"? "<<4<<" "<<6<<endl;
+	cin>>v[3];
+	for(i=0;i<6;i++){
+		for(j=0;j<6;j++){
+			if(i==j)continue;
+			if(v[0]%t[i] || v[1]%t[i] || v[2]%t[j] || v[3]%t[j])continue;
+			vs[0]=t[i];
+			vs[1]=v[0]/t[i],vs[2]=v[1]/t[i];
+			vs[3]=t[j];
+			vs[4]=v[2]/t[j],vs[5]=v[3]/t[j];
+			vector<char> used(6,0);
+			for(k=0;k<6;k++){
+				for(a=0;a<6;a++){
+					if(vs[k]==t[a])break;
+				}
+				if(a==6 || used[a])break;
+				used[a]=1;
+			}
+			if(k==6)break;
+		}
+		if(j<6)break;
+	}
+	cout<<"!";
+	for(i=0;i<6;i++){
+		cout<<" "<<vs[i];
+	}
+	cout<<endl;
+}

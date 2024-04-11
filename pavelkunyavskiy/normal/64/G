@@ -1,0 +1,25 @@
+proc solve {} {
+  set x [split [gets stdin] "/"]
+  set x [lreplace $x 0 0]
+  set y {}
+  foreach i $x {
+#     puts $y
+     if {$i == "."} {
+         continue
+     }
+     if {$i == ".."} {
+#         puts [llength $y]
+         if {[llength $y] == 0} {
+            puts "-1"
+            return 0
+         }
+         set y [lreplace $y [expr "[llength $y]-1"] end]
+         continue
+     }
+     set y [linsert $y end $i]
+  }
+  set s [join $y "/"] 
+  puts "/$s"
+}
+ 
+solve

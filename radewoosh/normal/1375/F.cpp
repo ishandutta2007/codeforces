@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;using ll=long long;ll a[4];int main(){for(int i=1;i<=3;i++)cin>>a[i];cout<<"First"<<endl;int p=-1;while(p){ll b[]={a[1],a[2],a[3]};sort(b,b+3);ll w=(rand()&1)?b[2]-b[1]:2*b[2]-b[1]-b[0];cout<<w<<endl;cin>>p;a[p]+=w;}}

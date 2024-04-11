@@ -1,0 +1,14 @@
+namespace Solution {
+    open Microsoft.Quantum.Convert;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Measurement;
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Intrinsic;
+
+    operation Solve (x : Qubit[], y : Qubit) : Unit {
+        for (i in 0..Length(x)-1) {
+            CNOT(x[i], y);
+        }
+    }
+
+}

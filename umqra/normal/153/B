@@ -1,0 +1,28 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. SOLUTION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 A        PIC 9(10).
+       01 HZ       PIC 9(10).
+       01 B        PIC 9(10).
+       01 M        PIC 9(18) VALUE 1.
+       01 R        PIC 9(1).
+       01 H        PIC X(25) VALUE "".
+       01 S        PIC X(25) VALUE "".
+       01 STR      PIC X(10).
+       01 REZ      PIC Z(18).
+       01 T        PIC X(1). 
+       PROCEDURE DIVISION.
+         ACCEPT STR
+         MOVE STR TO A
+         PERFORM UNTIL 1 GREATER THAN A
+             DIVIDE A BY 2 GIVING A REMAINDER R
+             MOVE R TO T
+             MOVE "" TO S
+             STRING T   DELIMITED BY SPACE
+                    H   DELIMITED BY SIZE INTO S
+             MOVE S TO H
+         END-PERFORM
+         DISPLAY H
+         STOP RUN.

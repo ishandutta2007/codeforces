@@ -1,0 +1,128 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+#define PB push_back
+#define MP make_pair
+#define LL long long
+#define int LL
+#define FOR(i,a,b) for(int i = (a); i <= (b); i++)
+#define RE(i,n) FOR(i,1,n)
+#define REP(i,n) FOR(i,0,(int)(n)-1)
+#define R(i,n) REP(i,n)
+#define VI vector<int>
+#define PII pair<int,int>
+#define LD long double
+#define FI first
+#define SE second
+#define st FI
+#define nd SE
+#define ALL(x) (x).begin(), (x).end()
+#define SZ(x) ((int)(x).size())
+
+template<class C> void mini(C &a4, C b4) { a4 = min(a4, b4); }
+template<class C> void maxi(C &a4, C b4) { a4 = max(a4, b4); }
+
+template<class TH> void _dbg(const char *sdbg, TH h){ cerr<<sdbg<<'='<<h<<endl; }
+template<class TH, class... TA> void _dbg(const char *sdbg, TH h, TA... a) {
+  while(*sdbg!=',')cerr<<*sdbg++;cerr<<'='<<h<<','; _dbg(sdbg+1, a...);
+}
+
+template<class T> ostream &operator<<(ostream& os, vector<T> V) {
+  os << "["; for (auto vv : V) os << vv << ","; return os << "]";
+}
+template<class L, class R> ostream &operator<<(ostream &os, pair<L,R> P) {
+  return os << "(" << P.st << "," << P.nd << ")";
+}
+
+#ifdef LOCAL
+#define debug(...) _dbg(#__VA_ARGS__, __VA_ARGS__)
+#else
+#define debug(...) (__VA_ARGS__)
+#define cerr if(0)cout
+#endif
+
+const int MAX = 1e5 + 10;
+int n,m;
+int c[MAX];
+vector<PII> d[MAX];
+int res[MAX];
+int s[MAX];
+int par[MAX];
+int pari[MAX];
+PII np = {-1,-1};
+int npi = -1;
+bool vis[MAX];
+void dfs(int v,int gl){
+  vis[v] = 1;
+  s[v] = gl;
+  for(PII el:d[v]){
+    if(!vis[el.FI]){
+      par[el.FI] = v;
+      pari[el.FI] = el.SE;
+      dfs(el.FI, gl+1);
+      res[el.SE] += c[el.FI];
+      c[v] -= c[el.FI];
+    }else{
+      if(s[v]%2 == s[el.FI]%2){
+        np = {v, el.FI};
+        npi = el.SE;
+      }
+    }
+  }
+}
+
+int32_t main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout << fixed << setprecision(11);
+  cerr << fixed << setprecision(6);
+  cin >> n >> m;
+  R(i,n)cin >> c[i];
+  R(i,m){
+    res[i] = 1;
+    int a,b;
+    cin >> a >> b;
+    a--;b--;
+    c[a]--;
+    c[b]--;
+    d[a].PB({b,i});
+    d[b].PB({a,i});
+  }
+  dfs(0,0);
+  R(i,n){
+    cerr << s[i] << " ";
+  }
+  cerr << "\n";
+  if(c[0] != 0){
+    debug(c[0]);
+    R(i,m){
+      cerr << res[i] << " ";
+    }
+    cerr << "\n";
+    if(np.FI == -1){
+      cout << "NO\n";
+      return 0;
+    }
+    int zn = 1;
+    int il = c[0] / 2;
+    if(s[np.FI] % 2 == 1){
+      zn = -1;
+    }
+    debug(npi);
+    res[npi] += zn * il;
+    debug(res[npi],npi,np);
+    for(int ak: {np.FI,np.SE}){
+      debug(ak,il);
+      int x = zn * -1;
+      while(ak != 0){
+        res[pari[ak]] += x * il;
+        ak = par[ak];
+        x *= -1;
+      }
+    }
+  }
+  cout << "YES\n";
+  R(i,m){
+    cout << res[i] << "\n";
+  }
+}

@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<string.h>
+using namespace std;
+
+typedef long long LL;
+typedef vector<int> VI;
+
+#define REP(i,n) for(int i=0, i##_len=(n); i<i##_len; ++i)
+#define EACH(i,c) for(__typeof((c).begin()) i=(c).begin(),i##_end=(c).end();i!=i##_end;++i)
+#define eprintf(...) fprintf(stderr, __VA_ARGS__)
+
+template<class T> inline void amin(T &x, const T &y) { if (y<x) x=y; }
+template<class T> inline void amax(T &x, const T &y) { if (x<y) x=y; }
+template<class Iter> void rprintf(const char *fmt, Iter begin, Iter end) {
+    for (bool sp=0; begin!=end; ++begin) { if (sp) putchar(' '); else sp = true; printf(fmt, *begin); }
+    putchar('\n');
+}
+
+int N, K;
+int A[100011];
+
+int C[256];
+
+void MAIN() {
+    scanf("%d%d", &N, &K);
+    REP (i, N) scanf("%d", A+i);
+    memset(C, -1, sizeof C);
+
+    REP (i, N) {
+	if (C[A[i]] != -1) {
+	    continue;
+	}
+
+	int c = A[i];
+	while (c >= 0 && A[i]-c < K && C[c] == -1) c--;
+
+	if (c != -1 && C[c] != -1 && A[i] - C[c] + 1 <= K) {
+	    for (int k=c; k<=A[i]; k++) C[k] = C[c];
+	} else {
+	    for (int k=c+1; k<=A[i]; k++) C[k] = c+1;
+	}
+    }
+
+    REP (i, N) printf("%d%c", C[A[i]], " \n"[i==N-1]);
+}
+
+int main() {
+    int TC = 1;
+//    scanf("%d", &TC);
+    REP (tc, TC) MAIN();
+    return 0;
+}

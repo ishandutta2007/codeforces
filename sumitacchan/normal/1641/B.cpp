@@ -1,0 +1,95 @@
+#include <bits/stdc++.h>
+using namespace std;
+//using namespace atcoder;
+struct fast_ios { fast_ios(){ cin.tie(0); ios::sync_with_stdio(false); cout << fixed << setprecision(20); }; } fast_ios_;
+#define FOR(i, begin, end) for(int i=(begin);i<(end);i++)
+#define REP(i, n) FOR(i,0,n)
+#define IFOR(i, begin, end) for(int i=(end)-1;i>=(begin);i--)
+#define IREP(i, n) IFOR(i,0,n)
+#define Sort(v) sort(v.begin(), v.end())
+#define Reverse(v) reverse(v.begin(), v.end())
+#define all(v) v.begin(),v.end()
+#define SZ(v) ((int)v.size())
+#define Lower_bound(v, x) distance(v.begin(), lower_bound(v.begin(), v.end(), x))
+#define Upper_bound(v, x) distance(v.begin(), upper_bound(v.begin(), v.end(), x))
+#define chmax(a, b) a = max(a, b)
+#define chmin(a, b) a = min(a, b)
+#define bit(n) (1LL<<(n))
+#define debug(x) cout << #x << "=" << x << endl;
+#define vdebug(v) { cout << #v << "=" << endl; REP(i_debug, (int)v.size()){ cout << v[i_debug] << ","; } cout << endl; }
+#define mdebug(m) { cout << #m << "=" << endl; REP(i_debug, (int)m.size()){ REP(j_debug, (int)m[i_debug].size()){ cout << m[i_debug][j_debug] << ","; } cout << endl;} }
+#define pb push_back
+#define fi first
+#define se second
+#define int long long
+#define INF 1000000000000000000
+template<typename T> istream &operator>>(istream &is, vector<T> &v){ for (auto &x : v) is >> x; return is; }
+template<typename T> ostream &operator<<(ostream &os, vector<T> &v){ for(int i = 0; i < (int)v.size(); i++) { cout << v[i]; if(i != (int)v.size() - 1) cout << endl; }; return os; }
+template<typename T1, typename T2> ostream &operator<<(ostream &os, pair<T1, T2> p){ cout << '(' << p.first << ',' << p.second << ')'; return os; }
+template<typename T> void Out(T x) { cout << x << endl; }
+template<typename T1, typename T2> void chOut(bool f, T1 y, T2 n) { if(f) Out(y); else Out(n); }
+
+using vec = vector<int>;
+using mat = vector<vec>;
+using Pii = pair<int, int>;
+using v_bool = vector<bool>;
+using v_Pii = vector<Pii>;
+
+//int dx[4] = {1,0,-1,0};
+//int dy[4] = {0,1,0,-1};
+//char d[4] = {'D','R','U','L'};
+
+//const int mod = 1000000007;
+const int mod = 998244353;
+
+
+
+signed main(){
+
+    int t; cin >> t;
+    REP(_, t){
+        int n; cin >> n;
+        vec a(n); cin >> a;
+        map<int, int> cnt;
+        REP(i, n) cnt[a[i]]++;
+        bool ok = true;
+        for(auto q: cnt) if(q.se % 2){
+            ok = false;
+        }
+        if(!ok){
+            Out(-1);
+            continue;
+        }
+
+        deque<int> deq(all(a));
+        v_Pii ans;
+        vec nums;
+        int S = 0;
+        while(!deq.empty()){
+            int a0 = deq.front(); deq.pop_front();
+            vec v;
+            while(true){
+                int a1 = deq.front(); deq.pop_front();
+                if(a1 == a0) break;
+                v.pb(a1);
+            }
+
+            int P = S + 2 + SZ(v);
+            REP(k, SZ(v)){
+                ans.pb(Pii(P + k, v[k]));
+                deq.push_front(v[k]);
+            }
+            
+            int L = 2 * (1 + SZ(v));
+            S += L;
+            nums.pb(L);
+        }
+        cout << SZ(ans) << endl;
+        for(auto q: ans) cout << q.fi << ' ' << q.se << endl;
+        cout << SZ(nums) << endl;
+        for(auto q: nums) cout << q << ' ';
+        cout << endl;
+    }
+
+    return 0;
+}

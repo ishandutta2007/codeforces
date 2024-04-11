@@ -1,0 +1,23 @@
+co nya {
+eq [8] [2] [1]
+if [8] ac
+
+cout 42
+add [2] [2] 1
+}
+
+co calc {
+eq [7] [1] [0]
+if [7] ac
+
+set [2] 0
+ca nya
+cout 10
+add [1] [1] 1
+}
+
+iin [0]
+add [0] [0] 1
+set [1] 1
+ca calc
+ac

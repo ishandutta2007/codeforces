@@ -1,0 +1,2 @@
+        WRITE (*,*) "FORTRAN 77"
+        END

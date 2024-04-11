@@ -1,0 +1,1 @@
+long double f[''],x;int main(N,M,K,v,r,c){for(r=1;r<'';r++)f[r]=f[r-1]+log(r);scanf("%d%d%d",&N,&M,&K);for(r=N;r+1;r--)for(c=N;c+1;c--)v=N*(r+c)-r*c,x+=K<v?0:exp(2*f[N]-f[r]-f[N-r]-f[c]-f[N-c]+f[M-v]-f[K-v]-f[M]+f[K]);printf("%.9f",1e99<x?1e99:(double)x);return 0;}

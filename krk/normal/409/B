@@ -1,0 +1,4 @@
+      PROGRAM world
+        PRINT *, 'FORTRAN 77'
+        STOP
+      END

@@ -1,0 +1,1 @@
+print(max(1,int(input())*2-2),"2\n1 2")

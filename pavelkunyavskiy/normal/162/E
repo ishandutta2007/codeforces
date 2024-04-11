@@ -1,0 +1,41 @@
+USING: io kernel math math.parser sequences ;
+USING: formatting kernel math ;
+USING: io kernel math math.parser ;
+USING: formatting sequences prettyprint io.streams.byte-array io.streams.sequence ;
+USING: arrays kernel math ;
+USING: byte-arrays ;
+USING: io.encodings.string io.encodings.utf8 prettyprint ;
+USING: sequences.private ;
+USING: strings ;
+
+
+
+"NO"
+readln utf8 encode 
+
+[ 
+  dup
+  72 = [
+    "YES"
+    swap
+  ] when
+  dup
+  57 = [
+    "YES"
+    swap
+  ] when
+  dup
+  81 = [
+    "YES"
+    swap
+  ] when
+  drop
+] each
+
+dup
+print
+
+
+[
+  "YES" =
+] loop

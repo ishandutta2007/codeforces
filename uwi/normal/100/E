@@ -1,0 +1,50 @@
+int main(){
+    int n, m;
+    string s;
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",n);
+    s = Stdio.stdin->gets();
+    array(string) state = s / " ";
+    s = Stdio.stdin->gets();
+    sscanf(s, "%d",m);
+    s = Stdio.stdin->gets();
+    array(string) sp = s / " ";
+    
+    array(int) pu = allocate(n+1);
+    int u = 0;
+    do{
+        if(u == m)break;
+        int v;
+        sscanf(sp[u], "%d", v);
+        pu[v] ^= 1;
+        u++;
+    }while(u < m);
+    
+    array(int) oh = allocate(n+1);
+    u = 1;
+    do{
+        if(u == n+1)break;
+        if(state[u-1] == "on"){
+            oh[u] ^= 1;
+        }
+        if(pu[u] == 1){
+            int q = u;
+            do{
+                if(q > n)break;
+                oh[q] ^= 1;
+                q += u;
+            }while(q <= n);
+        }
+        if(oh[u] == 1){
+            write("on ");
+        }else{
+            write("off ");
+        }
+        
+        u++;
+    }while(u <= n);
+    
+    write("\n");
+    
+    return 0;
+}

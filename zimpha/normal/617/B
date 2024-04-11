@@ -1,0 +1,26 @@
+let bs = Scanf.Scanning.stdin
+let xint() = Scanf.bscanf bs " %d" (fun x -> x)
+let xint32() = Scanf.bscanf bs " %ld" (fun x -> x)
+let xint64() = Scanf.bscanf bs " %Ld" (fun x -> x)
+let xstr() = Scanf.bscanf bs " %s" (fun x -> x)
+let xreal() = Scanf.bscanf bs " %f" (fun x -> x)
+let printf = Printf.printf
+
+let () = 
+  let n = xint() in
+  let a = Array.make n 0 in
+  for i = 0 to n - 1 do
+    a.(i) <- xint();
+  done;
+  let ret = ref (Big_int.big_int_of_int 1) in
+  let p = ref ~-1 in
+  for i = 0 to n - 1 do
+    if a.(i) = 1 then (
+      let x = i - !p in
+      if !p != ~-1 then 
+        ret := Big_int.mult_int_big_int x !ret;
+      p := i;
+    )
+  done;
+  if !p = ~-1 then printf "0\n"
+  else print_endline (Big_int.string_of_big_int !ret);

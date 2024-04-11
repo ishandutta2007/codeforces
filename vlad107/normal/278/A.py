@@ -1,0 +1,6 @@
+R=lambda:map(int,raw_input().split())
+n=R()
+a=R()
+s,t=R()
+t=sum(a[i-1] for i in range(min(s,t),max(s,t)))
+print min(t,sum(a)-t)

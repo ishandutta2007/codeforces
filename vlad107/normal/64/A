@@ -1,0 +1,4 @@
+proc ! x {expr {$x<2? 1: $x*[! [incr x -1]]}}
+set line [gets stdin]
+scan $line "%d" n
+puts [! $n]

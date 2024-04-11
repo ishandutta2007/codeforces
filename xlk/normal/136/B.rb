@@ -1,0 +1,1 @@
+a,c=gets.split.map &:to_i;b=0;20.times{|i|b+=(c/3**i-a/3**i)%3*3**i};p b

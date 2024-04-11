@@ -1,0 +1,1 @@
+a=gets(p).split.map &:to_i;p eval a[a[-2]...a[-1]]*?+

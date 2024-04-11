@@ -1,0 +1,31 @@
+main =>
+    B = read_int(),
+    
+    A = new_array(1000),
+    foreach (I in 1..1000)
+        A[I] := 1
+    end,
+    L = 0, 
+    R = 0,
+    foreach(I in 1 .. B)
+        L := read_int(),
+        R := read_int(),
+        foreach(J in L .. R)
+            A[J] := 0
+        end
+    end,
+    Count = 0,
+    foreach(I in 1 .. 1000)
+        if (A[I] == 1) then
+            Count := Count + 1
+        end
+    end,
+    
+    print(Count),
+    print(' '),
+    foreach(I in 1 .. 1000)
+        if(A[I] == 1) then
+            print(I),
+            print(' ')
+            end
+    end.

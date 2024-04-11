@@ -1,0 +1,7 @@
+set line [gets stdin]
+scan $line "%d %d %d" h w k
+incr k -1
+set x [expr {$k / $h}]
+set y [expr {$k % $h}]
+set res [expr {$y * $w + $x + 1}]
+puts $res

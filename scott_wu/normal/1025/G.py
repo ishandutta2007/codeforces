@@ -1,0 +1,1 @@
+input();a=input().split();print((2**(len(a)-1)-1-sum(2**a.count(x)-1for x in{*a}-{'-1'}))%(10**9+7))

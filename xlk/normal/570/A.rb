@@ -1,0 +1,1 @@
+n,m=gets.split.map &:to_i;c=[0]*n;m.times{l=gets.split.map &:to_i;c[l.index(l.max)]+=1};p c.index(c.max)+1

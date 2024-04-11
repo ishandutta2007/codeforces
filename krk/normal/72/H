@@ -1,0 +1,23 @@
+s := File standardInput readLine
+Sequence squareBrackets := method(i, at(i) asCharacter)
+if (s[0] == "-",
+    l := 1
+    while (l + 1 < s size and s[l] == "0",
+        l := l + 1
+    )
+    r := s size - 1
+    while (l < r and s[r] == "0",
+        r := r - 1
+    )
+    "-" print
+    for (i, r, l, -1, s[i] print),
+    l := 0
+    while (l + 1 < s size and s[l] == "0",
+        l := l + 1
+    )
+    r := s size - 1
+    while (l < r and s[r] == "0",
+        r := r - 1
+    )
+    for (i, r, l, -1, s[i] print)
+)

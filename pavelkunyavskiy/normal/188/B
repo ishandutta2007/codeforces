@@ -1,0 +1,15 @@
+co reverse{
+  eq [28] [1] 0
+  if [28] ac       
+  mul [2] [2] 10
+  mod [28] [1] 10
+  add [2] [28] [2]
+  div [1] [1] 10
+}
+
+iin [0]
+iin [1]
+ca reverse
+add [3] [2] [0]
+iout [3]
+ac

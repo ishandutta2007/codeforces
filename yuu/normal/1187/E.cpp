@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define FOR(i, j, k) for(int i=(j); i<=(k); i++)
+#define FFOR(i, j, k) for(int i=(j); i<(k); i++)
+#define DFOR(i, j, k) for(int i=(j); i>=(k); i--)
+#define bug(x) cerr<<#x<<" = "<<(x)<<'\n'
+#define pb push_back
+#define mp make_pair
+#define bit(s, i) (((s)>>(i))&1LL)
+#define mask(i) ((1LL<<(i)))
+#define builtin_popcount __builtin_popcountll
+#define __builtin_popcount __builtin_popcountll
+using ll=long long; using ld=long double;
+mt19937_64 rng(chrono::high_resolution_clock::now().time_since_epoch().count()); const ld pi=acos(0)*2;
+template <typename T> inline void read(T &x){char c; bool nega=0; while((!isdigit(c=getchar()))&&(c!='-')); if(c=='-'){nega=1; c=getchar();} x=c-48; while(isdigit(c=getchar())) x=x*10+c-48; if(nega) x=-x;}
+template <typename T> inline void writep(T x){if(x>9) writep(x/10); putchar(x%10+48);}
+template <typename T> inline void write(T x){if(x<0){ putchar('-'); x=-x;} writep(x);}
+template <typename T> inline void writeln(T x){write(x); putchar('\n');}
+template <typename CT, typename T> inline void reset_container(CT &c, int sz, T v){c.resize(sz); for(auto &x: c) x=v;}
+#define taskname "E"
+int n;
+vector <int> g[200001];
+int c[200001];
+ll f[200001];
+bool done[200001];
+vector <int> order;
+ll ans=0;
+void dfs(int u){
+    done[u]=1;
+    c[u]=1;
+    if(u!=1) order.pb(u);
+    for(int v: g[u]) if(!done[v]){
+        dfs(v);
+        c[u]+=c[v];
+        f[u]+=f[v];
+        order.pb(u);
+    }
+    f[u]+=c[u];
+}
+int main(){
+    #ifdef Aria
+        if(fopen(taskname".in", "r"))
+            freopen(taskname".in", "r", stdin);
+    #endif // Aria
+    read(n);
+    FFOR(i, 1, n){
+        int u, v;
+        read(u);
+        read(v);
+        g[u].pb(v);
+        g[v].pb(u);
+    }
+    dfs(1);
+    ans=f[1];
+    {
+        int r=1;
+        for(int u: order){
+            f[r]-=f[u];
+            c[r]-=c[u];
+            f[r]-=c[u];
+
+            f[u]+=f[r];
+            c[u]+=c[r];
+            f[u]+=c[r];
+
+            r=u;
+            ans=max(ans, f[r]);
+        }
+    }
+    writeln(ans);
+}

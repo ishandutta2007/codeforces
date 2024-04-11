@@ -1,0 +1,1 @@
+for s in[*open(0)][1:]:n,k=map(int,s.split());print('YNEOS'[n-k&1or k*k>n::2])

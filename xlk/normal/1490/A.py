@@ -1,0 +1,1 @@
+for t in range(int(input())):input();a=list(map(int,input().split()));print(sum(len(bin(-1-max(x,y)//-min(x,y)))-3 for x,y in zip(a,a[1:])))

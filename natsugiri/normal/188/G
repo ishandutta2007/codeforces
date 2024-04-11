@@ -1,0 +1,53 @@
+co get
+{
+iin [[201]]
+inc [201]
+eq [202] [201] [200]
+if [202] ac
+}
+
+co swap
+{
+set [210] [[202]]
+set [[202]] [[203]]
+set [[203]] [210]
+ac
+}
+
+co loop
+{
+add [203] [202] 1
+eq [207] [203] [200]
+if [207] ac
+lt [207] [[203]] [[202]]
+if [207] ca swap
+inc [202]
+}
+
+co sort
+{
+set [202] 0
+set [203] 1
+ca loop
+inc [201]
+eq [207] [201] [200]
+if [207] ac
+}
+
+co show
+{
+iout [[201]]
+cout 32
+inc [201]
+eq [207] [200] [201]
+if [207] ac
+}
+
+iin [200]
+ca get
+set [201] 0
+ca sort
+set [201] 0
+ca show
+cout 10
+ac

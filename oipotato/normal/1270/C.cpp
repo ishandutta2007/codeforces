@@ -1,0 +1,40 @@
+#include<cstdio>
+#include<iostream>
+#include<cstdlib>
+#include<string>
+#include<cstring>
+#include<queue>
+#include<vector>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<set>
+#include<map>
+#include<ctime>
+using namespace std;
+#define mp make_pair
+#define pb push_back
+#define rep(i,n) for(int i=1;i<=n;i++)
+#define x1 fuckcjb
+#define y1 fucksub
+#define x2 fuckjtjl
+#define y2 fucksf
+int a[200010];
+int main()
+{
+	int T;scanf("%d",&T);
+	for(;T--;)
+	{
+		int n;
+		scanf("%d",&n);
+		long long sum=0,xorsum=0;
+		rep(i,n){int x;scanf("%d",&x);sum+=x;xorsum^=x;}
+		printf("3\n");
+		long long a=1ll<<58;
+		if(sum&1)a++;
+		sum+=a;xorsum^=a;
+		long long b=(2*xorsum-sum)/2;
+		printf("%lld %lld %lld\n",a,b,b);
+	}
+	return 0;
+}

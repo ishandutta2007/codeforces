@@ -1,0 +1,1 @@
+print(ord(raw_input()[-1])%2)

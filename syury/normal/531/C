@@ -1,0 +1,32 @@
+main =>
+  A = read_int(),
+  B = read_int(),
+  C = read_int(),
+  S = new_array(1000000,0),
+  X = 1,
+  Y = 1,
+  CNT = 0,
+  POS = 1,
+  while (X<=C)
+    Y:=1,
+    while (Y<=C)
+      if(A*X+B*Y==C) then
+	CNT:=CNT+1,
+	S[POS]:=X,
+	POS:=POS+1,
+	S[POS]:=Y,
+	POS:=POS+1
+	end,
+	Y:=Y+1
+	end,
+    X:=X+1
+    end,
+  writef("%w%n",CNT),
+  I = 1,
+  while(I<POS)
+    writef("%w ",S[I]),
+    if(I mod 2==0) then
+      writef("%n")
+      end,
+    I:=I+1
+    end.

@@ -1,0 +1,1 @@
+p (0..l=gets.size).select{|i|q={};l.times{|j|q[$_[j,i]]=1};q.size<l}.max

@@ -1,0 +1,42 @@
+set line [gets stdin]
+scan $line "%d" n
+set fl 1
+set a $n
+set b $n
+set rrr 1
+while {$fl} {
+    set div 2
+    set fl 0
+    while {[expr $div*$div <= $a]} {
+        if {[expr $a%$div==0]} {
+            set fl 1
+            break
+        }
+        if {[expr $div*$div > $a]} {
+            break
+        }
+        incr div $rrr
+    }
+    if {$fl} {
+        incr a -$rrr
+    }
+}
+set fl 1
+while {$fl} {
+    set div 2
+    set fl 0
+    while {[expr $div*$div <= $b]} {
+        if {[expr $b%$div==0]} {
+            set fl 1
+            break
+        }
+        if {[expr $div*$div > $a]} {
+            break
+        }
+        incr div $rrr
+    }
+    if {$fl} {
+        incr b $rrr
+    }
+}
+puts [concat $a $b]

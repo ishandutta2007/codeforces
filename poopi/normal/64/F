@@ -1,0 +1,37 @@
+set line [gets stdin]
+set ini "az09."
+scan $line "%s" s
+set sz [string length $s]
+set res "YES"
+for {set x 0} {$x < $sz} {incr x} {
+    set g 0
+    if { [string index $s $x] >= [string index $ini 0]
+     && [string index $s $x] <= [string index $ini 1] } then {
+        set g 1
+    }
+    if { [string index $s $x] >= [string index $ini 2]
+     && [string index $s $x] <= [string index $ini 3] } then {
+        set g 1
+    }
+    if { [string index $s $x] == [string index $ini 4] } {
+        set g 1
+        if { $x > 0 && [string index $s [expr $x-1]] == [string index $ini 4] } {
+            set g 0
+        }
+    }
+    if { $g == 0 } {
+        set res "NO"
+    }    
+}
+for {set x 0} {$x < $sz} {incr x} {
+    if { [string index $s end-$x] == [string index $ini 4] } {
+        break;
+    }
+}
+if { $x != 3 && $x != 2 } {
+    set res "NO"
+}
+if { [string index $s 0] == [string index $ini 4] } {
+    set res "NO"
+}
+puts $res

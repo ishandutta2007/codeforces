@@ -1,0 +1,73 @@
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+with Ada.Text_IO, 
+     Ada.Integer_Text_IO,
+     Ada.Float_Text_IO,
+     Ada.Numerics.Elementary_Functions,
+     Ada.Text_IO.Complex_IO;
+use Ada.Text_IO, Ada.Integer_Text_IO, Ada.Float_Text_IO;
+
+procedure CamelCase is
+   Text: String(1..100);
+   Length: Natural;
+   Was_Space: Boolean := True;
+   I: Integer := 1;
+   A, B, C, D, E, F, G, H, K: Integer;
+begin
+   Get(A);
+   I := 4;
+   C := 0;
+   loop
+      H := 0;
+      B := A;
+      E := 0;
+      F := 0;
+      G := 0;
+      loop
+      E := F;
+      F := B mod I;
+      B := (B - F) / I;
+      K := F;
+      D := 0;
+      loop
+      if K mod 100 = 13 then D := 1; end if;
+      exit when K < 10;
+      K := (K - (K mod 10))/10;
+      end loop;
+      K := E;
+      loop
+      if K mod 100 = 13 then D := 1; end if;
+      exit when K < 10;
+      K := (K - (K mod 10))/10;
+      end loop;
+      if (F mod 10 = 1 and K = 3) or D = 1 then
+       G := 1;
+       C := C + 1;
+      end if;
+      exit when B = 0;
+      exit when G = 1;
+      end loop;
+      I := I + 1;
+      
+      exit when I > A;
+   end loop;
+   K := 0;
+   B := A;
+   loop
+   E := F;
+   F := B mod 10;
+   B := (B - F) / 10;
+   if (F = 1 and E = 3) then
+   K := 1;
+   end if;
+   exit when K = 1;
+   exit when B = 0;
+   end loop;
+   if K = 1 then
+   Put(-1, Width=>1);
+   else 
+   Put(Item => C, Width => 1);
+    end if;
+end CamelCase;

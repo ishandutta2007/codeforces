@@ -1,0 +1,24 @@
+co go
+{
+    eq [100] [0] 0
+    if [100] ac
+    iout [[0]]
+    dec [0]
+}
+
+co calc
+{
+    eq [101] [50] 0
+    if [101] ac
+    mod [102] [50] 2
+    set [[0]] [102]
+    div [50] [50] 2
+    inc [0]
+}
+
+iin [50]
+set [0] 1
+ca calc
+dec [0]
+ca go
+ac

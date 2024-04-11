@@ -1,0 +1,25 @@
+int main(){
+    int n;
+    string s;
+    s=Stdio.stdin->gets();
+    sscanf(s,"%d",n);
+    s=Stdio.stdin->gets();
+    array(string) a=s/",";
+    array(int) all=allocate(n);
+    int i,j;
+    for(i=0;i<n;i++){
+	int x;
+	sscanf(a[i],"%d",x);
+	all[i]=x;
+    }
+    int k=1;
+    for(i=0;i<n;i++){
+	for(j=0;j<i;j++){
+	    if(all[i]%all[j]!=0&&all[j]%all[i]!=0){
+		k=0;
+	    }
+	}
+    }
+    if(k==1)write("FRIENDS");
+    else write("NOT FRIENDS");
+}

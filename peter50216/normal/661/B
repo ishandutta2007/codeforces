@@ -1,0 +1,27 @@
+print =: 1!:2&2
+read =: 1!:1[3
+
+in =: (read -. LF) -. CR
+c1 =: in -: 'January'
+c2 =: in -: 'February'
+c3 =: in -: 'March'
+c4 =: in -: 'April'
+c5 =: in -: 'May'
+c6 =: in -: 'June'
+c7 =: in -: 'July'
+c8 =: in -: 'August'
+c9 =: in -: 'September'
+c10 =: in -: 'October'
+c11 =: in -: 'November'
+c12 =: in -: 'December'
+v0 =: (c3 + c4) + c5
+v1 =: v0 + (((c6 + c7) + c8) * 2)
+v2 =: v1 + (((c9 + c10) + c11) * 3)
+
+NB. print +/ ". (0 ": ans)
+print^:(v2 = 0) 'winter'
+print^:(v2 = 1) 'spring'
+print^:(v2 = 2) 'summer'
+print^:(v2 = 3) 'autumn'
+
+exit ''

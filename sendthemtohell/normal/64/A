@@ -1,0 +1,9 @@
+
+set line [gets stdin]
+scan $line "%d" n
+set res 1
+while {$n} {
+    set res [expr $res*$n]
+    incr n -1
+}
+puts $res

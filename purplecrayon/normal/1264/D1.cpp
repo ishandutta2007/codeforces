@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "bits/stdc++.h"
 using namespace std;
  
@@ -160,3 +161,7 @@ int main(){
     //cin >> t_c;
     while (t_c--) solve();
 }
+=======
+#include <bits/stdc++.h>
+using namespace std;int M=998244353,C[2005][2005],i,j,k,a,b,x,y,A;main(){C[0][0]=1;for(i=1;i<=2e3;i++)for(j=0;j<=i;j++)C[i][j]=(C[i-1][j]+(j?C[i-1][j-1]:0))%M;string s;cin>>s;for(char c:s)x+=c=='?',y+=c==')';for(char c:s){x-=c=='?',y-=c==')';a+=c=='(',b+=c=='?';for(k=max(y,a);k<=min(x+y,a+b);k++)A=(A+1ll*k*C[x][k-y]%M*C[b][k-a])%M;}cout<<A;}
+>>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577

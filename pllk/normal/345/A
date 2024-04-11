@@ -1,0 +1,29 @@
+with Ada.Text_IO, Ada.Float_Text_IO;
+use Ada.Text_IO, Ada.Float_Text_IO;
+
+procedure a is
+    s: String(1 .. 60);
+    n: Natural;
+    q: String(1 .. 60);
+    m: Natural;
+    p: Float;
+    t: Float;
+    x: Float;
+
+begin
+    get_line(s, n);
+    get_line(q, m);
+    p := Float'value(q(1 .. m));
+    t := 0.0;
+    x := 0.0;
+    for i in 1 .. n loop
+        if s(i) = '?' then
+            t := t+p;
+        elsif s(i) = '1' then
+            t := t+1.0;
+        end if;
+        x := x + 1.0;
+    end loop;
+    t := t / x;
+    put(t, Fore => 1, Aft => 5, Exp => 0);
+end a;

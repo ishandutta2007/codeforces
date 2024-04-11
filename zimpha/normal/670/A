@@ -1,0 +1,21 @@
+let bs = Scanf.Scanning.stdin
+let xint() = Scanf.bscanf bs " %d" (fun x -> x)
+let xint32() = Scanf.bscanf bs " %ld" (fun x -> x)
+let xint64() = Scanf.bscanf bs " %Ld" (fun x -> x)
+let xstr() = Scanf.bscanf bs " %s" (fun x -> x)
+let xreal() = Scanf.bscanf bs " %f" (fun x -> x)
+let printf = Printf.printf
+
+let () = 
+  let n = xint() in
+  let mx = ref 0 and mi = ref n in
+  let check n = n mod 7 <= 1 in
+  for s = 0 to 6 do
+    let cnt = ref 0 in
+    for i = 0 to n - 1 do
+      cnt := !cnt + (if check (s + i) then 1 else 0)
+    done;
+    if !cnt > !mx then mx := !cnt;
+    if !cnt < !mi then mi := !cnt;
+  done;
+  printf "%d %d\n" !mi !mx;

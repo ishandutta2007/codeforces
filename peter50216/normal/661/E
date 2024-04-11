@@ -1,0 +1,11 @@
+print =: 1!:2&2
+read =: 1!:1[3
+abs =: -^:(0&>)
+
+in =. (read-.CR) rplc LF;' '
+v =: 0 ". in
+r =: >./ v
+c =: (|&r) each v
+print ((+/ >c) = 0)
+
+exit ''

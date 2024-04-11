@@ -1,0 +1,50 @@
+co plus
+{
+    dec [2]
+    set [3] [[2]]
+    dec [2]
+    set [4] [[2]]
+    add [[2]] [3] [4]
+    ac
+}
+
+co mult
+{
+    dec [2]
+    set [3] [[2]]
+    dec [2]
+    set [4] [[2]]
+    mul [[2]] [3] [4]
+    ac
+}
+
+co push
+{
+    set [[2]] [0]
+    sub [[2]] [[2]] 48
+    ac
+}
+
+co run
+{
+    cin [0]
+    eq [1] [0] 10
+    if [1] ac
+    eq [1] [0] 43 /*   plus  */
+    if [1] ca plus
+    eq [5] [0] 42
+    if [5] ca mult
+    or [5] [5] [1]
+    eq [5] [5] 0
+    if [5] ca push
+    /*set [10] [2]
+    iout [[10]]
+    cout 32*/
+    inc [2]
+}
+
+set [2] 100
+ca run
+dec [2]
+iout [[2]]
+ac

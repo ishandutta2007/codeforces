@@ -1,0 +1,23 @@
+iin [0]
+
+	
+	co printline{
+		
+		eq [4] [3] [1] 
+		if [4] ac
+		add [3] [3] 1
+		cout 42
+	}
+co print{
+
+	eq [2] [1] [0]
+	if [2] ac
+	add [1] [1] 1
+	
+	set [3] 0 
+	ca printline
+	cout 10
+}
+set [1] 0
+ca print
+ac

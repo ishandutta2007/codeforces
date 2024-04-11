@@ -1,0 +1,66 @@
+With Ada.Text_IO; Use Ada.Text_IO;  
+With Ada.Integer_Text_IO; Use Ada.Integer_Text_IO;
+With Ada.Float_Text_IO; Use Ada.Float_Text_IO;
+
+procedure a is
+	year:Integer;
+	mon:Integer;
+	day:Integer;
+	res:Integer := 0;
+	I:Integer;
+    c:character;
+   	cnt:Integer;
+   	currNum : integer;
+   	checkNum : integer;
+   	
+   	function is366(year: Integer) return Integer is
+		n :Integer;
+	begin
+	   if ((year mod 4 = 0) and (year mod 100 /= 0)) or (year mod 400 = 0) then 
+	   		return 1;
+	   end if;
+	   return 0;
+   	end;
+   	
+   	function getDayNum(year, mon: Integer) return Integer is
+	 	days: array(1..12) of Integer := (31, 28, 31, 30, 31, 30,31,31,30,31,30,31);
+		n :Integer;
+		I : Integer;
+		res : Integer := 0;
+	begin
+	   for I in 1970..(year-1) loop
+	   		res := res + 365;
+	   		if is366(I) = 1 then
+	   			res := res + 1;
+   			end if;
+	   end loop;
+	   
+	   for 	I in 1..(mon-1) loop
+	   		res := res + days(I);
+	   end loop;
+	   
+	   if (mon > 2) and (is366(year) = 1) then
+	   		res := res  + 1;
+	   	end if;
+	   return res;
+   	end;
+   	
+
+begin
+	Get(cnt);
+	currNum := getDayNum(2013,9);
+	for I in 1..cnt loop
+		Get(year);
+		Get(c);
+		Get(mon);
+		Get(c);
+		Get(day);
+		if day = 13 then
+			checkNum := getDayNum(year,mon);
+			if (currNum - checkNum) mod 7 = 0 then
+				res := res + 1;
+			end if;
+		end if;
+	end loop;
+	Put(res);
+ end a;

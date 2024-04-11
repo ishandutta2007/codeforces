@@ -1,0 +1,20 @@
+lines := File standardInput readLines
+n := doString(lines at(0))
+happy := false
+upset := false
+digits := n
+while(digits > 0,
+  d := digits mod(10)
+  digits := (digits/10) floor
+  if ((d > 0) and (n mod(d) == 0),
+    happy := true,
+    upset := true
+  )
+)
+if(happy and upset,
+  "happy" println,
+  if (happy,
+    "happier" println,
+    "upset" println
+  )
+)

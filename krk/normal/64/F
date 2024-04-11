@@ -1,0 +1,17 @@
+set line [gets stdin]
+scan $line "%s" s
+set lst -1;
+set n [string length $s]
+for {set i 0} {$i < $n} {incr i} {
+   set c [string index $s $i]
+   if {"a" <= $c && $c <= "z" || "0" <= $c && $c <= "9" || $c == "."} {
+      if {$c == "."} {
+         if {$lst == $i-1} {
+            break
+         } else { set lst $i }
+      }
+   } else { break }
+}
+if {$i == $n && ($n - $lst == 3 || $n - $lst == 4)} {
+   puts "YES"
+} else { puts "NO" }

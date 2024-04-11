@@ -1,0 +1,22 @@
+co doit2{
+    eq [1] [4] [0]
+    if [1] ac
+    cout 42
+    inc [4]
+}
+
+co doit{
+    inc [0]
+    eq [1] [0] [3]
+    if [1] ac
+    
+    set [4] 0
+    ca doit2
+    cout 10
+    
+}
+iin [3]
+inc [3]
+set [0] 0
+ca doit
+ac

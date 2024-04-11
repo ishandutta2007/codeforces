@@ -1,0 +1,19 @@
+with Ada.Integer_Text_IO;
+with Ada.Text_IO;
+with Ada.Strings.Unbounded;
+with Ada.Command_Line;
+use Ada.Integer_Text_IO;
+with Ada.Strings.Unbounded;
+use Ada.Strings.unbounded;
+with Ada.Float_Text_IO;
+use Ada;
+
+procedure SolveA is
+	X : Unbounded_String;
+    Y : float;
+
+begin
+	 X:=Ada.Strings.unbounded.To_Unbounded_String(Ada.Text_IO.Get_Line);
+	 float_text_io.get(y);
+	 float_text_io.put((1.0*float(Ada.strings.unbounded.count(x,"1"))+Y*float(Ada.strings.unbounded.count(x,"?")))/float(ada.strings.unbounded.length(x)),Aft=>5,Exp=>0);
+end SolveA;

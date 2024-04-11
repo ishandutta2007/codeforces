@@ -1,0 +1,63 @@
+#include <algorithm>  
+#include <iostream>  
+#include <sstream>  
+#include <string>  
+#include <vector>  
+#include <queue>  
+#include <set>  
+#include <map>  
+#include <cstdio>  
+#include <cstdlib>  
+#include <cctype>  
+#include <cmath>  
+#include <cstring>
+#include <list>  
+#include <cassert>
+#include <climits>
+#include <bitset>
+using namespace std;  
+
+#define PB push_back  
+#define MP make_pair  
+#define SZ(v) ((int)(v).size())  
+#define FOR(i,a,b) for(int i=(a);i<(b);++i)  
+#define REP(i,n) FOR(i,0,n)  
+#define FORE(i,a,b) for(int i=(a);i<=(b);++i)  
+#define REPE(i,n) FORE(i,0,n)  
+#define FORSZ(i,a,v) FOR(i,a,SZ(v))  
+#define REPSZ(i,v) REP(i,SZ(v))  
+typedef long long ll;  
+int gcd(int a,int b) { return b==0?a:gcd(b,a%b); }
+
+const int MAXN=1000;
+
+int n;
+int x[MAXN],y[MAXN];
+
+map<pair<int,int>,set<ll>> cnt;
+
+ll solve() {
+	cnt.clear();
+
+	int sum=0; ll ret=0;
+	REP(i,n) FOR(j,i+1,n) {
+		int a=y[j]-y[i],b=x[i]-x[j]; if(a<0||a==0&&b<0) a=-a,b=-b; int g=gcd(abs(a),abs(b)); assert(g!=0); a/=g,b/=g; ll c=(ll)a*x[i]+(ll)b*y[i];
+		if(cnt[MP(a,b)].count(c)) continue;
+		int cur=sum-SZ(cnt[MP(a,b)]);
+		ret+=cur;
+		cnt[MP(a,b)].insert(c),++sum;
+		//printf("(%d,%d) with (%d,%d) -> (%d,%d,%lld): %lld\n",x[i],y[i],x[j],y[j],a,b,c,cur);
+	}
+	return ret;
+}
+
+void run() {
+	scanf("%d",&n);
+	REP(i,n) scanf("%d%d",&x[i],&y[i]);
+	printf("%lld\n",solve());
+}
+
+int main() {
+	run();
+	return 0;
+}

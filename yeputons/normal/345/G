@@ -1,0 +1,78 @@
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
+
+with Ada.Containers.Generic_Array_Sort;
+
+with Ada.Strings; use Ada.Strings;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+
+with Ada.Strings.Unbounded;
+use Ada.Strings.Unbounded;
+
+with Ada.Strings.Unbounded.Text_IO;
+use Ada.Strings.Unbounded.Text_IO;
+
+with Ada.Float_Text_IO;
+use Ada.Float_Text_IO;
+
+with Ada.Calendar; use Ada.Calendar;
+with Gnat.Calendar; use Gnat.Calendar;
+
+with Ada.Containers.Ordered_Maps;
+
+with Ada.Text_IO,
+     Ada.Characters.Handling; 
+ use Ada.Text_IO,
+     Ada.Characters.Handling;
+
+procedure ProbG is
+  type Children is array (Character range 'a'..'z') of Integer;
+  type Node is record
+    Cnt : Integer;
+    Next : Children;
+  end record;
+
+  Line : String(1..100010);
+  Nodes : array(1..100010) of Node := ( others => ( Cnt => 0, Next => (others => 0) ) );
+  NCnt : Integer := 1;
+  Ans : Integer := 0;
+
+  procedure dfs(v : Integer; CurCnt : Integer) is
+    tmp : Integer;
+  begin
+    if v /= 0 then
+      tmp := CurCnt + Nodes(v).Cnt;
+      if tmp > ans then
+        Ans := tmp;
+      end if;
+      for i in Character range 'a'..'z' loop
+        dfs(Nodes(V).Next(i), tmp);
+      end loop;
+    end if;
+  end;
+
+
+  N, Len : Integer;
+  C : Character;
+  V : Integer;
+begin
+  Get(N);
+  Get_line(Line, Len);
+
+  for I in Integer range 1..N loop
+    Get_line(Line, Len);
+    V := 1;
+    for I2 in Integer range 1..Len loop
+      C := Line(Len - I2 + 1);
+
+      if Nodes(V).Next(C) = 0 then
+        NCnt := NCnt + 1;
+        Nodes(V).Next(C) := NCnt;
+      end if;
+      V := Nodes(V).Next(C);
+    end loop;
+    Nodes(V).Cnt := Nodes(V).Cnt + 1;
+  end loop;
+  dfs(1, 0);
+  Put(Ans);
+end ProbG;

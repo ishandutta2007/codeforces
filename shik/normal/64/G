@@ -1,0 +1,6 @@
+gets stdin s
+while {[regsub {/\.(/|$)} $s / s]} {}
+while {[regsub {/[[\w\.]+/\.\.(/|$)} $s {/} s]} {}
+regsub /$ $s {} s
+if {$s==""} {set s /}
+if {[regexp {^/\.\.(/|$)} $s]} {puts -1} {puts $s}
