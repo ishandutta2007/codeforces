@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿# codeforces
+# codeforces
 - Scraped using https://github.com/Mohd-3/CodeRetriever
 - Do not delete `downloaded` and `errors` files as they act as scrape control.
 =======
@@ -25,6 +24,7 @@ git config core.sparseCheckout true
 Now you need to define which files/folders you want to actually check out. This is done by listing them in `.git/info/sparse-checkout`, eg:
 
 ```
+echo "README.md" >> .git/info/sparse-checkout
 echo "tourist" >> .git/info/sparse-checkout
 echo "benq" >> .git/info/sparse-checkout
 ```
