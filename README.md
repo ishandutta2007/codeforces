@@ -1,9 +1,6 @@
 # codeforces
 - Scraped using https://github.com/Mohd-3/CodeRetriever
 - Do not delete `downloaded` and `errors` files as they act as scrape control.
-=======
-
-﻿# codeforces
 
 - Scraped using https://github.com/ishandutta2007/CPScraper
 - Do not delete `downloaded` and `errors` files as they act as scrape control.
@@ -34,7 +31,10 @@ only pulls root folder:
 git pull --depth=1 origin main
 ```
 
+## To learn more about partial checkouts:
+
 https://unix.stackexchange.com/questions/233327/is-it-possible-to-clone-only-part-of-a-git-project
 
 
 >>>>>>> ba48ae4a69f706fe86df6abfbbc02a36ff86f577
+
