@@ -16,36 +16,23 @@ Due to the large size of this repository, it's recommended to perform a sparse c
 
 ### Sparse Checkout Instructions
 
-1. **Create a new directory and initialize a Git repository:**
+1. **Clone the repository with sparse checkout enabled:**
    ```bash
-   mkdir codeforces
+   git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/ishandutta2007/codeforces.git
    cd codeforces
-   git init
    ```
 
-2. **Add the remote origin:**
+2. **Specify the folders you want to download.** For example, to download solutions from `tourist` and `benq`:
    ```bash
-   git remote add origin https://github.com/ishandutta2007/codeforces
+   git sparse-checkout set README.md tourist benq
    ```
 
-3. **Enable sparse checkout:**
+3. **Checkout the files:**
    ```bash
-   git config core.sparseCheckout true
+   git checkout
    ```
 
-4. **Specify the folders you want to download.** For example, to download solutions from `tourist` and `benq`:
-   ```bash
-   echo "README.md" >> .git/info/sparse-checkout
-   echo "tourist/" >> .git/info/sparse-checkout
-   echo "benq/" >> .git/info/sparse-checkout
-   ```
-
-5. **Pull the files:**
-   ```bash
-   git pull --depth=1 origin main
-   ```
-
-For more information on partial checkouts, you can refer to this [Stack Exchange thread](https://unix.stackexchange.com/questions/233327/is-it-possible-to-clone-only-part-of-a-git-project).
+For more information on sparse checkouts, you can refer to the official [Git documentation](https://git-scm.com/docs/git-sparse-checkout).
 
 ## Contributing
 
