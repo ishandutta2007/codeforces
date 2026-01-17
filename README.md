@@ -86,6 +86,11 @@ git checkout
 
 ---
 
+### ✨ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=ishandutta2007/codeforces&type=date&legend=top-left)](https://www.star-history.com/#ishandutta2007/codeforces&type=date&legend=top-left)
+
+
 ## 🤝 Contributing
 
 Contributions are welcome! If you have solutions you'd like to add or improvements to the scraper:
@@ -109,4 +114,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 **Maintained by [ishandutta2007**](https://github.com/ishandutta2007)
+
 
