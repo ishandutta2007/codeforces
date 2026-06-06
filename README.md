@@ -6,6 +6,37 @@ This repository is a comprehensive collection of solutions from the competitive 
 
 The solutions are organized by **usernames** of the Codeforces participants, allowing you to study different coding styles from top-tier programmers. This archive is powered by **CPScraper**, a tool designed to scrape and organize competitive programming solutions efficiently.
 
+
+### Since this repository too big it is adviced to use one of the following repositories:
+(the letter followed by `codeforces-` indicate the starting letter of the coder handle that you want to explore ie all handles starting with a are in `codeforces-a`)
+
+- https://github.com/ishandutta2007/codeforces-a
+- https://github.com/ishandutta2007/codeforces-b
+- https://github.com/ishandutta2007/codeforces-c
+- https://github.com/ishandutta2007/codeforces-d
+- https://github.com/ishandutta2007/codeforces-e
+- https://github.com/ishandutta2007/codeforces-f
+- https://github.com/ishandutta2007/codeforces-g
+- https://github.com/ishandutta2007/codeforces-h
+- https://github.com/ishandutta2007/codeforces-i
+- https://github.com/ishandutta2007/codeforces-j
+- https://github.com/ishandutta2007/codeforces-k
+- https://github.com/ishandutta2007/codeforces-l
+- https://github.com/ishandutta2007/codeforces-m
+- https://github.com/ishandutta2007/codeforces-n
+- https://github.com/ishandutta2007/codeforces-o
+- https://github.com/ishandutta2007/codeforces-p
+- https://github.com/ishandutta2007/codeforces-q
+- https://github.com/ishandutta2007/codeforces-r
+- https://github.com/ishandutta2007/codeforces-s
+- https://github.com/ishandutta2007/codeforces-t
+- https://github.com/ishandutta2007/codeforces-u
+- https://github.com/ishandutta2007/codeforces-v
+- https://github.com/ishandutta2007/codeforces-w
+- https://github.com/ishandutta2007/codeforces-x
+- https://github.com/ishandutta2007/codeforces-y
+- https://github.com/ishandutta2007/codeforces-z
+
 ---
 
 ## 📌 Table of Contents
