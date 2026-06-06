@@ -8,7 +8,7 @@ The solutions are organized by **usernames** of the Codeforces participants, all
 
 
 ### Since this repository too big it is adviced to use one of the following repositories:
-(the letter followed by `codeforces-` indicate the starting letter of the coder handle that you want to explore ie all handles starting with a are in `codeforces-a`)
+(the letter followed by `codeforces-` indicate the starting letter of the coder handle that you want to explore eg all handles starting with a are in `codeforces-a`)
 
 - https://github.com/ishandutta2007/codeforces-a
 - https://github.com/ishandutta2007/codeforces-b
